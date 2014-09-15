@@ -28,9 +28,4 @@ public class BoardData {
 		return new Room[levelSize];
 	}
 
-	public static void main(String[] args) {
-		// Test File reading and converting to bytes
-		new Room("TestBoard.csv", "TestBoard.csv");
-	}
-
 }
