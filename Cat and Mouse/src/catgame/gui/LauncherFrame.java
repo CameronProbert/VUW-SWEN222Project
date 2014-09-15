@@ -9,6 +9,11 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
 /**
+ * The LauncherFrame will be the first instance of the program that the users
+ * will see. It will ask them what part of the game they would like to run. The
+ * options they can choose are a host or client for multiplayer, a singleplayer
+ * instance or they can close the program. Once they have selected their choice
+ * this frame will disappear.
  * 
  * @author Cameron Probert
  * 
@@ -46,10 +51,9 @@ public class LauncherFrame extends JFrame {
 
 		// Create the buttons
 		JButton buttonServer = createButton("Multiplayer Host", buttonSize);
-		;
 		buttonServer.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				// TODO Add an action to perform
+				// TODO Create the server
 				setVisible(false);
 			}
 		});
@@ -57,7 +61,7 @@ public class LauncherFrame extends JFrame {
 		JButton buttonClient = createButton("Multiplayer Client", buttonSize);
 		buttonClient.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				// TODO Add an action to perform
+				// TODO Create the client
 				setVisible(false);
 			}
 		});
@@ -65,7 +69,7 @@ public class LauncherFrame extends JFrame {
 		JButton buttonSinglePlayer = createButton("Single Player", buttonSize);
 		buttonSinglePlayer.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				// TODO Add an action to perform
+				// TODO Create a single player instance of the game
 				setVisible(false);
 			}
 		});
@@ -78,6 +82,10 @@ public class LauncherFrame extends JFrame {
 		});
 
 		// Add the buttons
+		buttonServer.setLocation(0, 0);
+		buttonClient.setLocation(100, 0);
+		buttonSinglePlayer.setLocation(200, 0);
+		buttonQuit.setLocation(300, 0);
 		add(buttonServer);
 		add(buttonClient);
 		add(buttonSinglePlayer);
@@ -97,7 +105,7 @@ public class LauncherFrame extends JFrame {
 	 */
 	public static JButton createButton(String text, Dimension size) {
 		JButton button = new JButton();
-		button.setPreferredSize(size);
+		button.setSize(size);
 		button.setText(text);
 		button.setAlignmentX(CENTER_ALIGNMENT);
 		return button;
