@@ -50,15 +50,15 @@ public class LauncherFrame extends JFrame {
 		Dimension buttonSize = new Dimension(200, 100);
 
 		// Create the buttons
-		JButton buttonServer = createButton("Multiplayer Host", buttonSize);
+		JButton buttonServer = createButton("Multiplayer Host", buttonSize, new Point(0, 0));
 		buttonServer.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				// TODO Create the server
 				setVisible(false);
+				new HostFrame();
 			}
 		});
 
-		JButton buttonClient = createButton("Multiplayer Client", buttonSize);
+		JButton buttonClient = createButton("Multiplayer Client", buttonSize, new Point(100, 0));
 		buttonClient.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				// TODO Create the client
@@ -66,7 +66,7 @@ public class LauncherFrame extends JFrame {
 			}
 		});
 
-		JButton buttonSinglePlayer = createButton("Single Player", buttonSize);
+		JButton buttonSinglePlayer = createButton("Single Player", buttonSize, new Point(200, 0));
 		buttonSinglePlayer.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				// TODO Create a single player instance of the game
@@ -74,7 +74,7 @@ public class LauncherFrame extends JFrame {
 			}
 		});
 
-		JButton buttonQuit = createButton("Quit", buttonSize);
+		JButton buttonQuit = createButton("Quit", buttonSize, new Point(300, 0));
 		buttonQuit.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				confirmQuit();
@@ -82,10 +82,6 @@ public class LauncherFrame extends JFrame {
 		});
 
 		// Add the buttons
-		buttonServer.setLocation(0, 0);
-		buttonClient.setLocation(100, 0);
-		buttonSinglePlayer.setLocation(200, 0);
-		buttonQuit.setLocation(300, 0);
 		add(buttonServer);
 		add(buttonClient);
 		add(buttonSinglePlayer);
@@ -105,6 +101,26 @@ public class LauncherFrame extends JFrame {
 	 */
 	public static JButton createButton(String text, Dimension size) {
 		JButton button = new JButton();
+		button.setSize(size);
+		button.setText(text);
+		button.setAlignmentX(CENTER_ALIGNMENT);
+		return button;
+	}
+
+	/**
+	 * Creates and returns a button
+	 * 
+	 * @param text
+	 *            The text to be on the button
+	 * @param size
+	 *            The size of the button
+	 * @param origin
+	 *            Where to draw the button
+	 * @return
+	 */
+	public static JButton createButton(String text, Dimension size, Point origin) {
+		JButton button = new JButton();
+		button.setLocation(origin);
 		button.setSize(size);
 		button.setText(text);
 		button.setAlignmentX(CENTER_ALIGNMENT);
