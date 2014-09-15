@@ -57,5 +57,15 @@ public class GameMain {
 		// TODO Auto-generated method stub
 		
 	}
+	
+	
+	/**
+	 * updates game --- calls tick on each player
+	 * the tick for each player will need to check the health and experience etc and act accordingly 
+	 */
+	public void clockTick() {
+		// TODO Auto-generated method stub
+		
+	}
 
 }

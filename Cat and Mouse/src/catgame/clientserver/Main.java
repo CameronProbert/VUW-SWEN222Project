@@ -20,7 +20,7 @@ public class Main {
 	private int gameClock;
 	private int port = 32768; // default
 	private boolean server = false;
-	private int nclients = 0;
+	private static boolean readyToStart = false;
 	private GameMain game;
 	
 	private String url = null;	
@@ -76,7 +76,7 @@ public class Main {
 
 	private static void runServer(int port, int gameClock, int broadcastClock, GameMain game) {
 
-		ClockThread clk = new ClockThread(gameClock,game,null);	
+		ClockThread clk = new ClockThread(gameClock,game);	
 		
 		// Listen for connections
 		System.out.println("SERVER LISTENING ON PORT " + port);
@@ -84,7 +84,8 @@ public class Main {
 		try {
 			List<Master> connections = new ArrayList<Master>();
 			// Now, we await connections.
-			ServerSocket ss = new ServerSocket(port);			
+			ServerSocket ss = new ServerSocket(port);
+			int nclients = 0;
 			while (true) {
 				// 	Wait for a socket
 				Socket s = ss.accept();
@@ -92,12 +93,17 @@ public class Main {
 				int uid = game.registerPlayer();
 				Master mconn = new Master(s,uid,broadcastClock,game);
 				connections.add(mconn);
+				nclients++;
 				mconn.start();
 				////////////////////////////////////////////////////////////////
 				/////////////// HOW WILL WE KNOW WHEN TO START THE GAME????????????
 				//////////////
 				////////////////////////////////////////////////////////////////
-				if(nclients == 0) {
+				if(readyToStart) {
+					if(nclients==0){
+						System.out.println("No clients game over");
+						return;
+					}
 					System.out.println("ALL CLIENTS ACCEPTED --- GAME BEGINS");
 					multiUserGame(clk, game,connections);
 					System.out.println("ALL CLIENTS DISCONNECTED --- GAME OVER");
@@ -149,7 +155,7 @@ public class Main {
 	 * @param connections
 	 * @return
 	 */
-	private static boolean atleastOneConnection(Master... connections) {
+	private static boolean atleastOneConnection(List<Master> connections) {
 		for (Master m : connections) {
 			if (m.isAlive()) {
 				return true;
@@ -162,7 +168,7 @@ public class Main {
 		int playerID = game.registerPlayer();
 		game.setupSinglePlayer(playerID);		
 		// save initial state of board, so we can reset it.
-		ClockThread clk = new ClockThread(gameClock,game,display);
+		ClockThread clk = new ClockThread(gameClock,game);
 		byte[] state = game.toByteArray();	
 		
 		clk.start();
@@ -181,6 +187,10 @@ public class Main {
 			// Reset board state
 			game.fromByteArray(state);
 		}
+	}
+	
+	public void readyToStart(){
+		this.readyToStart = true;
 	}
 
 
