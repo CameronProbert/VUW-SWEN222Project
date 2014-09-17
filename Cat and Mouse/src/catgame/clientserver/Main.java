@@ -8,8 +8,6 @@ import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
 
-import pacman.control.ClockThread;
-
 
 
 public class Main {
@@ -50,13 +48,13 @@ public class Main {
 			if(server) {
 				// Run in Server mode
 				game = new GameMain();
+				game.setGameType(GameMain.Type.SERVER);
 				runServer(port,gameClock,broadcastClock, game);			
 			} else if(url != null) {
 				// Run in client mode
 				runClient(url,port);
 			} else {			
 				// single user game
-				game = new GameMain();
 				singleUserGame(gameClock, game);							
 			}
 		} catch(IOException ioe) {			
@@ -128,24 +126,24 @@ public class Main {
 	private static void multiUserGame(ClockThread clk, GameMain game,
 			List<Master> connections) throws IOException {
 		// save initial state of board, so we can reset it.
-		byte[] state = game.toByteArray();						
+		//byte[] state = game.toByteArray();						
 
 		clk.start();
 		
 		// loop forever
 		while(atleastOneConnection(connections)) {
-			game.setState(Board.READY);
+			game.setState(GameMain.READY);
 			pause(3000);
-			game.setState(Board.PLAYING);
+			game.setState(GameMain.PLAYING);
 			// now, wait for the game to finish
-			while(game.state() == Board.PLAYING) {
+			while(game.state() == GameMain.PLAYING) {
 				Thread.yield();
 			}
 			// If we get here, then we're in game over mode
 			pause(3000);
 			// Reset board state
-			game.setState(Board.WAITING);
-			game.fromByteArray(state);			
+			game.setState(GameMain.WAITING);
+			//game.fromByteArray(state);			
 		}
 	}
 
@@ -169,28 +167,35 @@ public class Main {
 		game.setupSinglePlayer(playerID);		
 		// save initial state of board, so we can reset it.
 		ClockThread clk = new ClockThread(gameClock,game);
-		byte[] state = game.toByteArray();	
+		//byte[] state = game.toByteArray();	
 		
 		clk.start();
 
 		while(game.isNotOver()) {
 			// keep going until the frame becomes invisible
-			game.setState(Board.READY);
+			game.setState(GameMain.READY);
 			pause(3000);
-			game.setState(Board.PLAYING);
+			game.setState(GameMain.PLAYING);
 			// now, wait for the game to finish
-			while(game.state() == Board.PLAYING) {
+			while(game.state() == GameMain.PLAYING) {
 				Thread.yield();
 			}
 			// If we get here, then we're in game over mode
 			pause(3000);
 			// Reset board state
-			game.fromByteArray(state);
+			//game.fromByteArray(state);
 		}
 	}
 	
 	public void readyToStart(){
 		this.readyToStart = true;
+	}
+	
+	private static void pause(int delay) {
+		try {
+			Thread.sleep(delay);
+		} catch(InterruptedException e){			
+		}
 	}
 
 

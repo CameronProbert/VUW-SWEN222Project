@@ -1,0 +1,28 @@
+
+Each message sent from master-slave and slave to master will either be 0, signalling a non-update or will consist of 16 numbers.
+
+For the first 4 digits:
+
+0001 : move left
+0002 : move right
+0003 : move up
+0004 : move down
+
+0005 : attack ~ next 8 numbers are player ID then character attacked ID 
+0006 : object added to inventory ~ next 8 numbers are player ID then object ID (this could make remove object 
+					unnecessary as it should make the original holder no longer holding the object removed)
+0007 : object removed from inventory ~ next 8 numbers are player ID then object ID (removing will just delete object?)
+0008 : moved to room ~ next 8 numbers are player ID then room ID
+0009 : consume item ~ next 8 numbers are player ID and object ID
+
+any numbers less than 16 will have 0 place holders to make 16 numbers
+
+
+
+
+
+
+
+
+
+

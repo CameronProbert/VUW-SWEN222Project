@@ -2,6 +2,21 @@ package catgame.clientserver;
 
 public class GameMain {
 
+	public static final int WAITING = 0;
+	public static final int READY = 1;
+	public static final int PLAYING = 2;
+	public static final int GAMEOVER = 3;
+	public static final int GAMEWON = 4;
+	
+	public enum Type{
+		CLIENT,
+		SERVER
+	}
+
+	private int gameState;
+	private int lastUpdate = 0;
+	private Type stateType;
+
 	/***
 	 * add a a player
 	 * @return the uid of the player added
@@ -12,23 +27,12 @@ public class GameMain {
 	}
 
 	/**
-	 * 
-	 * @return a byte array of the state of the game
-	 * NOTE: may need to be changed?
-	 * 
-	 */
-	public byte[] toByteArray() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	/**
 	 * set up a game for one person on single player
 	 * @param playerID
 	 */
 	public void setupSinglePlayer(int playerID) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	/**
@@ -46,26 +50,63 @@ public class GameMain {
 	 */
 	public void disconnectPlayer(int uid) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
-	/**
-	 * update board given byte array
-	 * @param data
-	 */
-	public void fromByteArray(byte[] data) {
-		// TODO Auto-generated method stub
-		
-	}
-	
-	
+
 	/**
 	 * updates game --- calls tick on each player
 	 * the tick for each player will need to check the health and experience etc and act accordingly 
+	 * MAY NOT BE NEEDED
 	 */
 	public void clockTick() {
 		// TODO Auto-generated method stub
+
+	}
+
+	/**
+	 * sets the state of the game Playing, over etc)
+	 * @param state
+	 */
+	public void setState(int state) {
+		gameState = state;
+	}
+	
+	/**
+	 * receives the state of the game
+	 * @return
+	 */
+
+	public int state(){
+		return gameState;
+	}
+	
+	/**
+	 * 
+	 * @param update
+	 * @param changeLastUpdate - this is for distinguishing whether the update should be saved or not
+	 * (is usually not saved when used by the slave to update from the masters call)
+	 */
+	public void update(int update, boolean changeLastUpdate) {
+		if(changeLastUpdate)		this.lastUpdate = update;
+		//TODO this will need to decode the update and actually update the game
+	}
+
+	/**
+	 * get last update - this is for the masters to send updates to the slaves
+	 * @return
+	 */
+	public int getLatestUpdate() {
+		return this.lastUpdate;
+	}
+
+	public void addClientPlayer() {
+		// TODO Auto-generated method stub
 		
+	}
+	
+	public void setGameType(Type type){
+		this.stateType = type;
 	}
 
 }

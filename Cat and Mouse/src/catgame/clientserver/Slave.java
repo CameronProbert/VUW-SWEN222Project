@@ -1,13 +1,14 @@
 package catgame.clientserver;
 
 import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
 
-public class Slave extends Thread {
-	
+public class Slave extends Thread implements KeyListener{
+
 
 	private final Socket socket;
 	private GameMain game;	
@@ -15,6 +16,9 @@ public class Slave extends Thread {
 	private DataInputStream input;
 	private int uid;
 	private int totalSent;
+	private int number;
+	
+	private int lastSentUpdate;
 
 	/**
 	 * Construct a slave connection from a socket. A slave connection does no
@@ -30,32 +34,46 @@ public class Slave extends Thread {
 		this.socket = socket;				
 		//TODO this will need a key listener 
 	}
-	
+
 	public void run() {
 		try {			
 			output = new DataOutputStream(socket.getOutputStream());
 			input = new DataInputStream(socket.getInputStream());
-			
+
 			// First job, is to read the period so we can create the clock				
-			uid = input.readInt();			
+			uid = input.readInt();		
 			
+			// now make new game for the client
+			//TODO set up a new game for the server given the uid
+			game = new GameMain();
+			game.setGameType(GameMain.Type.CLIENT);
+			game.addClientPlayer();
+
 			boolean exit=false;
 			long totalRec = 0;
 
 			while(!exit) {
-				// read event
-				int amount = input.readInt();
-				byte[] data = new byte[amount];
-				input.readFully(data);					
-				game.fromByteArray(data);	
-				// TODO may need a repaint method here
 				
-				totalRec += amount;
-				// print out some useful information about the amount of data
-				// sent and received
-				System.out.print("\rREC: " + (totalRec / 1024) + "KB ("
-						+ (rate(amount) / 1024) + "KB/s) TX: " + totalSent
-						+ " Bytes");			
+				// read event
+				//////////////////////////
+				int updateFromMaster = input.readInt();
+				if(updateFromMaster!=0){
+					game.update(updateFromMaster, false);// will not record last update
+				}
+				
+				//write event
+				//////////////////////////
+				int updateToMaster = game.getLatestUpdate();
+				if (updateToMaster!= this.lastSentUpdate){
+					output.writeInt(updateToMaster);
+					lastSentUpdate = updateToMaster;
+				}
+				else{
+					output.writeInt(0);
+				}
+				
+				// TODO may need a repaint method here
+
 			}
 			socket.close(); // release socket ... v.important!
 		} catch(IOException e) {
@@ -81,15 +99,15 @@ public class Slave extends Thread {
 			rateStart = time;
 			rateTotal = 0;
 		}
-		
+
 		return currentRate;		
 	}
 	private int rateTotal = 0;   // total accumulated this second
 	private int currentRate = 0; // rate of reception last second
 	private long rateStart = System.currentTimeMillis();  // start of this accumulation perioud 
-	
+
 	// The following intercept keyboard events from the user.
-	
+
 	public void keyPressed(KeyEvent e) {		
 		try {
 			int code = e.getKeyCode();
@@ -107,14 +125,28 @@ public class Slave extends Thread {
 				totalSent += 4;
 			}
 			//TODO if the code is 'e, r, q' etc it needs to listen for it
-			//TODO it must then find the object at the mouses position (method on gameMain)
-			//TODO then send the 'e, r, q' etc and the objects id to the master
 			output.flush();
 		} catch(IOException ioe) {
 			// something went wrong trying to communicate the key press to the
 			// server.  So, we just ignore it.
 		}
 	}
-	
+
+	public int getNumber(){
+		return number;
+	}
+
+	@Override
+	public void keyReleased(KeyEvent arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void keyTyped(KeyEvent arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+
 
 }
