@@ -32,6 +32,15 @@ public class NetworkSetUp {
 		server = true;
 		runMain();
 	}
+	
+	public void setSinglePlayer(){
+		
+		try {
+			singleUserGame(gameClock, new NetworkHandler());
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
 
 	public void setClient(String url){
 		this.url = url;
