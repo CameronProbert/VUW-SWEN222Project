@@ -1,13 +1,16 @@
 package catgame.clientserver;
 
-public class GameMain {
+import java.util.ArrayList;
+import java.util.List;
+
+public class NetworkHandler {
 
 	public static final int WAITING = 0;
 	public static final int READY = 1;
 	public static final int PLAYING = 2;
 	public static final int GAMEOVER = 3;
 	public static final int GAMEWON = 4;
-	
+
 	public enum Type{
 		CLIENT,
 		SERVER
@@ -16,13 +19,16 @@ public class GameMain {
 	private int gameState;
 	private int lastUpdate = 0;
 	private Type stateType;
+	private int noPlayers;
+	private List<Integer> playerIds = new ArrayList<Integer>();
 
 	/***
 	 * add a a player
 	 * @return the uid of the player added
 	 */
 	public int registerPlayer() {
-		// TODO Auto-generated method stub
+		noPlayers++;
+		// TODO create new ID for new player, add to playerIds and return it
 		return 0;
 	}
 
@@ -71,7 +77,7 @@ public class GameMain {
 	public void setState(int state) {
 		gameState = state;
 	}
-	
+
 	/**
 	 * receives the state of the game
 	 * @return
@@ -80,7 +86,7 @@ public class GameMain {
 	public int state(){
 		return gameState;
 	}
-	
+
 	/**
 	 * 
 	 * @param update
@@ -100,13 +106,29 @@ public class GameMain {
 		return this.lastUpdate;
 	}
 
-	public void addClientPlayer() {
+	public void addClientPlayer(int uid) {
 		// TODO Auto-generated method stub
-		
+
 	}
-	
+
 	public void setGameType(Type type){
 		this.stateType = type;
+	}
+
+	/**
+	 * returns number of players
+	 * @return
+	 */
+	public int noPlayers() {
+		return noPlayers;
+	}
+
+	public List<Integer> getPlayerIds() {
+		return playerIds;
+	}
+
+	public void setPlayerIds(List<Integer> playerIds) {
+		this.playerIds = playerIds;
 	}
 
 }
