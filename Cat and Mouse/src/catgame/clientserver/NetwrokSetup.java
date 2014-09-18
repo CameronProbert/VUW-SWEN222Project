@@ -10,7 +10,7 @@ import java.util.List;
 
 
 
-public class Main {
+public class NetwrokSetup {
 
 	private static final int DEFAULT_CLK_PERIOD = 20;
 	private static final int DEFAULT_BROADCAST_CLK_PERIOD = 5;
@@ -23,7 +23,7 @@ public class Main {
 	
 	private String url = null;	
 	
-	public Main(){
+	public NetwrokSetup(){
 		broadcastClock = DEFAULT_BROADCAST_CLK_PERIOD;
 		gameClock = DEFAULT_CLK_PERIOD;
 	}

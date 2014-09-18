@@ -4,9 +4,9 @@ Each message sent from master-slave and slave to master will either be 0, signal
 For the first 4 digits:
 
 0001 : move left
-0002 : move right
-0003 : move up
-0004 : move down
+0002 : turn right
+0003 : turn up
+0004 : turn down
 
 0005 : attack ~ next 8 numbers are player ID then character attacked ID 
 0006 : object added to inventory ~ next 8 numbers are player ID then object ID (this could make remove object 
