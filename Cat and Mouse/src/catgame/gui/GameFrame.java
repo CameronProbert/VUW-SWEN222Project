@@ -4,13 +4,14 @@ import java.awt.Dimension;
 
 import javax.swing.JFrame;
 
+import catgame.clientserver.NetworkSetUp;
+
 public class GameFrame extends AbstractFrame {
-	
-	public GameFrame(){
+
+	public GameFrame(boolean singlePlayer) {
 		super(new Dimension(1200, 600), "Catgame");
-		initialiseBehaviour();
 	}
-	
+
 	/**
 	 * Sets behaviour for the frame
 	 */
@@ -20,5 +21,5 @@ public class GameFrame extends AbstractFrame {
 		this.setResizable(false);
 		// this.setBackground(new Color(50,70,255));
 	}
-	
+
 }

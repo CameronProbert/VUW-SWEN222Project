@@ -9,6 +9,8 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
+import catgame.clientserver.NetworkSetUp;
+
 /**
  * The LauncherFrame will be the first instance of the program that the users
  * will see. It will ask them what part of the game they would like to run. The
@@ -44,8 +46,9 @@ public class LauncherFrame extends AbstractFrame {
 	 * Adds the needed buttons to the frame
 	 */
 	private void addButtons() {
-		
-		BoxLayout boxLayout = new BoxLayout(this.getContentPane(), BoxLayout.Y_AXIS);
+
+		BoxLayout boxLayout = new BoxLayout(this.getContentPane(),
+				BoxLayout.Y_AXIS);
 		this.setLayout(boxLayout);
 		Dimension buttonSize = new Dimension(200, 100);
 
@@ -61,18 +64,19 @@ public class LauncherFrame extends AbstractFrame {
 		JButton buttonClient = createButton("Multiplayer Client", buttonSize);
 		buttonClient.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				// TODO Create the client
 				setVisible(false);
-				new GameFrame();
+				NetworkSetUp network = new NetworkSetUp();
+				String url = "";
+				network.setClient(url);
 			}
 		});
 
 		JButton buttonSinglePlayer = createButton("Single Player", buttonSize);
 		buttonSinglePlayer.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				// TODO Create a single player instance of the game
 				setVisible(false);
-				new GameFrame();
+				NetworkSetUp network = new NetworkSetUp();
+				network.setSinglePlayer();
 			}
 		});
 
@@ -103,7 +107,7 @@ public class LauncherFrame extends AbstractFrame {
 	 */
 	public static JButton createButton(String text, Dimension size) {
 		JButton button = new JButton();
-		button.setSize(size);
+		button.setPreferredSize(size);
 		button.setText(text);
 		button.setAlignmentX(CENTER_ALIGNMENT);
 		return button;
