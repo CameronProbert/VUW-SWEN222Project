@@ -8,8 +8,6 @@ import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
 
-import pacman.control.ClockThread;
-
 
 
 public class Main {
@@ -21,7 +19,7 @@ public class Main {
 	private int port = 32768; // default
 	private boolean server = false;
 	private static boolean readyToStart = false;
-	private GameMain game;
+	private NetworkHandler game;
 	
 	private String url = null;	
 	
@@ -49,14 +47,14 @@ public class Main {
 		try {
 			if(server) {
 				// Run in Server mode
-				game = new GameMain();
+				game = new NetworkHandler();
+				game.setGameType(NetworkHandler.Type.SERVER);
 				runServer(port,gameClock,broadcastClock, game);			
 			} else if(url != null) {
 				// Run in client mode
 				runClient(url,port);
 			} else {			
 				// single user game
-				game = new GameMain();
 				singleUserGame(gameClock, game);							
 			}
 		} catch(IOException ioe) {			
@@ -74,7 +72,7 @@ public class Main {
 		new Slave(s).run();		
 	}
 
-	private static void runServer(int port, int gameClock, int broadcastClock, GameMain game) {
+	private static void runServer(int port, int gameClock, int broadcastClock, NetworkHandler game) {
 
 		ClockThread clk = new ClockThread(gameClock,game);	
 		
@@ -125,27 +123,27 @@ public class Main {
 	 * @param connections
 	 * @throws IOException
 	 */
-	private static void multiUserGame(ClockThread clk, GameMain game,
+	private static void multiUserGame(ClockThread clk, NetworkHandler game,
 			List<Master> connections) throws IOException {
 		// save initial state of board, so we can reset it.
-		byte[] state = game.toByteArray();						
+		//byte[] state = game.toByteArray();						
 
 		clk.start();
 		
 		// loop forever
 		while(atleastOneConnection(connections)) {
-			game.setState(Board.READY);
+			game.setState(NetworkHandler.READY);
 			pause(3000);
-			game.setState(Board.PLAYING);
+			game.setState(NetworkHandler.PLAYING);
 			// now, wait for the game to finish
-			while(game.state() == Board.PLAYING) {
+			while(game.state() == NetworkHandler.PLAYING) {
 				Thread.yield();
 			}
 			// If we get here, then we're in game over mode
 			pause(3000);
 			// Reset board state
-			game.setState(Board.WAITING);
-			game.fromByteArray(state);			
+			game.setState(NetworkHandler.WAITING);
+			//game.fromByteArray(state);			
 		}
 	}
 
@@ -164,33 +162,40 @@ public class Main {
 		return false;
 	}
 
-	private static void singleUserGame(int gameClock, GameMain game) throws IOException {
+	private static void singleUserGame(int gameClock, NetworkHandler game) throws IOException {
 		int playerID = game.registerPlayer();
 		game.setupSinglePlayer(playerID);		
 		// save initial state of board, so we can reset it.
 		ClockThread clk = new ClockThread(gameClock,game);
-		byte[] state = game.toByteArray();	
+		//byte[] state = game.toByteArray();	
 		
 		clk.start();
 
 		while(game.isNotOver()) {
 			// keep going until the frame becomes invisible
-			game.setState(Board.READY);
+			game.setState(NetworkHandler.READY);
 			pause(3000);
-			game.setState(Board.PLAYING);
+			game.setState(NetworkHandler.PLAYING);
 			// now, wait for the game to finish
-			while(game.state() == Board.PLAYING) {
+			while(game.state() == NetworkHandler.PLAYING) {
 				Thread.yield();
 			}
 			// If we get here, then we're in game over mode
 			pause(3000);
 			// Reset board state
-			game.fromByteArray(state);
+			//game.fromByteArray(state);
 		}
 	}
 	
 	public void readyToStart(){
 		this.readyToStart = true;
+	}
+	
+	private static void pause(int delay) {
+		try {
+			Thread.sleep(delay);
+		} catch(InterruptedException e){			
+		}
 	}
 
 

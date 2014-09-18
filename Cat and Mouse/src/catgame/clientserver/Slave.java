@@ -1,20 +1,27 @@
 package catgame.clientserver;
 
 import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Slave extends Thread {
-	
+
 
 	private final Socket socket;
-	private GameMain game;	
+	private NetworkHandler game;	
 	private DataOutputStream output;
 	private DataInputStream input;
 	private int uid;
 	private int totalSent;
+	private List<Integer> numbers = new ArrayList<Integer>() ;
+	private boolean testing = true; //turned true when I am testing
+
+	private int lastSentUpdate;
 
 	/**
 	 * Construct a slave connection from a socket. A slave connection does no
@@ -28,34 +35,74 @@ public class Slave extends Thread {
 	 */
 	public Slave(Socket socket) {				
 		this.socket = socket;				
-		//TODO this will need a key listener 
 	}
-	
+
 	public void run() {
-		try {			
+		try {		
+
 			output = new DataOutputStream(socket.getOutputStream());
 			input = new DataInputStream(socket.getInputStream());
 			
-			// First job, is to read the period so we can create the clock				
-			uid = input.readInt();			
-			
-			boolean exit=false;
-			long totalRec = 0;
+			if(!testing){
+				// First job, is to read the period so we can create the clock				
+				uid = input.readInt();		
 
-			while(!exit) {
-				// read event
-				int amount = input.readInt();
-				byte[] data = new byte[amount];
-				input.readFully(data);					
-				game.fromByteArray(data);	
-				// TODO may need a repaint method here
+				// now make new game for the client
+				game = new NetworkHandler();
+				game.setGameType(NetworkHandler.Type.CLIENT);
+				game.addClientPlayer(uid);
+
+				// now read the other players IDs
+				int noPlayers = input.readInt();
+				List<Integer> playerIds = new ArrayList<Integer>();
+
+				for(; noPlayers>0; noPlayers--){
+					playerIds.add(input.readInt());
+				}
+
+				game.setPlayerIds(playerIds);
+
+
+				boolean exit=false;
+				long totalRec = 0;
+
+				while(!exit) {
+
+					// read event
+					//////////////////////////
+					int updateFromMaster = input.readInt();
+					if(updateFromMaster!=0){
+						game.update(updateFromMaster, false);// will not record last update
+					}
+
+					//write event
+					//////////////////////////
+					int updateToMaster = game.getLatestUpdate();
+					if (updateToMaster!= this.lastSentUpdate){
+						output.writeInt(updateToMaster);
+						lastSentUpdate = updateToMaster;
+					}
+					else{
+						output.writeInt(0);
+					}
+
+					// TODO may need a repaint method here
+
+				}
+			}
+			else{
+				// First job, is to read the period so we can create the clock				
+				uid = input.readInt();		
+
+				// now read the other players IDs
+				int noPlayers = input.readInt();
+				List<Integer> playerIds = new ArrayList<Integer>();
+
+				for(; noPlayers>0; noPlayers--){
+					playerIds.add(input.readInt());
+				}
 				
-				totalRec += amount;
-				// print out some useful information about the amount of data
-				// sent and received
-				System.out.print("\rREC: " + (totalRec / 1024) + "KB ("
-						+ (rate(amount) / 1024) + "KB/s) TX: " + totalSent
-						+ " Bytes");			
+				numbers = playerIds;
 			}
 			socket.close(); // release socket ... v.important!
 		} catch(IOException e) {
@@ -81,40 +128,22 @@ public class Slave extends Thread {
 			rateStart = time;
 			rateTotal = 0;
 		}
-		
+
 		return currentRate;		
 	}
 	private int rateTotal = 0;   // total accumulated this second
 	private int currentRate = 0; // rate of reception last second
 	private long rateStart = System.currentTimeMillis();  // start of this accumulation perioud 
-	
-	// The following intercept keyboard events from the user.
-	
-	public void keyPressed(KeyEvent e) {		
-		try {
-			int code = e.getKeyCode();
-			if(code == KeyEvent.VK_RIGHT || code == KeyEvent.VK_KP_RIGHT) {													
-				output.writeInt(3);
-				totalSent += 4;
-			} else if(code == KeyEvent.VK_LEFT || code == KeyEvent.VK_KP_LEFT) {				
-				output.writeInt(4);
-				totalSent += 4;
-			} else if(code == KeyEvent.VK_UP) {				
-				output.writeInt(1);
-				totalSent += 4;
-			} else if(code == KeyEvent.VK_DOWN) {						
-				output.writeInt(2);
-				totalSent += 4;
-			}
-			//TODO if the code is 'e, r, q' etc it needs to listen for it
-			//TODO it must then find the object at the mouses position (method on gameMain)
-			//TODO then send the 'e, r, q' etc and the objects id to the master
-			output.flush();
-		} catch(IOException ioe) {
-			// something went wrong trying to communicate the key press to the
-			// server.  So, we just ignore it.
-		}
+
+	public List<Integer> getNumbers (){
+		return numbers;
 	}
 	
+	public int getUID(){
+		return uid;
+	}
+
+
+
 
 }
