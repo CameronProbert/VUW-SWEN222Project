@@ -4,6 +4,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -18,16 +19,13 @@ import javax.swing.JOptionPane;
  * @author Cameron Probert
  * 
  */
-public class LauncherFrame extends JFrame {
-
-	// The default size of the window
-	private Dimension windowSize = new Dimension(200, 400);
+public class LauncherFrame extends AbstractFrame {
 
 	/**
 	 * Creates and initialises the frame
 	 */
 	public LauncherFrame() {
-		super();
+		super(new Dimension(200, 400), "Launcher");
 		initialiseBehaviour();
 		addButtons();
 	}
@@ -35,11 +33,10 @@ public class LauncherFrame extends JFrame {
 	/**
 	 * Sets behaviour for the frame
 	 */
-	private void initialiseBehaviour() {
+	protected void initialiseBehaviour() {
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
-		this.setTitle("Launcher");
-		this.setSize(windowSize);
 		this.setVisible(true);
+		this.setResizable(false);
 		// this.setBackground(new Color(50,70,255));
 	}
 
@@ -47,10 +44,13 @@ public class LauncherFrame extends JFrame {
 	 * Adds the needed buttons to the frame
 	 */
 	private void addButtons() {
+		
+		BoxLayout boxLayout = new BoxLayout(this.getContentPane(), BoxLayout.Y_AXIS);
+		this.setLayout(boxLayout);
 		Dimension buttonSize = new Dimension(200, 100);
 
 		// Create the buttons
-		JButton buttonServer = createButton("Multiplayer Host", buttonSize, new Point(0, 0));
+		JButton buttonServer = createButton("Multiplayer Host", buttonSize);
 		buttonServer.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				setVisible(false);
@@ -58,23 +58,25 @@ public class LauncherFrame extends JFrame {
 			}
 		});
 
-		JButton buttonClient = createButton("Multiplayer Client", buttonSize, new Point(100, 0));
+		JButton buttonClient = createButton("Multiplayer Client", buttonSize);
 		buttonClient.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				// TODO Create the client
 				setVisible(false);
+				new GameFrame();
 			}
 		});
 
-		JButton buttonSinglePlayer = createButton("Single Player", buttonSize, new Point(200, 0));
+		JButton buttonSinglePlayer = createButton("Single Player", buttonSize);
 		buttonSinglePlayer.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				// TODO Create a single player instance of the game
 				setVisible(false);
+				new GameFrame();
 			}
 		});
 
-		JButton buttonQuit = createButton("Quit", buttonSize, new Point(300, 0));
+		JButton buttonQuit = createButton("Quit", buttonSize);
 		buttonQuit.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				confirmQuit();
