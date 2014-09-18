@@ -1,15 +1,26 @@
 package GameBoard;
 
+import java.awt.List;
 import java.io.BufferedReader;
 import java.io.FileReader;
+import java.util.ArrayList;
+
+import GameObjects.GameItem;
+import GameObjects.MasterObject;
 
 public class Room {
-	private byte[][] groundLayer;
-	private byte[][] objectLayer;
-
+	private byte[][] boardGrid;
+	
+	private ArrayList<MasterObject> roomInventory= new ArrayList<MasterObject>();
+	
+	/**
+	 * TODO
+	 * Room parameters are subject to change, once the .xml file readers are sorted we will have to decide how we want to load rooms 
+	 * @param groundFile
+	 * @param objectLayerFile
+	 */
 	public Room(String groundFile, String objectLayerFile) {
-		groundLayer = loadFile(groundFile);
-		objectLayer = loadFile(objectLayerFile);
+		boardGrid = loadFile(groundFile);
 	}
 
 	/**
@@ -55,11 +66,11 @@ public class Room {
 		return loadingBoard;
 	}
 
-	public byte[][] getGroundLayer() {
-		return groundLayer;
+	public byte[][] getBoardGrid() {
+		return boardGrid;
 	}
-
-	public byte[][] getObjectLayer() {
-		return objectLayer;
+	
+	public ArrayList<MasterObject> getRoomInventory(){
+		return roomInventory;
 	}
 }
