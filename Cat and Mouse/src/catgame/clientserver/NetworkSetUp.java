@@ -10,7 +10,7 @@ import java.util.List;
 
 
 
-public class Main {
+public class NetworkSetUp {
 
 	private static final int DEFAULT_CLK_PERIOD = 20;
 	private static final int DEFAULT_BROADCAST_CLK_PERIOD = 5;
@@ -23,7 +23,7 @@ public class Main {
 	
 	private String url = null;	
 	
-	public Main(){
+	public NetworkSetUp(){
 		broadcastClock = DEFAULT_BROADCAST_CLK_PERIOD;
 		gameClock = DEFAULT_CLK_PERIOD;
 	}
@@ -31,6 +31,15 @@ public class Main {
 	public void setServer(){
 		server = true;
 		runMain();
+	}
+	
+	public void setSinglePlayer(){
+		
+		try {
+			singleUserGame(gameClock, new NetworkHandler());
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 	public void setClient(String url){
