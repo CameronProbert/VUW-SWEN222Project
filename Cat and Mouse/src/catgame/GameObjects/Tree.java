@@ -1,17 +1,17 @@
-package GameObjects;
+package catgame.GameObjects;
 
-import GameBoard.Position;
+import catgame.logic.Position;
 /**
  * 
  * @author Dan Henton
  *
  */
-public class Rock implements NonMovavble {
-
+public class Tree implements NonMovavble {
+	
 	private Position position;
 	private int id;
 
-	public Rock(Position p, int id) {
+	public Tree(Position p, int id) {
 		this.position = p;
 		this.id = id;
 	}
@@ -23,4 +23,5 @@ public class Rock implements NonMovavble {
 	public int getObjectID() {
 		return id;
 	}
+
 }

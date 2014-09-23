@@ -1,12 +1,12 @@
-package GameBoard;
+package catgame.logic;
 
 import java.awt.List;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.util.ArrayList;
 
-import GameObjects.GameItem;
-import GameObjects.MasterObject;
+import catgame.GameObjects.GameItem;
+import catgame.GameObjects.MasterObject;
 
 public class Room {
 	private byte[][] boardGrid;

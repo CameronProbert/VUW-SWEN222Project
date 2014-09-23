@@ -1,4 +1,4 @@
-package GameBoard;
+package catgame.logic;
 
 import java.io.BufferedReader;
 import java.io.FileReader;

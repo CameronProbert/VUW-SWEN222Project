@@ -1,6 +1,6 @@
-package GameObjects;
+package catgame.GameObjects;
 
-import GameBoard.Position;
+import catgame.logic.Position;
 /**
  * 
  * @author Dan Henton

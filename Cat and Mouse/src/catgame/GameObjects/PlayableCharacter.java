@@ -1,9 +1,9 @@
-package GameObjects;
+package catgame.GameObjects;
 
 import java.util.ArrayList;
 
-import GameBoard.GameError;
-import GameBoard.Position;
+import catgame.logic.GameError;
+import catgame.logic.Position;
 
 /**
  *

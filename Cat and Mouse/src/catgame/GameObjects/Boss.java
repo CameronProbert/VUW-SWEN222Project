@@ -1,27 +1,27 @@
-package GameObjects;
+package catgame.GameObjects;
 
-import java.awt.List;
 import java.util.ArrayList;
 
-import GameBoard.Position;
+import catgame.logic.Position;
 
 /**
  * 
  * @author Dan Henton
  * 
- *         Minion is a low health NPC which the player can attack and loot
+ *         Boss is a high health NPC which the player can attack and loot. A
+ *         Boss Has better gear but is harder to kill.
  */
-public class Minion implements NonPlayableCharacter {
+public class Boss implements NonPlayableCharacter {
 
 	private int id;
 	private Position currentPosition;
 	private int health;
 	private ArrayList<GameItem> inventory = new ArrayList<GameItem>();
-	private int maxItems = 3;
+	private int maxItems = 6;
 	private int attackPower;
 	private int level;
 
-	public Minion(int level, int attackPower, int health, ArrayList<GameItem> items) {
+	public Boss(int level, int attackPower, int health, ArrayList<GameItem> items) {
 		this.level = level;
 		this.attackPower = attackPower;
 		this.health = health;
@@ -88,5 +88,4 @@ public class Minion implements NonPlayableCharacter {
 	public boolean isDead() {
 		return health < 1;
 	}
-
 }

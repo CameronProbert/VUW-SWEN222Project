@@ -1,4 +1,4 @@
-package GameBoard;
+package catgame.logic;
 
 public class Position {
 

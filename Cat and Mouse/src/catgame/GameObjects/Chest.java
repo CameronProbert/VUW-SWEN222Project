@@ -1,8 +1,8 @@
-package GameObjects;
+package catgame.GameObjects;
 
 import java.util.ArrayList;
 
-import GameBoard.Position;
+import catgame.logic.Position;
 /**
  * 
  * @author Dan Henton
