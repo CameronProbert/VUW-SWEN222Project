@@ -4,6 +4,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -47,9 +48,13 @@ public class LauncherFrame extends AbstractFrame {
 	 */
 	private void addButtons() {
 
-		BoxLayout boxLayout = new BoxLayout(this.getContentPane(),
-				BoxLayout.Y_AXIS);
-		this.setLayout(boxLayout);
+		// BoxLayout boxLayout = new BoxLayout(this.getContentPane(),
+		// BoxLayout.Y_AXIS);
+		// this.setLayout(boxLayout);
+		Box box = new Box(BoxLayout.X_AXIS);
+		box = Box.createVerticalBox();
+		this.add(box);
+
 		Dimension buttonSize = new Dimension(200, 100);
 
 		// Create the buttons
@@ -65,8 +70,8 @@ public class LauncherFrame extends AbstractFrame {
 		buttonClient.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				setVisible(false);
+				String url = stringInputDialog("Enter URL", "");
 				NetworkSetUp network = new NetworkSetUp();
-				String url = "";
 				network.setClient(url);
 			}
 		});
@@ -88,10 +93,11 @@ public class LauncherFrame extends AbstractFrame {
 		});
 
 		// Add the buttons
-		add(buttonServer);
-		add(buttonClient);
-		add(buttonSinglePlayer);
-		add(buttonQuit);
+		box.add(buttonServer);
+		box.add(buttonClient);
+		box.add(buttonSinglePlayer);
+		box.add(buttonQuit);
+		// this.pack();
 	}
 
 	// ================= Helper Methods ====================
@@ -107,27 +113,8 @@ public class LauncherFrame extends AbstractFrame {
 	 */
 	public static JButton createButton(String text, Dimension size) {
 		JButton button = new JButton();
-		button.setPreferredSize(size);
-		button.setText(text);
-		button.setAlignmentX(CENTER_ALIGNMENT);
-		return button;
-	}
-
-	/**
-	 * Creates and returns a button
-	 * 
-	 * @param text
-	 *            The text to be on the button
-	 * @param size
-	 *            The size of the button
-	 * @param origin
-	 *            Where to draw the button
-	 * @return
-	 */
-	public static JButton createButton(String text, Dimension size, Point origin) {
-		JButton button = new JButton();
-		button.setLocation(origin);
-		button.setSize(size);
+		button.setMinimumSize(size);
+		button.setMaximumSize(size);
 		button.setText(text);
 		button.setAlignmentX(CENTER_ALIGNMENT);
 		return button;
@@ -155,6 +142,25 @@ public class LauncherFrame extends AbstractFrame {
 		return JOptionPane.OK_OPTION == JOptionPane.showConfirmDialog(null,
 				message, title, JOptionPane.OK_CANCEL_OPTION);
 
+	}
+
+	/**
+	 * Creates a dialog that asks for user input
+	 * 
+	 * @param title
+	 *            The title of the dialog box
+	 * @param message
+	 *            The message of the dialog box
+	 * @return The users input as a string
+	 */
+	public static String stringInputDialog(String title, String message) {
+		String string = "";
+		do {
+			string = (String) JOptionPane.showInputDialog(null, message, title,
+					JOptionPane.PLAIN_MESSAGE, null, null, "");
+		} while (string == null || string.equals(""));
+
+		return string;
 	}
 
 	// ================== Main Method ======================
