@@ -11,18 +11,18 @@ public class GameMain {
 	}
 	//TODO
 	public boolean moveNorth(int playerID){
-		return false; //TODO gameMap.get(playerID).move();a
+		return false; //TODO gameMap.get(playerID).move("NORTH");
 	}
 	
 	public boolean moveSouth(int playerID){
-		return false;
+		return false; //TODO gameMap.get(playerID).move("SOUTH");
 	}
 	public boolean moveEast(int playerID){
-		return false;
+		return false; //TODO gameMap.get(playerID).move("EAST");
 	}
 	
 	public boolean moveWest(int playerID){
-		return false;
+		return false; //TODO gameMap.get(playerID).move("WEST");
 	}
 	
 	public boolean aHach(int playerID, int IDaHached){
@@ -31,15 +31,15 @@ public class GameMain {
 	}
 	
 	public boolean addObjectToInventory(int playerID, int ObjectID){
-		return false; //gameMap.get(playerID).addItem(object);
+		return false; //gameMap.get(playerID).addToInventory(GameITem);
 	}
 	
 	public boolean removeItem(int playerID, int ObjectID){
-		return false;
+		return false; //gameMap.get(playerID).removeFromInventory(GameITem);
 	}
 	
 	public boolean useItem(int playerID, int objectID){
-		return false;
+		return false; //gameMap.get(playerID).useItem(GameITem)
 	}
 	
 	public boolean moveToNextRoom(int playerID, int roomID){

@@ -2,6 +2,7 @@ package catgame.GameObjects;
 
 import java.util.ArrayList;
 
+import catgame.logic.BoardCell;
 import catgame.logic.Position;
 /**
  * 
@@ -11,7 +12,7 @@ import catgame.logic.Position;
 public class Chest implements NonMovavble {
 	
 	private ArrayList<GameItem> inventory;
-	private Position currentPosition;
+	private BoardCell cell;
 	private int id;
 
 	public Chest(){
@@ -21,9 +22,9 @@ public class Chest implements NonMovavble {
 		return inventory;
 	}
 
-	public Position getPosition() {
+	public BoardCell getCurrentCell() {
 		// TODO Auto-generated method stub
-		return currentPosition;
+		return cell;
 	}
 
 	public int getObjectID() {

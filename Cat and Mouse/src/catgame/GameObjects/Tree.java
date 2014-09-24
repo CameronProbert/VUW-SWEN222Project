@@ -1,5 +1,6 @@
 package catgame.GameObjects;
 
+import catgame.logic.BoardCell;
 import catgame.logic.Position;
 /**
  * 
@@ -8,16 +9,16 @@ import catgame.logic.Position;
  */
 public class Tree implements NonMovavble {
 	
-	private Position position;
+	private BoardCell cell;
 	private int id;
 
-	public Tree(Position p, int id) {
-		this.position = p;
+	public Tree(BoardCell cell , int id) {
+		this.cell = cell;
 		this.id = id;
 	}
 
-	public Position getPosition() {
-		return position;
+	public BoardCell getCurrentCell() {
+		return cell;
 	}
 
 	public int getObjectID() {

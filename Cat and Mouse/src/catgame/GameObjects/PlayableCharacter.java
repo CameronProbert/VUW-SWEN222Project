@@ -2,6 +2,7 @@ package catgame.GameObjects;
 
 import java.util.ArrayList;
 
+import catgame.logic.BoardCell;
 import catgame.logic.GameError;
 import catgame.logic.Position;
 
@@ -13,7 +14,7 @@ import catgame.logic.Position;
 public class PlayableCharacter implements Character {
 
 	private int id;
-	private Position currentPosition;
+	private BoardCell currentCell;
 	private int health;
 	private ArrayList<GameItem> inventory = new ArrayList<GameItem>();
 	private int maxItems = 10;
@@ -21,6 +22,7 @@ public class PlayableCharacter implements Character {
 	private int level;
 	private int xp;
 
+	
 	public PlayableCharacter(int level, int attackPower, int health, ArrayList<GameItem> items) {
 		this.level = level;
 		this.attackPower = attackPower;
@@ -28,8 +30,8 @@ public class PlayableCharacter implements Character {
 		this.inventory.addAll(items);
 	}
 
-	public Position getPosition() {
-		return currentPosition;
+	public BoardCell getCurrentCell() {
+		return currentCell;
 	}
 
 	public int getObjectID() {
@@ -79,7 +81,7 @@ public class PlayableCharacter implements Character {
 		this.attackPower += change;
 	}
 
-	public void move(int x, int y) throws GameError {
+	public void move(String Direction) throws GameError {
 		if (isDead()) {
 			throw new GameError("Player is dead");
 		}
@@ -122,5 +124,9 @@ public class PlayableCharacter implements Character {
 
 	public boolean isDead() {
 		return health < 0;
+	}
+	
+	public void useItem(GameItem item){
+		//TODO
 	}
 }

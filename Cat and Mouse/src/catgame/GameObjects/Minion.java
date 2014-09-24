@@ -3,6 +3,7 @@ package catgame.GameObjects;
 import java.awt.List;
 import java.util.ArrayList;
 
+import catgame.logic.BoardCell;
 import catgame.logic.Position;
 
 /**
@@ -14,7 +15,7 @@ import catgame.logic.Position;
 public class Minion implements NonPlayableCharacter {
 
 	private int id;
-	private Position currentPosition;
+	private BoardCell currentCell;
 	private int health;
 	private ArrayList<GameItem> inventory = new ArrayList<GameItem>();
 	private int maxItems = 3;
@@ -57,10 +58,10 @@ public class Minion implements NonPlayableCharacter {
 		return result;
 	}
 
-	public Position getPosition() {
-		return this.currentPosition;
+	public BoardCell getCurrentCell() {
+		return currentCell;
 	}
-
+	
 	public int getObjectID() {
 		return id;
 	}
@@ -73,7 +74,7 @@ public class Minion implements NonPlayableCharacter {
 		this.attackPower += change;
 	}
 
-	public void move(int x, int y) {
+	public void move(String Direction) {
 		// TODO Auto-generated method stub
 	}
 
