@@ -4,9 +4,7 @@ import java.awt.Graphics;
 import java.awt.Image;
 import java.io.File;
 import java.io.IOException;
-
 import javax.imageio.ImageIO;
-
 import catgame.GameObjects.GameObject;
 
 public class BoardCell {
@@ -18,7 +16,6 @@ public class BoardCell {
 	public BoardCell(Position position, GameObject object , String groundFile){
 		this.cellPosition = position;
 		this.objectOnCell = object;
-		
 		try {
 			groundImage = ImageIO.read(new File(groundFile));
 			objectImage = ImageIO.read(new File(objectOnCell.getObjectID()+""));

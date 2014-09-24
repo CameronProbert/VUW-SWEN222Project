@@ -10,18 +10,18 @@ public class GameMain {
 		
 	}
 	//TODO
-	public boolean move(int playerID){
-		return false; //TODO gameMap.get(playerID).move();
+	public boolean moveNorth(int playerID){
+		return false; //TODO gameMap.get(playerID).move();a
 	}
 	
-	public boolean trunLeft(int playerID){
+	public boolean moveSouth(int playerID){
 		return false;
 	}
-	public boolean trunRight(int playerID){
+	public boolean moveEast(int playerID){
 		return false;
 	}
 	
-	public boolean trunAround(int playerID){
+	public boolean moveWest(int playerID){
 		return false;
 	}
 	
