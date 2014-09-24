@@ -22,8 +22,9 @@ public class Minion implements NonPlayableCharacter {
 	private int attackPower;
 	private int level;
 
-	public Minion(int ID, int level, int attackPower, int health, ArrayList<GameItem> items) {
+	public Minion(int ID,BoardCell cell, int level, int attackPower, int health, ArrayList<GameItem> items) {
 		this.id = ID;
+		this.currentCell = cell;
 		this.level = level;
 		this.attackPower = attackPower;
 		this.health = health;

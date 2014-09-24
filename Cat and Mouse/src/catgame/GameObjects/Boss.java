@@ -22,8 +22,9 @@ public class Boss implements NonPlayableCharacter {
 	private int attackPower;
 	private int level;
 
-	public Boss(int ID, int level, int attackPower, int health, ArrayList<GameItem> items) {
+	public Boss(int ID, BoardCell cell, int level, int attackPower, int health, ArrayList<GameItem> items) {
 		this.id = ID;
+		this.currentCell = cell;
 		this.level = level;
 		this.attackPower = attackPower;
 		this.health = health;

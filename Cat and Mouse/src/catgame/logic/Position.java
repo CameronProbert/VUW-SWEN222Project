@@ -24,4 +24,8 @@ public class Position {
 		return this.y;
 	}
 	
+	public String toString(){
+		return "x :"+this.x+" y:"+this.y;
+	}
+	
 }

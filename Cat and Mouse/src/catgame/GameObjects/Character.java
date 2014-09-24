@@ -60,7 +60,7 @@ public interface Character extends Movable {
 	 *
 	 * 
 	 */
-	public void move(String Direction);
+	public void move(String direction);
 
 	/**
 	 *

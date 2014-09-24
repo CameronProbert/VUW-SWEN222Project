@@ -22,9 +22,10 @@ public class PlayableCharacter implements Character {
 	private int level;
 	private int xp;
 
-	
-	public PlayableCharacter(int ID, int level, int attackPower, int health, ArrayList<GameItem> items) {
+	public PlayableCharacter(int ID, BoardCell cell, int level,
+			int attackPower, int health, ArrayList<GameItem> items) {
 		this.id = ID;
+		this.currentCell = cell;
 		this.level = level;
 		this.attackPower = attackPower;
 		this.health = health;
@@ -82,11 +83,22 @@ public class PlayableCharacter implements Character {
 		this.attackPower += change;
 	}
 
-	public void move(String Direction) throws GameError {
+	public void move(String direction) throws GameError {
 		if (isDead()) {
 			throw new GameError("Player is dead");
 		}
-		
+		// check the cell in the direction
+		if (direction.equals("NORTH")) {
+			
+		} else if (direction.equals("SOUTH")) {
+
+		} else if (direction.equals("EAST")) {
+
+		} else if (direction.equals("WEST")) {
+
+		} else {
+			throw new GameError("Unknown movement :" + direction);
+		}
 	}
 
 	public int getLevel() {
@@ -126,8 +138,8 @@ public class PlayableCharacter implements Character {
 	public boolean isDead() {
 		return health < 0;
 	}
-	
-	public void useItem(GameItem item){
-		//TODO
+
+	public void useItem(GameItem item) {
+		// TODO
 	}
 }
