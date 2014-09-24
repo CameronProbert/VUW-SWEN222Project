@@ -5,6 +5,9 @@ import java.awt.Image;
 import java.io.File;
 import java.io.IOException;
 import javax.imageio.ImageIO;
+
+import javax.imageio.ImageIO;
+
 import catgame.GameObjects.GameObject;
 
 public class BoardCell {
@@ -38,5 +41,5 @@ public class BoardCell {
 	 */
 	public void drawCellObject(Graphics g){
 		g.drawImage(objectImage, cellPosition.getX() , cellPosition.getY(), null);
-	}
+}
 }
