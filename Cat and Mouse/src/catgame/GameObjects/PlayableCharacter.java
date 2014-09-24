@@ -23,7 +23,8 @@ public class PlayableCharacter implements Character {
 	private int xp;
 
 	
-	public PlayableCharacter(int level, int attackPower, int health, ArrayList<GameItem> items) {
+	public PlayableCharacter(int ID, int level, int attackPower, int health, ArrayList<GameItem> items) {
+		this.id = ID;
 		this.level = level;
 		this.attackPower = attackPower;
 		this.health = health;
@@ -85,7 +86,7 @@ public class PlayableCharacter implements Character {
 		if (isDead()) {
 			throw new GameError("Player is dead");
 		}
-		// TODO check to see if the move is greater or than one square , check to see if the move will take the char off the board
+		
 	}
 
 	public int getLevel() {

@@ -2,6 +2,8 @@ package catgame.logic;
 
 import java.util.HashMap;
 
+import catgame.GameObjects.MasterObject;
+
 public class GameMain {
 
 	HashMap gameMap = new HashMap();
@@ -9,7 +11,13 @@ public class GameMain {
 	public GameMain(){
 		
 	}
-	//TODO
+	
+	private HashMap<Integer, MasterObject> loadMap(){
+		 HashMap<Integer, MasterObject> toLoad = new HashMap<Integer , MasterObject>();
+		 //TODO BODY
+		 return toLoad;
+	}
+
 	public boolean moveNorth(int playerID){
 		return false; //TODO gameMap.get(playerID).move("NORTH");
 	}
@@ -31,15 +39,15 @@ public class GameMain {
 	}
 	
 	public boolean addObjectToInventory(int playerID, int ObjectID){
-		return false; //gameMap.get(playerID).addToInventory(GameITem);
+		return false; //TODO gameMap.get(playerID).addToInventory(GameITem);
 	}
 	
 	public boolean removeItem(int playerID, int ObjectID){
-		return false; //gameMap.get(playerID).removeFromInventory(GameITem);
+		return false; //TODO gameMap.get(playerID).removeFromInventory(GameITem);
 	}
 	
 	public boolean useItem(int playerID, int objectID){
-		return false; //gameMap.get(playerID).useItem(GameITem)
+		return false; //TODO gameMap.get(playerID).useItem(GameITem)
 	}
 	
 	public boolean moveToNextRoom(int playerID, int roomID){

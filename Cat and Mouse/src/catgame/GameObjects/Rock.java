@@ -12,7 +12,8 @@ public class Rock implements NonMovavble {
 	private BoardCell cell;
 	private int id;
 
-	public Rock(BoardCell cell , int id) {
+	public Rock(int ID, BoardCell cell , int id) {
+		this.id = ID;
 		this.cell = cell;
 		this.id = id;
 	}

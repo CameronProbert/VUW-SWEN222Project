@@ -12,7 +12,8 @@ public class Tree implements NonMovavble {
 	private BoardCell cell;
 	private int id;
 
-	public Tree(BoardCell cell , int id) {
+	public Tree(int ID, BoardCell cell , int id) {
+		this.id = ID;
 		this.cell = cell;
 		this.id = id;
 	}

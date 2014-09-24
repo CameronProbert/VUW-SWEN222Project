@@ -15,8 +15,9 @@ public class Chest implements NonMovavble {
 	private BoardCell cell;
 	private int id;
 
-	public Chest(){
-		
+	public Chest(int ID, ArrayList<GameItem> inv){
+		this.id = ID;
+		this.inventory = inv;
 	}
 	public ArrayList<GameItem> getLoot(){
 		return inventory;
