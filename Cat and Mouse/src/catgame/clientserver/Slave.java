@@ -21,7 +21,7 @@ public class Slave extends Thread {
 	private List<Integer> numbers = new ArrayList<Integer>() ;
 	private boolean testing = true; //turned true when I am testing
 
-	private int lastSentUpdate;
+	private Update lastSentUpdate;
 
 	/**
 	 * Construct a slave connection from a socket. A slave connection does no
@@ -44,12 +44,12 @@ public class Slave extends Thread {
 			input = new DataInputStream(socket.getInputStream());
 			
 			if(!testing){
+				
 				// First job, is to read the period so we can create the clock				
 				uid = input.readInt();		
 
 				// now make new game for the client
-				game = new NetworkHandler();
-				game.setGameType(NetworkHandler.Type.CLIENT);
+				game = new NetworkHandler(NetworkHandler.Type.CLIENT);
 				game.addClientPlayer(uid);
 
 				// now read the other players IDs
@@ -61,7 +61,9 @@ public class Slave extends Thread {
 				}
 
 				game.setPlayerIds(playerIds);
-
+				
+				// TODO set up client panel and pass it the networkHandler and the networkhandlers gamemmain
+				// TODO make sure a player CANNOT DO ANYTHING unless the 'game' is set to PLAYING
 
 				boolean exit=false;
 				long totalRec = 0;
@@ -72,14 +74,14 @@ public class Slave extends Thread {
 					//////////////////////////
 					int updateFromMaster = input.readInt();
 					if(updateFromMaster!=0){
-						game.update(updateFromMaster, false);// will not record last update
+						game.update(new Update(updateFromMaster), false);// will not record last update
 					}
 
 					//write event
 					//////////////////////////
-					int updateToMaster = game.getLatestUpdate();
-					if (updateToMaster!= this.lastSentUpdate){
-						output.writeInt(updateToMaster);
+					Update updateToMaster = game.getLatestUpdate();
+					if (this.lastSentUpdate!=null && !updateToMaster.equals(this.lastSentUpdate)){
+						output.writeInt(updateToMaster.getCode());
 						lastSentUpdate = updateToMaster;
 					}
 					else{

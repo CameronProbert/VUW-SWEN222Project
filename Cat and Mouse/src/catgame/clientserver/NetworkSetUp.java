@@ -36,7 +36,7 @@ public class NetworkSetUp {
 	public void setSinglePlayer(){
 		
 		try {
-			singleUserGame(gameClock, new NetworkHandler());
+			singleUserGame(gameClock, new NetworkHandler(NetworkHandler.Type.SINGLEPLAYER));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -56,9 +56,9 @@ public class NetworkSetUp {
 		try {
 			if(server) {
 				// Run in Server mode
-				game = new NetworkHandler();
-				game.setGameType(NetworkHandler.Type.SERVER);
-				runServer(port,gameClock,broadcastClock, game);			
+				game = new NetworkHandler(NetworkHandler.Type.SERVER);
+				runServer(port,gameClock,broadcastClock, game);		
+				// TODO start the server pane with a button that says ready!
 			} else if(url != null) {
 				// Run in client mode
 				runClient(url,port);

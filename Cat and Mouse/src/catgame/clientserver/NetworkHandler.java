@@ -3,8 +3,11 @@ package catgame.clientserver;
 import java.util.ArrayList;
 import java.util.List;
 
+import catgame.logic.GameMain;
+
 public class NetworkHandler {
 
+	// TODO change to enum
 	public static final int WAITING = 0;
 	public static final int READY = 1;
 	public static final int PLAYING = 2;
@@ -13,14 +16,22 @@ public class NetworkHandler {
 
 	public enum Type{
 		CLIENT,
-		SERVER
+		SERVER,
+		SINGLEPLAYER
 	}
 
 	private int gameState;
-	private int lastUpdate = 0;
+	private Update lastUpdate = null;
 	private Type stateType;
-	private int noPlayers;
+	private int noPlayers = 0;
 	private List<Integer> playerIds = new ArrayList<Integer>();
+	private int clientPlayerID; // this will only have a value if the client is running the program, used so the UI knows whos who
+	private GameMain game;
+	
+	public NetworkHandler(Type type){
+		this.stateType = type;
+		game = new GameMain();
+	}
 
 	/***
 	 * add a a player
@@ -28,8 +39,8 @@ public class NetworkHandler {
 	 */
 	public int registerPlayer() {
 		noPlayers++;
-		// TODO create new ID for new player, add to playerIds and return it
-		return 0;
+		playerIds.add(noPlayers);
+		return noPlayers;
 	}
 
 	/**
@@ -37,8 +48,8 @@ public class NetworkHandler {
 	 * @param playerID
 	 */
 	public void setupSinglePlayer(int playerID) {
-		// TODO Auto-generated method stub
-
+		// TODO make a single player panel and pass it the gamemain
+		
 	}
 
 	/**
@@ -46,8 +57,8 @@ public class NetworkHandler {
 	 * @return whether game is over or not
 	 */
 	public boolean isNotOver() {
-		// TODO Auto-generated method stub
-		return false;
+		// TODO always return true unless frame has been deleted, needs to check for this somehow
+		return true;
 	}
 
 	/**
@@ -55,8 +66,7 @@ public class NetworkHandler {
 	 * @param uid
 	 */
 	public void disconnectPlayer(int uid) {
-		// TODO Auto-generated method stub
-
+		this.playerIds.remove(uid);
 	}
 
 
@@ -93,26 +103,21 @@ public class NetworkHandler {
 	 * @param changeLastUpdate - this is for distinguishing whether the update should be saved or not
 	 * (is usually not saved when used by the slave to update from the masters call)
 	 */
-	public void update(int update, boolean changeLastUpdate) {
+	public void update(Update update, boolean changeLastUpdate) {
 		if(changeLastUpdate)		this.lastUpdate = update;
-		//TODO this will need to decode the update and actually update the game
+		update.decode(game); 
 	}
 
 	/**
 	 * get last update - this is for the masters to send updates to the slaves
 	 * @return
 	 */
-	public int getLatestUpdate() {
+	public Update getLatestUpdate() {
 		return this.lastUpdate;
 	}
 
 	public void addClientPlayer(int uid) {
-		// TODO Auto-generated method stub
-
-	}
-
-	public void setGameType(Type type){
-		this.stateType = type;
+		this.clientPlayerID = uid;
 	}
 
 	/**
@@ -127,8 +132,22 @@ public class NetworkHandler {
 		return playerIds;
 	}
 
+	/**
+	 * this method is used only by the slave
+	 * to add the other players to the game for drawing purposes
+	 * 
+	 * will pass this list to the game logic main which will then make the characters associated
+	 *  
+	 * @param playerIds
+	 */
 	public void setPlayerIds(List<Integer> playerIds) {
 		this.playerIds = playerIds;
+		// TODO pass to game main logic so it can make the characters associated
 	}
-
+	
+	
+	public GameMain getGameMain(){
+		return game;
+	}
+	
 }

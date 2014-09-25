@@ -12,7 +12,7 @@ public class Master extends Thread {
 	private final int broadcastClock;
 	private final int uid;
 	private final Socket socket;
-	private int lastUpdateSent = 0; // this keeps track of the last update sent
+	private Update lastUpdateSent = null; // this keeps track of the last update sent
 	private int number = 0;
 	private boolean testing = true; // true when testing
 
@@ -48,17 +48,17 @@ public class Master extends Thread {
 
 						int updateFromSlave = input.readInt(); 
 						if(updateFromSlave != 0){
-							game.update(updateFromSlave, true);
+							game.update(new Update(updateFromSlave), true);
 						}
 
 						// Now, broadcast the latest update of the board to client
 
-						int updateToSlave = game.getLatestUpdate();
-						if(updateToSlave == this.lastUpdateSent){
+						Update updateToSlave = game.getLatestUpdate();
+						if(this.lastUpdateSent==null || updateToSlave.equals(this.lastUpdateSent)){
 							output.writeInt(0); // writes a 'no update'
 						}
 						else{
-							output.writeInt(updateToSlave); // will record last update in game
+							output.writeInt(updateToSlave.getCode()); // will record last update in game
 							this.lastUpdateSent = updateToSlave;
 						}
 
