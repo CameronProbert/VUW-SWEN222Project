@@ -33,7 +33,7 @@ public class GameMain {
 		return false; //TODO gameMap.get(playerID).move("WEST");
 	}
 	
-	public boolean aHach(int playerID, int IDaHached){
+	public boolean attack(int playerID, int IDAttacked){
 		//SOMETHING??
 		return false;
 	}
@@ -54,4 +54,3 @@ public class GameMain {
 		return false;
 	}
 }
-
