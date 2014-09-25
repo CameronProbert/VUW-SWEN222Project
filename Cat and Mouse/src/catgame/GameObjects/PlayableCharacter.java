@@ -1,9 +1,10 @@
-package GameObjects;
+package catgame.GameObjects;
 
 import java.util.ArrayList;
 
-import GameBoard.GameError;
-import GameBoard.Position;
+import catgame.logic.BoardCell;
+import catgame.logic.GameError;
+import catgame.logic.Position;
 
 /**
  *
@@ -13,7 +14,7 @@ import GameBoard.Position;
 public class PlayableCharacter implements Character {
 
 	private int id;
-	private Position currentPosition;
+	private BoardCell currentCell;
 	private int health;
 	private ArrayList<GameItem> inventory = new ArrayList<GameItem>();
 	private int maxItems = 10;
@@ -21,15 +22,18 @@ public class PlayableCharacter implements Character {
 	private int level;
 	private int xp;
 
-	public PlayableCharacter(int level, int attackPower, int health, ArrayList<GameItem> items) {
+	public PlayableCharacter(int ID, BoardCell cell, int level,
+			int attackPower, int health, ArrayList<GameItem> items) {
+		this.id = ID;
+		this.currentCell = cell;
 		this.level = level;
 		this.attackPower = attackPower;
 		this.health = health;
 		this.inventory.addAll(items);
 	}
 
-	public Position getPosition() {
-		return currentPosition;
+	public BoardCell getCurrentCell() {
+		return currentCell;
 	}
 
 	public int getObjectID() {
@@ -79,11 +83,22 @@ public class PlayableCharacter implements Character {
 		this.attackPower += change;
 	}
 
-	public void move(int x, int y) throws GameError {
+	public void move(String direction) throws GameError {
 		if (isDead()) {
 			throw new GameError("Player is dead");
 		}
-		// TODO check to see if the move is greater or than one square , check to see if the move will take the char off the board
+		// check the cell in the direction
+		if (direction.equals("NORTH")) {
+			
+		} else if (direction.equals("SOUTH")) {
+
+		} else if (direction.equals("EAST")) {
+
+		} else if (direction.equals("WEST")) {
+
+		} else {
+			throw new GameError("Unknown movement :" + direction);
+		}
 	}
 
 	public int getLevel() {
@@ -122,5 +137,9 @@ public class PlayableCharacter implements Character {
 
 	public boolean isDead() {
 		return health < 0;
+	}
+
+	public void useItem(GameItem item) {
+		// TODO
 	}
 }

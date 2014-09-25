@@ -1,5 +1,6 @@
 package catgame;
 
+import catgame.DataStorage.Writer;
 import catgame.gui.LauncherFrame;
 
 public class Main {

@@ -1,8 +1,9 @@
-package GameObjects;
+package catgame.GameObjects;
 
 import java.util.ArrayList;
 
-import GameBoard.Position;
+import catgame.logic.BoardCell;
+import catgame.logic.Position;
 
 /**
  * 
@@ -14,14 +15,16 @@ import GameBoard.Position;
 public class Boss implements NonPlayableCharacter {
 
 	private int id;
-	private Position currentPosition;
+	private BoardCell currentCell;
 	private int health;
 	private ArrayList<GameItem> inventory = new ArrayList<GameItem>();
 	private int maxItems = 6;
 	private int attackPower;
 	private int level;
 
-	public Boss(int level, int attackPower, int health, ArrayList<GameItem> items) {
+	public Boss(int ID, BoardCell cell, int level, int attackPower, int health, ArrayList<GameItem> items) {
+		this.id = ID;
+		this.currentCell = cell;
 		this.level = level;
 		this.attackPower = attackPower;
 		this.health = health;
@@ -57,8 +60,8 @@ public class Boss implements NonPlayableCharacter {
 		return result;
 	}
 
-	public Position getPosition() {
-		return this.currentPosition;
+	public BoardCell getCurrentCell() {
+		return currentCell;
 	}
 
 	public int getObjectID() {
@@ -73,7 +76,7 @@ public class Boss implements NonPlayableCharacter {
 		this.attackPower += change;
 	}
 
-	public void move(int x, int y) {
+	public void move(String Direction) {
 		// TODO Auto-generated method stub
 	}
 

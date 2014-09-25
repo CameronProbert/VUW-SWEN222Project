@@ -1,7 +1,8 @@
-package GameBoard;
+package catgame.logic;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
+import java.util.ArrayList;
 
 /**
  * 
@@ -11,7 +12,7 @@ import java.io.FileReader;
  */
 public class BoardData {
 
-	private Room[] levelOne;
+	private ArrayList<Room> levelOne;
 
 	public BoardData() {
 
@@ -19,13 +20,11 @@ public class BoardData {
 
 	/**
 	 * TODO
-	 * 
-	 * @param levelSize
-	 *            the amount of rooms in the level
 	 * @return
 	 */
-	public Room[] loadLevel(int levelSize) {
-		return new Room[levelSize];
+	public ArrayList<Room> loadLevel() {
+		ArrayList toLoad = new ArrayList<Room>();
+		return toLoad;
 	}
 
 }

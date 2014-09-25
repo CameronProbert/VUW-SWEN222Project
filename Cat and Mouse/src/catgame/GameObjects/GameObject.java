@@ -1,6 +1,7 @@
-package GameObjects;
+package catgame.GameObjects;
 
-import GameBoard.Position;
+import catgame.logic.BoardCell;
+import catgame.logic.Position;
 /**
  * 
  * @author Dan Henton
@@ -12,7 +13,7 @@ public interface GameObject extends MasterObject{
 	 *
 	 * @return Position of the object
 	 */
-	public Position getPosition();
+	public BoardCell getCurrentCell();
 	
 	
 }

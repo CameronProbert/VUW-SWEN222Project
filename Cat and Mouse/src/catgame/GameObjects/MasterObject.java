@@ -1,4 +1,4 @@
-package GameObjects;
+package catgame.GameObjects;
 /**
  * 
  * @author Dan Henton

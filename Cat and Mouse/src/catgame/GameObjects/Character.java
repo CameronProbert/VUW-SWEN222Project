@@ -1,9 +1,9 @@
-package GameObjects;
+package catgame.GameObjects;
 
 import java.awt.List;
 import java.util.ArrayList;
 
-import GameBoard.GameError;
+import catgame.logic.GameError;
 
 /**
  *
@@ -58,10 +58,9 @@ public interface Character extends Movable {
 	 * designed so that move can work straight from keybindings or an algorirthm
 	 * to move a charactors checks if a move is valid then moves character
 	 *
-	 * @param x
-	 *            , y
+	 * 
 	 */
-	public void move(int x, int y);
+	public void move(String direction);
 
 	/**
 	 *
