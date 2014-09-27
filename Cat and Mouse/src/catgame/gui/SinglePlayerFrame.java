@@ -17,8 +17,11 @@ import catgame.clientserver.NetworkSetUp;
  */
 public class SinglePlayerFrame extends AbstractFrame implements KeyListener {
 
-	public SinglePlayerFrame(boolean singlePlayer) {
+	protected int clientsUID;
+	
+	public SinglePlayerFrame(int UID) {
 		super(new Dimension(1200, 600), "Catgame");
+		this.clientsUID = UID;
 	}
 
 	/**
@@ -36,7 +39,29 @@ public class SinglePlayerFrame extends AbstractFrame implements KeyListener {
 		keyAction(key);
 	}
 
-	private void keyAction(KeyEvent key) {
+	/**
+	 * keyAction handles key presses in the game
+	 * @param key
+	 */
+	protected void keyAction(KeyEvent key) {
+		int keyID = key.getID();
+		switch (keyID){
+		case KeyEvent.VK_W:
+			
+			break;
+		case KeyEvent.VK_A:
+			
+			break;
+		case KeyEvent.VK_S:
+			
+			break;
+		case KeyEvent.VK_D:
+			
+			break;
+		case KeyEvent.VK_SPACE:
+			
+			break;
+		}
 		
 	}
 

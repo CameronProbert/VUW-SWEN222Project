@@ -33,7 +33,7 @@ public class GameMain {
 		return false; //TODO gameMap.get(playerID).move("WEST");
 	}
 	
-	public boolean attack(int playerID, int IDAttacked){
+	public boolean attack(int playerID){
 		//SOMETHING??
 		return false;
 	}
