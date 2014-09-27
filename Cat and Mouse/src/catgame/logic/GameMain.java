@@ -38,6 +38,11 @@ public class GameMain {
 		return false;
 	}
 	
+	public boolean attack(int playerID, int attackedID){
+		//SOMETHING??
+		return false;
+	}
+	
 	public boolean addObjectToInventory(int playerID, int ObjectID){
 		return false; //TODO gameMap.get(playerID).addToInventory(GameITem);
 	}
