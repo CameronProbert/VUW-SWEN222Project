@@ -6,6 +6,18 @@ public class Update {
 
 	private int code;
 	private int TEN_MILLION = 10000000;
+	
+	private enum Descriptor{
+		NORTH,
+		SOUTH,
+		EAST,
+		WEST,
+		ATTACK,
+		PICKUP,
+		DROP,
+		CONSUME,
+		NEWROOM		
+	}
 
 	/**
 	 * make a new update given some code (16 number grammar system)
@@ -17,7 +29,7 @@ public class Update {
 
 	/**
 	 * turn a string and two Ids into an update
-	 * supID can men different things for different descriptions
+	 * supID can mean different things for different descriptions
 	 * eg for a move it will be zero
 	 * for picking up an object it will describe the object picked up
 	 * 
@@ -27,33 +39,33 @@ public class Update {
 	 * 
 	 */
 
-	public Update(String describe, int playerID, int supID){
+	public Update(Descriptor describe, int playerID, int supID){
 		switch(describe){
-		case "move north":
+		case NORTH:
 			this.code = 0100*TEN_MILLION + playerID*TEN_MILLION; 
 			break;
-		case "move west":
+		case WEST:
 			this.code = 0101*TEN_MILLION + playerID*TEN_MILLION;
 			break;
-		case "move east":
+		case EAST:
 			this.code = 0102*TEN_MILLION + playerID*TEN_MILLION;
 			break;
-		case "move south":
+		case SOUTH:
 			this.code = 0103*TEN_MILLION + playerID*TEN_MILLION;
 			break;
-		case "attack":
+		case ATTACK:
 			this.code = 0104*TEN_MILLION + playerID*TEN_MILLION + supID;
 			break;
-		case "object added":
+		case PICKUP:
 			this.code = 0105*TEN_MILLION + playerID*TEN_MILLION + supID;
 			break;
-		case "object removed"://may be not used as a player cannot really remove an item
+		case DROP://may be not used as a player cannot really remove an item
 			this.code = 0106*TEN_MILLION + playerID*TEN_MILLION + supID;
 			break;
-		case "moved room":
+		case NEWROOM:
 			this.code = 0107*TEN_MILLION + playerID*TEN_MILLION + supID;
 			break;
-		case "object eaten":
+		case CONSUME:
 			this.code = 0110*TEN_MILLION + playerID*TEN_MILLION + supID;
 			break;
 
@@ -89,7 +101,7 @@ public class Update {
 			game.moveSouth(playerID);
 			
 		case 0104: // attack
-			//game.attack(playerID, lastID);
+			game.attack(playerID, lastID);
 			
 		case 0105: // add object to inventory
 			game.addObjectToInventory(playerID, lastID);
