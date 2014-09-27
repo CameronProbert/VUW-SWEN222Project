@@ -7,55 +7,58 @@ import catgame.GameObjects.MasterObject;
 public class GameMain {
 
 	HashMap gameMap = new HashMap();
-	
-	public GameMain(){
-		
-	}
-	
-	private HashMap<Integer, MasterObject> loadMap(){
-		 HashMap<Integer, MasterObject> toLoad = new HashMap<Integer , MasterObject>();
-		 //TODO BODY
-		 return toLoad;
+
+	public GameMain() {
+
 	}
 
-	public boolean moveNorth(int playerID){
-		return false; //TODO gameMap.get(playerID).move("NORTH");
+	private HashMap<Integer, MasterObject> loadMap() {
+		HashMap<Integer, MasterObject> toLoad = new HashMap<Integer, MasterObject>();
+		// TODO BODY
+		return toLoad;
 	}
-	
-	public boolean moveSouth(int playerID){
-		return false; //TODO gameMap.get(playerID).move("SOUTH");
+
+	public boolean moveNorth(int playerID) {
+		return false; // TODO gameMap.get(playerID).move("NORTH");
 	}
-	public boolean moveEast(int playerID){
-		return false; //TODO gameMap.get(playerID).move("EAST");
+
+	public boolean moveSouth(int playerID) {
+		return false; // TODO gameMap.get(playerID).move("SOUTH");
 	}
-	
-	public boolean moveWest(int playerID){
-		return false; //TODO gameMap.get(playerID).move("WEST");
+
+	public boolean moveEast(int playerID) {
+		return false; // TODO gameMap.get(playerID).move("EAST");
 	}
-	
-	public boolean attack(int playerID){
-		//SOMETHING??
-		return false;
+
+	public boolean moveWest(int playerID) {
+		return false; // TODO gameMap.get(playerID).move("WEST");
 	}
-	
-	public boolean attack(int playerID, int attackedID){
-		//SOMETHING??
-		return false;
+
+	public int attack(int playerID) {
+		// SOMETHING??
+		return -1; // should return the attackerID
 	}
-	
-	public boolean addObjectToInventory(int playerID, int ObjectID){
-		return false; //TODO gameMap.get(playerID).addToInventory(GameITem);
+
+	public int attack(int playerID, int attackedID) {
+		// SOMETHING??
+		return attackedID; // should return the attackerID (though it is
+							// obsolete for this method);
 	}
-	
-	public boolean removeItem(int playerID, int ObjectID){
-		return false; //TODO gameMap.get(playerID).removeFromInventory(GameITem);
+
+	public boolean addObjectToInventory(int playerID, int ObjectID) {
+		return false; // TODO gameMap.get(playerID).addToInventory(GameITem);
 	}
-	
-	public boolean useItem(int playerID, int objectID){
-		return false; //TODO gameMap.get(playerID).useItem(GameITem)
+
+	public boolean removeItem(int playerID, int ObjectID) {
+		return false; // TODO
+						// gameMap.get(playerID).removeFromInventory(GameITem);
 	}
-	
-	public boolean moveToNextRoom(int playerID, int roomID){
+
+	public boolean useItem(int playerID, int objectID) {
+		return false; // TODO gameMap.get(playerID).useItem(GameITem)
+	}
+
+	public boolean moveToNextRoom(int playerID, int roomID) {
 		return false;
 	}
 }
