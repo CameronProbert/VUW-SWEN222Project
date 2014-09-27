@@ -7,7 +7,7 @@ public class Update {
 	private int code;
 	private int TEN_MILLION = 10000000;
 	
-	private enum Descriptor{
+	public enum Descriptor{
 		NORTH,
 		SOUTH,
 		EAST,

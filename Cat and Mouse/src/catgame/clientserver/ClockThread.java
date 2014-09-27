@@ -4,10 +4,10 @@ public class ClockThread extends Thread{
 
 
 	private final int delay; // delay between pulses in us
-	private final NetworkHandler game;
+	private final GameRunner game;
 	//private final BoardFrame display;
 	
-	public ClockThread(int delay, NetworkHandler game){//, BoardFrame display) {
+	public ClockThread(int delay, GameRunner game){//, BoardFrame display) {
 		this.delay = delay;
 		this.game = game;
 		//this.display = display;

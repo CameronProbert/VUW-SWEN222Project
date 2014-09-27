@@ -17,7 +17,6 @@ public class NetworkSetUp {
 	private int broadcastClock;
 	private int gameClock;
 	private int port = 32768; // default
-	private boolean server = false;
 	private static boolean readyToStart = false;
 	private NetworkHandler game;
 	
@@ -29,14 +28,21 @@ public class NetworkSetUp {
 	}
 
 	public void setServer(){
-		server = true;
-		runMain();
+		if(url != null) {
+			System.out.println("Cannot be a server and connect to another server!");
+			System.exit(1);
+		}
+		// Run in Server mode
+		game = new NetworkHandler(NetworkHandler.Type.SERVER);
+		runServer(port,gameClock,broadcastClock, game);		
+		// TODO start the server pane with a button that says ready!
+		System.exit(0);
 	}
 	
 	public void setSinglePlayer(){
 		
 		try {
-			singleUserGame(gameClock, new NetworkHandler(NetworkHandler.Type.SINGLEPLAYER));
+			singleUserGame(gameClock);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -44,35 +50,18 @@ public class NetworkSetUp {
 
 	public void setClient(String url){
 		this.url = url;
-		runMain();
-	}
-
-	public void runMain() {
-		if(url != null && server) {
-			System.out.println("Cannot be a server and connect to another server!");
-			System.exit(1);
-		}
-
-		try {
-			if(server) {
-				// Run in Server mode
-				game = new NetworkHandler(NetworkHandler.Type.SERVER);
-				runServer(port,gameClock,broadcastClock, game);		
-				// TODO start the server pane with a button that says ready!
-			} else if(url != null) {
-				// Run in client mode
+		if(url != null) {
+			// Run in client mode
+			try {
 				runClient(url,port);
-			} else {			
-				// single user game
-				singleUserGame(gameClock, game);							
+			} catch (IOException e) {
+				System.out.println("I/O error: " + e.getMessage());
+				e.printStackTrace();
+				System.exit(1);
 			}
-		} catch(IOException ioe) {			
-			System.out.println("I/O error: " + ioe.getMessage());
-			ioe.printStackTrace();
-			System.exit(1);
-		}
-
-		System.exit(0);
+			
+			System.exit(0);
+		} 
 	}
 
 	private static void runClient(String addr, int port) throws IOException {		
@@ -171,9 +160,8 @@ public class NetworkSetUp {
 		return false;
 	}
 
-	private static void singleUserGame(int gameClock, NetworkHandler game) throws IOException {
-		int playerID = game.registerPlayer();
-		game.setupSinglePlayer(playerID);		
+	private static void singleUserGame(int gameClock) throws IOException {
+		SinglePlayerHandler game = new SinglePlayerHandler(1); // pass a uid, 1 does fine as only one player		
 		// save initial state of board, so we can reset it.
 		ClockThread clk = new ClockThread(gameClock,game);
 		//byte[] state = game.toByteArray();	
