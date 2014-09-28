@@ -42,7 +42,8 @@ public class GameMain {
 	public int attack(int playerID, int attackedID) {
 		// SOMETHING??
 		return attackedID; // should return the attackerID (though it is
-							// obsolete for this method);
+							// obsolete for this method, so it is acceptable
+							// to return -1)
 	}
 
 	public boolean addObjectToInventory(int playerID, int ObjectID) {
