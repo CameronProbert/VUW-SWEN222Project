@@ -35,12 +35,12 @@ public class GameMain {
 	}
 
 	public int attack(int playerID) {
-		// SOMETHING??
+		// TODO find the target and attack it, then return the ID of the target
 		return -1; // should return the attackerID
 	}
 
 	public int attack(int playerID, int attackedID) {
-		// SOMETHING??
+		//TODO attack the target
 		return attackedID; // should return the attackerID (though it is
 							// obsolete for this method, so it is acceptable
 							// to return -1)
