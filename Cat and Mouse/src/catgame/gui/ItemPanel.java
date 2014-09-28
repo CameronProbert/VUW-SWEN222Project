@@ -19,6 +19,7 @@ public class ItemPanel extends AbstractPanel implements MouseListener {
 	}
 	
 	public void setItem(GameItem item){
+		System.out.println("Setting item to " + item.toString());
 		this.item = item;
 	}
 	

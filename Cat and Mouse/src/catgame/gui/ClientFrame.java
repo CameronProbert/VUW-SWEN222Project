@@ -1,13 +1,23 @@
 package catgame.gui;
 
 import java.awt.Dimension;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.util.ArrayList;
+
+import javax.swing.JButton;
 
 import catgame.GameObjects.Chest;
+import catgame.GameObjects.Food;
+import catgame.GameObjects.GameItem;
+import catgame.GameObjects.Key;
+import catgame.GameObjects.PlayableCharacter;
 import catgame.clientserver.NetworkHandler;
 import catgame.clientserver.Update;
 import catgame.gui.renderpanel.RenderPanel;
+import catgame.logic.BoardCell;
 
 /**
  * The ClientFrame is the multi-player version of the game. It contains the
@@ -23,19 +33,22 @@ public class ClientFrame extends AbstractFrame implements KeyListener {
 	private int clientsUID;
 	private RenderPanel renderPanel;
 	private boolean isClient;
+	private StatPanel statPanel;
 
-	public ClientFrame(NetworkHandler network, int UID, boolean isClient) {
+	public ClientFrame(NetworkHandler network, int UID, boolean isClient, PlayableCharacter character) {
 		super(new Dimension(1200, 600), "Cat and Mouse");
-		this.addPanels();
+		this.setLayout(null);
+		addKeyListener(this);
+		this.addPanels(character);
 		this.clientsUID = UID;
 		this.network = network;
 		this.isClient = isClient;
 	}
 
-	private void addPanels() {
+	private void addPanels(PlayableCharacter character) {
 		renderPanel = new RenderPanel();
-		InventoryPanel invPanel = new InventoryPanel(null);
-		StatPanel statPanel = new StatPanel();
+		InventoryPanel invPanel = new InventoryPanel(character);
+		statPanel = new StatPanel(character);
 		this.add(renderPanel);
 		this.add(invPanel);
 		this.add(statPanel);
@@ -46,7 +59,9 @@ public class ClientFrame extends AbstractFrame implements KeyListener {
 	 */
 	@Override
 	public void keyPressed(KeyEvent key) {
-		int keyID = key.getID();
+		int keyID = key.getKeyCode();
+		System.out.println(keyID);
+		System.out.println(KeyEvent.VK_M);
 		int validAction = 0;
 		Update up = new Update(0);
 		switch (keyID) {
@@ -82,6 +97,9 @@ public class ClientFrame extends AbstractFrame implements KeyListener {
 				// up = new Update(Update.Descriptor.PICKUP, clientsUID, objectID);
 			}
 			break;
+		case KeyEvent.VK_M:
+			statPanel.modifyChar();
+			break;
 		}
 		if (validAction > 0 && isClient) {
 			network.update(up, true);
@@ -102,7 +120,13 @@ public class ClientFrame extends AbstractFrame implements KeyListener {
 	}
 
 	public static void main(String[] args){
-		new ClientFrame(null, 0, true);
+		ArrayList<GameItem> items = new ArrayList<GameItem>();
+		items.add(new Food(2, 30));
+		items.add(new Key(3));
+		items.add(new Food(2, 30));
+		PlayableCharacter character = new PlayableCharacter(1, null, 3,
+				5, 50, items);
+		new ClientFrame(null, 0, false, character);
 	}
 
 }

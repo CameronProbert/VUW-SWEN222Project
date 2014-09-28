@@ -20,7 +20,6 @@ public abstract class AbstractFrame extends JFrame {
 		this.setTitle(windowTitle);
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		this.setResizable(false);
-		this.setLayout(null);
 		this.setVisible(true);
 	}
 
