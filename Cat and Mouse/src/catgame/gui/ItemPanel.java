@@ -16,8 +16,6 @@ public class ItemPanel extends AbstractPanel implements MouseListener {
 	public ItemPanel(Point origin, Dimension dim) {
 		super(origin, dim);
 		//this.setOpaque(true);
-		System.out.println("ItemPanel Constructor");
-		this.setBackground(new Color((int) (Math.random() * 255),(int) (Math.random() * 255),(int) (Math.random() * 255)));
 	}
 	
 	public void setItem(GameItem item){
@@ -26,6 +24,7 @@ public class ItemPanel extends AbstractPanel implements MouseListener {
 	
 	@Override
 	protected void paintComponent(Graphics g){
+		super.paintComponent(g);
 		if (item != null){
 			// TODO item.draw(g);
 		}

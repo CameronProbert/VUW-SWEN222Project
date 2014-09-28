@@ -24,23 +24,18 @@ public class ClientFrame extends AbstractFrame implements KeyListener {
 
 	public ClientFrame(NetworkHandler network, int UID) {
 		super(new Dimension(1200, 600), "Cat and Mouse");
-		System.out.println("ClientFrame constructor");
 		this.addPanels();
 		this.clientsUID = UID;
 		this.network = network;
 	}
 
 	private void addPanels() {
-		System.out.println("ClientFrame addPanels");
 		renderPanel = new RenderPanel();
 		InventoryPanel invPanel = new InventoryPanel(null);
+		StatPanel statPanel = new StatPanel();
 		this.add(renderPanel);
 		this.add(invPanel);
-	}
-
-	@Override
-	protected void initialiseBehaviour() {
-		super.initialiseBehaviour();
+		this.add(statPanel);
 	}
 	
 	@Override

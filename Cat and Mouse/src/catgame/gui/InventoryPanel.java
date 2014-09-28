@@ -24,8 +24,6 @@ public class InventoryPanel extends AbstractPanel {
 	 */
 	public InventoryPanel(PlayableCharacter character) {
 		super(new Point(20, 280), new Dimension(200, 300));
-
-		System.out.println("Inventory Panel Constructor");
 		//this.setOpaque(true);
 		createPanels();
 		this.character = character;
@@ -35,7 +33,6 @@ public class InventoryPanel extends AbstractPanel {
 	 * Creates each of the itemPanels
 	 */
 	public void createPanels() {
-		System.out.println("InventoryPanels createPanels");
 		Dimension panelSize = new Dimension(100, 100);
 		int numPanels = 6;
 		for (int i = 0; i < numPanels ; i++){
