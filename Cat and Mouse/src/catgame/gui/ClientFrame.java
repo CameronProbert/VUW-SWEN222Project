@@ -1,9 +1,12 @@
 package catgame.gui;
 
+import java.awt.Dimension;
 import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 
 import catgame.clientserver.NetworkHandler;
 import catgame.clientserver.Update;
+import catgame.gui.renderpanel.RenderPanel;
 
 /**
  * The ClientFrame is the multi-player version of the game. It contains the
@@ -13,21 +16,35 @@ import catgame.clientserver.Update;
  * @author Cameron Probert
  * 
  */
-public class ClientFrame extends SinglePlayerFrame {
+public class ClientFrame extends AbstractFrame implements KeyListener {
 
 	private NetworkHandler network;
+	private int clientsUID;
+	private RenderPanel renderPanel;
 
 	public ClientFrame(NetworkHandler network, int UID) {
-		super(UID);
+		super(new Dimension(1200, 600), "Cat and Mouse");
+		System.out.println("ClientFrame constructor");
+		this.addPanels();
+		this.clientsUID = UID;
 		this.network = network;
 	}
 
-	/**
-	 * keyAction handles key presses in the game and also sends an update to the
-	 * network of the key press
-	 */
+	private void addPanels() {
+		System.out.println("ClientFrame addPanels");
+		renderPanel = new RenderPanel();
+		InventoryPanel invPanel = new InventoryPanel(null);
+		this.add(renderPanel);
+		this.add(invPanel);
+	}
+
 	@Override
-	protected void keyAction(KeyEvent key) {
+	protected void initialiseBehaviour() {
+		super.initialiseBehaviour();
+	}
+	
+	@Override
+	public void keyPressed(KeyEvent key) {
 		int keyID = key.getID();
 		boolean validAction = false;
 		Update up = new Update(0);
@@ -56,6 +73,22 @@ public class ClientFrame extends SinglePlayerFrame {
 		if (validAction) {
 			network.update(up, true);
 		}
+	}
+
+	@Override
+	public void keyReleased(KeyEvent arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void keyTyped(KeyEvent arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+	
+	public static void main(String[] args){
+		new ClientFrame(null, 0);
 	}
 
 }
