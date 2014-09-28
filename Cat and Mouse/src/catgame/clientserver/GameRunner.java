@@ -3,15 +3,16 @@ package catgame.clientserver;
 import catgame.logic.GameMain;
 
 public abstract class GameRunner {
+	
+	public enum GameState{
+		WAITING,
+		READY,
+		PLAYING,
+		GAMEOVER,
+		GAMEWON
+	}
 
-	// TODO change to enum
-	public static final int WAITING = 0;
-	public static final int READY = 1;
-	public static final int PLAYING = 2;
-	public static final int GAMEOVER = 3;
-	public static final int GAMEWON = 4;
-
-	protected int gameState = 0;
+	protected GameState gameState = GameState.WAITING;
 	protected GameMain game;
 	protected int noPlayers = 0;
 
@@ -24,7 +25,7 @@ public abstract class GameRunner {
 	 * sets the state of the game Playing, over etc)
 	 * @param state
 	 */
-	public void setState(int state) {
+	public void setState(GameState state) {
 		gameState = state;
 	}
 
@@ -33,7 +34,7 @@ public abstract class GameRunner {
 	 * @return
 	 */
 
-	public int state(){
+	public GameState state(){
 		return gameState;
 	}
 

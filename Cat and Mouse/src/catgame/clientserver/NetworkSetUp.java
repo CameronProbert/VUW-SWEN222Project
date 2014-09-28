@@ -130,17 +130,17 @@ public class NetworkSetUp {
 		
 		// loop forever
 		while(atleastOneConnection(connections)) {
-			game.setState(NetworkHandler.READY);
+			game.setState(GameRunner.GameState.READY);
 			pause(3000);
-			game.setState(NetworkHandler.PLAYING);
+			game.setState(GameRunner.GameState.PLAYING);
 			// now, wait for the game to finish
-			while(game.state() == NetworkHandler.PLAYING) {
+			while(game.state() == GameRunner.GameState.PLAYING) {
 				Thread.yield();
 			}
 			// If we get here, then we're in game over mode
 			pause(3000);
 			// Reset board state
-			game.setState(NetworkHandler.WAITING);
+			game.setState(GameRunner.GameState.WAITING);
 			//game.fromByteArray(state);			
 		}
 	}
@@ -170,11 +170,11 @@ public class NetworkSetUp {
 
 		while(game.isNotOver()) {
 			// keep going until the frame becomes invisible
-			game.setState(NetworkHandler.READY);
+			game.setState(GameRunner.GameState.READY);
 			pause(3000);
-			game.setState(NetworkHandler.PLAYING);
+			game.setState(GameRunner.GameState.PLAYING);
 			// now, wait for the game to finish
-			while(game.state() == NetworkHandler.PLAYING) {
+			while(game.state() == GameRunner.GameState.PLAYING) {
 				Thread.yield();
 			}
 			// If we get here, then we're in game over mode
