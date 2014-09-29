@@ -49,7 +49,7 @@ public class Writer {
 	public void writeBoardData() throws FileNotFoundException, IOException {
 			Element boardData = new Element("BoardDate");
 			
-			for(Room room: boardData.)
+			//for(Room room: boardData.)
 			
 	}
 
