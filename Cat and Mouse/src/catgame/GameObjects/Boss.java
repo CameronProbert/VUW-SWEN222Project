@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import catgame.logic.BoardCell;
 import catgame.logic.Position;
+import catgame.logic.Room;
 
 /**
  * 
@@ -15,16 +16,16 @@ import catgame.logic.Position;
 public class Boss implements NonPlayableCharacter {
 
 	private int id;
-	private BoardCell currentCell;
+	private Room currentRoom;
 	private int health;
 	private ArrayList<GameItem> inventory = new ArrayList<GameItem>();
 	private int maxItems = 6;
 	private int attackPower;
 	private int level;
 
-	public Boss(int ID, BoardCell cell, int level, int attackPower, int health, ArrayList<GameItem> items) {
+	public Boss(int ID, Room currentRoom, int level, int attackPower, int health, ArrayList<GameItem> items) {
 		this.id = ID;
-		this.currentCell = cell;
+		this.currentRoom = currentRoom;
 		this.level = level;
 		this.attackPower = attackPower;
 		this.health = health;
@@ -60,10 +61,6 @@ public class Boss implements NonPlayableCharacter {
 		return result;
 	}
 
-	public BoardCell getCurrentCell() {
-		return currentCell;
-	}
-
 	public int getObjectID() {
 		return id;
 	}
@@ -90,5 +87,10 @@ public class Boss implements NonPlayableCharacter {
 
 	public boolean isDead() {
 		return health < 1;
+	}
+
+	@Override
+	public Room getCurrentRoom() {
+		return currentRoom;
 	}
 }

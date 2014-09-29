@@ -124,7 +124,7 @@ public class ClientFrame extends AbstractFrame implements KeyListener {
 		items.add(new Food(2, 30));
 		items.add(new Key(3));
 		items.add(new Food(2, 30));
-		PlayableCharacter character = new PlayableCharacter(1, null, 3,
+		PlayableCharacter character = new PlayableCharacter(1, null, " ", 3,
 				5, 50, items);
 		new ClientFrame(null, 0, false, character);
 	}

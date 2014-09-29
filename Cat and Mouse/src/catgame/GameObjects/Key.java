@@ -15,4 +15,10 @@ public class Key implements GameItem{
 		return id;
 	}
 
+	@Override
+	public boolean use() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
 }

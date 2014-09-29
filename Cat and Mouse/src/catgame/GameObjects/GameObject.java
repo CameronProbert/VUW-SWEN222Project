@@ -8,12 +8,5 @@ import catgame.logic.Position;
  *
  */
 public interface GameObject extends MasterObject{
-
-	/**
-	 *
-	 * @return Position of the object
-	 */
-	public BoardCell getCurrentCell();
-	
 	
 }
