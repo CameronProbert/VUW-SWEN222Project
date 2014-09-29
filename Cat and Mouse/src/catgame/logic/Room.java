@@ -78,4 +78,13 @@ public class Room {
 	public void playerAttack(int playerID, String direction, int attackPower) {
 
 	}
+	
+	/**
+	 * Algorithm that determines the position for the next move
+	 * @return
+	 */
+	private Position findPosition(String direction, Position playerPosition){
+		//Get the grapics oriantation then detemine which direction on the array the move will be
+		return new Position(0, 0);
+	}
 }

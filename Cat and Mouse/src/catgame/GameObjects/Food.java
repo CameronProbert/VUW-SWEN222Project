@@ -1,4 +1,9 @@
 package catgame.GameObjects;
+
+import java.awt.Graphics;
+
+import catgame.logic.Position;
+
 /**
  * 
  * @author Dan Henton
@@ -21,10 +26,15 @@ public class Food implements GameItem{
 	public int getHeal() {
 		return heal;
 	}
-	@Override
+
 	public boolean use() {
 		//TODO
 		return false;
+	}
+	
+	public void draw(Graphics g ,Position framePosition) {
+		
+		
 	}
 	 
 }

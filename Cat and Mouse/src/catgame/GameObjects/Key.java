@@ -1,4 +1,9 @@
 package catgame.GameObjects;
+
+import java.awt.Graphics;
+
+import catgame.logic.Position;
+
 /**
  * 
  * @author Dan Henton
@@ -15,10 +20,14 @@ public class Key implements GameItem{
 		return id;
 	}
 
-	@Override
 	public boolean use() {
 		// TODO Auto-generated method stub
 		return false;
+	}
+
+	public void draw(Graphics g, Position framePosition) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }
