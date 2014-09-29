@@ -21,5 +21,10 @@ public class Food implements GameItem{
 	public int getHeal() {
 		return heal;
 	}
+	@Override
+	public boolean use() {
+		//TODO
+		return false;
+	}
 	 
 }

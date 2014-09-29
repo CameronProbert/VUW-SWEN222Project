@@ -5,5 +5,11 @@ package catgame.GameObjects;
  *
  */
 public interface GameItem extends MasterObject {
-
+	
+	/**
+	 * Use the Item
+	 * @return
+	 */
+	public boolean use();
+	
 }

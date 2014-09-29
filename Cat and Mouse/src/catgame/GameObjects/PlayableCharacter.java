@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import catgame.logic.BoardCell;
 import catgame.logic.GameError;
 import catgame.logic.Position;
+import catgame.logic.Room;
 
 /**
  *
@@ -14,7 +15,8 @@ import catgame.logic.Position;
 public class PlayableCharacter implements Character {
 
 	private int id;
-	private BoardCell currentCell;
+	private Room currentRoom;
+	private String facingDirection;
 	private int health;
 	private ArrayList<GameItem> inventory = new ArrayList<GameItem>();
 	private int maxItems = 10;
@@ -22,18 +24,14 @@ public class PlayableCharacter implements Character {
 	private int level;
 	private int xp;
 
-	public PlayableCharacter(int ID, BoardCell cell, int level,
-			int attackPower, int health, ArrayList<GameItem> items) {
+	public PlayableCharacter(int ID, Room currentRoom, String direction, int level, int attackPower, int health, ArrayList<GameItem> items) {
 		this.id = ID;
-		this.currentCell = cell;
+		this.currentRoom = currentRoom;
+		this.facingDirection = direction;
 		this.level = level;
 		this.attackPower = attackPower;
 		this.health = health;
 		this.inventory.addAll(items);
-	}
-
-	public BoardCell getCurrentCell() {
-		return currentCell;
 	}
 
 	public int getObjectID() {
@@ -87,18 +85,19 @@ public class PlayableCharacter implements Character {
 		if (isDead()) {
 			throw new GameError("Player is dead");
 		}
-		// check the cell in the direction
-		if (direction.equals("NORTH")) {
-			
-		} else if (direction.equals("SOUTH")) {
-
-		} else if (direction.equals("EAST")) {
-
-		} else if (direction.equals("WEST")) {
-
+		if (direction.equals(facingDirection)) {
+			forward(direction);
 		} else {
-			throw new GameError("Unknown movement :" + direction);
+			turn(direction);
 		}
+	}
+
+	private void forward(String direction) {
+		this.currentRoom.movePlayer(id, direction);
+	}
+
+	private void turn(String direction) {
+		this.facingDirection = direction;
 	}
 
 	public int getLevel() {
@@ -140,6 +139,18 @@ public class PlayableCharacter implements Character {
 	}
 
 	public void useItem(GameItem item) {
-		// TODO
+		
+	}
+
+	public Room getCurrentRoom() {
+		return currentRoom;
+	}
+
+	public String getFacingDirection() {
+		return facingDirection;
+	}
+	
+	public void attack(){
+		this.currentRoom.playerAttack(id, facingDirection , this.attackPower);
 	}
 }

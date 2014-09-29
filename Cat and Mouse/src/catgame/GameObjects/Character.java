@@ -4,6 +4,7 @@ import java.awt.List;
 import java.util.ArrayList;
 
 import catgame.logic.GameError;
+import catgame.logic.Room;
 
 /**
  *
@@ -80,4 +81,10 @@ public interface Character extends Movable {
 	 * @return true if the character is dead
 	 */
 	public boolean isDead();
+	
+	/**
+	 * 
+	 * @return current Room
+	 */
+	public Room getCurrentRoom();
 }

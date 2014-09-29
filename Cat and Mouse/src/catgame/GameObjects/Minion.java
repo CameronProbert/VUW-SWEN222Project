@@ -5,6 +5,7 @@ import java.util.ArrayList;
 
 import catgame.logic.BoardCell;
 import catgame.logic.Position;
+import catgame.logic.Room;
 
 /**
  * 
@@ -15,16 +16,16 @@ import catgame.logic.Position;
 public class Minion implements NonPlayableCharacter {
 
 	private int id;
-	private BoardCell currentCell;
+	private Room currentRoom;
 	private int health;
 	private ArrayList<GameItem> inventory = new ArrayList<GameItem>();
 	private int maxItems = 3;
 	private int attackPower;
 	private int level;
 
-	public Minion(int ID,BoardCell cell, int level, int attackPower, int health, ArrayList<GameItem> items) {
+	public Minion(int ID,Room currentRoom, int level, int attackPower, int health, ArrayList<GameItem> items) {
 		this.id = ID;
-		this.currentCell = cell;
+		this.currentRoom = currentRoom;
 		this.level = level;
 		this.attackPower = attackPower;
 		this.health = health;
@@ -59,10 +60,6 @@ public class Minion implements NonPlayableCharacter {
 		}
 		return result;
 	}
-
-	public BoardCell getCurrentCell() {
-		return currentCell;
-	}
 	
 	public int getObjectID() {
 		return id;
@@ -90,6 +87,10 @@ public class Minion implements NonPlayableCharacter {
 
 	public boolean isDead() {
 		return health < 1;
+	}
+
+	public Room getCurrentRoom() {
+		return currentRoom;
 	}
 
 }

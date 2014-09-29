@@ -2,26 +2,31 @@ package catgame.logic;
 
 import java.awt.Graphics;
 import java.awt.Image;
+import java.awt.ImageCapabilities;
 import java.io.File;
 import java.io.IOException;
-import javax.imageio.ImageIO;
 
+import javax.imageio.ImageIO;
 import javax.imageio.ImageIO;
 
 import catgame.GameObjects.GameObject;
+import catgame.GameObjects.PlayableCharacter;
 
 public class BoardCell {
-	Position cellPosition;
-	GameObject objectOnCell;
-	Image groundImage;
-	Image objectImage;
+	private Position cellPosition;
+	private GameObject objectOnCell;
+	private Image groundImage;
+	private Image objectImage[] = new Image[4];
 
 	public BoardCell(Position position, GameObject object, String groundFile) {
 		this.cellPosition = position;
 		this.objectOnCell = object;
 		try {
-			groundImage = ImageIO.read(new File(groundFile+".png"));
-			objectImage = ImageIO.read(new File(objectOnCell.getObjectID()+".png"));
+			groundImage = ImageIO.read(new File(groundFile + ".png"));
+			objectImage[0] = ImageIO.read(new File("N" + objectOnCell.getObjectID() + ".png"));
+			objectImage[1] = ImageIO.read(new File("S" + objectOnCell.getObjectID() + ".png"));
+			objectImage[2] = ImageIO.read(new File("E" + objectOnCell.getObjectID() + ".png"));
+			objectImage[3] = ImageIO.read(new File("W" + objectOnCell.getObjectID() + ".png"));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -42,12 +47,20 @@ public class BoardCell {
 	 * @param g
 	 */
 	public void drawCellObject(Graphics g) {
-		g.drawImage(objectImage, cellPosition.getX(), cellPosition.getY(), null);
-	}
-	
-	public void testObjectPointer() throws GameError{
-		if(!this.objectOnCell.getCurrentCell().equals(this)){
-			throw new GameError("Object in cell :"+this.cellPosition.toString()+" doesn't point back to its cell");
+		if (objectOnCell instanceof PlayableCharacter) {
+			if (((PlayableCharacter) objectOnCell).getFacingDirection().equals("NORTH")) {
+				g.drawImage(objectImage[0], cellPosition.getX(), cellPosition.getY(), null);
+			} else if (((PlayableCharacter) objectOnCell).getFacingDirection().equals("SOUTH")) {
+				g.drawImage(objectImage[1], cellPosition.getX(), cellPosition.getY(), null);
+			} else if (((PlayableCharacter) objectOnCell).getFacingDirection().equals("EAST")) {
+				g.drawImage(objectImage[2], cellPosition.getX(), cellPosition.getY(), null);
+			} else if (((PlayableCharacter) objectOnCell).getFacingDirection().equals("WEST")) {
+				g.drawImage(objectImage[3], cellPosition.getX(), cellPosition.getY(), null);
+			}
 		}
+	}
+
+	public Position getPosition() {
+		return this.cellPosition;
 	}
 }

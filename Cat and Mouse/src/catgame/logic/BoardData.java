@@ -12,7 +12,7 @@ import java.util.ArrayList;
  */
 public class BoardData {
 
-	private ArrayList<Room> levelOne;
+	private ArrayList<Room> allRooms;
 
 	public BoardData() {
 
@@ -25,6 +25,10 @@ public class BoardData {
 	public ArrayList<Room> loadLevel() {
 		ArrayList toLoad = new ArrayList<Room>();
 		return toLoad;
+	}
+	
+	public ArrayList<Room> getAllRooms(){
+		return allRooms;
 	}
 
 }
