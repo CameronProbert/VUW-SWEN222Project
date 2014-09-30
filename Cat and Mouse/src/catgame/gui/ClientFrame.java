@@ -2,23 +2,14 @@ package catgame.gui;
 
 import java.awt.Dimension;
 import java.awt.Toolkit;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.ArrayList;
 
-import javax.swing.JButton;
-
-import catgame.GameObjects.Chest;
-import catgame.GameObjects.Food;
-import catgame.GameObjects.GameItem;
-import catgame.GameObjects.Key;
-import catgame.GameObjects.PlayableCharacter;
-import catgame.clientserver.NetworkHandler;
-import catgame.clientserver.Update;
-import catgame.gui.renderpanel.RenderPanel;
-import catgame.logic.BoardCell;
+import catgame.GameObjects.*;
+import catgame.clientserver.*;
+import catgame.gui.renderpanel.*;
+import catgame.logic.*;
 
 /**
  * The ClientFrame is the multi-player version of the game. It contains the
@@ -30,6 +21,9 @@ import catgame.logic.BoardCell;
  */
 public class ClientFrame extends AbstractFrame implements KeyListener {
 
+	private static final double FRAMEHEIGHTMODIFIER = 600.0/768;
+	private static final double ASPECTRATIO = 2;
+	
 	private NetworkHandler network;
 	private int clientsUID;
 	private RenderPanel renderPanel;
@@ -41,22 +35,45 @@ public class ClientFrame extends AbstractFrame implements KeyListener {
 			PlayableCharacter character) {
 		super("Cat and Mouse");
 		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-		Dimension windowSize = new Dimension(
-				(int) (screenSize.getWidth() * .8),
-				(int) (screenSize.getHeight() * .8));
+		if (screenSize == null) {
+			System.out.println("screenSize is null");
+		}
+		System.out.println(screenSize.getHeight());
+		int windowHeight = (int) (screenSize.getHeight() * FRAMEHEIGHTMODIFIER);
+		int windowWidth = (int) (windowHeight * ASPECTRATIO);
+		System.out.printf("Width: %d | Height: %d", windowWidth, windowHeight);
+		windowSize = new Dimension(windowWidth, windowHeight);
 		this.setSize(windowSize);
+		this.setPreferredSize(windowSize);
 		this.setLayout(null);
 		addKeyListener(this);
 		this.addPanels(character);
 		this.clientsUID = UID;
 		this.network = network;
 		this.isClient = isClient;
+		this.setup();
 	}
 
 	private void addPanels(PlayableCharacter character) {
 		renderPanel = new RenderPanel(windowSize);
+
+		int panelWidth = (int) (1.0 / 6 * windowSize.getWidth());
+		int panelHeight = (int) (1.0 / 2 * windowSize.getHeight());
+		Dimension panelDim = new Dimension(panelWidth, panelHeight);
+		int invLocationX = (int) (1.0 / 60 * windowSize.getWidth());
+		int panelLocationY = (int) (7.0 / 15 * windowSize.getHeight());
+		int statLocationX = (int) (49.0 / 60 * windowSize.getWidth());
+
 		InventoryPanel invPanel = new InventoryPanel(character, windowSize);
-		statPanel = new StatPanel(character, windowSize);
+		invPanel.setLocation(invLocationX, panelLocationY);
+		invPanel.setSize(panelDim);
+		invPanel.setPreferredSize(panelDim);
+
+		statPanel = new StatPanel(character);
+		statPanel.setLocation(statLocationX, panelLocationY);
+		statPanel.setSize(panelDim);
+		statPanel.setPreferredSize(panelDim);
+
 		this.add(renderPanel);
 		this.add(invPanel);
 		this.add(statPanel);
@@ -135,8 +152,8 @@ public class ClientFrame extends AbstractFrame implements KeyListener {
 		items.add(new Food(2, 30));
 		items.add(new Key(3));
 		items.add(new Food(2, 30));
-		PlayableCharacter character = new PlayableCharacter(1, null, 3, 5, 50,
-				items);
+		PlayableCharacter character = new PlayableCharacter(1, null, "", 3, 5,
+				50, items);
 		new ClientFrame(null, 0, false, character);
 	}
 

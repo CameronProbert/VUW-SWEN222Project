@@ -28,7 +28,9 @@ public class LauncherFrame extends AbstractFrame {
 	 * Creates and initialises the frame
 	 */
 	public LauncherFrame() {
-		super(new Dimension(200, 400), "Launcher");
+		super("Launcher");
+		this.setSize(new Dimension(200, 400));
+		this.setPreferredSize(new Dimension(200, 400));
 		initialiseBehaviour();
 		addButtons();
 	}

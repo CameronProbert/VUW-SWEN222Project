@@ -21,9 +21,11 @@ public class InventoryPanel extends AbstractPanel {
 
 	/**
 	 * Needs to get linked to the player's inventory so it can draw it.
+	 * @param windowSize
+	 * @param windowSize 
 	 */
-	public InventoryPanel(PlayableCharacter character) {
-		super(new Point(20, 280), new Dimension(200, 300));
+	public InventoryPanel(PlayableCharacter character, Dimension panelSize) {
+		super();
 		//this.setOpaque(true);
 		createPanels();
 		this.character = character;

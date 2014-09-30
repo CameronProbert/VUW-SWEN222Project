@@ -15,11 +15,8 @@ import javax.swing.JPanel;
 public class AbstractPanel extends JPanel {
 
 
-	public AbstractPanel(Point origin, Dimension dim) {
+	public AbstractPanel() {
 		this.setLayout(null);
-		this.setLocation(origin);
-		this.setSize(dim);
-		this.setPreferredSize(dim);
 		this.setVisible(true);
 		this.setBackground(new Color((int) (Math.random() * 255), (int) (Math
 				.random() * 255), (int) (Math.random() * 255), 100));
