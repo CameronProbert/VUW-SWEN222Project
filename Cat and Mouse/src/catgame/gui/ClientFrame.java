@@ -64,7 +64,7 @@ public class ClientFrame extends AbstractFrame implements KeyListener {
 		int panelLocationY = (int) (7.0 / 15 * windowSize.getHeight());
 		int statLocationX = (int) (49.0 / 60 * windowSize.getWidth());
 
-		InventoryPanel invPanel = new InventoryPanel(character, windowSize);
+		InventoryPanel invPanel = new InventoryPanel(character, panelDim);
 		invPanel.setLocation(invLocationX, panelLocationY);
 		invPanel.setSize(panelDim);
 		invPanel.setPreferredSize(panelDim);
