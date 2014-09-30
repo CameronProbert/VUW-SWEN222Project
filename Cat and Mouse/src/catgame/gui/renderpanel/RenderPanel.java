@@ -16,7 +16,7 @@ import catgame.logic.Room;
 
 public class RenderPanel extends JPanel {
 	
-	private final int panelWidth = 1200;
+	private final int panelWidth = 500;
 	private final int panelHeight = 600;
 	public viewDirection viewDir = viewDirection.NORTH;
 	//public Room currentRoom;
@@ -30,21 +30,23 @@ public class RenderPanel extends JPanel {
 	
 	//Will need to be passed the current Room
 	public RenderPanel(Dimension windowSize){
-		setPreferredSize(new Dimension(panelWidth, panelHeight));
-		setBackground(Color.DARK_GRAY);
+		setLayout(null);
+		//setPreferredSize(new Dimension(panelWidth, panelHeight));
+		setBackground(Color.BLUE);
+		setVisible(true);
 		//this.currentRoom = currentRoom;
-		try {
-			setupImages();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+//		try {
+//			setupImages();
+//		} catch (IOException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
 		repaint();
 		
 	}
 	
 	public void setupImages() throws IOException{
-		grassBlock = ImageIO.read(RenderPanel.class.getResource("images/Grass1.png"));
+		grassBlock = ImageIO.read(RenderPanel.class.getResource("/images/Grass1.png"));
 	}
 	
 	public void drawGrass(Graphics g){
@@ -61,16 +63,21 @@ public class RenderPanel extends JPanel {
 	
 	
 	
-	
-	@Override
 	public void paint(Graphics g){
-		Graphics2D g2d = (Graphics2D) g;
-		g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-		redraw(g);
+		super.paintComponent(g);
 	}
 	
+//	@Override
+//	public void paint(Graphics g){
+//		Graphics2D g2d = (Graphics2D) g;
+//		g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+//		redraw(g);
+//	}
+	
 	public void redraw(Graphics g){
-		g.clearRect(0, 0, panelWidth, panelHeight);
+		//g.clearRect(0, 0, panelWidth, panelHeight);
+		g.setColor(Color.BLUE);
+		g.drawRect(20, 20, 80, 80);
 		drawGrass(g);
 		
 	}
