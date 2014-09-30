@@ -1,24 +1,55 @@
 package catgame.gui.renderpanel;
 
+
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Image;
 import java.awt.RenderingHints;
+import java.io.IOException;
 
+import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 
 public class RenderPanel extends JPanel {
 	
 	private final int panelWidth = 1200;
 	private final int panelHeight = 600;
+	public viewDirection viewDir = viewDirection.NORTH;
+	
+	
+	private Image grassBlock;
+	
+	public enum viewDirection{
+		NORTH, SOUTH, EAST, WEST;
+	}
 	
 	public RenderPanel(Dimension windowSize){
-		setPreferredSize(windowSize);
+		setPreferredSize(new Dimension(panelWidth, panelHeight));
 		setBackground(Color.DARK_GRAY);
 		
 		
 	}
+	
+	public void setupImages() throws IOException{
+		grassBlock = ImageIO.read(RenderPanel.class.getResource("grass1.png"));
+	}
+	
+	public void drawGrass(Graphics g){
+		g.drawImage(grassBlock, 20, 20, null);
+	}
+	
+	public viewDirection getViewDir(){
+		return viewDir;
+	}
+	
+	public void setViewDir(viewDirection vd){
+		viewDir = vd;
+	}
+	
+	
+	
 	
 	@Override
 	public void paint(Graphics g){
@@ -29,7 +60,7 @@ public class RenderPanel extends JPanel {
 	
 	public void redraw(Graphics g){
 		g.clearRect(0, 0, panelWidth, panelHeight);
-		
+		drawGrass(g);
 		
 	}
 
