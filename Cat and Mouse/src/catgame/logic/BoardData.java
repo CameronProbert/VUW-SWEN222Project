@@ -15,7 +15,7 @@ public class BoardData {
 	private ArrayList<Room> allRooms;
 
 	public BoardData() {
-
+		
 	}
 
 	/**

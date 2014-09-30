@@ -22,6 +22,8 @@ public class BoardCell {
 		this.cellPosition = position;
 		this.objectOnCell = object;
 		try {
+			//TODO FIX this for however it is going to be draw
+			
 			groundImage = ImageIO.read(new File(groundFile + ".png"));
 			objectImage[0] = ImageIO.read(new File("N" + objectOnCell.getObjectID() + ".png"));
 			objectImage[1] = ImageIO.read(new File("S" + objectOnCell.getObjectID() + ".png"));

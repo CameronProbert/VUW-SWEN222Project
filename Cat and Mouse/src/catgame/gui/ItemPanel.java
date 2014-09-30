@@ -14,7 +14,10 @@ public class ItemPanel extends AbstractPanel implements MouseListener {
 	private GameItem item;
 
 	public ItemPanel(Point origin, Dimension dim) {
-		super(origin, dim);
+		super();
+		this.setSize(dim);
+		this.setPreferredSize(dim);
+		this.setLocation(origin);
 		//this.setOpaque(true);
 	}
 	
