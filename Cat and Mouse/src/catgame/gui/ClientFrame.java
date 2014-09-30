@@ -1,6 +1,7 @@
 package catgame.gui;
 
 import java.awt.Dimension;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -34,9 +35,16 @@ public class ClientFrame extends AbstractFrame implements KeyListener {
 	private RenderPanel renderPanel;
 	private boolean isClient;
 	private StatPanel statPanel;
+	private Dimension windowSize;
 
-	public ClientFrame(NetworkHandler network, int UID, boolean isClient, PlayableCharacter character) {
-		super(new Dimension(1200, 600), "Cat and Mouse");
+	public ClientFrame(NetworkHandler network, int UID, boolean isClient,
+			PlayableCharacter character) {
+		super("Cat and Mouse");
+		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+		Dimension windowSize = new Dimension(
+				(int) (screenSize.getWidth() * .8),
+				(int) (screenSize.getHeight() * .8));
+		this.setSize(windowSize);
 		this.setLayout(null);
 		addKeyListener(this);
 		this.addPanels(character);
@@ -46,9 +54,9 @@ public class ClientFrame extends AbstractFrame implements KeyListener {
 	}
 
 	private void addPanels(PlayableCharacter character) {
-		renderPanel = new RenderPanel();
-		InventoryPanel invPanel = new InventoryPanel(character);
-		statPanel = new StatPanel(character);
+		renderPanel = new RenderPanel(windowSize);
+		InventoryPanel invPanel = new InventoryPanel(character, windowSize);
+		statPanel = new StatPanel(character, windowSize);
 		this.add(renderPanel);
 		this.add(invPanel);
 		this.add(statPanel);
@@ -83,18 +91,21 @@ public class ClientFrame extends AbstractFrame implements KeyListener {
 			break;
 		case KeyEvent.VK_SPACE:
 			int attacked = network.getGameMain().attack(clientsUID);
-			if(attacked>0){
+			if (attacked > 0) {
 				validAction = 1;
 				up = new Update(Update.Descriptor.ATTACK, clientsUID, attacked);
 			}
 			break;
-		case KeyEvent.VK_E: //  open a chest
+		case KeyEvent.VK_E: // open a chest
 			Chest chest = network.getGameMain().getChest(clientsUID);
-			if(chest!=null){
+			if (chest != null) {
 				validAction = 1;
-				// TODO open dialog box to choose items out of chest (using the chest object)
-				// int objectID = openChest(chest); // return the id of the item the character selected
-				// up = new Update(Update.Descriptor.PICKUP, clientsUID, objectID);
+				// TODO open dialog box to choose items out of chest (using the
+				// chest object)
+				// int objectID = openChest(chest); // return the id of the item
+				// the character selected
+				// up = new Update(Update.Descriptor.PICKUP, clientsUID,
+				// objectID);
 			}
 			break;
 		case KeyEvent.VK_M:
@@ -119,13 +130,13 @@ public class ClientFrame extends AbstractFrame implements KeyListener {
 
 	}
 
-	public static void main(String[] args){
+	public static void main(String[] args) {
 		ArrayList<GameItem> items = new ArrayList<GameItem>();
 		items.add(new Food(2, 30));
 		items.add(new Key(3));
 		items.add(new Food(2, 30));
-		PlayableCharacter character = new PlayableCharacter(1, null, " ", 3,
-				5, 50, items);
+		PlayableCharacter character = new PlayableCharacter(1, null, 3, 5, 50,
+				items);
 		new ClientFrame(null, 0, false, character);
 	}
 

@@ -13,8 +13,8 @@ public class RenderPanel extends JPanel {
 	private final int panelWidth = 1200;
 	private final int panelHeight = 600;
 	
-	public RenderPanel(){
-		setPreferredSize(new Dimension(panelWidth, panelHeight));
+	public RenderPanel(Dimension windowSize){
+		setPreferredSize(windowSize);
 		setBackground(Color.DARK_GRAY);
 		
 		
