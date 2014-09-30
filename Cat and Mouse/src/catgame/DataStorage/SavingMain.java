@@ -11,15 +11,13 @@ import org.jdom2.output.XMLOutputter;
 
 import catgame.GameObjects.*;
 import catgame.logic.*;
-import catgame.gui.LauncherFrame;
 
-public class Writer {
-	private Boss tempBoss;
+public class SavingMain {
 	private Document document;
 	private Element root;
 	private BoardData boardData;
 
-	public Writer(BoardData boardData) throws IOException {
+	public SavingMain(BoardData boardData) throws IOException {
 		this.boardData = boardData;
 		document = new Document();
 		root = new Element("CatGame");
@@ -59,7 +57,26 @@ public class Writer {
 		Element roomElement = new Element("Room_" + id);
 		roomElement.setAttribute(new Attribute("id", ""+id));
 		if(room == null){ throw new XMLException("Room_"+ id + " is null");}
-		//roomElement.addContent(new )
+		
+		// BoardCell[][] --> need to figure out how to save this :/
+		//roomElement.addContent(new Element("boardGrid").setText(room.getBoardGrid().));
+		
+		// Inventory
+		for(MasterObject obj : room.getRoomInventory()){
+			roomElement.addContent(writeMasterObject(obj));
+		}
+		return roomElement;
+	}
+
+	private Element writeMasterObject(MasterObject obj) {
+		if(obj instanceof Boss){
+			return writeBoss(obj);
+		}
+		return null;
+	}
+
+	private Element writeBoss(MasterObject obj) {
+		// TODO Auto-generated method stub
 		return null;
 	}
 
