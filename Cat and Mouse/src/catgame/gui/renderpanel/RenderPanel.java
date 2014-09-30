@@ -12,11 +12,14 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 
+import catgame.logic.Room;
+
 public class RenderPanel extends JPanel {
 	
 	private final int panelWidth = 1200;
 	private final int panelHeight = 600;
 	public viewDirection viewDir = viewDirection.NORTH;
+	//public Room currentRoom;
 	
 	
 	private Image grassBlock;
@@ -25,15 +28,23 @@ public class RenderPanel extends JPanel {
 		NORTH, SOUTH, EAST, WEST;
 	}
 	
+	//Will need to be passed the current Room
 	public RenderPanel(Dimension windowSize){
 		setPreferredSize(new Dimension(panelWidth, panelHeight));
 		setBackground(Color.DARK_GRAY);
-		
+		//this.currentRoom = currentRoom;
+		try {
+			setupImages();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		repaint();
 		
 	}
 	
 	public void setupImages() throws IOException{
-		grassBlock = ImageIO.read(RenderPanel.class.getResource("grass1.png"));
+		grassBlock = ImageIO.read(RenderPanel.class.getResource("images/Grass1.png"));
 	}
 	
 	public void drawGrass(Graphics g){
