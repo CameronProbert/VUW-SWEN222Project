@@ -10,7 +10,7 @@ import catgame.logic.Position;
 public class Tree implements NonMovavble {
 	
 	private final BoardCell cell;
-	private int id;
+	private final int id;
 
 	public Tree(int ID, BoardCell cell) {
 		this.id = ID;
