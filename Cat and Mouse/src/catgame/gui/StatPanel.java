@@ -19,16 +19,6 @@ public class StatPanel extends AbstractPanel {
 		super();
 		
 		this.character = character;
-//		JButton button = LauncherFrame.createButton("Change State",
-//				new Dimension(50, 30));
-//		button.addActionListener(new ActionListener() {
-//			public void actionPerformed(ActionEvent e) {
-//				modifyChar();
-//			}
-//		});
-//		button.setLocation(20, 250);
-//		this.add(button);
-
 	}
 
 	/**
@@ -51,19 +41,15 @@ public class StatPanel extends AbstractPanel {
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		g.drawString("Health:", 10, 15);
-		g.drawString("Experience:", 10, 45);
 		g.setColor(Color.DARK_GRAY);
 		g.fillRect(10, 20, 180, 10);
 		g.fillRect(10, 50, 180, 10);
 		if (character != null) {
-			//g.drawString("Level: " + character.getLevel(), 10, 75);
 			int hp = character.getHealth();
 			Color hpCol = new Color((int) (255 - (hp / 100.0 * 255)),
 					(int) (hp / 100.0 * 255), 0);
 			g.setColor(hpCol);
 			g.fillRect(10, 20, (int) (hp / 100f * 180f), 10);
-			g.setColor(Color.cyan);
-			g.fillRect(10, 50, (int) (character.getXp() / 100f * 180f), 10);
 		}
 		g.setColor(Color.black);
 		g.drawRect(10, 20, 180, 10);

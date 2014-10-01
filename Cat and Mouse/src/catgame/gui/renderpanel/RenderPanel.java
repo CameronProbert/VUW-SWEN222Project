@@ -31,7 +31,8 @@ public class RenderPanel extends JPanel {
 	//Will need to be passed the current Room
 	public RenderPanel(Dimension windowSize){
 		setLayout(null);
-		//setPreferredSize(new Dimension(panelWidth, panelHeight));
+		setPreferredSize(windowSize);
+		setSize(windowSize);
 		setBackground(Color.BLUE);
 		setVisible(true);
 		//this.currentRoom = currentRoom;
