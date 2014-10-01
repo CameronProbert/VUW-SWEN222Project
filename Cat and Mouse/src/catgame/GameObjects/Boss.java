@@ -20,7 +20,7 @@ public class Boss implements NonPlayableCharacter {
 	private Room currentRoom;
 	private int health;
 	private List<GameItem> inventory = new ArrayList<GameItem>();
-	private int maxItems = 6;
+	private final int maxItems = 6;
 	private int attackPower;
 
 	public Boss(int ID, Room currentRoom , int attackPower, int health, List<GameItem> items) {

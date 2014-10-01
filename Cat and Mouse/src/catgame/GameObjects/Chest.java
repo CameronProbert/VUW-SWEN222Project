@@ -31,5 +31,9 @@ public class Chest implements NonMovavble {
 	public int getObjectID() {
 		return id;
 	}
+	
+	public List<GameItem> openChest(){
+		return inventory;
+	}
 
 }

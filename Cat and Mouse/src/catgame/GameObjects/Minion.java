@@ -19,7 +19,7 @@ public class Minion implements NonPlayableCharacter {
 	private Room currentRoom;
 	private int health;
 	private ArrayList<GameItem> inventory = new ArrayList<GameItem>();
-	private int maxItems = 3;
+	private final int maxItems = 3;
 	private int attackPower;
  
 	public Minion(int ID,Room currentRoom, int attackPower, int health, ArrayList<GameItem> items) {
