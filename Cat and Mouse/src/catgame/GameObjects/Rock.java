@@ -9,13 +9,12 @@ import catgame.logic.Position;
  */
 public class Rock implements NonMovavble {
 
-	private BoardCell cell;
+	private final BoardCell cell;
 	private int id;
 
-	public Rock(int ID, BoardCell cell , int id) {
+	public Rock(int ID, BoardCell cell) {
 		this.id = ID;
 		this.cell = cell;
-		this.id = id;
 	}
 
 	public BoardCell getCurrentCell() {

@@ -20,7 +20,7 @@ public class PlayableCharacter implements Character {
 	private String facingDirection;
 	private int health;
 	private List<GameItem> inventory = new ArrayList<GameItem>();
-	private int maxItems = 10;
+	private final int maxItems = 6;
 	private int attackPower;
 	private int xp;
 
