@@ -15,12 +15,13 @@ import catgame.logic.Room;
  */
 public class PlayableCharacter implements Character {
 
-	private int id;
+	private final int id;
+	private final int maxItems = 6;
 	private Room currentRoom;
 	private String facingDirection;
 	private int health;
 	private List<GameItem> inventory = new ArrayList<GameItem>();
-	private final int maxItems = 6;
+	
 	private int attackPower;
 	private int xp;
 

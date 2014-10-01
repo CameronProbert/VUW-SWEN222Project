@@ -5,11 +5,11 @@ import java.util.HashMap;
 import catgame.GameObjects.MasterObject;
 import catgame.GameObjects.Chest;
 
-public class GameMain {
+public class GameUtill {
 
 	HashMap gameMap = new HashMap();
 
-	public GameMain() {
+	public GameUtill() {
 
 	}
 

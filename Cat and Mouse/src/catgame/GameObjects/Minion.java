@@ -15,11 +15,12 @@ import catgame.logic.Room;
  */
 public class Minion implements NonPlayableCharacter {
 
-	private int id;
+	private final int id;
+	private final int maxItems = 3;
 	private Room currentRoom;
 	private int health;
 	private ArrayList<GameItem> inventory = new ArrayList<GameItem>();
-	private final int maxItems = 3;
+	
 	private int attackPower;
  
 	public Minion(int ID,Room currentRoom, int attackPower, int health, ArrayList<GameItem> items) {

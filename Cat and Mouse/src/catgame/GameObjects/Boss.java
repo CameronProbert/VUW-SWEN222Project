@@ -16,11 +16,11 @@ import catgame.logic.Room;
  */
 public class Boss implements NonPlayableCharacter {
 
-	private int id;
+	private final int id;
+	private final int maxItems = 6;
 	private Room currentRoom;
 	private int health;
 	private List<GameItem> inventory = new ArrayList<GameItem>();
-	private final int maxItems = 6;
 	private int attackPower;
 
 	public Boss(int ID, Room currentRoom , int attackPower, int health, List<GameItem> items) {

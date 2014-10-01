@@ -10,10 +10,8 @@ import catgame.logic.Position;
  *
  */
 public class Food implements GameItem{
-
-	
-	private int id;
-	private int heal;
+	private final int id;
+	private final int heal;
 
 	public Food(int id , int heal){
 		this.id = id;
