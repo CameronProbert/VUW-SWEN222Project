@@ -79,4 +79,8 @@ public class Room {
 		//Get the grapics oriantation then detemine which direction on the array the move will be
 		return new Position(0, 0);
 	}
+	
+	public int getRoomID(){
+		return this.roomID;
+	}
 }
