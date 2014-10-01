@@ -55,7 +55,7 @@ public class ClientFrame extends AbstractFrame implements KeyListener {
 	}
 
 	private void addPanels(PlayableCharacter character) {
-		renderPanel = new RenderPanel(windowSize);
+		renderPanel = new RenderPanel(windowSize, this);
 
 		int panelWidth = (int) (1.0 / 6 * windowSize.getWidth());
 		int panelHeight = (int) (1.0 / 2 * windowSize.getHeight());
