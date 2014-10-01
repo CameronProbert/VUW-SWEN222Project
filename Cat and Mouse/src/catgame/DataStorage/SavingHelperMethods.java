@@ -19,6 +19,15 @@ public class SavingHelperMethods {
 		if(obj instanceof Boss){
 			return masterObj.writeBoss(obj);
 		}
+		if(obj instanceof Chest){
+			return masterObj.writeChest(obj);
+		}
+		if(obj instanceof Food){
+			return masterObj.writeFood(obj);
+		}
+		if(obj instanceof PlayableCharacter){
+			return masterObj.writePlayableCharacter(obj);
+		}
 		return null;
 	}
 	
