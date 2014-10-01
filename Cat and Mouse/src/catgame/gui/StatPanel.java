@@ -16,7 +16,8 @@ public class StatPanel extends AbstractPanel {
 	private PlayableCharacter character;
 
 	public StatPanel(PlayableCharacter character) {
-		super(new Point(980, 280), new Dimension(200, 300));
+		super();
+		
 		this.character = character;
 //		JButton button = LauncherFrame.createButton("Change State",
 //				new Dimension(50, 30));

@@ -16,15 +16,23 @@ import catgame.GameObjects.PlayableCharacter;
 
 public class InventoryPanel extends AbstractPanel {
 
+	private static final double NUMCOLUMNS = 2;
+	private static final double NUMROWS = 3;
+	private static final double TOTALSLOTS = NUMCOLUMNS * NUMROWS;
 	private PlayableCharacter character;
 	private ArrayList<ItemPanel> panels = new ArrayList<ItemPanel>();
+	private Dimension invSize;
 
 	/**
 	 * Needs to get linked to the player's inventory so it can draw it.
+	 * 
+	 * @param windowSize
+	 * @param windowSize
 	 */
-	public InventoryPanel(PlayableCharacter character) {
-		super(new Point(20, 280), new Dimension(200, 300));
-		//this.setOpaque(true);
+	public InventoryPanel(PlayableCharacter character, Dimension invSize) {
+		super();
+		this.invSize = invSize;
+		// this.setOpaque(true);
 		createPanels();
 		this.character = character;
 	}
@@ -33,11 +41,15 @@ public class InventoryPanel extends AbstractPanel {
 	 * Creates each of the itemPanels
 	 */
 	public void createPanels() {
-		Dimension panelSize = new Dimension(100, 100);
-		int numPanels = 6;
-		for (int i = 0; i < numPanels ; i++){
-			int x = (i % 2) * 100;
-			int y = (i / 2) * 100;
+		// Width and height of each panel
+		int itemWidth = (int) (invSize.getWidth() / NUMCOLUMNS);
+		int itemHeight = (int) (invSize.getHeight() / NUMROWS);
+		Dimension panelSize = new Dimension(itemWidth, itemHeight);
+		for (int i = 0; i < TOTALSLOTS; i++) {
+			int columnNum = i % 2;
+			int rowNum = i / 2;
+			int x = columnNum * itemWidth;
+			int y = rowNum * itemHeight;
 			ItemPanel panel = new ItemPanel(new Point(x, y), panelSize);
 			panels.add(panel);
 			this.add(panel);
@@ -47,7 +59,7 @@ public class InventoryPanel extends AbstractPanel {
 	public void setInvItems() {
 		ArrayList<GameItem> items = character.getInventory();
 		if (items != null) {
-			for (int i = 0; i < items.size() && i < 6; i++) {
+			for (int i = 0; i < items.size() && i < TOTALSLOTS; i++) {
 				panels.get(i).setItem(items.get(i));
 			}
 		}

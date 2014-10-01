@@ -10,7 +10,9 @@ public class HostFrame extends AbstractFrame {
 
 	// TODO LOTS
 	public HostFrame() {
-		super(new Dimension(600, 600), "Catgame Server");
+		super("Catgame Server");
+		setSize(600, 600);
+		
 	}
 
 }
