@@ -55,7 +55,7 @@ public class ClientFrame extends AbstractFrame implements KeyListener {
 	}
 
 	private void addPanels(PlayableCharacter character) {
-		renderPanel = new RenderPanel(windowSize);
+		renderPanel = new RenderPanel(windowSize, this);
 
 		int panelWidth = (int) (1.0 / 6 * windowSize.getWidth());
 		int panelHeight = (int) (1.0 / 2 * windowSize.getHeight());
@@ -74,10 +74,19 @@ public class ClientFrame extends AbstractFrame implements KeyListener {
 		statPanel.setSize(panelDim);
 		statPanel.setPreferredSize(panelDim);
 
-		this.add(renderPanel);
+//		setComponentZOrder(renderPanel, 1);
+//		setComponentZOrder(statPanel, 2);
+//		setComponentZOrder(invPanel, 3);
+
 		this.add(invPanel);
 		this.add(statPanel);
+		this.add(renderPanel);
 	}
+	
+//	@Override
+//	public void redraw(){
+//		
+//	}
 
 	/**
 	 * NOTE: may need to check when moving if moved to another room!! TODO
@@ -152,8 +161,9 @@ public class ClientFrame extends AbstractFrame implements KeyListener {
 		items.add(new Food(2, 30));
 		items.add(new Key(3));
 		items.add(new Food(2, 30));
-		PlayableCharacter character = new PlayableCharacter(1, null, "", 3, 5,
-				50, items);
+
+		PlayableCharacter character = new PlayableCharacter(1, null, " ", 3,
+				5, items);
 		new ClientFrame(null, 0, false, character);
 	}
 

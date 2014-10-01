@@ -12,56 +12,175 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 
+import catgame.gui.ClientFrame;
+import catgame.logic.Room;
+
 public class RenderPanel extends JPanel {
-	
-	private final int panelWidth = 1200;
-	private final int panelHeight = 600;
+
+	public final ClientFrame parentFrame;
+	private Image grassBlock;
+	private Image tree1;
+	private Image tree2;
+	private Image bush1;
+	private Image rock1;
 	public viewDirection viewDir = viewDirection.NORTH;
 	
+	//Test 2D array for grassBlocks
+	private int[][] testMap = {
+			{1, 1, 1, 1, 1, 1, 1, 1}, 
+			{1, 1, 1, 1, 1, 1, 1, 1}, 
+			{1, 1, 1, 1, 1, 1, 1, 1},
+			{1, 1, 1, 1, 0, 0, 0, 1},
+			{1, 1, 1, 1, 0, 0, 0, 1},
+			{1, 1, 1, 1, 1, 1, 1, 1},
+			{1, 1, 1, 1, 1, 1, 1, 1}
+	};
 	
-	private Image grassBlock;
+	private int[][] testObjects = {
+			{1, 3, 1, 0, 0, 0, 0, 0},
+			{3, 3, 3, 0, 0, 0, 2, 0},
+			{1, 3, 0, 0, 0, 0, 0, 0},
+			{0, 0, 0, 0, 0, 0, 0, 0},
+			{0, 0, 0, 0, 0, 0, 0, 0},
+			{0, 0, 0, 0, 0, 0, 2, 0},
+			{0, 0, 4, 4, 3, 0, 3, 0},
+	};
 	
 	public enum viewDirection{
 		NORTH, SOUTH, EAST, WEST;
 	}
 	
-	public RenderPanel(Dimension windowSize){
-		setPreferredSize(new Dimension(panelWidth, panelHeight));
+	public RenderPanel(Dimension windowSize, ClientFrame parentFrame){
+		this.parentFrame = parentFrame;
+		
+		setLayout(null);
+		setSize(parentFrame.getWidth(), parentFrame.getHeight());
 		setBackground(Color.DARK_GRAY);
+		setVisible(true);
 		
-		
+		setupImages();
+		repaint();
 	}
 	
-	public void setupImages() throws IOException{
-		grassBlock = ImageIO.read(RenderPanel.class.getResource("grass1.png"));
+	@Override
+	public void paint(Graphics g) {
+		Graphics2D g2d = (Graphics2D) g;
+		g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
+		        RenderingHints.VALUE_ANTIALIAS_ON);
+		redraw(g);	
 	}
 	
-	public void drawGrass(Graphics g){
-		g.drawImage(grassBlock, 20, 20, null);
-	}
-	
+	public void setupImages(){
+		try {
+			grassBlock = ImageIO.read(RenderPanel.class.getResource("/images/Grass1.png"));
+			tree1 = ImageIO.read(RenderPanel.class.getResource("/images/Tree1.png"));
+			tree2 = ImageIO.read(RenderPanel.class.getResource("/images/Tree2.png"));
+			bush1 = ImageIO.read(RenderPanel.class.getResource("/images/Bush1.png"));
+			rock1 = ImageIO.read(RenderPanel.class.getResource("/images/Rock1.png"));
+		} catch (IOException e) {
+			System.out.println("There was an issue loading image files, check file locations are correct.");
+			e.printStackTrace();
+		}
+	}	
+
 	public viewDirection getViewDir(){
 		return viewDir;
 	}
-	
+
 	public void setViewDir(viewDirection vd){
 		viewDir = vd;
 	}
 	
 	
+	//testing method for drawing grass blocks form 2D array
+	public void testDrawGrass(Graphics g){
+		int startX1 = 19 + parentFrame.getWidth() / 4;
+		int startY1 = 20 + 400;
+		int incrX = 124;
+		int incrY = 70;
+//		int xCount = 10;
+//		int yCount = 10;
+		for (int i = 0; i < testMap.length; i++){
+			for (int j = testMap[0].length; j > 0; j--){
+				//System.out.println("i: " + i + " j: " + j);
+				if (testMap[i][j-1] == 1){
+					g.drawImage(grassBlock, 
+							startX1 + (j * incrX / 2) + (i * incrX / 2), 
+							startY1 + (i * incrY / 2) - (j * incrY / 2), 
+							null);
+				}
+//				g.setColor(Color.BLUE);
+//				if (i == 0){
+//					g.fillRect(
+//							startX1 + (j * incrX / 2) + (i * incrX / 2), 
+//							startY1 + (i * incrY / 2) - (j * incrY / 2), 
+//							xCount, 
+//							xCount);
+//					xCount = xCount + 2;
+//				}
+//				g.setColor(Color.RED);
+//				if (j == testMap[0].length){
+//					g.fillRect(
+//							startX1 + ((j+1) * incrX / 2) + ((i+1) * incrX / 2), 
+//							startY1 + (i * incrY / 2) - (j * incrY / 2), 
+//							yCount, 
+//							yCount);
+//					yCount = yCount + 2;
+//				}
+				
+			}
+		}
+	}
 	
+	//This method runs through the testObjects 2D Array checking if there is an object at each space. 
+	//When an object is found at a space in the Array, the drawObjectsFromArray() method is called to draw the object
+	//in the correct position.
+	public void getObjectsFromArray(Graphics g){
+		for (int i = 0; i < testMap.length; i++){
+			for (int j = testMap[0].length; j > 0; j--){
+				if (testObjects[i][j-1] == 1){
+					int startX = parentFrame.getWidth() / 4 - 30;
+					int startY = 45 + 200;
+					drawObjectsFromArray(g, tree1, startX, startY, i, j);
+				}
+				else if (testObjects[i][j-1] == 2){
+					int startX = parentFrame.getWidth() / 4;
+					int startY = 85 + 200;
+					drawObjectsFromArray(g, tree2, startX, startY, i, j);
+				}
+				else if (testObjects[i][j-1] == 3){
+					int startX = parentFrame.getWidth() / 4 + 40;
+					int startY = 85 + 300;
+					drawObjectsFromArray(g, bush1, startX, startY, i, j);
+				}
+				else if (testObjects[i][j-1] == 4){
+					int startX = parentFrame.getWidth() / 4 + 60;
+					int startY = 85 + 340;
+					drawObjectsFromArray(g, rock1, startX, startY, i, j);
+				}
+			}
+		}
+	}
 	
-	@Override
-	public void paint(Graphics g){
-		Graphics2D g2d = (Graphics2D) g;
-		g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-		redraw(g);
+	public void drawObjectsFromArray(Graphics g, Image image, int startX, int startY, int i, int j){
+		int incrX = 124;
+		int incrY = 70;
+		g.drawImage(image, 
+				startX + (j * incrX / 2) + (i * incrX / 2), 
+				startY + (i * incrY / 2) - (j * incrY / 2), 
+				null);
 	}
 	
 	public void redraw(Graphics g){
-		g.clearRect(0, 0, panelWidth, panelHeight);
-		drawGrass(g);
-		
+		g.fillRect(0, 0, parentFrame.getWidth(), parentFrame.getHeight());
+		testDrawGrass(g);
+		getObjectsFromArray(g);
 	}
+	
+	
+	
+	
+	
+
 
 }

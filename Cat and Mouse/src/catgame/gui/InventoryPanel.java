@@ -8,6 +8,7 @@ import java.awt.Point;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.JPanel;
 
@@ -57,7 +58,7 @@ public class InventoryPanel extends AbstractPanel {
 	}
 
 	public void setInvItems() {
-		ArrayList<GameItem> items = character.getInventory();
+		List<GameItem> items = character.getInventory();
 		if (items != null) {
 			for (int i = 0; i < items.size() && i < TOTALSLOTS; i++) {
 				panels.get(i).setItem(items.get(i));
