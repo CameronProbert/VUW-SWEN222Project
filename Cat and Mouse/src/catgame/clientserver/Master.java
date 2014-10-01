@@ -15,6 +15,9 @@ public class Master extends Thread {
 	private Update lastUpdateSent = null; // this keeps track of the last update sent
 	private int number = 0;
 	private boolean testing = true; // true when testing
+	private int timer = 0;
+	
+	private final static int TIMESUP = 10; // when timer reaches TIMESUP massive update to system 
 
 	public Master(Socket socket, int uid, int broadcastClock, NetworkHandler game) {
 		this.game = game;	
@@ -61,7 +64,13 @@ public class Master extends Thread {
 							output.writeInt(updateToSlave.getCode()); // will record last update in game
 							this.lastUpdateSent = updateToSlave;
 						}
+						
+						if(timer==TIMESUP){
+							timer=0;
+							broadcastGameState(output);
+						}
 
+						timer++;
 						output.flush();
 						Thread.sleep(broadcastClock);
 					} catch(InterruptedException e) {					
@@ -86,6 +95,13 @@ public class Master extends Thread {
 		}		
 	}
 	
+	private void broadcastGameState(DataOutputStream output) {
+		//for each player send update
+		//for each non playable character send update
+		//for each chest
+		//for each item
+	}
+
 	public int getNumber(){
 		return number;
 	}

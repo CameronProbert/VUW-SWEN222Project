@@ -3,7 +3,7 @@ package catgame.clientserver;
 import java.util.ArrayList;
 import java.util.List;
 
-import catgame.logic.GameUtill;
+import catgame.logic.GameMain;
 
 public class NetworkHandler extends GameRunner{
 
@@ -21,7 +21,7 @@ public class NetworkHandler extends GameRunner{
 	
 	public NetworkHandler(Type type){
 		this.stateType = type;
-		this.game = new GameUtill();
+		this.game = new GameMain();
 	}
 
 	/***
