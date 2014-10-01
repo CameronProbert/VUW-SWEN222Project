@@ -13,6 +13,6 @@ public class Bush implements NonMovavble {
 	}
 	
 	public String toString(){
-		return "Rock";
+		return "Bush";
 	}
 }

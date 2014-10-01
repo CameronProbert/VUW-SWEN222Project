@@ -45,6 +45,9 @@ public class RoomBuilder {
 					}
 				}
 				y++;
+				if(y == board.length){
+					break loop;
+				}
 			}
 		} catch (Exception e) {
 			System.out.println(e);
