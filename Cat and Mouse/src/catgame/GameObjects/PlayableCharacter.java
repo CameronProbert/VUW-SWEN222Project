@@ -21,14 +21,12 @@ public class PlayableCharacter implements Character {
 	private ArrayList<GameItem> inventory = new ArrayList<GameItem>();
 	private int maxItems = 10;
 	private int attackPower;
-	private int level;
 	private int xp;
 
-	public PlayableCharacter(int ID, Room currentRoom, String direction, int level, int attackPower, int health, ArrayList<GameItem> items) {
+	public PlayableCharacter(int ID, Room currentRoom, String direction, int attackPower, int health, ArrayList<GameItem> items) {
 		this.id = ID;
 		this.currentRoom = currentRoom;
 		this.facingDirection = direction;
-		this.level = level;
 		this.attackPower = attackPower;
 		this.health = health;
 		this.inventory.addAll(items);
@@ -100,39 +98,10 @@ public class PlayableCharacter implements Character {
 		this.facingDirection = direction;
 	}
 
-	public int getLevel() {
-		return level;
-	}
-
-	private void levelUp() {
-		this.level++;
-	}
-
-	public void setLevel(int lvl) {
-		this.level = lvl;
-	}
-
 	public int getXp() {
 		return this.xp;
 	}
 
-	/**
-	 * Adds xp to the player if the xp pool exceeds 100 the player is leveled up
-	 * and the over flow xp is then equals the xp pool.z
-	 *
-	 * @param xpToAdd
-	 * @throws GameError
-	 */
-	public void addXp(int xpToAdd) throws GameError {
-		if (xpToAdd < 1 || xpToAdd > 100) {
-			throw new GameError("Add xp < 1 || xp > 100  xp:" + xpToAdd);
-		}
-		this.xp += xpToAdd;
-		if (this.xp > 100) {
-			this.xp = xp - 100;
-			levelUp();
-		}
-	}
 
 	public boolean isDead() {
 		return health < 0;

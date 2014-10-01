@@ -42,7 +42,7 @@ public class StatPanel extends AbstractPanel {
 			character.changeHealth((int) (Math.random() * 40) - 20);
 		}
 		
-		character.addXp((int) (Math.random()*29)+1);
+		//character.addXp((int) (Math.random()*29)+1);
 		repaint();
 	}
 
@@ -55,7 +55,7 @@ public class StatPanel extends AbstractPanel {
 		g.fillRect(10, 20, 180, 10);
 		g.fillRect(10, 50, 180, 10);
 		if (character != null) {
-			g.drawString("Level: " + character.getLevel(), 10, 75);
+			//g.drawString("Level: " + character.getLevel(), 10, 75);
 			int hp = character.getHealth();
 			Color hpCol = new Color((int) (255 - (hp / 100.0 * 255)),
 					(int) (hp / 100.0 * 255), 0);

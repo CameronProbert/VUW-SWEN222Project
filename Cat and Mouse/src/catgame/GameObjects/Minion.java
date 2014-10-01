@@ -21,12 +21,10 @@ public class Minion implements NonPlayableCharacter {
 	private ArrayList<GameItem> inventory = new ArrayList<GameItem>();
 	private int maxItems = 3;
 	private int attackPower;
-	private int level;
-
-	public Minion(int ID,Room currentRoom, int level, int attackPower, int health, ArrayList<GameItem> items) {
+ 
+	public Minion(int ID,Room currentRoom, int attackPower, int health, ArrayList<GameItem> items) {
 		this.id = ID;
 		this.currentRoom = currentRoom;
-		this.level = level;
 		this.attackPower = attackPower;
 		this.health = health;
 		this.inventory.addAll(items);
@@ -76,15 +74,7 @@ public class Minion implements NonPlayableCharacter {
 	public void move(String Direction) {
 		// TODO Auto-generated method stub
 	}
-
-	public int getLevel() {
-		return level;
-	}
-
-	public void setLevel(int lvl) {
-		this.level = lvl;
-	}
-
+	
 	public boolean isDead() {
 		return health < 1;
 	}

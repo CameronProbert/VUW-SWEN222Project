@@ -64,20 +64,6 @@ public interface Character extends Movable {
 	public void move(String direction);
 
 	/**
-	 *
-	 * @return (int) level of the charactor
-	 */
-	public int getLevel();
-
-	/**
-	 * set The level of a charactor
-	 *
-	 * @param lvl
-	 *
-	 */
-	public void setLevel(int lvl);
-
-	/**
 	 * @return true if the character is dead
 	 */
 	public boolean isDead();

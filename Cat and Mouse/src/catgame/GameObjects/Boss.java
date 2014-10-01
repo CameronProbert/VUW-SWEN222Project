@@ -77,14 +77,6 @@ public class Boss implements NonPlayableCharacter {
 		// TODO Auto-generated method stub
 	}
 
-	public int getLevel() {
-		return level;
-	}
-
-	public void setLevel(int lvl) {
-		this.level = lvl;
-	}
-
 	public boolean isDead() {
 		return health < 1;
 	}
