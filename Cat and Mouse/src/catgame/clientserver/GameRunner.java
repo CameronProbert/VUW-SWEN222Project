@@ -1,6 +1,6 @@
 package catgame.clientserver;
 
-import catgame.logic.GameMain;
+import catgame.logic.GameUtill;
 
 public abstract class GameRunner {
 	
@@ -13,7 +13,7 @@ public abstract class GameRunner {
 	}
 
 	protected GameState gameState = GameState.WAITING;
-	protected GameMain game;
+	protected GameUtill game;
 	protected int noPlayers = 0;
 
 	public boolean isNotOver() {
@@ -57,7 +57,7 @@ public abstract class GameRunner {
 		return noPlayers;
 	}
 
-	public GameMain getGameMain(){
+	public GameUtill getGameMain(){
 		return game;
 	}
 }

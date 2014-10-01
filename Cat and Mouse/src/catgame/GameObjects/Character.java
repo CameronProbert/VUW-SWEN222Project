@@ -68,8 +68,14 @@ public interface Character extends Movable {
 	public boolean isDead();
 	
 	/**
-	 * 
+	 * s
 	 * @return current Room
 	 */
 	public Room getCurrentRoom();
+
+	public int getLevel();
+
+	public void reset(int attackPower, int health, int level);
+
+	public void resetItems(List<GameItem> items);
 }

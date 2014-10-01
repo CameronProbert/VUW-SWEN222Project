@@ -1,7 +1,7 @@
 package catgame.clientserver;
 
 import catgame.gui.ClientFrame;
-import catgame.logic.GameMain;
+import catgame.logic.GameUtill;
 import catgame.GameObjects.PlayableCharacter;
 
 public class SinglePlayerHandler extends GameRunner {
@@ -13,7 +13,7 @@ public class SinglePlayerHandler extends GameRunner {
 	 * @param playerID
 	 */
 	public SinglePlayerHandler (int playerID){
-		GameMain game = new GameMain();
+		GameUtill game = new GameUtill();
 		game.addPlayer(playerID);
 		PlayableCharacter ch = game.findCharacter(playerID);
 		ClientFrame frame = new ClientFrame(this, playerID, false, ch);

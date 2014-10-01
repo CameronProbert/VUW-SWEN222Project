@@ -24,14 +24,14 @@ public class ClientFrame extends AbstractFrame implements KeyListener {
 	private static final double FRAMEHEIGHTMODIFIER = 600.0/768;
 	private static final double ASPECTRATIO = 2;
 	
-	private NetworkHandler network;
+	private GameRunner runner;
 	private int clientsUID;
 	private RenderPanel renderPanel;
 	private boolean isClient;
 	private StatPanel statPanel;
 	private Dimension windowSize;
 
-	public ClientFrame(NetworkHandler network, int UID, boolean isClient,
+	public ClientFrame(GameRunner network, int UID, boolean isClient,
 			PlayableCharacter character) {
 		super("Cat and Mouse");
 		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
@@ -49,7 +49,7 @@ public class ClientFrame extends AbstractFrame implements KeyListener {
 		addKeyListener(this);
 		this.addPanels(character);
 		this.clientsUID = UID;
-		this.network = network;
+		this.runner = network;
 		this.isClient = isClient;
 		this.setup();
 	}
@@ -100,30 +100,30 @@ public class ClientFrame extends AbstractFrame implements KeyListener {
 		Update up = new Update(0);
 		switch (keyID) {
 		case KeyEvent.VK_W:
-			validAction = network.getGameMain().moveNorth(clientsUID);
+			validAction = runner.getGameMain().moveNorth(clientsUID);
 			up = new Update(Update.Descriptor.NORTH, clientsUID, 0);
 			break;
 		case KeyEvent.VK_A:
-			validAction = network.getGameMain().moveWest(clientsUID);
+			validAction = runner.getGameMain().moveWest(clientsUID);
 			up = new Update(Update.Descriptor.WEST, clientsUID, 0);
 			break;
 		case KeyEvent.VK_S:
-			validAction = network.getGameMain().moveSouth(clientsUID);
+			validAction = runner.getGameMain().moveSouth(clientsUID);
 			up = new Update(Update.Descriptor.SOUTH, clientsUID, 0);
 			break;
 		case KeyEvent.VK_D:
-			validAction = network.getGameMain().moveEast(clientsUID);
+			validAction = runner.getGameMain().moveEast(clientsUID);
 			up = new Update(Update.Descriptor.EAST, clientsUID, 0);
 			break;
 		case KeyEvent.VK_SPACE:
-			int attacked = network.getGameMain().attack(clientsUID);
+			int attacked = runner.getGameMain().attack(clientsUID);
 			if (attacked > 0) {
 				validAction = 1;
 				up = new Update(Update.Descriptor.ATTACK, clientsUID, attacked);
 			}
 			break;
 		case KeyEvent.VK_E: // open a chest
-			Chest chest = network.getGameMain().getChest(clientsUID);
+			Chest chest = runner.getGameMain().getChest(clientsUID);
 			if (chest != null) {
 				validAction = 1;
 				// TODO open dialog box to choose items out of chest (using the
@@ -139,7 +139,8 @@ public class ClientFrame extends AbstractFrame implements KeyListener {
 			break;
 		}
 		if (validAction > 0 && isClient) {
-			network.update(up, true);
+			NetworkHandler net = (NetworkHandler) runner;
+			net.update(up, true);
 		}
 
 	}

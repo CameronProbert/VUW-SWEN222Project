@@ -2,8 +2,11 @@ package catgame.logic;
 
 import java.util.HashMap;
 
+import catgame.GameObjects.Character;
+import catgame.GameObjects.GameItem;
 import catgame.GameObjects.MasterObject;
 import catgame.GameObjects.Chest;
+import catgame.GameObjects.PlayableCharacter;
 
 public class GameUtill {
 
@@ -104,5 +107,20 @@ public class GameUtill {
 	public Chest getChest(int clientsUID) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	public PlayableCharacter findCharacter(int objectID) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public GameItem findItem(int i) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public void addPlayer(int playerID) {
+		// TODO Auto-generated method stub
+		
 	}
 }

@@ -84,4 +84,22 @@ public class Boss implements NonPlayableCharacter {
 	public Room getCurrentRoom() {
 		return currentRoom;
 	}
+
+	@Override
+	public int getLevel() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public void reset(int attackPower, int health, int level) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void resetItems(List<GameItem> items) {
+		// TODO Auto-generated method stub
+		
+	}
 }
