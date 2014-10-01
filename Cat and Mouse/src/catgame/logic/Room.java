@@ -27,6 +27,17 @@ public class Room {
 	public Room(int roomID, BoardCell[][] room) {
 		this.roomID = roomID;
 		this.roomGrid = room;
+	}
+
+	public void printBoard() {
+		for(int x = 0 ; x < roomGrid.length ; x++){
+			String line = "";
+			for(int y = 0 ; y < roomGrid[0].length ; y++){
+				line += roomGrid[x][y].toString()+"\t";
+			}
+			System.out.println(line);
+			line = "";
+		}
 		
 	}
 
