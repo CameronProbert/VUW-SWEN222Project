@@ -1,7 +1,6 @@
 package catgame.GameObjects;
 
-import java.awt.List;
-import java.util.ArrayList;
+import java.util.List;
 
 import catgame.logic.GameError;
 import catgame.logic.Room;
@@ -31,7 +30,7 @@ public interface Character extends Movable {
 	 *
 	 * @return List of the characters inventory
 	 */
-	public ArrayList<GameItem> getInventory();
+	public List<GameItem> getInventory();
 
 	/**
 	 * Add to a characters inventory

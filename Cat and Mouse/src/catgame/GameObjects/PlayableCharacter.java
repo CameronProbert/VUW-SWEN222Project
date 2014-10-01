@@ -1,6 +1,7 @@
 package catgame.GameObjects;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import catgame.logic.BoardCell;
 import catgame.logic.GameError;
@@ -18,12 +19,12 @@ public class PlayableCharacter implements Character {
 	private Room currentRoom;
 	private String facingDirection;
 	private int health;
-	private ArrayList<GameItem> inventory = new ArrayList<GameItem>();
+	private List<GameItem> inventory = new ArrayList<GameItem>();
 	private int maxItems = 10;
 	private int attackPower;
 	private int xp;
 
-	public PlayableCharacter(int ID, Room currentRoom, String direction, int attackPower, int health, ArrayList<GameItem> items) {
+	public PlayableCharacter(int ID, Room currentRoom, String direction, int attackPower, int health, List<GameItem> items) {
 		this.id = ID;
 		this.currentRoom = currentRoom;
 		this.facingDirection = direction;
@@ -44,7 +45,7 @@ public class PlayableCharacter implements Character {
 		health += change;
 	}
 
-	public ArrayList<GameItem> getInventory() {
+	public List<GameItem> getInventory() {
 		return inventory;
 	}
 
