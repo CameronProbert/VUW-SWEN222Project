@@ -13,11 +13,16 @@ import catgame.GameObjects.*;
 import catgame.logic.*;
 
 public class SavingMain {
+	private SavingMasterObjects masterObj;
+	private SavingHelperMethods helper;
 	private Document document;
 	private Element root;
 	private BoardData boardData;
 
 	public SavingMain(BoardData boardData) throws IOException {
+		masterObj = new SavingMasterObjects(this);
+		helper = new SavingHelperMethods(this, masterObj);
+		
 		this.boardData = boardData;
 		document = new Document();
 		root = new Element("CatGame");
@@ -63,21 +68,14 @@ public class SavingMain {
 		
 		// Inventory
 		for(MasterObject obj : room.getRoomInventory()){
-			roomElement.addContent(writeMasterObject(obj));
+			roomElement.addContent(helper.writeMasterObject(obj));
 		}
 		return roomElement;
 	}
 
-	private Element writeMasterObject(MasterObject obj) {
-		if(obj instanceof Boss){
-			return writeBoss(obj);
-		}
-		return null;
-	}
 
-	private Element writeBoss(MasterObject obj) {
-		// TODO Auto-generated method stub
-		return null;
+	public SavingHelperMethods getHelper(){
+		return helper;
 	}
 
 //	/**
