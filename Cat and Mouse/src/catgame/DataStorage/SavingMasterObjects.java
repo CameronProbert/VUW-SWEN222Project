@@ -26,7 +26,7 @@ public class SavingMasterObjects {
 		// TODO boss inventory
 		bossElement.addContent(new Element("maxItems").setText("" + 6));
 		bossElement.addContent(new Element("attackPower").setText("" + boss.getAttackPower()));
-		bossElement.addContent(new Element("level").setText("" + boss.getLevel()));
+		
 		return bossElement;
 	}
 
