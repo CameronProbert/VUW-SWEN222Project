@@ -64,6 +64,14 @@ public class BoardCell {
 	public Position getPosition() {
 		return this.cellPosition;
 	}
+	
+	public String getGroundType(){
+		return groundType;
+	}
+	
+	public GameObject getObjectOnCell(){
+		return objectOnCell;
+	}
 
 	public String toString() {
 		if (groundType == null) {

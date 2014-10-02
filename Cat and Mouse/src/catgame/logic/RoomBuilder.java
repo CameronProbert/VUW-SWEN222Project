@@ -86,6 +86,7 @@ public class RoomBuilder {
 		RoomBuilder buildBoard = new RoomBuilder();
 		Room testRoom = new Room(1, buildBoard.getBoardFile());
 		testRoom.printBoard();
+		
 	}
 
 }
