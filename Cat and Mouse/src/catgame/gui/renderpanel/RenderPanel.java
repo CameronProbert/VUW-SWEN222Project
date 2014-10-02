@@ -56,7 +56,7 @@ public class RenderPanel extends JPanel {
 	};
 	
 	public enum viewDirection{
-		NORTH, SOUTH, EAST, WEST;
+		NORTH, EAST, SOUTH, WEST;
 	}
 	
 	public RenderPanel(Dimension windowSize, ClientFrame parentFrame){
@@ -106,24 +106,7 @@ public class RenderPanel extends JPanel {
 		viewDir = vd;
 	}
 	
-	
-//	//testing method for drawing grass blocks form 2D array
-//	public void testDrawGrass(Graphics g){
-//		int startX1 = 19 + parentFrame.getWidth() / 4;
-//		int startY1 = 20 + 400;
-//		int incrX = 124;
-//		int incrY = 70;
-//		for (int i = 0; i < testMap.length; i++){
-//			for (int j = testMap[0].length; j > 0; j--){
-//				if (testMap[i][j-1] == 1){
-//					g.drawImage(grassBlock, 
-//							startX1 + (j * incrX / 2) + (i * incrX / 2), 
-//							startY1 + (i * incrY / 2) - (j * incrY / 2), 
-//							null);
-//				}
-//			}
-//		}
-//	}
+
 	
 	//testing method for drawing grass blocks form 2D array
 	public void testDrawGrass(Graphics g){
@@ -178,6 +161,25 @@ public class RenderPanel extends JPanel {
 				startY + (i * incrY / 2) - (j * incrY / 2), 
 				null);
 	}
+	
+	
+//	//testing method for drawing grass blocks form 2D array
+//	public void testDrawGrass(Graphics g){
+//		int startX1 = 19 + parentFrame.getWidth() / 4;
+//		int startY1 = 20 + 400;
+//		int incrX = 124;
+//		int incrY = 70;
+//		for (int i = 0; i < testMap.length; i++){
+//			for (int j = testMap[0].length; j > 0; j--){
+//				if (testMap[i][j-1] == 1){
+//					g.drawImage(grassBlock, 
+//							startX1 + (j * incrX / 2) + (i * incrX / 2), 
+//							startY1 + (i * incrY / 2) - (j * incrY / 2), 
+//							null);
+//				}
+//			}
+//		}
+//	}
 	
 //	//This method runs through the testObjects 2D Array checking if there is an object at each space. 
 //	//When an object is found at a space in the Array, the drawObjectsFromArray() method is called to draw the object
