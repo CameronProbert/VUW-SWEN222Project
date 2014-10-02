@@ -35,6 +35,7 @@ public class RenderPanel extends JPanel {
 			{1, 1, 1, 1, 1, 1, 1, 1},
 			{1, 1, 1, 1, 1, 1, 1, 1}
 	};
+
 	
 	private int[][] testObjects = {
 			{1, 3, 1, 0, 0, 0, 0, 0},
@@ -98,36 +99,14 @@ public class RenderPanel extends JPanel {
 		int startY1 = 20 + 400;
 		int incrX = 124;
 		int incrY = 70;
-//		int xCount = 10;
-//		int yCount = 10;
 		for (int i = 0; i < testMap.length; i++){
 			for (int j = testMap[0].length; j > 0; j--){
-				//System.out.println("i: " + i + " j: " + j);
 				if (testMap[i][j-1] == 1){
 					g.drawImage(grassBlock, 
 							startX1 + (j * incrX / 2) + (i * incrX / 2), 
 							startY1 + (i * incrY / 2) - (j * incrY / 2), 
 							null);
 				}
-//				g.setColor(Color.BLUE);
-//				if (i == 0){
-//					g.fillRect(
-//							startX1 + (j * incrX / 2) + (i * incrX / 2), 
-//							startY1 + (i * incrY / 2) - (j * incrY / 2), 
-//							xCount, 
-//							xCount);
-//					xCount = xCount + 2;
-//				}
-//				g.setColor(Color.RED);
-//				if (j == testMap[0].length){
-//					g.fillRect(
-//							startX1 + ((j+1) * incrX / 2) + ((i+1) * incrX / 2), 
-//							startY1 + (i * incrY / 2) - (j * incrY / 2), 
-//							yCount, 
-//							yCount);
-//					yCount = yCount + 2;
-//				}
-				
 			}
 		}
 	}
