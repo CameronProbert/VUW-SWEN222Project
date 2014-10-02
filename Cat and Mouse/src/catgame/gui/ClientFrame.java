@@ -21,9 +21,9 @@ import catgame.logic.*;
  */
 public class ClientFrame extends AbstractFrame implements KeyListener {
 
-	private static final double FRAMEHEIGHTMODIFIER = 600.0/768;
+	private static final double FRAMEHEIGHTMODIFIER = 600.0 / 768;
 	private static final double ASPECTRATIO = 2;
-	
+
 	private GameRunner runner;
 	private int clientsUID;
 	private RenderPanel renderPanel;
@@ -65,22 +65,23 @@ public class ClientFrame extends AbstractFrame implements KeyListener {
 		int panelHeight = (int) (1.0 / 2 * windowSize.getHeight());
 		int statPanelWidth = (int) (1.0 / 6 * windowSize.getWidth());
 		int invPanelWidth = (int) (1.0 / 24 * windowSize.getWidth());
-		
+
 		Dimension statPanelDim = new Dimension(statPanelWidth, panelHeight);
 		Dimension invPanelDim = new Dimension(invPanelWidth, panelHeight);
-		
+
 		// Create locations
 		int invLocationX = (int) (1.0 / 60 * windowSize.getWidth());
-		int panelLocationY = (int) (7.0 / 15 * windowSize.getHeight());
+		int invPanelLocationY = (int) (3.0 / 8 * windowSize.getHeight());
 		int statLocationX = (int) (49.0 / 60 * windowSize.getWidth());
+		int statPanelLocationY = (int) (7.0 / 16 * windowSize.getHeight());
 
 		InventoryPanel invPanel = new InventoryPanel(character, invPanelDim);
-		invPanel.setLocation(invLocationX, panelLocationY);
+		invPanel.setLocation(invLocationX, invPanelLocationY);
 		invPanel.setSize(invPanelDim);
 		invPanel.setPreferredSize(invPanelDim);
 
 		statPanel = new StatPanel(character);
-		statPanel.setLocation(statLocationX, panelLocationY);
+		statPanel.setLocation(statLocationX, statPanelLocationY);
 		statPanel.setSize(statPanelDim);
 		statPanel.setPreferredSize(statPanelDim);
 
@@ -88,11 +89,11 @@ public class ClientFrame extends AbstractFrame implements KeyListener {
 		this.add(statPanel);
 		this.add(renderPanel);
 	}
-	
-//	@Override
-//	public void redraw(){
-//		
-//	}
+
+	// @Override
+	// public void redraw(){
+	//
+	// }
 
 	/**
 	 * NOTE: may need to check when moving if moved to another room!! TODO
@@ -166,8 +167,8 @@ public class ClientFrame extends AbstractFrame implements KeyListener {
 		items.add(new Key(3));
 		items.add(new Food(2, 30));
 
-		PlayableCharacter character = new PlayableCharacter(1, null, " ", 3,
-				5, items);
+		PlayableCharacter character = new PlayableCharacter(1, null, " ", 3, 5,
+				items);
 		new ClientFrame(null, 0, false, character);
 	}
 
