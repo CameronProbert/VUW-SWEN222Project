@@ -78,8 +78,8 @@ public class ClientFrame extends AbstractFrame implements KeyListener {
 //		setComponentZOrder(statPanel, 2);
 //		setComponentZOrder(invPanel, 3);
 
-		this.add(invPanel);
-		this.add(statPanel);
+		//this.add(invPanel);
+		//this.add(statPanel);
 		this.add(renderPanel);
 	}
 	
