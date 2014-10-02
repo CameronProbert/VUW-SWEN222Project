@@ -12,7 +12,11 @@ public class HostFrame extends AbstractFrame {
 
 	private NetworkSetUp host;
 
-	// TODO LOTS
+	/**
+	 * Creates a new Host frame with a given network
+	 * 
+	 * @param network
+	 */
 	public HostFrame(NetworkSetUp network) {
 		super("Catgame Server");
 		this.setLayout(null);
@@ -20,11 +24,15 @@ public class HostFrame extends AbstractFrame {
 		this.host = network;
 		this.setSize(windowSize);
 		this.setPreferredSize(windowSize);
-		setupButton();
+		setupButtons();
 		// host.setServer();
 	}
 
-	private void setupButton() {
+	/**
+	 * Sets up the buttons to be displayed on the frame. Is most likely to be
+	 * removed soon.
+	 */
+	private void setupButtons() {
 		JButton readyButton = HelperMethods.createButton("Start Game",
 				new Dimension(200, 100));
 		readyButton.addActionListener(new ActionListener() {

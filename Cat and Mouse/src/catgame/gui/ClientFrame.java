@@ -31,6 +31,13 @@ public class ClientFrame extends AbstractFrame implements KeyListener {
 	private StatPanel statPanel;
 	private Dimension windowSize;
 
+	/**
+	 * Creates a new Client frame.
+	 * @param network
+	 * @param UID
+	 * @param isClient
+	 * @param character
+	 */
 	public ClientFrame(GameRunner network, int UID, boolean isClient,
 			PlayableCharacter character) {
 		super("Cat and Mouse");
@@ -41,9 +48,13 @@ public class ClientFrame extends AbstractFrame implements KeyListener {
 		this.clientsUID = UID;
 		this.runner = network;
 		this.isClient = isClient;
-		this.setup();
+		//this.setup();
 	}
 
+	/**
+	 * Gets the dimensions of the screen and creates a dimension for the frame.
+	 * Sets the frame to this size.
+	 */
 	private void setDimensions() {
 		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 		if (screenSize == null) {
@@ -58,6 +69,10 @@ public class ClientFrame extends AbstractFrame implements KeyListener {
 		this.setPreferredSize(windowSize);
 	}
 
+	/**
+	 * Adds all the panels to the frame
+	 * @param character
+	 */
 	private void addPanels(PlayableCharacter character) {
 		renderPanel = new RenderPanel(windowSize, this);
 
@@ -149,18 +164,28 @@ public class ClientFrame extends AbstractFrame implements KeyListener {
 		}
 	}
 
+	/**
+	 * Unneeded for the game
+	 */
 	@Override
 	public void keyReleased(KeyEvent arg0) {
 		// TODO Auto-generated method stub
 
 	}
 
+	/**
+	 * Unneeded for the game
+	 */
 	@Override
 	public void keyTyped(KeyEvent arg0) {
 		// TODO Auto-generated method stub
 
 	}
 
+	/**
+	 * Testing main method
+	 * @param args
+	 */
 	public static void main(String[] args) {
 		ArrayList<GameItem> items = new ArrayList<GameItem>();
 		items.add(new Food(2, 30));
