@@ -15,23 +15,22 @@ import catgame.GameObjects.PlayableCharacter;
 public class BoardCell {
 	private Position cellPosition;
 	private GameObject objectOnCell;
+	private String groundType;
 	private Image groundImage;
 	private Image objectImage[] = new Image[4];
 
-	public BoardCell(Position position, GameObject object, String groundFile) {
+	public BoardCell(Position position, GameObject object, String groundType) {
 		this.cellPosition = position;
 		this.objectOnCell = object;
-		try {
-			//TODO FIX this for however it is going to be draw
-			
-			groundImage = ImageIO.read(new File(groundFile + ".png"));
-			objectImage[0] = ImageIO.read(new File("N" + objectOnCell.getObjectID() + ".png"));
-			objectImage[1] = ImageIO.read(new File("S" + objectOnCell.getObjectID() + ".png"));
-			objectImage[2] = ImageIO.read(new File("E" + objectOnCell.getObjectID() + ".png"));
-			objectImage[3] = ImageIO.read(new File("W" + objectOnCell.getObjectID() + ".png"));
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		this.groundType = groundType;
+
+		// try {
+		// //TODO FIX this for however it is going to be draw
+		// //groundImage = ImageIO.read(new File(groundFile + ".png"));
+		//
+		// } catch (IOException e) {
+		// e.printStackTrace();
+		// }
 	}
 
 	/**
@@ -64,5 +63,15 @@ public class BoardCell {
 
 	public Position getPosition() {
 		return this.cellPosition;
+	}
+
+	public String toString() {
+		if (groundType == null) {
+			return " ";
+		}else if (objectOnCell == null) {
+			return this.groundType;
+		}else{
+			return this.objectOnCell.toString();
+		}
 	}
 }

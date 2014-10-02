@@ -5,12 +5,15 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 
 import catgame.GameObjects.GameItem;
 import catgame.GameObjects.MasterObject;
 
 public class Room {
-	private BoardCell[][] boardGrid;
+	
+	private final int roomID;
+	private BoardCell[][] roomGrid;
 	private ArrayList<MasterObject> roomInventory = new ArrayList<MasterObject>();
 	private HashMap<Character, BoardCell> locationMap = new HashMap<Character, BoardCell>();
 
@@ -21,25 +24,25 @@ public class Room {
 	 * @param groundFile
 	 * @param objectLayerFile
 	 */
-	public Room(String groundFile) {
-		boardGrid = loadFile(groundFile);
+	public Room(int roomID, BoardCell[][] room) {
+		this.roomID = roomID;
+		this.roomGrid = room;
 	}
 
-	/**
-	 * Reads and constructs byte[][]'s for the board
-	 * 
-	 * @param size
-	 * @param file
-	 * @param objectLayerFile
-	 * @return byte[][]
-	 */
-	public BoardCell[][] loadFile(String groundFile) {
-
-		return new BoardCell[0][0];
+	public void printBoard() {
+		for(int x = 0 ; x < roomGrid.length ; x++){
+			String line = "";
+			for(int y = 0 ; y < roomGrid[0].length ; y++){
+				line += roomGrid[x][y].toString()+"\t";
+			}
+			System.out.println(line);
+			line = "";
+		}
+		
 	}
 
 	public BoardCell[][] getBoardGrid() {
-		return boardGrid;
+		return roomGrid;
 	}
 
 	public ArrayList<MasterObject> getRoomInventory() {
@@ -86,5 +89,9 @@ public class Room {
 	private Position findPosition(String direction, Position playerPosition){
 		//Get the grapics oriantation then detemine which direction on the array the move will be
 		return new Position(0, 0);
+	}
+	
+	public int getRoomID(){
+		return this.roomID;
 	}
 }

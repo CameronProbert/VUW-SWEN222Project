@@ -1,15 +1,21 @@
 package catgame.logic;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
+import catgame.GameObjects.Character;
+import catgame.GameObjects.Food;
+import catgame.GameObjects.GameItem;
+import catgame.GameObjects.Key;
 import catgame.GameObjects.MasterObject;
 import catgame.GameObjects.Chest;
+import catgame.GameObjects.PlayableCharacter;
 
-public class GameMain {
+public class GameUtill {
 
 	HashMap gameMap = new HashMap();
 
-	public GameMain() {
+	public GameUtill() {
 
 	}
 
@@ -104,5 +110,31 @@ public class GameMain {
 	public Chest getChest(int clientsUID) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	public PlayableCharacter findCharacter(int objectID) {
+		// TODO Auto-generated method stub
+		////////////////////////////////////////////////////
+		// For testing
+		ArrayList<GameItem> items = new ArrayList<GameItem>();
+		items.add(new Food(2, 30));
+		items.add(new Key(3));
+		items.add(new Food(2, 30));
+
+		PlayableCharacter ch = new PlayableCharacter(1, null, " ", 3,
+				5, items);	
+		return ch;
+		/////////////////////////////////////////////////////
+	}
+
+	public GameItem findItem(int i) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public void addPlayer(int playerID) {
+		// TODO Auto-generated method stub
+		
+		
 	}
 }

@@ -15,11 +15,12 @@ import catgame.logic.Room;
  */
 public class Minion implements NonPlayableCharacter {
 
-	private int id;
+	private final int id;
+	private final int maxItems = 3;
 	private Room currentRoom;
 	private int health;
 	private ArrayList<GameItem> inventory = new ArrayList<GameItem>();
-	private int maxItems = 3;
+	
 	private int attackPower;
  
 	public Minion(int ID,Room currentRoom, int attackPower, int health, ArrayList<GameItem> items) {
@@ -81,6 +82,24 @@ public class Minion implements NonPlayableCharacter {
 
 	public Room getCurrentRoom() {
 		return currentRoom;
+	}
+
+	@Override
+	public int getLevel() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public void reset(int attackPower, int health, int level) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void resetItems(java.util.List<GameItem> items) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

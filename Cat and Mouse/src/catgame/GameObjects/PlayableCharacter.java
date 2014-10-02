@@ -15,12 +15,13 @@ import catgame.logic.Room;
  */
 public class PlayableCharacter implements Character {
 
-	private int id;
+	private final int id;
+	private final int maxItems = 6;
 	private Room currentRoom;
 	private String facingDirection;
 	private int health;
 	private List<GameItem> inventory = new ArrayList<GameItem>();
-	private int maxItems = 10;
+	
 	private int attackPower;
 	private int xp;
 
@@ -122,5 +123,28 @@ public class PlayableCharacter implements Character {
 	
 	public void attack(){
 		this.currentRoom.playerAttack(id, facingDirection , this.attackPower);
+	}
+
+	public void resetXP(int xP2) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public int getLevel() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public void reset(int attackPower, int health, int level) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void resetItems(List<GameItem> items) {
+		// TODO Auto-generated method stub
+		
 	}
 }

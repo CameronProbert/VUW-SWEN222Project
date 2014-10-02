@@ -11,9 +11,10 @@ import catgame.logic.Position;
  */
 public class Chest implements NonMovavble {
 	
+	private final int id;
 	private List<GameItem> inventory;
 	private BoardCell cell;
-	private int id;
+	
 
 	public Chest(int ID, List<GameItem> inv){
 		this.id = ID;
@@ -30,6 +31,10 @@ public class Chest implements NonMovavble {
 
 	public int getObjectID() {
 		return id;
+	}
+	
+	public List<GameItem> openChest(){
+		return inventory;
 	}
 
 }

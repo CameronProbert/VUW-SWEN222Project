@@ -3,6 +3,7 @@ package catgame.logic;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 
@@ -12,7 +13,7 @@ import java.util.ArrayList;
  */
 public class BoardData {
 
-	private ArrayList<Room> allRooms;
+	private List<Room> allRooms = new ArrayList<Room>();
 
 	public BoardData() {
 		
@@ -22,12 +23,12 @@ public class BoardData {
 	 * TODO
 	 * @return
 	 */
-	public ArrayList<Room> loadLevel() {
+	public List<Room> loadLevel() {
 		ArrayList toLoad = new ArrayList<Room>();
 		return toLoad;
 	}
 	
-	public ArrayList<Room> getAllRooms(){
+	public List<Room> getAllRooms(){
 		return allRooms;
 	}
 

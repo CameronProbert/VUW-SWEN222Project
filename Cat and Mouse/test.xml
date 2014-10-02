@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CatGame>
+  <BoardDate allRooms="1">
+    <Room_0 id="0">
+      <Food id="55">
+        <heal>5</heal>
+      </Food>
+    </Room_0>
+  </BoardDate>
+</CatGame>

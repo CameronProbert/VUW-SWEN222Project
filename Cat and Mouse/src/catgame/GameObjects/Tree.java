@@ -9,21 +9,17 @@ import catgame.logic.Position;
  */
 public class Tree implements NonMovavble {
 	
-	private BoardCell cell;
-	private int id;
+	private final int id;
 
-	public Tree(int ID, BoardCell cell , int id) {
+	public Tree(int ID) {
 		this.id = ID;
-		this.cell = cell;
-		this.id = id;
-	}
-
-	public BoardCell getCurrentCell() {
-		return cell;
 	}
 
 	public int getObjectID() {
 		return id;
 	}
 
+	public String toString(){
+		return "Tree";
+	}
 }

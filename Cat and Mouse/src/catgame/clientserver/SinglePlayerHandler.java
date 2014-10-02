@@ -1,5 +1,14 @@
 package catgame.clientserver;
 
+import java.util.ArrayList;
+
+import catgame.gui.ClientFrame;
+import catgame.logic.GameUtill;
+import catgame.GameObjects.Food;
+import catgame.GameObjects.GameItem;
+import catgame.GameObjects.Key;
+import catgame.GameObjects.PlayableCharacter;
+
 public class SinglePlayerHandler extends GameRunner {
 
 
@@ -9,7 +18,14 @@ public class SinglePlayerHandler extends GameRunner {
 	 * @param playerID
 	 */
 	public SinglePlayerHandler (int playerID){
-		// TODO make a single player panel and pass it the gamemain
+		GameUtill game = new GameUtill();
+		game.addPlayer(playerID);
+		PlayableCharacter ch = game.findCharacter(playerID);
+		ClientFrame frame = new ClientFrame(this, playerID, false, ch);
 		
+	}
+	
+	public static void main(String[] args){
+		new SinglePlayerHandler(1);
 	}
 }

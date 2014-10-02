@@ -10,7 +10,7 @@ import catgame.logic.Position;
  *
  */
 public class Key implements GameItem{	
-	private int id;
+	private final int id;
 
 	public Key(int id){
 		this.id = id;
