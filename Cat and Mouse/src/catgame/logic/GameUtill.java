@@ -6,6 +6,7 @@ import java.util.HashMap;
 import catgame.GameObjects.Character;
 import catgame.GameObjects.Food;
 import catgame.GameObjects.GameItem;
+import catgame.GameObjects.GameObject;
 import catgame.GameObjects.Key;
 import catgame.GameObjects.MasterObject;
 import catgame.GameObjects.Chest;
@@ -134,7 +135,10 @@ public class GameUtill {
 
 	public void addPlayer(int playerID) {
 		// TODO Auto-generated method stub
-		
-		
+	}
+
+	public GameObject findGameObject(int ownerID) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

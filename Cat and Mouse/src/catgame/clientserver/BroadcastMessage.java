@@ -41,11 +41,29 @@ public class BroadcastMessage {
 	
 	public void sendItem(int objectID, GameItem item){
 		// TODO send the location of each item that must be held, in terms of what is the id that is holding it
+		try {
+			out.writeInt(objectID);
+			out.writeInt(item.getOwner().getObjectID());
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
 	}
 	
 	public void sendChest(int objectID, Chest chest){
 		// TODO send the location of each chest
 		// TODO send contents of chest
+		try {
+			out.writeInt(objectID);
+			out.writeInt(chest.getLoot().size());
+			for(GameItem item : chest.getLoot()){
+				out.writeInt(item.getObjectID());
+			}
+			// out.writeInt(x);// TODO somehow send position
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
 	}
 
 }

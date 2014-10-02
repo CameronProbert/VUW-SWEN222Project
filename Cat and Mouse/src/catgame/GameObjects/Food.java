@@ -12,6 +12,7 @@ import catgame.logic.Position;
 public class Food implements GameItem{
 	private final int id;
 	private final int heal;
+	private GameObject owner;
 
 	public Food(int id , int heal){
 		this.id = id;
@@ -30,9 +31,19 @@ public class Food implements GameItem{
 		return false;
 	}
 	
+	
+	
 	public void draw(Graphics g ,Position framePosition) {
 		
 		
+	}
+	@Override
+	public GameObject getOwner() {
+		return owner;
+	}
+	@Override
+	public void setOwner(GameObject own) {
+		this.owner = own;
 	}
 	 
 }

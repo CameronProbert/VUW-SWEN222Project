@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import catgame.GameObjects.GameItem;
+import catgame.GameObjects.GameObject;
 import catgame.GameObjects.PlayableCharacter;
 import catgame.logic.GameUtill;
 import catgame.GameObjects.Character;
@@ -59,7 +60,15 @@ public class ReceiveMessage {
 	}
 
 	public void readItem(){
-		// TODO get id and then place
+		try {
+			int id = in.readInt();
+			int ownerID = in.readInt();
+			GameItem item = game.findItem(id);
+			GameObject owner = game.findGameObject(ownerID);
+			item.setOwner(owner);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	public void readChest(){

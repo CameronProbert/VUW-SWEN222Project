@@ -22,5 +22,9 @@ public interface GameItem extends MasterObject {
 	 * @param framePosition
 	 */
 	public void draw(Graphics g, Position framePosition);
+
+	public GameObject getOwner();
+	
+	public void setOwner(GameObject own);
 	
 }

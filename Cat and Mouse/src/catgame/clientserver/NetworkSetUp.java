@@ -19,6 +19,7 @@ public class NetworkSetUp {
 	private int port = 32768; // default
 	private static boolean readyToStart = false;
 	private NetworkHandler game;
+	private static int maxPlayers;
 	
 	private String url = null;	
 	
@@ -27,7 +28,8 @@ public class NetworkSetUp {
 		gameClock = DEFAULT_CLK_PERIOD;
 	}
 
-	public void setServer(){
+	public void setServer(int numPlayers){
+		maxPlayers = numPlayers;
 		if(url != null) {
 			System.out.println("Cannot be a server and connect to another server!");
 			System.exit(1);
@@ -76,7 +78,7 @@ public class NetworkSetUp {
 		
 		// Listen for connections
 		System.out.println("SERVER LISTENING ON PORT " + port);
-		System.out.println("ERVER AWAITING CLIENTS");
+		System.out.println("SERVER AWAITING CLIENTS");
 		try {
 			List<Master> connections = new ArrayList<Master>();
 			// Now, we await connections.
@@ -95,7 +97,7 @@ public class NetworkSetUp {
 				/////////////// HOW WILL WE KNOW WHEN TO START THE GAME????????????
 				//////////////
 				////////////////////////////////////////////////////////////////
-				if(readyToStart) {
+				if(nclients == maxPlayers) {
 					if(nclients==0){
 						System.out.println("No clients game over");
 						return;
