@@ -17,7 +17,6 @@ public class StatPanel extends AbstractPanel {
 
 	public StatPanel(PlayableCharacter character) {
 		super();
-		
 		this.character = character;
 	}
 
@@ -37,22 +36,33 @@ public class StatPanel extends AbstractPanel {
 		repaint();
 	}
 
+	// TODO SCALE
 	@Override
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
+		g.setColor(Color.red);
+		g.drawRect(0, 0, getWidth()-1, getHeight()-1);
+		drawHPBar(g);
+	}
+	
+	public void drawHPBar(Graphics g){
+		int HPWidth = this.getWidth()*9/10;
+		int HPHeight = this.getHeight()/15;
+		int HPX = this.getWidth()/20;
+		int HPY = this.getHeight()/15;
+		
+		g.setColor(Color.black);
 		g.drawString("Health:", 10, 15);
 		g.setColor(Color.DARK_GRAY);
-		g.fillRect(10, 20, 180, 10);
-		g.fillRect(10, 50, 180, 10);
+		g.fillRect(HPX, HPY, HPWidth, HPHeight);
 		if (character != null) {
 			int hp = character.getHealth();
 			Color hpCol = new Color((int) (255 - (hp / 100.0 * 255)),
 					(int) (hp / 100.0 * 255), 0);
 			g.setColor(hpCol);
-			g.fillRect(10, 20, (int) (hp / 100f * 180f), 10);
+			g.fillRect(HPX, HPY, (int) (hp / 100f * HPWidth), HPHeight);
 		}
 		g.setColor(Color.black);
-		g.drawRect(10, 20, 180, 10);
-		g.drawRect(10, 50, 180, 10);
+		g.drawRect(HPX, HPY, HPWidth, HPHeight);
 	}
 }

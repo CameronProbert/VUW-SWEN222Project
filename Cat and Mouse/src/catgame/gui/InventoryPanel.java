@@ -17,8 +17,8 @@ import catgame.GameObjects.PlayableCharacter;
 
 public class InventoryPanel extends AbstractPanel {
 
-	private static final double NUMCOLUMNS = 2;
-	private static final double NUMROWS = 3;
+	private static final int NUMCOLUMNS = 1;
+	private static final int NUMROWS = 6;
 	private static final double TOTALSLOTS = NUMCOLUMNS * NUMROWS;
 	private PlayableCharacter character;
 	private ArrayList<ItemPanel> panels = new ArrayList<ItemPanel>();
@@ -47,8 +47,8 @@ public class InventoryPanel extends AbstractPanel {
 		int itemHeight = (int) (invSize.getHeight() / NUMROWS);
 		Dimension panelSize = new Dimension(itemWidth, itemHeight);
 		for (int i = 0; i < TOTALSLOTS; i++) {
-			int columnNum = i % 2;
-			int rowNum = i / 2;
+			int columnNum = i % NUMCOLUMNS;
+			int rowNum = i / NUMCOLUMNS;
 			int x = columnNum * itemWidth;
 			int y = rowNum * itemHeight;
 			ItemPanel panel = new ItemPanel(new Point(x, y), panelSize);

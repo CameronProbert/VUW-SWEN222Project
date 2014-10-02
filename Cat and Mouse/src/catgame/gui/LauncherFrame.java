@@ -9,6 +9,8 @@ import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JSlider;
 
 import catgame.clientserver.NetworkSetUp;
 
@@ -29,20 +31,10 @@ public class LauncherFrame extends AbstractFrame {
 	 */
 	public LauncherFrame() {
 		super("Launcher");
-		this.setSize(new Dimension(200, 400));
-		this.setPreferredSize(new Dimension(200, 400));
-		initialiseBehaviour();
+		Dimension launcherSize = new Dimension(200, 400);
+		this.setSize(launcherSize);
+		this.setPreferredSize(launcherSize);
 		addButtons();
-	}
-
-	/**
-	 * Sets behaviour for the frame
-	 */
-	protected void initialiseBehaviour() {
-		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
-		this.setVisible(true);
-		this.setResizable(false);
-		// this.setBackground(new Color(50,70,255));
 	}
 
 	/**
@@ -60,25 +52,28 @@ public class LauncherFrame extends AbstractFrame {
 		Dimension buttonSize = new Dimension(200, 100);
 
 		// Create the buttons
-		JButton buttonServer = createButton("Multiplayer Host", buttonSize);
+		JButton buttonServer = HelperMethods.createButton("Multiplayer Host", buttonSize);
 		buttonServer.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				setVisible(false);
-				new HostFrame();
+				NetworkSetUp network = new NetworkSetUp();
+				new HostFrame(network);
 			}
 		});
+		buttonServer.setAlignmentX(CENTER_ALIGNMENT);
 
-		JButton buttonClient = createButton("Multiplayer Client", buttonSize);
+		JButton buttonClient = HelperMethods.createButton("Multiplayer Client", buttonSize);
 		buttonClient.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				setVisible(false);
-				String url = stringInputDialog("Enter URL", "");
+				String url = HelperMethods.stringInputDialog("Enter URL", "");
 				NetworkSetUp network = new NetworkSetUp();
 				network.setClient(url);
 			}
 		});
+		buttonClient.setAlignmentX(CENTER_ALIGNMENT);
 
-		JButton buttonSinglePlayer = createButton("Single Player", buttonSize);
+		JButton buttonSinglePlayer = HelperMethods.createButton("Single Player", buttonSize);
 		buttonSinglePlayer.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				setVisible(false);
@@ -86,13 +81,15 @@ public class LauncherFrame extends AbstractFrame {
 				network.setSinglePlayer();
 			}
 		});
+		buttonSinglePlayer.setAlignmentX(CENTER_ALIGNMENT);
 
-		JButton buttonQuit = createButton("Quit", buttonSize);
+		JButton buttonQuit = HelperMethods.createButton("Quit", buttonSize);
 		buttonQuit.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				confirmQuit();
+				HelperMethods.confirmQuit();
 			}
 		});
+		buttonQuit.setAlignmentX(CENTER_ALIGNMENT);
 
 		// Add the buttons
 		box.add(buttonServer);
@@ -100,69 +97,6 @@ public class LauncherFrame extends AbstractFrame {
 		box.add(buttonSinglePlayer);
 		box.add(buttonQuit);
 		// this.pack();
-	}
-
-	// ================= Helper Methods ====================
-
-	/**
-	 * Creates and returns a button
-	 * 
-	 * @param text
-	 *            The text to be on the button
-	 * @param size
-	 *            The size of the button
-	 * @return
-	 */
-	public static JButton createButton(String text, Dimension size) {
-		JButton button = new JButton();
-		button.setMinimumSize(size);
-		button.setMaximumSize(size);
-		button.setText(text);
-		button.setAlignmentX(CENTER_ALIGNMENT);
-		return button;
-	}
-
-	/**
-	 * Creates a dialog asking if the user would like to quit the program
-	 */
-	public static void confirmQuit() {
-		if (confirmationDialog("Confirm quit", "Are you sure you want to quit?")) {
-			System.exit(0);
-		}
-	}
-
-	/**
-	 * Creates a dialog asking the user for confirmation
-	 * 
-	 * @param title
-	 *            The title of the dialog box
-	 * @param message
-	 *            The message of the dialog box
-	 * @return A boolean of the user's choice
-	 */
-	public static boolean confirmationDialog(String title, String message) {
-		return JOptionPane.OK_OPTION == JOptionPane.showConfirmDialog(null,
-				message, title, JOptionPane.OK_CANCEL_OPTION);
-
-	}
-
-	/**
-	 * Creates a dialog that asks for user input
-	 * 
-	 * @param title
-	 *            The title of the dialog box
-	 * @param message
-	 *            The message of the dialog box
-	 * @return The users input as a string
-	 */
-	public static String stringInputDialog(String title, String message) {
-		String string = "";
-		do {
-			string = (String) JOptionPane.showInputDialog(null, message, title,
-					JOptionPane.PLAIN_MESSAGE, null, null, "");
-		} while (string == null || string.equals(""));
-
-		return string;
 	}
 
 	// ================== Main Method ======================

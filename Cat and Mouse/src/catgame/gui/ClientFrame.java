@@ -34,6 +34,17 @@ public class ClientFrame extends AbstractFrame implements KeyListener {
 	public ClientFrame(GameRunner network, int UID, boolean isClient,
 			PlayableCharacter character) {
 		super("Cat and Mouse");
+		this.setDimensions();
+		this.setLayout(null);
+		this.addKeyListener(this);
+		this.addPanels(character);
+		this.clientsUID = UID;
+		this.runner = network;
+		this.isClient = isClient;
+		this.setup();
+	}
+
+	private void setDimensions() {
 		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 		if (screenSize == null) {
 			System.out.println("screenSize is null");
@@ -45,41 +56,36 @@ public class ClientFrame extends AbstractFrame implements KeyListener {
 		windowSize = new Dimension(windowWidth, windowHeight);
 		this.setSize(windowSize);
 		this.setPreferredSize(windowSize);
-		this.setLayout(null);
-		addKeyListener(this);
-		this.addPanels(character);
-		this.clientsUID = UID;
-		this.runner = network;
-		this.isClient = isClient;
-		this.setup();
 	}
 
 	private void addPanels(PlayableCharacter character) {
 		renderPanel = new RenderPanel(windowSize, this);
 
-		int panelWidth = (int) (1.0 / 6 * windowSize.getWidth());
+		// Create dimensions
 		int panelHeight = (int) (1.0 / 2 * windowSize.getHeight());
-		Dimension panelDim = new Dimension(panelWidth, panelHeight);
+		int statPanelWidth = (int) (1.0 / 6 * windowSize.getWidth());
+		int invPanelWidth = (int) (1.0 / 24 * windowSize.getWidth());
+		
+		Dimension statPanelDim = new Dimension(statPanelWidth, panelHeight);
+		Dimension invPanelDim = new Dimension(invPanelWidth, panelHeight);
+		
+		// Create locations
 		int invLocationX = (int) (1.0 / 60 * windowSize.getWidth());
 		int panelLocationY = (int) (7.0 / 15 * windowSize.getHeight());
 		int statLocationX = (int) (49.0 / 60 * windowSize.getWidth());
 
-		InventoryPanel invPanel = new InventoryPanel(character, panelDim);
+		InventoryPanel invPanel = new InventoryPanel(character, invPanelDim);
 		invPanel.setLocation(invLocationX, panelLocationY);
-		invPanel.setSize(panelDim);
-		invPanel.setPreferredSize(panelDim);
+		invPanel.setSize(invPanelDim);
+		invPanel.setPreferredSize(invPanelDim);
 
 		statPanel = new StatPanel(character);
 		statPanel.setLocation(statLocationX, panelLocationY);
-		statPanel.setSize(panelDim);
-		statPanel.setPreferredSize(panelDim);
+		statPanel.setSize(statPanelDim);
+		statPanel.setPreferredSize(statPanelDim);
 
-//		setComponentZOrder(renderPanel, 1);
-//		setComponentZOrder(statPanel, 2);
-//		setComponentZOrder(invPanel, 3);
-
-		//this.add(invPanel);
-		//this.add(statPanel);
+		this.add(invPanel);
+		this.add(statPanel);
 		this.add(renderPanel);
 	}
 	
@@ -94,8 +100,6 @@ public class ClientFrame extends AbstractFrame implements KeyListener {
 	@Override
 	public void keyPressed(KeyEvent key) {
 		int keyID = key.getKeyCode();
-		System.out.println(keyID);
-		System.out.println(KeyEvent.VK_M);
 		int validAction = 0;
 		Update up = new Update(0);
 		switch (keyID) {
@@ -142,7 +146,6 @@ public class ClientFrame extends AbstractFrame implements KeyListener {
 			NetworkHandler net = (NetworkHandler) runner;
 			net.update(up, true);
 		}
-
 	}
 
 	@Override

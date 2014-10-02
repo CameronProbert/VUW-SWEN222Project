@@ -11,6 +11,7 @@ public abstract class AbstractFrame extends JFrame {
 	
 	public AbstractFrame(String windowTitle) {
 		super();
+		setup();
 		this.setTitle(windowTitle);
 	}
 	
