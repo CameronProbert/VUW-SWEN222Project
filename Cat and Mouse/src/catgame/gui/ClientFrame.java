@@ -32,6 +32,7 @@ public class ClientFrame extends AbstractFrame implements KeyListener {
 	private StatPanel statPanel;
 	private Dimension windowSize;
 	private SlaveReceiver slaveR;
+	private Slave slave;
 
 	/**
 	 * Creates a new Client frame.
@@ -55,6 +56,7 @@ public class ClientFrame extends AbstractFrame implements KeyListener {
 		if(slave!=null){
 			slaveR.run();
 		}
+		this.slave = slave;
 		this.setVisible(true);
 	}
 
@@ -166,8 +168,7 @@ public class ClientFrame extends AbstractFrame implements KeyListener {
 			break;
 		}
 		if (validAction > 0 && isClient) {
-			NetworkHandler net = (NetworkHandler) runner;
-			net.update(up, true);
+			slave.sendUpdate(up);;
 		}
 	}
 
