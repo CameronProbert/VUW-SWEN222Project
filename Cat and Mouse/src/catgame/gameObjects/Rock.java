@@ -1,4 +1,4 @@
-package catgame.GameObjects;
+package catgame.gameObjects;
 
 import catgame.logic.BoardCell;
 import catgame.logic.Position;
@@ -7,19 +7,19 @@ import catgame.logic.Position;
  * @author Dan Henton
  *
  */
-public class Tree implements NonMovavble {
-	
+public class Rock implements NonMovavble {
+
 	private final int id;
 
-	public Tree(int ID) {
+	public Rock(int ID) {
 		this.id = ID;
 	}
 
 	public int getObjectID() {
 		return id;
 	}
-
+	
 	public String toString(){
-		return "Tree";
+		return "Rock";
 	}
 }

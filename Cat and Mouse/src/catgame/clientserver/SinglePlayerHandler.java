@@ -2,12 +2,12 @@ package catgame.clientserver;
 
 import java.util.ArrayList;
 
+import catgame.gameObjects.Food;
+import catgame.gameObjects.GameItem;
+import catgame.gameObjects.Key;
+import catgame.gameObjects.PlayableCharacter;
 import catgame.gui.ClientFrame;
 import catgame.logic.GameUtil;
-import catgame.GameObjects.Food;
-import catgame.GameObjects.GameItem;
-import catgame.GameObjects.Key;
-import catgame.GameObjects.PlayableCharacter;
 
 public class SinglePlayerHandler extends GameRunner {
 

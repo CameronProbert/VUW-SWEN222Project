@@ -1,34 +1,40 @@
-package catgame.GameObjects;
+package catgame.gameObjects;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import catgame.logic.BoardCell;
-import catgame.logic.Position;
+import catgame.logic.GameError;
+import catgame.logic.GameUtil.Direction;
 import catgame.logic.Room;
 
 /**
- * 
+ *
  * @author Dan Henton
- * 
- *         Boss is a high health NPC which the player can attack and loot. A
- *         Boss Has better gear but is harder to kill.
+ *
  */
-public class Boss implements NonPlayableCharacter {
+public class PlayableCharacter implements Character {
 
 	private final int id;
 	private final int maxItems = 6;
 	private Room currentRoom;
+	private Direction facingDirection;
 	private int health;
 	private List<GameItem> inventory = new ArrayList<GameItem>();
+	
 	private int attackPower;
+	private int xp;
 
-	public Boss(int ID, Room currentRoom , int attackPower, int health, List<GameItem> items) {
+	public PlayableCharacter(int ID, Room currentRoom, Direction direction, int attackPower, int health, List<GameItem> items) {
 		this.id = ID;
 		this.currentRoom = currentRoom;
+		this.facingDirection = direction;
 		this.attackPower = attackPower;
 		this.health = health;
 		this.inventory.addAll(items);
+	}
+
+	public int getObjectID() {
+		return id;
 	}
 
 	public int getHealth() {
@@ -36,7 +42,7 @@ public class Boss implements NonPlayableCharacter {
 	}
 
 	public void changeHealth(int change) {
-		this.health += change;
+		health += change;
 	}
 
 	public List<GameItem> getInventory() {
@@ -44,9 +50,15 @@ public class Boss implements NonPlayableCharacter {
 	}
 
 	public boolean addToInventory(GameItem item) {
+		if (inventory.size() == maxItems) {
+			return false;
+		}
 		return inventory.add(item);
 	}
 
+	/**
+	 * TODO the item could be checked via the items id
+	 */
 	public GameItem removeFromInventory(GameItem item) {
 		GameItem result = null;
 		if (inventory.contains(item)) {
@@ -60,10 +72,6 @@ public class Boss implements NonPlayableCharacter {
 		return result;
 	}
 
-	public int getObjectID() {
-		return id;
-	}
-
 	public int getAttackPower() {
 		return attackPower;
 	}
@@ -72,32 +80,55 @@ public class Boss implements NonPlayableCharacter {
 		this.attackPower += change;
 	}
 
-	public void move(String Direction) {
-		// TODO Auto-generated method stub
+	public void move(Direction direction) throws GameError {
+		if (isDead()) {
+			throw new GameError("Player is dead");
+		}
+		if (direction.equals(facingDirection)) {
+			forward(direction);
+		} else {
+			turn(direction);
+		}
+	}
+
+	private void forward(Direction direction) {
+		//this.currentRoom.movePlayer(id, direction);
+	}
+
+	private void turn(Direction direction) {
+		this.facingDirection = direction;
 	}
 
 	public boolean isDead() {
-		return health < 1;
+		return health < 0;
 	}
 
-	@Override
+	public void useItem(GameItem item) {
+		
+	}
+
 	public Room getCurrentRoom() {
 		return currentRoom;
 	}
 
-	@Override
+	public Direction getFacingDirection() {
+		return facingDirection;
+	}
+	
+	public void attack(){
+		//this.currentRoom.playerAttack(id, facingDirection , this.attackPower);
+	}
+
 	public int getLevel() {
 		// TODO Auto-generated method stub
 		return 0;
 	}
 
-	@Override
 	public void reset(int attackPower, int health, int level) {
 		// TODO Auto-generated method stub
 		
 	}
-
-	@Override
+	
 	public void resetItems(List<GameItem> items) {
 		// TODO Auto-generated method stub
 		

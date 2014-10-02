@@ -1,4 +1,4 @@
-package catgame.GameObjects;
+package catgame.gameObjects;
 
 import java.awt.Graphics;
 

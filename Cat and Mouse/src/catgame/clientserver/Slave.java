@@ -9,7 +9,7 @@ import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
 
-import catgame.GameObjects.PlayableCharacter;
+import catgame.gameObjects.PlayableCharacter;
 import catgame.gui.ClientFrame;
 
 public class Slave extends Thread {

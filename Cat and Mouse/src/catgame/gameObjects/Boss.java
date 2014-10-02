@@ -1,9 +1,10 @@
-package catgame.GameObjects;
+package catgame.gameObjects;
 
-import java.awt.List;
 import java.util.ArrayList;
+import java.util.List;
 
 import catgame.logic.BoardCell;
+import catgame.logic.GameUtil.Direction;
 import catgame.logic.Position;
 import catgame.logic.Room;
 
@@ -11,19 +12,19 @@ import catgame.logic.Room;
  * 
  * @author Dan Henton
  * 
- *         Minion is a low health NPC which the player can attack and loot
+ *         Boss is a high health NPC which the player can attack and loot. A
+ *         Boss Has better gear but is harder to kill.
  */
-public class Minion implements NonPlayableCharacter {
+public class Boss implements NonPlayableCharacter {
 
 	private final int id;
-	private final int maxItems = 3;
+	private final int maxItems = 6;
 	private Room currentRoom;
 	private int health;
-	private ArrayList<GameItem> inventory = new ArrayList<GameItem>();
-	
+	private List<GameItem> inventory = new ArrayList<GameItem>();
 	private int attackPower;
- 
-	public Minion(int ID,Room currentRoom, int attackPower, int health, ArrayList<GameItem> items) {
+
+	public Boss(int ID, Room currentRoom , int attackPower, int health, List<GameItem> items) {
 		this.id = ID;
 		this.currentRoom = currentRoom;
 		this.attackPower = attackPower;
@@ -39,7 +40,7 @@ public class Minion implements NonPlayableCharacter {
 		this.health += change;
 	}
 
-	public ArrayList<GameItem> getInventory() {
+	public List<GameItem> getInventory() {
 		return inventory;
 	}
 
@@ -59,7 +60,7 @@ public class Minion implements NonPlayableCharacter {
 		}
 		return result;
 	}
-	
+
 	public int getObjectID() {
 		return id;
 	}
@@ -72,10 +73,6 @@ public class Minion implements NonPlayableCharacter {
 		this.attackPower += change;
 	}
 
-	public void move(String Direction) {
-		// TODO Auto-generated method stub
-	}
-	
 	public boolean isDead() {
 		return health < 1;
 	}
@@ -84,22 +81,19 @@ public class Minion implements NonPlayableCharacter {
 		return currentRoom;
 	}
 
-	@Override
-	public int getLevel() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
 
-	@Override
 	public void reset(int attackPower, int health, int level) {
 		// TODO Auto-generated method stub
 		
 	}
 
-	@Override
-	public void resetItems(java.util.List<GameItem> items) {
+	public void resetItems(List<GameItem> items) {
 		// TODO Auto-generated method stub
 		
 	}
 
+	public void move(Direction direction) {
+		// TODO Auto-generated method stub
+		
+	}
 }

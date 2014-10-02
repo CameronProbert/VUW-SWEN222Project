@@ -3,9 +3,10 @@ package catgame.logic;
 import java.io.BufferedReader;
 import java.io.FileReader;
 
-import catgame.GameObjects.Bush;
-import catgame.GameObjects.Rock;
-import catgame.GameObjects.Tree;
+import catgame.gameObjects.Bush;
+import catgame.gameObjects.Rock;
+import catgame.gameObjects.Tree;
+import catgame.logic.GameUtil.Direction;
 
 public class RoomBuilder {
 	private String fileName;
@@ -83,9 +84,11 @@ public class RoomBuilder {
 	}
 
 	public static void main(String[] args) {
-		RoomBuilder buildBoard = new RoomBuilder();
-		Room testRoom = new Room(1, buildBoard.getBoardFile());
-		testRoom.printBoard();
+		// RoomBuilder buildBoard = new RoomBuilder();
+		// Room testRoom = new Room(1, buildBoard.getBoardFile());
+		// testRoom.printBoard();
+		
+		
 		
 	}
 

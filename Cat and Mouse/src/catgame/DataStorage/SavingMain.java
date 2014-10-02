@@ -11,7 +11,7 @@ import java.util.List;
 import org.jdom2.*;
 import org.jdom2.output.XMLOutputter;
 
-import catgame.GameObjects.*;
+import catgame.gameObjects.*;
 import catgame.logic.*;
 
 public class SavingMain {

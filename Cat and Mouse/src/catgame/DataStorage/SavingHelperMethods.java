@@ -3,7 +3,7 @@ import java.util.List;
 
 import org.jdom2.Element;
 
-import catgame.GameObjects.*;
+import catgame.gameObjects.*;
 
 public class SavingHelperMethods {
 	private SavingMain main;

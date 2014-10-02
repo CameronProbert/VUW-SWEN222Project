@@ -7,7 +7,7 @@ import java.awt.Point;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
-import catgame.GameObjects.GameItem;
+import catgame.gameObjects.GameItem;
 
 public class ItemPanel extends AbstractPanel implements MouseListener {
 	

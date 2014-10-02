@@ -1,16 +1,6 @@
 package catgame.logic;
 
-import java.awt.Graphics;
-import java.awt.Image;
-import java.awt.ImageCapabilities;
-import java.io.File;
-import java.io.IOException;
-
-import javax.imageio.ImageIO;
-import javax.imageio.ImageIO;
-
-import catgame.GameObjects.GameObject;
-import catgame.GameObjects.PlayableCharacter;
+import catgame.gameObjects.GameObject;
 
 public class BoardCell {
 	private Position cellPosition;

@@ -9,7 +9,7 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 
-import catgame.GameObjects.PlayableCharacter;
+import catgame.gameObjects.PlayableCharacter;
 
 public class StatPanel extends AbstractPanel {
 

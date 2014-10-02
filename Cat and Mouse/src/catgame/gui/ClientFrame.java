@@ -6,10 +6,11 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.ArrayList;
 
-import catgame.GameObjects.*;
 import catgame.clientserver.*;
+import catgame.gameObjects.*;
 import catgame.gui.renderpanel.*;
 import catgame.logic.*;
+import catgame.logic.GameUtil.Direction;
 
 /**
  * The ClientFrame is the multi-player version of the game. It contains the
@@ -192,7 +193,7 @@ public class ClientFrame extends AbstractFrame implements KeyListener {
 		items.add(new Key(3));
 		items.add(new Food(2, 30));
 
-		PlayableCharacter character = new PlayableCharacter(1, null, " ", 3, 5,
+		PlayableCharacter character = new PlayableCharacter(1, null, Direction.NORTH, 3, 5,
 				items);
 		new ClientFrame(null, 0, false, character);
 	}

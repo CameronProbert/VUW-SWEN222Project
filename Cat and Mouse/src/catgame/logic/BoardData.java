@@ -13,7 +13,7 @@ import java.util.List;
  */
 public class BoardData {
 
-	private List<Room> allRooms = new ArrayList<Room>();
+	public static List<Room> allRooms = new ArrayList<Room>();
 
 	public BoardData() {
 		

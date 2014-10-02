@@ -3,8 +3,8 @@ package catgame.clientserver;
 import java.io.DataOutputStream;
 import java.io.IOException;
 
-import catgame.GameObjects.*;
-import catgame.GameObjects.Character;
+import catgame.gameObjects.*;
+import catgame.gameObjects.Character;
 
 public class BroadcastMessage {
 
@@ -21,12 +21,11 @@ public class BroadcastMessage {
 			out.writeInt(ch.getHealth());
 			if(ch instanceof PlayableCharacter){
 				PlayableCharacter playC = (PlayableCharacter) ch;
-				out.writeInt(playC.getXp());
+				//out.writeInt(playC.getXp());
 			}
 			else{
 				out.writeInt(0);
 			}
-			out.writeInt(ch.getLevel());
 			// out.write(ch.getCurrentCell().); // send position somehow TODO
 			int inSize = ch.getInventory().size();
 			out.writeInt(inSize);

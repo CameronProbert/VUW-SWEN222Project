@@ -5,11 +5,11 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import catgame.GameObjects.GameItem;
-import catgame.GameObjects.GameObject;
-import catgame.GameObjects.PlayableCharacter;
+import catgame.gameObjects.Character;
+import catgame.gameObjects.GameItem;
+import catgame.gameObjects.GameObject;
+import catgame.gameObjects.PlayableCharacter;
 import catgame.logic.GameUtil;
-import catgame.GameObjects.Character;
 
 public class ReceiveMessage {
 
@@ -41,7 +41,6 @@ public class ReceiveMessage {
 
 			if(ch instanceof PlayableCharacter){
 				PlayableCharacter playCh = (PlayableCharacter) ch;
-				playCh.resetXP(XP);
 			}
 
 			List<GameItem> items = new ArrayList<GameItem>();

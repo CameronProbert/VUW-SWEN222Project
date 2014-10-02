@@ -1,9 +1,10 @@
-package catgame.GameObjects;
+package catgame.gameObjects;
 
 import java.util.List;
 
 import catgame.logic.GameError;
 import catgame.logic.Room;
+import catgame.logic.GameUtil.Direction;
 
 /**
  *
@@ -60,7 +61,7 @@ public interface Character extends Movable {
 	 *
 	 * 
 	 */
-	public void move(String direction);
+	public void move(Direction direction);
 
 	/**
 	 * @return true if the character is dead
@@ -71,12 +72,6 @@ public interface Character extends Movable {
 	 * @return current Room
 	 */
 	public Room getCurrentRoom();
-
-	/**
-	 * 
-	 * @return currentlevel
-	 */
-	public int getLevel();
 
 	/**
 	 * completely reset the player according to server instructions

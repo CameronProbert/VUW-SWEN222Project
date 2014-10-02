@@ -1,21 +1,19 @@
 package catgame.logic;
 
-import java.awt.List;
-import java.io.BufferedReader;
-import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Map;
+import java.util.List;
 
-import catgame.GameObjects.GameItem;
-import catgame.GameObjects.MasterObject;
+import catgame.gameObjects.MasterObject;
+import catgame.gameObjects.PlayableCharacter;
+import catgame.logic.GameUtil.Direction;
 
 public class Room {
-	
+
 	private final int roomID;
 	private BoardCell[][] roomGrid;
-	private ArrayList<MasterObject> roomInventory = new ArrayList<MasterObject>();
-	private HashMap<Character, BoardCell> locationMap = new HashMap<Character, BoardCell>();
+	private List<MasterObject> roomInventory = new ArrayList<MasterObject>();
+	private HashMap<Integer, BoardCell> locationMap = new HashMap<Integer, BoardCell>();
 
 	/**
 	 * TODO Room parameters are subject to change, once the .xml file readers
@@ -30,35 +28,41 @@ public class Room {
 	}
 
 	public void printBoard() {
-		for(int x = 0 ; x < roomGrid.length ; x++){
+		for (int x = 0; x < roomGrid.length; x++) {
 			String line = "";
-			for(int y = 0 ; y < roomGrid[0].length ; y++){
-				line += roomGrid[x][y].toString()+"\t";
+			for (int y = 0; y < roomGrid[0].length; y++) {
+				line += roomGrid[x][y].toString() + "\t";
 			}
 			System.out.println(line);
 			line = "";
 		}
-		
+
 	}
 
 	public BoardCell[][] getBoardGrid() {
 		return roomGrid;
 	}
 
-	public ArrayList<MasterObject> getRoomInventory() {
+	public List<MasterObject> getRoomInventory() {
 		return roomInventory;
 	}
 
 	/**
-	 * TODO need to sort out the orienation part of how this will work
 	 * 
 	 * @param playerID
 	 * @param direction
 	 */
-	public void movePlayer(int playerID, String direction) {
-		Position playerCurrentPos = locationMap.get(playerID).getPosition();
-		// new GameError("Move Player Direction not reconised" + direction);
+	public int movePlayer(int playerID, Direction playerDirection) {
+		Position newPos = findPosition(playerID, Direction.NORTH, playerDirection);
+		if (newPos.getX() < 0 || newPos.getY() < 0 || newPos.getX() > roomGrid.length || newPos.getY() > roomGrid[0].length) {
+			System.out.println("New Move Position to x:" + newPos.getX() + " y:" + newPos.getY() + " is not valid");
+			return -1;
+		}
+		if (roomGrid[newPos.getX()][newPos.getY()].getGroundType() != null && roomGrid[newPos.getX()][newPos.getY()].getObjectOnCell() == null) {
 
+		}
+		System.out.println("Grid @ x:" + newPos.getX() + " y:" + newPos.getY() + " is not empty");
+		return -1;
 	}
 
 	/**
@@ -67,7 +71,7 @@ public class Room {
 	 * @param playerID
 	 * @param direction
 	 */
-	public void playerAction(int playerID, String direction) {
+	public void playerAction(int playerID, int playerDirection) {
 
 	}
 
@@ -76,22 +80,54 @@ public class Room {
 	 * 
 	 * @param playerID
 	 * @param direction
-	 * @param attackPower 
+	 * @param attackPower
 	 */
-	public void playerAttack(int playerID, String direction, int attackPower) {
+	public void playerAttack(int playerID, int playerDirection, int attackPower) {
 
 	}
-	
+
 	/**
-	 * Algorithm that determines the position for the next move
-	 * @return
+	 * 
+	 * @return a position on the board from where the player is and
+	 *         corrisponding to the movementDirection
 	 */
-	private Position findPosition(String direction, Position playerPosition){
-		//Get the grapics oriantation then detemine which direction on the array the move will be
+	private Position findPosition(int playerID, Direction boardOrientation, Direction playerDirection) {
+		int direction = translateForGid(boardOrientation, playerDirection);
+		Position playerPos = locationMap.get(playerID).getPosition();
+
+		switch (direction) {
+		case 0:
+			new Position(playerPos.getX(), playerPos.getY() - 1);
+		case 1:
+			new Position(playerPos.getX() + 1, playerPos.getY());
+		case 2:
+			new Position(playerPos.getX(), playerPos.getY() + 1);
+		case 3:
+			new Position(playerPos.getX() - 1, playerPos.getY());
+		}
+
 		return new Position(0, 0);
 	}
-	
-	public int getRoomID(){
+
+	public int getRoomID() {
 		return this.roomID;
+	}
+
+	/**
+	 * finds the direction in which a players action is on the grid no matter
+	 * the maps orientation
+	 * 
+	 * NORTH = UP = 0, EAST = RIGHT = 1, SOUTH = DOWN = 2, WEST = LEFT = 3,
+	 * 
+	 * @param boardOrientation
+	 * @param playerDirection
+	 * 
+	 */
+	public int translateForGid(Direction boardOrientation, Direction playerDirection) {
+		return (boardOrientation.getValue() + playerDirection.getValue()) % 4;
+	}
+
+	public PlayableCharacter getCharactor(int playerID) {
+		return (PlayableCharacter) locationMap.get(playerID).getObjectOnCell();
 	}
 }

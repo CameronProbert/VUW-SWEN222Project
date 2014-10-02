@@ -12,9 +12,9 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 
-import catgame.GameObjects.Bush;
-import catgame.GameObjects.Tree;
-import catgame.GameObjects.Rock;
+import catgame.gameObjects.Bush;
+import catgame.gameObjects.Rock;
+import catgame.gameObjects.Tree;
 import catgame.gui.ClientFrame;
 import catgame.logic.Room;
 import catgame.logic.RoomBuilder;

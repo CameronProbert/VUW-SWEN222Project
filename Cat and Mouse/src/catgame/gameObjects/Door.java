@@ -1,4 +1,4 @@
-package catgame.GameObjects;
+package catgame.gameObjects;
 
 import catgame.logic.BoardCell;
 import catgame.logic.Room;

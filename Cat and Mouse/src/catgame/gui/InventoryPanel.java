@@ -12,8 +12,8 @@ import java.util.List;
 
 import javax.swing.JPanel;
 
-import catgame.GameObjects.GameItem;
-import catgame.GameObjects.PlayableCharacter;
+import catgame.gameObjects.GameItem;
+import catgame.gameObjects.PlayableCharacter;
 
 public class InventoryPanel extends AbstractPanel {
 
