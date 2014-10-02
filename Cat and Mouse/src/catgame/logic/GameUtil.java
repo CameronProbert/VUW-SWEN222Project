@@ -12,11 +12,11 @@ import catgame.GameObjects.MasterObject;
 import catgame.GameObjects.Chest;
 import catgame.GameObjects.PlayableCharacter;
 
-public class GameUtill {
+public class GameUtil {
 
 	HashMap gameMap = new HashMap();
 
-	public GameUtill() {
+	public GameUtil() {
 
 	}
 

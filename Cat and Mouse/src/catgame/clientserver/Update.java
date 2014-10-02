@@ -1,6 +1,6 @@
 package catgame.clientserver;
 
-import catgame.logic.GameUtill;
+import catgame.logic.GameUtil;
 
 public class Update {
 
@@ -77,7 +77,7 @@ public class Update {
 	 * @param encoded
 	 * @param game
 	 */
-	public void decode(GameUtill game){
+	public void decode(GameUtil game){
 		String str = Integer.toString(code);
 		String first4 = str.substring(0, 4);
 		String next4 = str.substring(4,8);

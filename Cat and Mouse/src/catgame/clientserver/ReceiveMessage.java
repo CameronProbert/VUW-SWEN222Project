@@ -8,15 +8,15 @@ import java.util.List;
 import catgame.GameObjects.GameItem;
 import catgame.GameObjects.GameObject;
 import catgame.GameObjects.PlayableCharacter;
-import catgame.logic.GameUtill;
+import catgame.logic.GameUtil;
 import catgame.GameObjects.Character;
 
 public class ReceiveMessage {
 
 	private DataInputStream in ;
-	private GameUtill game;
+	private GameUtil game;
 
-	public ReceiveMessage(DataInputStream input, GameUtill game){
+	public ReceiveMessage(DataInputStream input, GameUtil game){
 		this.in = input;
 		this.game = game;
 	}
