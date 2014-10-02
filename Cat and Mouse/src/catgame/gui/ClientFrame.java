@@ -120,19 +120,19 @@ public class ClientFrame extends AbstractFrame implements KeyListener {
 		Update up = new Update(0);
 		switch (keyID) {
 		case KeyEvent.VK_W:
-			validAction = runner.getGameUtill().moveNorth(clientsUID);
+			validAction = runner.getGameUtill().moveUp(clientsUID);
 			up = new Update(Update.Descriptor.NORTH, clientsUID, 0);
 			break;
 		case KeyEvent.VK_A:
-			validAction = runner.getGameUtill().moveWest(clientsUID);
+			validAction = runner.getGameUtill().moveLeft(clientsUID);
 			up = new Update(Update.Descriptor.WEST, clientsUID, 0);
 			break;
 		case KeyEvent.VK_S:
-			validAction = runner.getGameUtill().moveSouth(clientsUID);
+			validAction = runner.getGameUtill().moveDown(clientsUID);
 			up = new Update(Update.Descriptor.SOUTH, clientsUID, 0);
 			break;
 		case KeyEvent.VK_D:
-			validAction = runner.getGameUtill().moveEast(clientsUID);
+			validAction = runner.getGameUtill().moveRight(clientsUID);
 			up = new Update(Update.Descriptor.EAST, clientsUID, 0);
 			break;
 		case KeyEvent.VK_SPACE:

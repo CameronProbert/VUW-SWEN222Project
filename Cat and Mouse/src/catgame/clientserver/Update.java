@@ -89,16 +89,16 @@ public class Update {
 		
 		switch(instruction){
 		case 0100: // move forward
-			game.moveNorth(playerID);
+			game.moveUp(playerID);
 			
 		case 0101: // move right
-			game.moveWest(playerID);
+			game.moveLeft(playerID);
 			
 		case 0102: // move left
-			game.moveEast(playerID);
+			game.moveRight(playerID);
 			
 		case 0103: // move back
-			game.moveSouth(playerID);
+			game.moveDown(playerID);
 			
 		case 0104: // attack
 			game.attack(playerID, lastID);

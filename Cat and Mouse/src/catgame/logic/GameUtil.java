@@ -31,8 +31,8 @@ public class GameUtil {
 	 * @param playerID
 	 * @return whether a successful move or not (-1 = not success, 1 = success)
 	 */
-	public int moveNorth(int playerID) {
-		return -1; // TODO gameMap.get(playerID).move("NORTH");
+	public int moveUp(int playerID) {
+		return -1; // TODO gameMap.get(playerID).move("UP");
 	}
 
 	/**
@@ -40,8 +40,17 @@ public class GameUtil {
 	 * @param playerID
 	 * @return whether a successful move or not (-1 = not success, 1 = success)
 	 */
-	public int moveSouth(int playerID) {
-		return -1; // TODO gameMap.get(playerID).move("SOUTH");
+	public int moveRight(int playerID) {
+		return -1; // TODO gameMap.get(playerID).move("RIGHT");
+	}
+	
+	/**
+	 * 
+	 * @param playerID
+	 * @return whether a successful move or not (-1 = not success, 1 = success)
+	 */
+	public int moveDown(int playerID) {
+		return -1; // TODO gameMap.get(playerID).move("DOWN");
 	}
 
 	/**
@@ -49,17 +58,8 @@ public class GameUtil {
 	 * @param playerID
 	 * @return whether a successful move or not (-1 = not success, 1 = success)
 	 */
-	public int moveEast(int playerID) {
-		return -1; // TODO gameMap.get(playerID).move("EAST");
-	}
-
-	/**
-	 * 
-	 * @param playerID
-	 * @return whether a successful move or not (-1 = not success, 1 = success)
-	 */
-	public int moveWest(int playerID) {
-		return -1; // TODO gameMap.get(playerID).move("WEST");
+	public int moveLeft(int playerID) {
+		return -1; // TODO gameMap.get(playerID).move("LEFT");
 	}
 
 	/**
