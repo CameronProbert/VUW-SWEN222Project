@@ -5,7 +5,7 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
 
-public class Master extends Thread {
+public final class Master extends Thread {
 
 
 	private final NetworkHandler game;
@@ -16,7 +16,7 @@ public class Master extends Thread {
 	private int number = 0;
 	private boolean testing = true; // true when testing
 	private int timer = 0;
-	
+
 	private final static int TIMESUP = 10; // when timer reaches TIMESUP massive update to system 
 
 	public Master(Socket socket, int uid, int broadcastClock, NetworkHandler game) {
@@ -64,7 +64,7 @@ public class Master extends Thread {
 							output.writeInt(updateToSlave.getCode()); // will record last update in game
 							this.lastUpdateSent = updateToSlave;
 						}
-						
+
 						if(timer==TIMESUP){
 							timer=0;
 							broadcastGameState(output);
@@ -78,14 +78,16 @@ public class Master extends Thread {
 				}
 			}
 			else{
-				// First, give the client its uid
-				output.writeInt(uid);
-				//then give it all the players IDs
-				int noPlayers = 5;
-				output.writeInt(noPlayers);
+				while(true){
+					// First, give the client its uid
+					output.writeInt(uid);
+					//then give it all the players IDs
+					int noPlayers = 5;
+					output.writeInt(noPlayers);
 
-				for(int i=0; i<noPlayers; i++){
-					output.writeInt(i);
+					for(int i=0; i<noPlayers; i++){
+						output.writeInt(i);
+					}
 				}
 			}
 			socket.close(); // release socket ... v.important!
@@ -94,7 +96,7 @@ public class Master extends Thread {
 			game.disconnectPlayer(uid);
 		}		
 	}
-	
+
 	private void broadcastGameState(DataOutputStream output) {
 		//for each player send update
 		//for each non playable character send update

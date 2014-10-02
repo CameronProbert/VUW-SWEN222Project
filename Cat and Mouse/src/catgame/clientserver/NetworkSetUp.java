@@ -8,6 +8,8 @@ import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
 
+import catgame.gui.ClientFrame;
+
 
 
 public class NetworkSetUp {
@@ -68,8 +70,8 @@ public class NetworkSetUp {
 
 	private static void runClient(String addr, int port) throws IOException {		
 		Socket s = new Socket(addr,port);
-		System.out.println("CLIENT CONNECTED TO " + addr + ":" + port);			
-		new Slave(s).run();		
+		System.out.println("CLIENT CONNECTED TO " + addr + ":" + port);	
+		//new Slave(s).run();
 	}
 
 	private static void runServer(int port, int gameClock, int broadcastClock, NetworkHandler game) {

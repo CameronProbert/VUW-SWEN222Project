@@ -1,7 +1,5 @@
 package catgame.clientserver;
 
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
@@ -9,10 +7,12 @@ import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.SwingWorker;
+
 import catgame.GameObjects.PlayableCharacter;
 import catgame.gui.ClientFrame;
 
-public class Slave extends Thread {
+public final class Slave {
 
 
 	private final Socket socket;
@@ -37,118 +37,24 @@ public class Slave extends Thread {
 	 * @param dumbTerminal
 	 */
 	public Slave(Socket socket) {				
-		this.socket = socket;				
+		this.socket = socket;	
+		System.out.println("made slave");
 	}
 
-	public void run() {
-		try {		
-
+	public void sendUpdate(Update update){
+		try {
 			output = new DataOutputStream(socket.getOutputStream());
-			input = new DataInputStream(socket.getInputStream());
+			output.writeInt(update.getCode());
 			
-			if(!testing){
-				
-				// First job, is to read the period so we can create the clock				
-				uid = input.readInt();		
-
-				// now make new game for the client
-				game = new NetworkHandler(NetworkHandler.Type.CLIENT);
-				game.addClientPlayer(uid);
-
-				// now read the other players IDs
-				int noPlayers = input.readInt();
-				List<Integer> playerIds = new ArrayList<Integer>();
-
-				for(; noPlayers>0; noPlayers--){
-					playerIds.add(input.readInt());
-				}
-
-				game.setPlayerIds(playerIds);
-				
-				PlayableCharacter ch = game.getGameUtill().findCharacter(uid);
-				
-				ClientFrame frame = new ClientFrame(game, uid, true, ch);
-				// TODO set up client panel and pass it the networkHandler and the networkhandlers gamemmain
-				// TODO make sure a player CANNOT DO ANYTHING unless the 'game' is set to PLAYING
-
-				boolean exit=false;
-				long totalRec = 0;
-
-				while(!exit) {
-
-					// read event
-					//////////////////////////
-					int updateFromMaster = input.readInt();
-					if(updateFromMaster!=0){
-						game.update(new Update(updateFromMaster), false);// will not record last update
-					}
-
-					//write event
-					//////////////////////////
-					Update updateToMaster = game.getLatestUpdate();
-					if (this.lastSentUpdate!=null && !updateToMaster.equals(this.lastSentUpdate)){
-						output.writeInt(updateToMaster.getCode());
-						lastSentUpdate = updateToMaster;
-					}
-					else{
-						output.writeInt(0);
-					}
-
-					// TODO may need a repaint method here
-
-				}
-			}
-			else{
-				// First job, is to read the period so we can create the clock				
-				uid = input.readInt();		
-
-				// now read the other players IDs
-				int noPlayers = input.readInt();
-				List<Integer> playerIds = new ArrayList<Integer>();
-
-				for(; noPlayers>0; noPlayers--){
-					playerIds.add(input.readInt());
-				}
-				
-				numbers = playerIds;
-			}
-			socket.close(); // release socket ... v.important!
-		} catch(IOException e) {
-			System.err.println("I/O Error: " + e.getMessage());
-			e.printStackTrace(System.err);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
-	}
-
-	/**
-	 * The following method calculates the rate of data received in bytes/s, albeit
-	 * in a rather coarse manner.
-	 * 
-	 * @param amount
-	 * @return
-	 */
-	private int rate(int amount) {
-		rateTotal += amount;
-		long time = System.currentTimeMillis();
-		long period = time - rateStart;		
-		if(period > 1000) {
-			// more than a second since last calculation
-			currentRate = (rateTotal * 1000) / (int) period;
-			rateStart = time;
-			rateTotal = 0;
-		}
-
-		return currentRate;		
-	}
-	private int rateTotal = 0;   // total accumulated this second
-	private int currentRate = 0; // rate of reception last second
-	private long rateStart = System.currentTimeMillis();  // start of this accumulation perioud 
-
-	public List<Integer> getNumbers (){
-		return numbers;
+		
 	}
 	
-	public int getUID(){
-		return uid;
+	public Socket getSocket(){
+		return this.socket;
 	}
 
 

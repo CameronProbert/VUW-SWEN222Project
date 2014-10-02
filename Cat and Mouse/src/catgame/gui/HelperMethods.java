@@ -29,6 +29,7 @@ public class HelperMethods {
 		button.setSize(size);
 		button.setPreferredSize(size);
 		button.setText(text);
+		System.out.println("button made");
 		return button;
 	}
 

@@ -3,6 +3,9 @@ package catgame.gui;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
+import java.net.Socket;
+import java.net.UnknownHostException;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -12,7 +15,10 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JSlider;
 
+import catgame.GameObjects.PlayableCharacter;
+import catgame.clientserver.NetworkHandler;
 import catgame.clientserver.NetworkSetUp;
+import catgame.clientserver.Slave;
 
 /**
  * The LauncherFrame will be the first instance of the program that the users
@@ -25,6 +31,8 @@ import catgame.clientserver.NetworkSetUp;
  * 
  */
 public class LauncherFrame extends AbstractFrame {
+	
+	private int port = 32768; // default
 
 	/**
 	 * Creates and initialises the frame
@@ -67,8 +75,23 @@ public class LauncherFrame extends AbstractFrame {
 			public void actionPerformed(ActionEvent e) {
 				setVisible(false);
 				String url = HelperMethods.stringInputDialog("Enter URL", "");
-				NetworkSetUp network = new NetworkSetUp();
-				network.setClient(url);
+				Socket s;
+				try {
+					s = new Socket(url,port);
+					Slave slave = new Slave(s);
+					NetworkHandler game = new NetworkHandler(NetworkHandler.Type.CLIENT);
+					PlayableCharacter ch = game.getGameUtill().findCharacter(1);
+					ClientFrame f = new ClientFrame(game, 1, true, ch, slave);
+					f.run();
+				} catch (UnknownHostException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				
+				
 			}
 		});
 		buttonClient.setAlignmentX(CENTER_ALIGNMENT);

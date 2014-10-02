@@ -4,7 +4,11 @@ import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.io.DataInputStream;
+import java.io.IOException;
+import java.net.Socket;
 import java.util.ArrayList;
+import java.util.List;
 
 import catgame.GameObjects.*;
 import catgame.clientserver.*;
@@ -30,9 +34,11 @@ public class ClientFrame extends AbstractFrame implements KeyListener {
 	private boolean isClient;
 	private StatPanel statPanel;
 	private Dimension windowSize;
+	private boolean locked = true;
+	private Slave slave;
 
 	public ClientFrame(GameRunner network, int UID, boolean isClient,
-			PlayableCharacter character) {
+			PlayableCharacter character, Slave slave) {
 		super("Cat and Mouse");
 		this.setDimensions();
 		this.setLayout(null);
@@ -41,7 +47,9 @@ public class ClientFrame extends AbstractFrame implements KeyListener {
 		this.clientsUID = UID;
 		this.runner = network;
 		this.isClient = isClient;
+		this.slave = slave;
 		this.setup();
+
 	}
 
 	private void setDimensions() {
@@ -56,6 +64,7 @@ public class ClientFrame extends AbstractFrame implements KeyListener {
 		windowSize = new Dimension(windowWidth, windowHeight);
 		this.setSize(windowSize);
 		this.setPreferredSize(windowSize);
+		System.out.println("dimensions set");
 	}
 
 	private void addPanels(PlayableCharacter character) {
@@ -88,6 +97,7 @@ public class ClientFrame extends AbstractFrame implements KeyListener {
 		this.add(invPanel);
 		this.add(statPanel);
 		this.add(renderPanel);
+		System.out.println("panel set fine");
 	}
 
 	// @Override
@@ -169,7 +179,47 @@ public class ClientFrame extends AbstractFrame implements KeyListener {
 
 		PlayableCharacter character = new PlayableCharacter(1, null, " ", 3, 5,
 				items);
-		new ClientFrame(null, 0, false, character);
+		new ClientFrame(null, 0, false, character, null);
 	}
+	
+	public void run(){
+		new Thread(r).start();
+	}
+
+	Runnable r = new Runnable(){
+		public void run() {
+			while(locked){
+				recieveUpdate();
+			}
+		}
+	};
+
+
+
+	private void recieveUpdate() {
+		// TODO Auto-generated method stub
+		Socket s = slave.getSocket();
+		try {
+			DataInputStream input = new DataInputStream(s.getInputStream());
+			System.out.println("still running");
+			int uid = input.readInt();		
+			// now read the other players IDs
+			int noPlayers = input.readInt();
+			List<Integer> playerIds = new ArrayList<Integer>();
+
+			for(; noPlayers>0; noPlayers--){
+				playerIds.add(input.readInt());
+			}
+
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+	}
+
+	public void unlock(){
+		this.locked=false;
+	}
+
 
 }

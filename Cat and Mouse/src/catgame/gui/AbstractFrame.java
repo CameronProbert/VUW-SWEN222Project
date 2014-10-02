@@ -10,9 +10,9 @@ import javax.swing.JFrame;
 public abstract class AbstractFrame extends JFrame {
 	
 	public AbstractFrame(String windowTitle) {
-		super();
+		super(windowTitle);
 		setup();
-		this.setTitle(windowTitle);
+		//this.setTitle(windowTitle);
 	}
 	
 	protected void setup(){
@@ -20,6 +20,7 @@ public abstract class AbstractFrame extends JFrame {
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		this.setResizable(false);
 		this.setVisible(true);
+		System.out.println("done setup");
 	}
 
 }

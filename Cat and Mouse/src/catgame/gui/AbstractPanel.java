@@ -20,6 +20,7 @@ public class AbstractPanel extends JPanel {
 		this.setVisible(true);
 		this.setBackground(new Color((int) (Math.random() * 255), (int) (Math
 				.random() * 255), (int) (Math.random() * 255), 0));
+		System.out.println("did abstract panel setup");
 	}
 
 	/**
