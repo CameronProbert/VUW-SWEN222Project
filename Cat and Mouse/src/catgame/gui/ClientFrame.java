@@ -100,30 +100,30 @@ public class ClientFrame extends AbstractFrame implements KeyListener {
 		Update up = new Update(0);
 		switch (keyID) {
 		case KeyEvent.VK_W:
-			validAction = runner.getGameMain().moveNorth(clientsUID);
+			validAction = runner.getGameUtill().moveNorth(clientsUID);
 			up = new Update(Update.Descriptor.NORTH, clientsUID, 0);
 			break;
 		case KeyEvent.VK_A:
-			validAction = runner.getGameMain().moveWest(clientsUID);
+			validAction = runner.getGameUtill().moveWest(clientsUID);
 			up = new Update(Update.Descriptor.WEST, clientsUID, 0);
 			break;
 		case KeyEvent.VK_S:
-			validAction = runner.getGameMain().moveSouth(clientsUID);
+			validAction = runner.getGameUtill().moveSouth(clientsUID);
 			up = new Update(Update.Descriptor.SOUTH, clientsUID, 0);
 			break;
 		case KeyEvent.VK_D:
-			validAction = runner.getGameMain().moveEast(clientsUID);
+			validAction = runner.getGameUtill().moveEast(clientsUID);
 			up = new Update(Update.Descriptor.EAST, clientsUID, 0);
 			break;
 		case KeyEvent.VK_SPACE:
-			int attacked = runner.getGameMain().attack(clientsUID);
+			int attacked = runner.getGameUtill().attack(clientsUID);
 			if (attacked > 0) {
 				validAction = 1;
 				up = new Update(Update.Descriptor.ATTACK, clientsUID, attacked);
 			}
 			break;
 		case KeyEvent.VK_E: // open a chest
-			Chest chest = runner.getGameMain().getChest(clientsUID);
+			Chest chest = runner.getGameUtill().getChest(clientsUID);
 			if (chest != null) {
 				validAction = 1;
 				// TODO open dialog box to choose items out of chest (using the

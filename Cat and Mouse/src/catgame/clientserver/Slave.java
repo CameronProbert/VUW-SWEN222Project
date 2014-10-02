@@ -9,6 +9,9 @@ import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
 
+import catgame.GameObjects.PlayableCharacter;
+import catgame.gui.ClientFrame;
+
 public class Slave extends Thread {
 
 
@@ -62,6 +65,9 @@ public class Slave extends Thread {
 
 				game.setPlayerIds(playerIds);
 				
+				PlayableCharacter ch = game.getGameUtill().findCharacter(uid);
+				
+				ClientFrame frame = new ClientFrame(game, uid, true, ch);
 				// TODO set up client panel and pass it the networkHandler and the networkhandlers gamemmain
 				// TODO make sure a player CANNOT DO ANYTHING unless the 'game' is set to PLAYING
 

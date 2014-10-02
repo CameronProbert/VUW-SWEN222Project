@@ -57,7 +57,7 @@ public abstract class GameRunner {
 		return noPlayers;
 	}
 
-	public GameUtill getGameMain(){
+	public GameUtill getGameUtill(){
 		return game;
 	}
 }
