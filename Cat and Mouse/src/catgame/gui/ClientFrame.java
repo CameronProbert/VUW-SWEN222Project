@@ -31,6 +31,7 @@ public class ClientFrame extends AbstractFrame implements KeyListener {
 	private boolean isClient;
 	private StatPanel statPanel;
 	private Dimension windowSize;
+	private SlaveReceiver slaveR;
 
 	/**
 	 * Creates a new Client frame.
@@ -40,7 +41,7 @@ public class ClientFrame extends AbstractFrame implements KeyListener {
 	 * @param character
 	 */
 	public ClientFrame(GameRunner network, int UID, boolean isClient,
-			PlayableCharacter character) {
+			PlayableCharacter character, Slave slave) {
 		super("Cat and Mouse");
 		this.setDimensions();
 		this.setLayout(null);
@@ -50,6 +51,11 @@ public class ClientFrame extends AbstractFrame implements KeyListener {
 		this.runner = network;
 		this.isClient = isClient;
 		//this.setup();
+		this.slaveR = new SlaveReceiver(slave);
+		if(slave!=null){
+			slaveR.run();
+		}
+		this.setVisible(true);
 	}
 
 	/**
@@ -195,7 +201,7 @@ public class ClientFrame extends AbstractFrame implements KeyListener {
 
 		PlayableCharacter character = new PlayableCharacter(1, null, Direction.NORTH, 3, 5,
 				items);
-		new ClientFrame(null, 0, false, character);
+		new ClientFrame(null, 0, false, character, null);
 	}
 
 }

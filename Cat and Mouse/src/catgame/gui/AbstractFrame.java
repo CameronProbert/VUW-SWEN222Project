@@ -19,7 +19,6 @@ public abstract class AbstractFrame extends JFrame {
 		this.setLocation(new Point(50, 50));
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		this.setResizable(false);
-		this.setVisible(true);
 	}
 
 }

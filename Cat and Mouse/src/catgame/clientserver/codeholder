@@ -1,0 +1,92 @@
+	public List<Integer> getNumbers (){
+		return numbers;
+	}
+
+	public int getUID(){
+		return uid;
+	}
+
+	@Override
+	public void run() {
+		// TODO Auto-generated method stub
+		try {		
+
+			System.out.println("made slave and ran");
+			output = new DataOutputStream(socket.getOutputStream());
+			input = new DataInputStream(socket.getInputStream());
+
+			if(!testing){
+
+				// First job, is to read the period so we can create the clock				
+				uid = input.readInt();		
+
+				// now make new game for the client
+				//game = new NetworkHandler(NetworkHandler.Type.CLIENT);
+				game.addClientPlayer(uid);
+
+				// now read the other players IDs
+				int noPlayers = input.readInt();
+				List<Integer> playerIds = new ArrayList<Integer>();
+
+				for(; noPlayers>0; noPlayers--){
+					playerIds.add(input.readInt());
+				}
+
+				game.setPlayerIds(playerIds);
+
+				PlayableCharacter ch = game.getGameUtill().findCharacter(uid);
+
+				//ClientFrame frame = new ClientFrame(game, uid, true, ch);
+				// TODO set up client panel and pass it the networkHandler and the networkhandlers gamemmain
+				// TODO make sure a player CANNOT DO ANYTHING unless the 'game' is set to PLAYING
+
+				boolean exit=false;
+				long totalRec = 0;
+
+				while(!exit) {
+
+					// read event
+					//////////////////////////
+					int updateFromMaster = input.readInt();
+					if(updateFromMaster!=0){
+						game.update(new Update(updateFromMaster), false);// will not record last update
+					}
+
+					//write event
+					//////////////////////////
+					Update updateToMaster = game.getLatestUpdate();
+					if (this.lastSentUpdate!=null && !updateToMaster.equals(this.lastSentUpdate)){
+						output.writeInt(updateToMaster.getCode());
+						lastSentUpdate = updateToMaster;
+					}
+					else{
+						output.writeInt(0);
+					}
+
+					// TODO may need a repaint method here
+
+				}
+			}
+			else{
+				// First job, is to read the period so we can create the clock	
+				
+				while(true){
+					System.out.println("still running");
+					uid = input.readInt();		
+					// now read the other players IDs
+					int noPlayers = input.readInt();
+					List<Integer> playerIds = new ArrayList<Integer>();
+
+					for(; noPlayers>0; noPlayers--){
+						playerIds.add(input.readInt());
+					}
+
+					numbers = playerIds;
+				}
+			}
+			socket.close(); // release socket ... v.important!
+		} catch(IOException e) {
+			System.err.println("I/O Error: " + e.getMessage());
+			e.printStackTrace(System.err);
+		}
+	}

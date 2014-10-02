@@ -8,9 +8,11 @@ import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
 
+import catgame.gui.ClientFrame;
 
 
-public class NetworkSetUp {
+
+public class NetworkSetUp extends Thread {
 
 	private static final int DEFAULT_CLK_PERIOD = 20;
 	private static final int DEFAULT_BROADCAST_CLK_PERIOD = 5;
@@ -36,9 +38,9 @@ public class NetworkSetUp {
 		}
 		// Run in Server mode
 		game = new NetworkHandler(NetworkHandler.Type.SERVER);
-		runServer(port,gameClock,broadcastClock, game);		
+		start();
 		// TODO start the server pane with a button that says ready!
-		System.exit(0);
+		
 	}
 	
 	public void setSinglePlayer(){
@@ -50,29 +52,7 @@ public class NetworkSetUp {
 		}
 	}
 
-	public void setClient(String url){
-		this.url = url;
-		if(url != null) {
-			// Run in client mode
-			try {
-				runClient(url,port);
-			} catch (IOException e) {
-				System.out.println("I/O error: " + e.getMessage());
-				e.printStackTrace();
-				System.exit(1);
-			}
-			
-			System.exit(0);
-		} 
-	}
-
-	private static void runClient(String addr, int port) throws IOException {		
-		Socket s = new Socket(addr,port);
-		System.out.println("CLIENT CONNECTED TO " + addr + ":" + port);			
-		new Slave(s).run();		
-	}
-
-	private static void runServer(int port, int gameClock, int broadcastClock, NetworkHandler game) {
+	public void run() {
 
 		ClockThread clk = new ClockThread(gameClock,game);	
 		

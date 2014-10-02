@@ -26,6 +26,7 @@ public class HostFrame extends AbstractFrame {
 		this.setPreferredSize(windowSize);
 		setupButtons();
 		// host.setServer();
+		this.setVisible(true);
 	}
 
 	/**

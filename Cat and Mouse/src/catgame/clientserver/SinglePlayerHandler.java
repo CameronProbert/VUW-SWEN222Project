@@ -21,7 +21,7 @@ public class SinglePlayerHandler extends GameRunner {
 		GameUtil game = new GameUtil();
 		game.addPlayer(playerID);
 		PlayableCharacter ch = game.findCharacter(playerID);
-		ClientFrame frame = new ClientFrame(this, playerID, false, ch);
+		ClientFrame frame = new ClientFrame(this, playerID, false, ch, null);
 		
 	}
 	

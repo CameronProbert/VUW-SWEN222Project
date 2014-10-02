@@ -1,5 +1,6 @@
 package catgame.clientserver;
 
+import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -7,7 +8,7 @@ import catgame.logic.GameUtil;
 
 public class NetworkHandler extends GameRunner{
 
-	
+
 
 	public enum Type{
 		CLIENT,
@@ -18,7 +19,7 @@ public class NetworkHandler extends GameRunner{
 	private Type stateType;
 	private List<Integer> playerIds = new ArrayList<Integer>();
 	private int clientPlayerID; // this will only have a value if the client is running the program, used so the UI knows whos who
-	
+
 	public NetworkHandler(Type type){
 		this.stateType = type;
 		this.game = new GameUtil();
@@ -39,7 +40,7 @@ public class NetworkHandler extends GameRunner{
 	 * @param uid
 	 */
 	public void disconnectPlayer(int uid) {
-		this.playerIds.remove(uid);
+		// this.playerIds.remove(uid);
 	}
 
 
@@ -83,5 +84,5 @@ public class NetworkHandler extends GameRunner{
 		this.playerIds = playerIds;
 		// TODO pass to game main logic so it can make the characters associated
 	}
-	
+
 }
