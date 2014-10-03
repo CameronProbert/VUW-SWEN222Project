@@ -63,7 +63,6 @@ public class ClientFrame extends AbstractFrame implements KeyListener {
 		this.runner = network;
 		this.isClient = isClient;
 		this.slaveR = new SlaveReceiver(slave, runner);
-		//this.setup();
 		if(slave!=null){
 			slaveR.run();
 		}
