@@ -12,6 +12,7 @@ import catgame.gameObjects.GameObject;
 import catgame.gameObjects.Key;
 import catgame.gameObjects.MasterObject;
 import catgame.gameObjects.PlayableCharacter;
+
 /**
  * 
  * @author Dan Henton
@@ -31,7 +32,8 @@ public class GameUtil {
 	public int moveUp(int playerID) {
 		for (Room room : BoardData.allRooms) {
 			// find the character then try and move it
-			if (room.getCharactor(playerID) != null && room.getCharactor(playerID).getObjectID() == playerID) {
+			if (room.getCharactor(playerID) != null
+					&& room.getCharactor(playerID).getObjectID() == playerID) {
 				return room.movePlayer(playerID, Direction.UP);
 			}
 		}
@@ -128,7 +130,8 @@ public class GameUtil {
 		items.add(new Key(3));
 		items.add(new Food(2, 30));
 
-		PlayableCharacter ch = new PlayableCharacter(1, null, Direction.NORTH, 3, 5, items);
+		PlayableCharacter ch = new PlayableCharacter(1, null, Direction.NORTH,
+				3, 5, items);
 		return ch;
 		// ///////////////////////////////////////////////////
 	}

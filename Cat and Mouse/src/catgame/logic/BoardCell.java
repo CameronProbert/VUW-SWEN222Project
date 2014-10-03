@@ -34,4 +34,15 @@ public class BoardCell {
 			return this.objectOnCell.toString();
 		}
 	}
+	
+	public void setObjectOnCell(GameObject newObject){
+		this.objectOnCell = newObject;
+	}
+	
+	public GameObject removeObjectOnCell(){
+		GameObject tempObj = this.objectOnCell;
+		this.objectOnCell = null;
+		return tempObj;
+		
+	}
 }

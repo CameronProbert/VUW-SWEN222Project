@@ -59,7 +59,9 @@ public class Room {
 			return -1;
 		}
 		if (roomGrid[newPos.getX()][newPos.getY()].getGroundType() != null && roomGrid[newPos.getX()][newPos.getY()].getObjectOnCell() == null) {
-
+			BoardCell oldCell = locationMap.get(playerID);
+			roomGrid[newPos.getX()][newPos.getY()].setObjectOnCell(oldCell.removeObjectOnCell());
+			return 1;
 		}
 		System.out.println("Grid @ x:" + newPos.getX() + " y:" + newPos.getY() + " is not empty");
 		return -1;
@@ -71,8 +73,9 @@ public class Room {
 	 * @param playerID
 	 * @param direction
 	 */
-	public void playerAction(int playerID, int playerDirection) {
-
+	public int playerAction(int playerID, int playerDirection) {
+		
+		return -1;
 	}
 
 	/**
@@ -82,8 +85,9 @@ public class Room {
 	 * @param direction
 	 * @param attackPower
 	 */
-	public void playerAttack(int playerID, int playerDirection, int attackPower) {
-
+	public int playerAttack(int playerID, int playerDirection, int attackPower) {
+		
+		return -1;
 	}
 
 	/**
