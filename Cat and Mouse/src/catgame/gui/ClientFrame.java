@@ -58,6 +58,7 @@ public class ClientFrame extends AbstractFrame implements KeyListener {
 		this.setLayout(null);
 		this.addKeyListener(this);
 		this.addPanels(character);
+		this.addMenus();
 		this.clientsUID = UID;
 		this.runner = network;
 		this.isClient = isClient;
@@ -181,7 +182,7 @@ public class ClientFrame extends AbstractFrame implements KeyListener {
 			while (reader.ready()) {
 				controlText += "\n" + reader.readLine();
 			}
-			HelperMethods.textDialog("Controls", controlText);
+			HelperMethods.textDialog("About", controlText);
 		} catch (IOException e) {
 			System.out.println("Could not read Controls.txt");
 			e.printStackTrace();
