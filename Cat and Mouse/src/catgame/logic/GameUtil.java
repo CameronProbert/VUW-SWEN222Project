@@ -47,7 +47,7 @@ public class GameUtil {
 	 * @return whether a successful move or not (-1 = not success, 1 = success)
 	 */
 	public int moveRight(int playerID) {
-		return -1; // TODO gameMap.get(playerID).move("RIGHT");
+		return 1; // TODO gameMap.get(playerID).move("RIGHT");
 	}
 
 	/**
@@ -56,7 +56,7 @@ public class GameUtil {
 	 * @return whether a successful move or not (-1 = not success, 1 = success)
 	 */
 	public int moveDown(int playerID) {
-		return -1; // TODO gameMap.get(playerID).move("DOWN");
+		return 1; // TODO gameMap.get(playerID).move("DOWN");
 	}
 
 	/**
@@ -65,7 +65,7 @@ public class GameUtil {
 	 * @return whether a successful move or not (-1 = not success, 1 = success)
 	 */
 	public int moveLeft(int playerID) {
-		return -1; // TODO gameMap.get(playerID).move("LEFT");
+		return 1; // TODO gameMap.get(playerID).move("LEFT");
 	}
 
 	/**

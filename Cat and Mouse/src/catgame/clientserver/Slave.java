@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
+
 import catgame.gui.ClientFrame;
 
 public final class Slave {
@@ -43,6 +44,7 @@ public final class Slave {
 		try {
 			output = new DataOutputStream(socket.getOutputStream());
 			output.writeInt(update.getCode());
+			System.out.printf("writing update to client : %d\n", update.getCode());
 			
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
