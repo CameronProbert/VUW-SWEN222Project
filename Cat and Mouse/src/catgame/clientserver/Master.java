@@ -8,20 +8,24 @@ import java.net.Socket;
 public final class Master extends Thread {
 
 
+	private final int MASSUPDATE = 35;
+	private final int MINORUPDATE = 30;
+
+
 	private final NetworkHandler game;
 	private final int broadcastClock;
 	private final int uid;
 	private final Socket socket;
 	private Update lastUpdateSent = null; // this keeps track of the last update sent
 	private int number = 0;
-	private boolean testing = true; // true when testing
+	private boolean testing = false; // true when testing
 	private int timer = 0;
 
 	private final static int TIMESUP = 10; // when timer reaches TIMESUP massive update to system 
 
 	public Master(Socket socket, int uid, int broadcastClock, NetworkHandler game) {
 		this.game = game;	
-		this.broadcastClock = broadcastClock;
+		this.broadcastClock = broadcastClock + 2000;
 		this.socket = socket;
 		this.uid = uid;
 	}
@@ -30,28 +34,29 @@ public final class Master extends Thread {
 		try {
 			DataInputStream input = new DataInputStream(socket.getInputStream());
 			DataOutputStream output = new DataOutputStream(socket.getOutputStream());
-			if(!testing){
-				// First, give the client its uid
-				output.writeInt(uid);
-				//then give it all the players IDs
-				int noPlayers = game.noPlayers();
-				output.writeInt(noPlayers);
 
-				for(int id : game.getPlayerIds()){
-					output.writeInt(id);
-				}
+			writeStart(output);
 
+			boolean exit=false;
+			while(!exit) {
+				try {
 
+					if(timer==TIMESUP){
+						timer=0;
+						output.writeInt(MASSUPDATE);
+						broadcastGameState(output);
+					}
+					else{
 
-				boolean exit=false;
-				while(!exit) {
-					try {
+						output.writeInt(MINORUPDATE);
 
 						// this will read the last update from the slave
-
-						int updateFromSlave = input.readInt(); 
-						if(updateFromSlave != 0){
-							game.update(new Update(updateFromSlave), true);
+						if(input.available()!=0){
+							int updateFromSlave = input.readInt(); 
+							if(updateFromSlave != 0){
+								game.update(new Update(updateFromSlave), true);
+								System.out.printf("recieved update from client : %d\n", updateFromSlave);
+							}
 						}
 
 						// Now, broadcast the latest update of the board to client
@@ -59,38 +64,23 @@ public final class Master extends Thread {
 						Update updateToSlave = game.getLatestUpdate();
 						if(this.lastUpdateSent==null || updateToSlave.equals(this.lastUpdateSent)){
 							output.writeInt(0); // writes a 'no update'
+							System.out.printf("writing update to client from server : %d\n", 0);
 						}
 						else{
 							output.writeInt(updateToSlave.getCode()); // will record last update in game
 							this.lastUpdateSent = updateToSlave;
+							System.out.printf("writing update to client from server : %d\n", updateToSlave);
 						}
-
-						if(timer==TIMESUP){
-							timer=0;
-							broadcastGameState(output);
-						}
-
+						
 						timer++;
-						output.flush();
-						Thread.sleep(broadcastClock);
-					} catch(InterruptedException e) {					
-					}
-				}
-			}
-			else{
-				while(true){
-					output.writeInt(30);
-					// First, give the client its uid
-					output.writeInt(uid);
-					//then give it all the players IDs
-					int noPlayers = 5;
-					output.writeInt(noPlayers);
 
-					for(int i=0; i<noPlayers; i++){
-						output.writeInt(i);
 					}
+					output.flush();
+					Thread.sleep(broadcastClock);
+				} catch(InterruptedException e) {					
 				}
 			}
+
 			socket.close(); // release socket ... v.important!
 		} catch(IOException e) {
 			System.err.println("PLAYER " + uid + " DISCONNECTED");
@@ -107,6 +97,27 @@ public final class Master extends Thread {
 
 	public int getNumber(){
 		return number;
+	}
+
+	public void writeStart(DataOutputStream output){
+		// First, give the client its uid
+		try {
+			output.writeInt(uid);
+			System.out.println("wrote uid to client");
+
+			//then give it all the players IDs
+			int noPlayers = game.noPlayers();
+			output.writeInt(noPlayers);
+			System.out.println("wrote no players to client");
+
+			for(int id : game.getPlayerIds()){
+				output.writeInt(id);
+				System.out.println("writing player ids to client");
+			}
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 }

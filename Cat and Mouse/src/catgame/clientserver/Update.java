@@ -5,7 +5,8 @@ import catgame.logic.GameUtil;
 public class Update {
 
 	private int code;
-	private int TEN_MILLION = 10000000;
+	private int ONE_MILLION = 1000000;
+	private int TEN_THOUSAND =  10000;
 	
 	public enum Descriptor{
 		NORTH,
@@ -42,31 +43,31 @@ public class Update {
 	public Update(Descriptor describe, int playerID, int supID){
 		switch(describe){
 		case NORTH:
-			this.code = 0100*TEN_MILLION + playerID*TEN_MILLION; 
+			this.code = 01*ONE_MILLION + playerID*TEN_THOUSAND; 
 			break;
 		case WEST:
-			this.code = 0101*TEN_MILLION + playerID*TEN_MILLION;
+			this.code = 02*ONE_MILLION + playerID*TEN_THOUSAND;
 			break;
 		case EAST:
-			this.code = 0102*TEN_MILLION + playerID*TEN_MILLION;
+			this.code = 03*ONE_MILLION + playerID*TEN_THOUSAND;
 			break;
 		case SOUTH:
-			this.code = 0103*TEN_MILLION + playerID*TEN_MILLION;
+			this.code = 04*ONE_MILLION + playerID*TEN_THOUSAND;
 			break;
 		case ATTACK:
-			this.code = 0104*TEN_MILLION + playerID*TEN_MILLION + supID;
+			this.code = 05*ONE_MILLION + playerID*TEN_THOUSAND + supID;
 			break;
 		case PICKUP:
-			this.code = 0105*TEN_MILLION + playerID*TEN_MILLION + supID;
+			this.code = 06*ONE_MILLION + playerID*TEN_THOUSAND + supID;
 			break;
 		case DROP://may be not used as a player cannot really remove an item
-			this.code = 0106*TEN_MILLION + playerID*TEN_MILLION + supID;
+			this.code = 07*ONE_MILLION + playerID*TEN_THOUSAND + supID;
 			break;
 		case NEWROOM:
-			this.code = 0107*TEN_MILLION + playerID*TEN_MILLION + supID;
+			this.code = 8*ONE_MILLION + playerID*TEN_THOUSAND + supID;
 			break;
 		case CONSUME:
-			this.code = 0110*TEN_MILLION + playerID*TEN_MILLION + supID;
+			this.code = 9*ONE_MILLION + playerID*TEN_THOUSAND + supID;
 			break;
 
 		}
@@ -79,40 +80,40 @@ public class Update {
 	 */
 	public void decode(GameUtil game){
 		String str = Integer.toString(code);
-		String first4 = str.substring(0, 4);
-		String next4 = str.substring(4,8);
-		String last8 = str.substring(8, 16);
+		String first2 = str.substring(0, 1);
+		String next2 = str.substring(2,3);
+		String last4 = str.substring(4, 7);
 		
-		int instruction = Integer.parseInt(first4);
-		int playerID = Integer.parseInt(next4);
-		int lastID = Integer.parseInt(last8);
+		int instruction = Integer.parseInt(first2);
+		int playerID = Integer.parseInt(next2);
+		int lastID = Integer.parseInt(last4);
 		
 		switch(instruction){
-		case 0100: // move forward
+		case 1: // move forward
 			game.moveUp(playerID);
 			
-		case 0101: // move right
+		case 2: // move right
 			game.moveLeft(playerID);
 			
-		case 0102: // move left
+		case 3: // move left
 			game.moveRight(playerID);
 			
-		case 0103: // move back
+		case 4: // move back
 			game.moveDown(playerID);
 			
-		case 0104: // attack
+		case 5: // attack
 			game.attack(playerID, lastID);
 			
-		case 0105: // add object to inventory
+		case 6: // add object to inventory
 			game.addObjectToInventory(playerID, lastID);
 			
-		case 0106: // remove object from inventory
+		case 7: // remove object from inventory
 			game.removeItem(playerID, lastID);
 			
-		case 0107: // moved room
+		case 8: // moved room
 			game.moveToNextRoom(playerID, lastID); 
 			
-		case 0110: // object eaten
+		case 9: // object eaten
 			game.useItem(playerID, lastID);
 			
 		}
