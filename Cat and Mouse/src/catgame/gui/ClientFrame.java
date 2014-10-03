@@ -168,7 +168,7 @@ public class ClientFrame extends AbstractFrame implements KeyListener {
 			break;
 		}
 		if (validAction > 0 && isClient) {
-			slave.sendUpdate(up);;
+			slave.sendUpdate(up);
 		}
 	}
 

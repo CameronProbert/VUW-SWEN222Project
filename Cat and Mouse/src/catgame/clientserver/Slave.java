@@ -15,15 +15,7 @@ public final class Slave {
 
 
 	private final Socket socket;
-	private NetworkHandler game;	
 	private DataOutputStream output;
-	private DataInputStream input;
-	private int uid;
-	private int totalSent;
-	private List<Integer> numbers = new ArrayList<Integer>() ;
-	private boolean testing = true; //turned true when I am testing
-
-	private Update lastSentUpdate;
 
 	/**
 	 * Construct a slave connection from a socket. A slave connection does no

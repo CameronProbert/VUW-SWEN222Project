@@ -16,7 +16,8 @@ public final class Master extends Thread {
 	private final int broadcastClock;
 	private final int uid;
 	private final Socket socket;
-	private Update lastUpdateSent = null; // this keeps track of the last update sent
+	private Update lastUpdateSent = new Update(0); // this keeps track of the last update sent
+	private Update lastUpdateReceived = new Update(0);
 	private int number = 0;
 	private boolean testing = false; // true when testing
 	private int timer = 0;
@@ -25,7 +26,7 @@ public final class Master extends Thread {
 
 	public Master(Socket socket, int uid, int broadcastClock, NetworkHandler game) {
 		this.game = game;	
-		this.broadcastClock = broadcastClock + 2000;
+		this.broadcastClock = broadcastClock + 1000;
 		this.socket = socket;
 		this.uid = uid;
 	}
@@ -49,30 +50,38 @@ public final class Master extends Thread {
 					else{
 
 						output.writeInt(MINORUPDATE);
-						System.out.printf("My clients uid is : %d\n", uid);
+
 
 						// this will read the last update from the slave
 						if(input.available()!=0){
 							int updateFromSlave = input.readInt(); 
 							if(updateFromSlave != 0){
 								game.update(new Update(updateFromSlave), true);
-								System.out.printf("recieved update from client : %d\n", updateFromSlave);
+								this.lastUpdateReceived = new Update(updateFromSlave);
+								System.out.printf("\n\nMy clients uid is : %d and I had a non zero update\n", uid);
+								System.out.println("latest update to the game was, just after reupdating! : " + updateFromSlave + "\n\n");
+							}else{
+								System.out.printf("\n\nMy clients uid is : %d and I had a zero update\n\n", uid);
 							}
 						}
+
 
 						// Now, broadcast the latest update of the board to client
 
 						Update updateToSlave = game.getLatestUpdate();
-						if(this.lastUpdateSent==null || updateToSlave.equals(this.lastUpdateSent)){
+
+						if(updateToSlave.equals(lastUpdateReceived)){
 							output.writeInt(0); // writes a 'no update'
-							System.out.printf("writing update to client from server : %d\n", 0);
+							System.out.printf("\n\nMy clients uid is : %d and I had a nothing to update\n", uid);
+							System.out.printf("the games latest update is : %d\n", updateToSlave.getCode());
+							System.out.printf("the masters last update received was : %d\n\n", lastUpdateReceived.getCode());
 						}
 						else{
-							output.writeInt(updateToSlave.getCode()); // will record last update in game
-							this.lastUpdateSent = updateToSlave;
-							System.out.printf("writing update to client from server : %d\n", updateToSlave);
+							output.writeInt(updateToSlave.getCode()); 
+							System.out.printf("\n\nMy clients uid is : %d and I have SOMETHING to update\n", uid);
+							System.out.printf("the games latest update is : %d\n\n", updateToSlave.getCode());
 						}
-						
+
 						timer++;
 
 					}

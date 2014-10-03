@@ -94,6 +94,7 @@ public class SlaveReceiver {
 			int updateFromMaster = input.readInt();
 			if(updateFromMaster!=0){
 				net.update(new Update(updateFromMaster), false);// will not record last update
+				System.out.println("update recieved to actually use");
 			}
 			System.out.printf("received update from the server : %d\n", updateFromMaster);
 		} catch (IOException e) {
