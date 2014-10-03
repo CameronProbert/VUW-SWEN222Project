@@ -16,6 +16,7 @@ import catgame.gameObjects.Bush;
 import catgame.gameObjects.Rock;
 import catgame.gameObjects.Tree;
 import catgame.gui.ClientFrame;
+import catgame.logic.GameUtil.Direction;
 import catgame.logic.Room;
 import catgame.logic.RoomBuilder;
 
@@ -27,7 +28,7 @@ public class RenderPanel extends JPanel {
 	private Image tree2;
 	private Image bush1;
 	private Image rock1;
-	public viewDirection viewDir = viewDirection.NORTH;
+	public static Direction viewDirection = Direction.NORTH;
 	
 	//Classes for creating a test board
 	RoomBuilder buildBoard;
@@ -54,10 +55,6 @@ public class RenderPanel extends JPanel {
 			{0, 0, 0, 0, 0, 0, 2, 0},
 			{0, 0, 4, 4, 3, 0, 3, 0},
 	};
-	
-	public enum viewDirection{
-		NORTH, EAST, SOUTH, WEST;
-	}
 	
 	public RenderPanel(Dimension windowSize, ClientFrame parentFrame){
 		this.parentFrame = parentFrame;
@@ -98,12 +95,14 @@ public class RenderPanel extends JPanel {
 		}
 	}	
 
-	public viewDirection getViewDir(){
-		return viewDir;
+	
+	//TODO see if theses two methods are necessary as viewDirection is public static
+	public Direction getViewDiriection(){
+		return viewDirection;
 	}
 
-	public void setViewDir(viewDirection vd){
-		viewDir = vd;
+	public void setViewDir(Direction vd){
+		viewDirection = vd;
 	}
 	
 

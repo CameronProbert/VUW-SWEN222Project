@@ -97,4 +97,10 @@ public class HelperMethods {
 		return slider.getValue();
 	}
 
+	public static void textDialog(String title, String message) {
+		JOptionPane.showMessageDialog(null,
+				message, title,
+				JOptionPane.PLAIN_MESSAGE);
+	}
+
 }

@@ -2,9 +2,19 @@ package catgame.gui;
 
 import java.awt.Dimension;
 import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
+
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
 
 import catgame.clientserver.*;
 import catgame.gameObjects.*;
@@ -48,16 +58,134 @@ public class ClientFrame extends AbstractFrame implements KeyListener {
 		this.setLayout(null);
 		this.addKeyListener(this);
 		this.addPanels(character);
+		this.addMenus();
 		this.clientsUID = UID;
 		this.runner = network;
 		this.isClient = isClient;
-		//this.setup();
 		this.slaveR = new SlaveReceiver(slave, runner);
 		if(slave!=null){
 			slaveR.run();
 		}
 		this.slave = slave;
 		this.setVisible(true);
+	}
+
+	/**
+	 * Creates and adds menu items to the frame
+	 */
+	private void addMenus() {
+		JMenuBar gameMenu = new JMenuBar();
+
+		JMenu menuFile = new JMenu("File");
+		gameMenu.add(menuFile);
+
+		JMenu menuHelp = new JMenu("Help");
+		gameMenu.add(menuHelp);
+
+		addFileItems(menuFile);
+		addHelpItems(menuHelp);
+
+		this.setJMenuBar(gameMenu);
+	}
+
+	/**
+	 * Creates the Help Menu items to be displayed in the given menu
+	 * 
+	 * @param menu
+	 */
+	private void addHelpItems(JMenu menu) {
+		// Creates the load menu item
+		JMenuItem optionControls = new JMenuItem("Controls");
+		optionControls.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				displayControls();
+			}
+		});
+
+		// Creates the load menu item
+		JMenuItem optionAbout = new JMenuItem("About");
+		optionAbout.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				displayAbout();
+			}
+		});
+		menu.add(optionControls);
+		menu.add(optionAbout);
+	}
+
+	/**
+	 * Creates the File Menu items to be displayed in the given menu
+	 * 
+	 * @param menu
+	 */
+	private void addFileItems(JMenu menu) {
+		// Creates the load menu item
+		JMenuItem optionLoad = new JMenuItem("Load");
+		optionLoad.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				// TODO load();
+			}
+		});
+
+		// Creates the save menu item
+		JMenuItem optionSave = new JMenuItem("Save");
+		optionSave.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				// TODO save();
+			}
+		});
+
+		// Creates the quit menu item
+		JMenuItem optionQuit = new JMenuItem("Quit");
+		optionQuit.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				HelperMethods.confirmQuit();
+			}
+		});
+
+		menu.add(optionLoad);
+		menu.add(optionSave);
+		menu.add(optionQuit);
+	}
+
+	/**
+	 * Reads in the Controls.txt file and displays it on a message pane
+	 */
+	protected void displayControls() {
+		try {
+			InputStream in = this.getClass().getResourceAsStream(
+					"textfiles/Controls.txt");
+			BufferedReader reader = new BufferedReader(
+					new InputStreamReader(in));
+			String controlText = reader.readLine();
+			while (reader.ready()) {
+				controlText += "\n" + reader.readLine();
+			}
+			HelperMethods.textDialog("Controls", controlText);
+		} catch (IOException e) {
+			System.out.println("Could not read Controls.txt");
+			e.printStackTrace();
+		}
+	}
+
+	/**
+	 * Reads in the About.txt file and displays it on a message pane
+	 */
+	protected void displayAbout() {
+		try {
+			InputStream in = getClass().getResourceAsStream(
+					"textfiles/About.txt");
+			BufferedReader reader = new BufferedReader(
+					new InputStreamReader(in));
+			String controlText = reader.readLine();
+			while (reader.ready()) {
+				controlText += "\n" + reader.readLine();
+			}
+			HelperMethods.textDialog("About", controlText);
+		} catch (IOException e) {
+			System.out.println("Could not read Controls.txt");
+			e.printStackTrace();
+		}
 	}
 
 	/**
