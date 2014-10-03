@@ -98,7 +98,7 @@ public class HelperMethods {
 	}
 
 	public static void textDialog(String title, String message) {
-		JOptionPane.showConfirmDialog(null,
+		JOptionPane.showMessageDialog(null,
 				message, title,
 				JOptionPane.PLAIN_MESSAGE);
 	}
