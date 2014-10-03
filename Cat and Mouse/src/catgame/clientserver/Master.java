@@ -49,6 +49,7 @@ public final class Master extends Thread {
 					else{
 
 						output.writeInt(MINORUPDATE);
+						System.out.printf("My clients uid is : %d\n", uid);
 
 						// this will read the last update from the slave
 						if(input.available()!=0){
