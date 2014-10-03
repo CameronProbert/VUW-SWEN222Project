@@ -6,6 +6,7 @@ import java.util.List;
 
 import catgame.gameObjects.MasterObject;
 import catgame.gameObjects.PlayableCharacter;
+import catgame.gui.renderpanel.RenderPanel;
 import catgame.logic.GameUtil.Direction;
 
 public class Room {
@@ -53,7 +54,7 @@ public class Room {
 	 * @param direction
 	 */
 	public int movePlayer(int playerID, Direction playerDirection) {
-		Position newPos = findPosition(playerID, Direction.NORTH, playerDirection);
+		Position newPos = findPosition(playerID, RenderPanel.viewDirection, playerDirection);
 		if (newPos.getX() < 0 || newPos.getY() < 0 || newPos.getX() > roomGrid.length || newPos.getY() > roomGrid[0].length) {
 			System.out.println("New Move Position to x:" + newPos.getX() + " y:" + newPos.getY() + " is not valid");
 			return -1;
