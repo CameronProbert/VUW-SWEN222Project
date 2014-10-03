@@ -32,7 +32,10 @@ public class Room {
 		for (int x = 0; x < roomGrid.length; x++) {
 			String line = "";
 			for (int y = 0; y < roomGrid[0].length; y++) {
-				line += roomGrid[x][y].toString() + "\t";
+				//TODO remove cheap fix
+				if (roomGrid[x][y] != null) {
+					line += roomGrid[x][y].toString() + "\t";
+				}
 			}
 			System.out.println(line);
 			line = "";
@@ -75,7 +78,7 @@ public class Room {
 	 * @param direction
 	 */
 	public int playerAction(int playerID, int playerDirection) {
-		
+
 		return -1;
 	}
 
@@ -87,7 +90,7 @@ public class Room {
 	 * @param attackPower
 	 */
 	public int playerAttack(int playerID, int playerDirection, int attackPower) {
-		
+
 		return -1;
 	}
 
