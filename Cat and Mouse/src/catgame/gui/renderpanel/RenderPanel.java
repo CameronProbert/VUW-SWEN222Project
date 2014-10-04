@@ -12,9 +12,7 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 
-import catgame.gameObjects.Bush;
-import catgame.gameObjects.Rock;
-import catgame.gameObjects.Tree;
+import catgame.gameObjects.*;
 import catgame.gui.ClientFrame;
 import catgame.logic.GameUtil.Direction;
 import catgame.logic.Room;
@@ -28,6 +26,13 @@ public class RenderPanel extends JPanel {
 	private Image tree2;
 	private Image bush1;
 	private Image rock1;
+	
+	//Cat images
+	private Image catFrontLeft1;
+	private Image catFrontRight1;
+	private Image catBackLeft1;
+	private Image catBackRight1;
+	
 	public static Direction viewDirection = Direction.NORTH;
 	
 	//Classes for creating a test board
@@ -84,11 +89,17 @@ public class RenderPanel extends JPanel {
 	
 	public void setupImages(){
 		try {
+			//Load object Images
 			grassBlock = ImageIO.read(RenderPanel.class.getResource("/images/Grass1.png"));
 			tree1 = ImageIO.read(RenderPanel.class.getResource("/images/Tree1.png"));
 			tree2 = ImageIO.read(RenderPanel.class.getResource("/images/Tree2.png"));
 			bush1 = ImageIO.read(RenderPanel.class.getResource("/images/Bush1.png"));
 			rock1 = ImageIO.read(RenderPanel.class.getResource("/images/Rock1.png"));
+			//Load cat Images
+			catFrontLeft1 = ImageIO.read(RenderPanel.class.getResource("/images/CatFrontLeft1.png"));
+			catFrontRight1 = ImageIO.read(RenderPanel.class.getResource("/images/CatFrontRight1.png"));
+			catBackLeft1 = ImageIO.read(RenderPanel.class.getResource("/images/CatBackLeft1.png"));
+			catBackRight1 = ImageIO.read(RenderPanel.class.getResource("/images/CatBackRight1.png"));
 		} catch (IOException e) {
 			System.out.println("There was an issue loading image files, check file locations are correct.");
 			e.printStackTrace();
@@ -147,6 +158,11 @@ public class RenderPanel extends JPanel {
 					int startX = parentFrame.getWidth() / 4 + 60;
 					int startY = 85 + 340;
 					drawObjectsFromArray(g, rock1, startX, startY, i, j);
+				}
+				else if (testRoom.getBoardGrid()[i][j-1].getObjectOnCell() instanceof PlayableCharacter){
+					int startX = parentFrame.getWidth() / 4 + 60;
+					int startY = 85 + 340;
+					drawObjectsFromArray(g, catFrontLeft1, startX, startY, i, j);
 				}
 			}
 		}
