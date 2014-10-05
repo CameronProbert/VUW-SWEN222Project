@@ -36,7 +36,7 @@ public class RenderPanel extends JPanel {
 	private Image catBackLeft1;
 	private Image catBackRight1;
 	
-	public static Direction viewDirection = Direction.SOUTH;
+	public static Direction viewDirection = Direction.EAST;
 	
 	//Classes for creating a test board
 	private RoomBuilder buildBoard;
@@ -111,33 +111,33 @@ public class RenderPanel extends JPanel {
 	 * @param g
 	 */
 	public void drawgroundAndObjects(Graphics g){		
-		int sendX;
-		int sendY;
+		int xRender;
+		int yRender;
 		for (int y = 0; y < testRoom.getBoardGrid().length; y++){
 			for (int x = testRoom.getBoardGrid()[0].length-1; x >= 0; x--){
 				if (viewDirection == Direction.NORTH){
-					sendX = testRoom.getBoardGrid()[0].length-x-1;
-					sendY = y;
-					determineAndDrawGround(g, sendY, sendX, y, x);
-					determineAndDrawObject(g, sendY, sendX, y, x);					
+					xRender = testRoom.getBoardGrid()[0].length-x-1;
+					yRender = y;
+					determineAndDrawGround(g, yRender, xRender, y, x);
+					determineAndDrawObject(g, yRender, xRender, y, x);					
 				}
 				else if (viewDirection == Direction.WEST){
-					sendX = x;
-					sendY = y;
-					determineAndDrawGround(g, sendY, sendX, y, x);
-					determineAndDrawObject(g, sendY, sendX, y, x);
+					xRender = x;
+					yRender = y;
+					determineAndDrawGround(g, yRender, xRender, y, x);
+					determineAndDrawObject(g, yRender, xRender, y, x);
 				}
 				else if (viewDirection == Direction.SOUTH){
-					sendY = testRoom.getBoardGrid().length-y-1;
-					sendX = x;
-					determineAndDrawGround(g, sendY, sendX, y, x);
-					determineAndDrawObject(g, sendY, sendX, y, x);
+					yRender = testRoom.getBoardGrid().length-y-1;
+					xRender = x;
+					determineAndDrawGround(g, yRender, xRender, y, x);
+					determineAndDrawObject(g, yRender, xRender, y, x);
 				}
 				else if (viewDirection == Direction.EAST){
-					sendY = testRoom.getBoardGrid().length-y-1;
-					sendX = testRoom.getBoardGrid()[0].length-x-1;
-					determineAndDrawGround(g, sendY, sendX, y, x);
-					determineAndDrawObject(g, sendY, sendX, y, x);
+					yRender = testRoom.getBoardGrid().length-y-1;
+					xRender = testRoom.getBoardGrid()[0].length-x-1;
+					determineAndDrawGround(g, yRender, xRender, y, x);
+					determineAndDrawObject(g, yRender, xRender, y, x);
 				}
 			}
 		}
@@ -148,16 +148,16 @@ public class RenderPanel extends JPanel {
 	 * passing it the relevant image and positioning values.
 	 * 
 	 * @param g
-	 * @param sendY
-	 * @param sendX
+	 * @param yRender
+	 * @param xRender
 	 * @param y
 	 * @param x
 	 */
-	public void determineAndDrawGround(Graphics g, int sendY, int sendX, int y, int x){
+	public void determineAndDrawGround(Graphics g, int yRender, int xRender, int y, int x){
 		int startX = 19 + parentFrame.getWidth() / 4;
 		int startY = 20 + 400;
-		if (testRoom.getBoardGrid()[sendY][sendX].getGroundType() == "Grass"){
-			drawGround(g, grassBlock, sendY, sendX, y, x, startY, startX);
+		if (testRoom.getBoardGrid()[yRender][xRender].getGroundType() == "Grass"){
+			drawGround(g, grassBlock, yRender, xRender, y, x, startY, startX);
 		}	
 	}
 	
@@ -166,31 +166,31 @@ public class RenderPanel extends JPanel {
 	 * passing it the relevant image and positioning values.
 	 * 
 	 * @param g
-	 * @param sendY
-	 * @param sendX
+	 * @param yRender
+	 * @param xRender
 	 * @param y
 	 * @param x
 	 */	
-	public void determineAndDrawObject(Graphics g, int sendY, int sendX, int y, int x){
-		if (testRoom.getBoardGrid()[sendY][sendX].getObjectOnCell() instanceof Tree){
+	public void determineAndDrawObject(Graphics g, int yRender, int xRender, int y, int x){
+		if (testRoom.getBoardGrid()[yRender][xRender].getObjectOnCell() instanceof Tree){
 			int treeStartX = parentFrame.getWidth() / 4 - 30;
 			int treeStartY = 45 + 200;
-			drawObject(g, tree1, sendY, sendX, y, x, treeStartY, treeStartX);
+			drawObject(g, tree1, yRender, xRender, y, x, treeStartY, treeStartX);
 		}
-		else if (testRoom.getBoardGrid()[sendY][sendX].getObjectOnCell() instanceof Tree){
+		else if (testRoom.getBoardGrid()[yRender][xRender].getObjectOnCell() instanceof Tree){
 			int treeStartX = parentFrame.getWidth() / 4;
 			int treeStartY = 85 + 200;
-			drawObject(g, tree1, sendY, sendX, y, x, treeStartY, treeStartX);
+			drawObject(g, tree1, yRender, xRender, y, x, treeStartY, treeStartX);
 		}
-		else if (testRoom.getBoardGrid()[sendY][sendX].getObjectOnCell() instanceof Bush){
+		else if (testRoom.getBoardGrid()[yRender][xRender].getObjectOnCell() instanceof Bush){
 			int bushStartX = parentFrame.getWidth() / 4 + 40;
 			int bushStartY = 85 + 300;
-			drawObject(g, bush1, sendY, sendX, y, x, bushStartY, bushStartX);
+			drawObject(g, bush1, yRender, xRender, y, x, bushStartY, bushStartX);
 		}
-		else if (testRoom.getBoardGrid()[sendY][sendX].getObjectOnCell() instanceof Rock){
+		else if (testRoom.getBoardGrid()[yRender][xRender].getObjectOnCell() instanceof Rock){
 			int rockStartX = parentFrame.getWidth() / 4 + 60;
 			int rockStartY = 85 + 340;
-			drawObject(g, rock1, sendY, sendX, y, x, rockStartY, rockStartX);
+			drawObject(g, rock1, yRender, xRender, y, x, rockStartY, rockStartX);
 		}
 	}
 	
@@ -199,14 +199,14 @@ public class RenderPanel extends JPanel {
 	 * 
 	 * @param g
 	 * @param image
-	 * @param sendY
-	 * @param sendX
+	 * @param yRender
+	 * @param xRender
 	 * @param y
 	 * @param x
 	 * @param startY
 	 * @param startX
 	 */
-	public void drawGround(Graphics g, Image image, int sendY, int sendX, int y, int x, int startY, int startX){
+	public void drawGround(Graphics g, Image image, int yRender, int xRender, int y, int x, int startY, int startX){
 		g.drawImage(image, 
 				startX + (x * blockWidth / 2) + (y * blockWidth / 2), 
 				startY + (y * blockHeight / 2) - (x * blockHeight / 2), 
@@ -218,14 +218,14 @@ public class RenderPanel extends JPanel {
 	 * 
 	 * @param g
 	 * @param image
-	 * @param sendY
-	 * @param sendX
+	 * @param yRender
+	 * @param xRender
 	 * @param y
 	 * @param x
 	 * @param startY
 	 * @param startX
 	 */
-	public void drawObject(Graphics g, Image image, int sendY, int sendX, int y, int x, int startY, int startX){
+	public void drawObject(Graphics g, Image image, int yRender, int xRender, int y, int x, int startY, int startX){
 		g.drawImage(image, 
 				startX + (x * blockWidth / 2) + (y * blockWidth / 2), 
 				startY + (y * blockHeight / 2) - (x * blockHeight / 2), 
