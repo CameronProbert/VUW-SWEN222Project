@@ -27,6 +27,8 @@ public class RenderPanel extends JPanel {
 	private Image bush1;
 	private Image rock1;
 	
+	private Image hedgeRight1;
+	
 	private int blockWidth = 124;
 	private int blockHeight = 70;
 	
@@ -77,6 +79,7 @@ public class RenderPanel extends JPanel {
 			tree2 = ImageIO.read(RenderPanel.class.getResource("/images/Tree2.png"));
 			bush1 = ImageIO.read(RenderPanel.class.getResource("/images/Bush1.png"));
 			rock1 = ImageIO.read(RenderPanel.class.getResource("/images/Rock1.png"));
+			hedgeRight1 = ImageIO.read(RenderPanel.class.getResource("/images/HedgeRight1.png"));
 			//Load cat Images
 			catFrontLeft1 = ImageIO.read(RenderPanel.class.getResource("/images/CatFrontLeft1.png"));
 			catFrontRight1 = ImageIO.read(RenderPanel.class.getResource("/images/CatFrontRight1.png"));
@@ -193,9 +196,9 @@ public class RenderPanel extends JPanel {
 			drawObject(g, rock1, yRender, xRender, y, x, rockStartY, rockStartX);
 		}
 		else if (testRoom.getBoardGrid()[yRender][xRender].getObjectOnCell() instanceof Hedge){
-			int rockStartX = parentFrame.getWidth() / 4 + 60;
-			int rockStartY = 85 + 340;
-			drawObject(g, rock1, yRender, xRender, y, x, rockStartY, rockStartX);
+			int rockStartX = parentFrame.getWidth() / 4 + 40;
+			int rockStartY = 85 + 285;
+			drawObject(g, hedgeRight1, yRender, xRender, y, x, rockStartY, rockStartX);
 		}
 	}
 	

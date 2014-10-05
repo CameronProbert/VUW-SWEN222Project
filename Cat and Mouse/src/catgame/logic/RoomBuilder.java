@@ -96,7 +96,7 @@ public class RoomBuilder {
 	}
 	
 	public BoardCell addHedge(int x, int y) {
-		return new BoardCell(new Position(x, y), new Hedge(5), "Hedge");
+		return new BoardCell(new Position(x, y), new Hedge(5), "Grass");
 	}
 
 	public BoardCell addEmptyCell(int x, int y) {
