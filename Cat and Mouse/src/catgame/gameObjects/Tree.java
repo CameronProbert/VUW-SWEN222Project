@@ -7,7 +7,7 @@ import catgame.logic.Position;
  * @author Dan Henton
  *
  */
-public class Tree implements NonMovavble {
+public class Tree implements NonMovable {
 	
 	private final int id;
 

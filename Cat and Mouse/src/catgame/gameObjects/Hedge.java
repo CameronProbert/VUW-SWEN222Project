@@ -1,6 +1,6 @@
 package catgame.gameObjects;
 
-public class Hedge {
+public class Hedge implements NonMovable {
 	private final int id;
 
 	public Hedge(int id) {

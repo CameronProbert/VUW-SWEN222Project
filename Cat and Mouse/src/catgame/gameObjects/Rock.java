@@ -7,7 +7,7 @@ import catgame.logic.Position;
  * @author Dan Henton
  *
  */
-public class Rock implements NonMovavble {
+public class Rock implements NonMovable {
 
 	private final int id;
 

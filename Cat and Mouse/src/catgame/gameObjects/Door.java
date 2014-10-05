@@ -3,7 +3,7 @@ package catgame.gameObjects;
 import catgame.logic.BoardCell;
 import catgame.logic.Room;
 
-public class Door implements NonMovavble {
+public class Door implements NonMovable {
 	private final int id;
 	private final BoardCell cell;
 	private final DoorsEntrance entranceTo;

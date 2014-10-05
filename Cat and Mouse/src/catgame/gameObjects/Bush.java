@@ -1,6 +1,6 @@
 package catgame.gameObjects;
 
-public class Bush implements NonMovavble {
+public class Bush implements NonMovable {
 
 	private final int id;
 

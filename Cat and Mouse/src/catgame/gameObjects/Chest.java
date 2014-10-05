@@ -9,7 +9,7 @@ import catgame.logic.Position;
  * @author Dan Henton
  *
  */
-public class Chest implements NonMovavble {
+public class Chest implements NonMovable {
 	
 	private final int id;
 	private List<GameItem> inventory;
