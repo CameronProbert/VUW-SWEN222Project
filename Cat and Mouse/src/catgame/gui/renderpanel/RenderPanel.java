@@ -192,6 +192,11 @@ public class RenderPanel extends JPanel {
 			int rockStartY = 85 + 340;
 			drawObject(g, rock1, yRender, xRender, y, x, rockStartY, rockStartX);
 		}
+		else if (testRoom.getBoardGrid()[yRender][xRender].getObjectOnCell() instanceof Hedge){
+			int rockStartX = parentFrame.getWidth() / 4 + 60;
+			int rockStartY = 85 + 340;
+			drawObject(g, rock1, yRender, xRender, y, x, rockStartY, rockStartX);
+		}
 	}
 	
 	/**
