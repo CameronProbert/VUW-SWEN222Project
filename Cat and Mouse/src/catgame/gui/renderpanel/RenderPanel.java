@@ -28,6 +28,7 @@ public class RenderPanel extends JPanel {
 	private Image rock1;
 	
 	private Image hedgeRight1;
+	private Image hedgeLeft1;
 	
 	private int blockWidth = 124;
 	private int blockHeight = 70;
@@ -38,7 +39,7 @@ public class RenderPanel extends JPanel {
 	private Image catBackLeft1;
 	private Image catBackRight1;
 	
-	public static Direction viewDirection = Direction.EAST;
+	public static Direction viewDirection = Direction.SOUTH;
 	
 	//Classes for creating a test board
 	private RoomBuilder buildBoard;
@@ -80,6 +81,7 @@ public class RenderPanel extends JPanel {
 			bush1 = ImageIO.read(RenderPanel.class.getResource("/images/Bush1.png"));
 			rock1 = ImageIO.read(RenderPanel.class.getResource("/images/Rock1.png"));
 			hedgeRight1 = ImageIO.read(RenderPanel.class.getResource("/images/HedgeRight1.png"));
+			hedgeLeft1 = ImageIO.read(RenderPanel.class.getResource("/images/HedgeLeft1.png"));
 			//Load cat Images
 			catFrontLeft1 = ImageIO.read(RenderPanel.class.getResource("/images/CatFrontLeft1.png"));
 			catFrontRight1 = ImageIO.read(RenderPanel.class.getResource("/images/CatFrontRight1.png"));
@@ -195,7 +197,12 @@ public class RenderPanel extends JPanel {
 			int rockStartY = 85 + 340;
 			drawObject(g, rock1, yRender, xRender, y, x, rockStartY, rockStartX);
 		}
-		else if (testRoom.getBoardGrid()[yRender][xRender].getObjectOnCell() instanceof Hedge){
+		else if (testRoom.getBoardGrid()[yRender][xRender].getObjectOnCell() instanceof LeftHedge){
+			int rockStartX = parentFrame.getWidth() / 4 + 40;
+			int rockStartY = 85 + 285;
+			drawObject(g, hedgeLeft1, yRender, xRender, y, x, rockStartY, rockStartX);
+		}
+		else if (testRoom.getBoardGrid()[yRender][xRender].getObjectOnCell() instanceof RightHedge){
 			int rockStartX = parentFrame.getWidth() / 4 + 40;
 			int rockStartY = 85 + 285;
 			drawObject(g, hedgeRight1, yRender, xRender, y, x, rockStartY, rockStartX);

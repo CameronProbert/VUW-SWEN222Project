@@ -4,7 +4,8 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 
 import catgame.gameObjects.Bush;
-import catgame.gameObjects.Hedge;
+import catgame.gameObjects.LeftHedge;
+import catgame.gameObjects.RightHedge;
 import catgame.gameObjects.Rock;
 import catgame.gameObjects.Tree;
 import catgame.logic.GameUtil.Direction;
@@ -65,7 +66,9 @@ public class RoomBuilder {
 					} else if (values[x].equals("4")) {
 						board[y][x] = addRock(x, y);
 					} else if (values[x].equals("5")) {
-						board[y][x] = addHedge(x, y);
+						board[y][x] = addLeftHedge(x, y);
+					} else if (values[x].equals("6")) {
+						board[y][x] = addRightHedge(x, y);
 					} else {
 						System.out.println(values[x]);
 					}
@@ -95,8 +98,12 @@ public class RoomBuilder {
 		return new BoardCell(new Position(x, y), new Rock(4), "Grass");
 	}
 	
-	public BoardCell addHedge(int x, int y) {
-		return new BoardCell(new Position(x, y), new Hedge(5), "Grass");
+	public BoardCell addLeftHedge(int x, int y) {
+		return new BoardCell(new Position(x, y), new LeftHedge(5), "Grass");
+	}
+	
+	public BoardCell addRightHedge(int x, int y) {
+		return new BoardCell(new Position(x, y), new RightHedge(6), "Grass");
 	}
 
 	public BoardCell addEmptyCell(int x, int y) {
