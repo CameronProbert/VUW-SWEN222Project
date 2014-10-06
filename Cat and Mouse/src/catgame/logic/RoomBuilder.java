@@ -102,7 +102,7 @@ public class RoomBuilder {
 	 * Construct an empty BoardCell used for having holes and different room shapes
 	 */
 	public BoardCell addEmptyCell(int x, int y) {
-		return new BoardCell(new Position(x, y), null, null);
+		return new BoardCell(new Position(x, y), null, "");
 	}
 
 	/**
