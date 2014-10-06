@@ -36,7 +36,7 @@ public class RenderPanel extends JPanel {
 	private Image catBackLeft1;
 	private Image catBackRight1;
 	
-	public static Direction viewDirection = Direction.SOUTH;
+	public static Direction viewDirection = Direction.NORTH;
 	
 	//Classes for creating a test board
 	private RoomBuilder buildBoard;
@@ -110,14 +110,14 @@ public class RenderPanel extends JPanel {
 	 * 
 	 * @param g
 	 */
-	public void drawgroundAndObjects(Graphics g){		
+	public void drawGroundAndObjects(Graphics g){		
 		int sendX;
 		int sendY;
 		for (int y = 0; y < testRoom.getBoardGrid().length; y++){
 			for (int x = testRoom.getBoardGrid()[0].length-1; x >= 0; x--){
 				if (viewDirection == Direction.NORTH){
-					sendX = testRoom.getBoardGrid()[0].length-x-1;
-					sendY = y;
+					sendX = y;
+					sendY = testRoom.getBoardGrid()[0].length-x-1;
 					determineAndDrawGround(g, sendY, sendX, y, x);
 					determineAndDrawObject(g, sendY, sendX, y, x);					
 				}
@@ -128,14 +128,14 @@ public class RenderPanel extends JPanel {
 					determineAndDrawObject(g, sendY, sendX, y, x);
 				}
 				else if (viewDirection == Direction.SOUTH){
-					sendY = testRoom.getBoardGrid().length-y-1;
-					sendX = x;
+					sendX = testRoom.getBoardGrid().length-y-1;
+					sendY = x;
 					determineAndDrawGround(g, sendY, sendX, y, x);
 					determineAndDrawObject(g, sendY, sendX, y, x);
 				}
 				else if (viewDirection == Direction.EAST){
-					sendY = testRoom.getBoardGrid().length-y-1;
 					sendX = testRoom.getBoardGrid()[0].length-x-1;
+					sendY = testRoom.getBoardGrid().length-y-1;
 					determineAndDrawGround(g, sendY, sendX, y, x);
 					determineAndDrawObject(g, sendY, sendX, y, x);
 				}
@@ -240,7 +240,7 @@ public class RenderPanel extends JPanel {
 	
 	public void redraw(Graphics g){
 		g.fillRect(0, 0, parentFrame.getWidth(), parentFrame.getHeight());
-		drawgroundAndObjects(g);
+		drawGroundAndObjects(g);
 		drawCharacters(g);
 	}
 	
