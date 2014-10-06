@@ -10,6 +10,9 @@ import catgame.logic.Room;
 /**
  *
  * @author Dan Henton
+ * 
+ * A Dumb playable Character which only holds information about it's self:
+ * id, currentRoom, facing direction, health and inventory
  *
  */
 public class PlayableCharacter implements Character {
@@ -24,6 +27,15 @@ public class PlayableCharacter implements Character {
 	private int attackPower;
 	private int xp;
 
+	/**
+	 * Constuct a new Playable Character object designed such that it can be made dynamically for the .xml loading and saving 
+	 * @param ID
+	 * @param currentRoom
+	 * @param direction
+	 * @param attackPower
+	 * @param health
+	 * @param items
+	 */
 	public PlayableCharacter(int ID, Room currentRoom, Direction direction, int attackPower, int health, List<GameItem> items) {
 		this.id = ID;
 		this.currentRoom = currentRoom;
@@ -80,25 +92,6 @@ public class PlayableCharacter implements Character {
 		this.attackPower += change;
 	}
 
-	public void move(Direction direction) throws GameError {
-		if (isDead()) {
-			throw new GameError("Player is dead");
-		}
-		if (direction.equals(facingDirection)) {
-			forward(direction);
-		} else {
-			turn(direction);
-		}
-	}
-
-	private void forward(Direction direction) {
-		//this.currentRoom.movePlayer(id, direction);
-	}
-
-	private void turn(Direction direction) {
-		this.facingDirection = direction;
-	}
-
 	public boolean isDead() {
 		return health < 0;
 	}
@@ -130,6 +123,12 @@ public class PlayableCharacter implements Character {
 	}
 	
 	public void resetItems(List<GameItem> items) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	//TODO check to see if this is still necessary as the room controls who is moving
+	public void move(Direction direction) {
 		// TODO Auto-generated method stub
 		
 	}

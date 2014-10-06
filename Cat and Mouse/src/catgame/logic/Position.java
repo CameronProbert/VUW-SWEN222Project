@@ -1,5 +1,12 @@
 package catgame.logic;
 
+/**
+ * 
+ * @author Dan Henton
+ *
+ *Basicly the same class as the point class,
+ *Stores an int x & int y position for the game
+ */
 public class Position {
 
 	

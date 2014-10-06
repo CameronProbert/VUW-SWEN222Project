@@ -9,6 +9,15 @@ import catgame.gameObjects.PlayableCharacter;
 import catgame.gui.renderpanel.RenderPanel;
 import catgame.logic.GameUtil.Direction;
 
+/**
+ * 
+ * @author Dan Henton
+ * 
+ * A Room inside the Game this holds a BoardCell[][] in for the game.
+ * all of the actions that require a player to see what is going on around its boardCell is done here.
+ * The room is designed this way so that it has low coupling 
+ *
+ */
 public class Room {
 
 	private final int roomID;
@@ -52,27 +61,36 @@ public class Room {
 	}
 
 	/**
-	 * 
+	 *  Move a player around a room,
+	 *  Check to see if the move is valid(the move is on the board and there is an empty space
+	 *  
+	 *  //TODO fix it such that the player only moves if it is facing in the direction otherwise change the direction that the player is facing
+	 *  
 	 * @param playerID
 	 * @param direction
 	 */
 	public int movePlayer(int playerID, Direction playerDirection) {
+		//TODO add the direction facing stuff here
+		
 		Position newPos = findPosition(playerID, RenderPanel.viewDirection, playerDirection);
+		//Check if the move is on the board
 		if (newPos.getX() < 0 || newPos.getY() < 0 || newPos.getX() > roomGrid.length || newPos.getY() > roomGrid[0].length) {
 			System.out.println("New Move Position to x:" + newPos.getX() + " y:" + newPos.getY() + " is not valid");
 			return -1;
 		}
+		//Check that the next Position is empty then move the player
 		if (roomGrid[newPos.getX()][newPos.getY()].getGroundType() != null && roomGrid[newPos.getX()][newPos.getY()].getObjectOnCell() == null) {
 			BoardCell oldCell = locationMap.get(playerID);
 			roomGrid[newPos.getX()][newPos.getY()].setObjectOnCell(oldCell.removeObjectOnCell());
 			return 1;
 		}
+		//the move wasn't successful;
 		System.out.println("Grid @ x:" + newPos.getX() + " y:" + newPos.getY() + " is not empty");
 		return -1;
 	}
 
 	/**
-	 * TODO
+	 * TODO check that that move is working then once it is this should be easy
 	 * 
 	 * @param playerID
 	 * @param direction
@@ -83,7 +101,7 @@ public class Room {
 	}
 
 	/**
-	 * TODO
+	 * TODO check that that move is working then once it is this should be easy
 	 * 
 	 * @param playerID
 	 * @param direction

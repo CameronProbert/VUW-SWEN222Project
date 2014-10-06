@@ -21,7 +21,8 @@ import catgame.logic.GameUtil.Direction;
  */
 public class RoomBuilder {
 	private String fileName;
-
+	
+	//Object ID's
 	private final int empty = 0;
 	private final int grass = 1;
 	private final int bush = 20;
@@ -43,20 +44,20 @@ public class RoomBuilder {
 	}
 
 	/**
-	 * Reads a .cvs file and creates a room for the game.
+	 * Reads a .cvs file and creates a room for the game by using a parser,
+	 * The correct syntax is required for a room to be built
 	 * 
 	 * @param fileName
 	 * @return
 	 */
 	public BoardCell[][] loadBoard() {
 		BoardCell[][] board = new BoardCell[0][0];
-		// make a new board from file
 		BufferedReader buffer;
-
 		int y = 0;
+		//Load the file
 		try {
 			buffer = new BufferedReader(new FileReader("SwenProjectRoomTestOne.csv"));
-			// Set the formatting for the array
+			// Set the arrays size [y][x]
 			String formatingLine = buffer.readLine();
 			String[] formatArray = formatingLine.split(",");
 			int maxY = Integer.parseInt(formatArray[0]);
@@ -71,7 +72,7 @@ public class RoomBuilder {
 				String[] values = line.split(",");
 
 				for (int x = 0; x < values.length; x++) {
-
+					//Parser that decides what is going in the BoardCell[][] using a switch for efficiency 
 					switch (values[x]) {
 					case empty + "":
 						board[y][x] = addEmptyCell(x, y);
@@ -97,33 +98,63 @@ public class RoomBuilder {
 		}
 		return board;
 	}
-
+	/*
+	 * Construct an empty BoardCell used for having holes and different room shapes
+	 */
 	public BoardCell addEmptyCell(int x, int y) {
 		return new BoardCell(new Position(x, y), null, null);
 	}
 
+	/**
+	 * Construct a basic BoardCell on that doesn't have any objects on it
+	 * @param x
+	 * @param y
+	 * @return new grass BoardCell
+	 */
 	public BoardCell addGrass(int x, int y) {
 		return new BoardCell(new Position(x, y), null, "Grass");
 	}
-
+	/**
+	 * Construct a grass BoardCell thats object is a bush
+	 * @param x
+	 * @param y
+	 * @return new bush BoardCell
+	 */
 	public BoardCell addBush(int x, int y) {
 		int newBushId = genorateObjectId(bush, 10, bushNum);
 		bushNum++;
 		return new BoardCell(new Position(x, y), new Bush(newBushId), "Grass");
 	}
-
+	
+	/**
+	 * Construct a grass BoardCell thats object is a tree
+	 * @param x
+	 * @param y
+	 * @return new tree BoardCell
+	 */
 	public BoardCell addTree(int x, int y) {
 		int newTreeId = genorateObjectId(tree, 10, treeNum);
 		treeNum++;
 		return new BoardCell(new Position(x, y), new Tree(3), "Grass");
 	}
-
+	
+	/**
+	 * Construct a grass BoardCell thats object is a rock
+	 * @param x
+	 * @param y
+	 * @return new bush BoardCell
+	 */
 	public BoardCell addRock(int x, int y) {
 		int newRockId = genorateObjectId(rock, 10, rockNum);
 		rockNum++;
 		return new BoardCell(new Position(x, y), new Rock(4), "Grass");
 	}
-
+	
+	
+	/**
+	 * use for quick testing in the roomBuilder
+	 * @param args
+	 */
 	public static void main(String[] args) {
 		RoomBuilder buildBoard = new RoomBuilder();
 		Room testRoom = new Room(1, buildBoard.loadBoard());

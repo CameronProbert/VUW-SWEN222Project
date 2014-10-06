@@ -9,18 +9,19 @@ import java.util.List;
  * 
  * @author Dan
  * 
- *         stores all of the boards data
+ * This class holds all of the rooms in the game.
+ * TODO Fill out the boardData
  */
 public class BoardData {
 
-	public static List<Room> allRooms = new ArrayList<Room>();
+	private static List<Room> allRooms = new ArrayList<Room>();
 
 	public BoardData() {
 		
 	}
 
 	/**
-	 * TODO
+	 * TODO Loading level
 	 * @return
 	 */
 	public List<Room> loadLevel() {
@@ -28,7 +29,11 @@ public class BoardData {
 		return toLoad;
 	}
 	
-	public List<Room> getAllRooms(){
+	/**
+	 * 
+	 * @return all of the rooms
+	 */
+	public static List<Room> getAllRooms(){
 		return allRooms;
 	}
 

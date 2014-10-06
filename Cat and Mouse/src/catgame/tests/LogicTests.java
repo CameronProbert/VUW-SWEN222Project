@@ -10,7 +10,11 @@ import catgame.logic.Room;
 import catgame.logic.RoomBuilder;
 
 public class LogicTests {
-
+	
+	/**
+	 * Test that the games public enum Direction is working correctly,
+	 * and all enums map to the correct value
+	 */
 	@Test
 	public void testDirectionEnum() {
 		Direction north = Direction.NORTH;
@@ -46,8 +50,12 @@ public class LogicTests {
 		assertEquals(3, left.getValue());
 	}
 
+	/**
+	 * Test the TranslateForGrid algorithm, Checks that all inputs have a correct output
+	 */
 	@Test
 	public void testTranslateForGid() {
+		
 		Room testRoom = new Room(0, null);
 		// NORTH
 		assertEquals(0, testRoom.translateForGid(Direction.NORTH, Direction.UP));
@@ -71,11 +79,21 @@ public class LogicTests {
 		assertEquals(2, testRoom.translateForGid(Direction.WEST, Direction.LEFT));
 	}
 
+	/**
+	 * Tests for GenorateID in the room builder class. All Id's are required to be 6 digits long
+	 * if they aren't there will be a gameError Thrown
+	 */
 	@Test
 	public void TestGenorateId() {
 		RoomBuilder testRoom = new RoomBuilder();
 		String lenghtTest = testRoom.genorateObjectId(10, 10, 10) + "";
 		assertEquals(6, lenghtTest.length());
 		assertEquals(101010, testRoom.genorateObjectId(10, 10, 10));
+		try{
+		assertFalse(testRoom.genorateObjectId(01, 01, 01)+"".length() == 6);
+		}catch(GameError e){
+			return;
+		}
+		fail();
 	}
 }

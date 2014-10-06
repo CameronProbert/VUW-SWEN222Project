@@ -52,8 +52,8 @@ public class RenderPanel extends JPanel {
 		setVisible(true);
 		
 		//Roombuilder testing
-		buildBoard = new RoomBuilder("SwenProjectRoomTestOne.csv");
-		testRoom = new Room(1, buildBoard.getBoardFile());
+		buildBoard = new RoomBuilder();
+		testRoom = new Room(1, buildBoard.loadBoard());
 		testRoom.printBoard();
 		
 		
