@@ -26,6 +26,8 @@ public class GameUtil {
 	
 	private ObjectStorer storer = new ObjectStorer();
 
+	public static Direction viewDirection = Direction.NORTH;
+	
 	public GameUtil() {
 
 	}
@@ -42,8 +44,8 @@ public class GameUtil {
 		//TODO if ID not found throw IDNotFoundError
 		// find the character then try and move it
 		for (Room room : BoardData.getAllRooms()) {
-			if (room.getCharactor(playerID) != null
-					&& room.getCharactor(playerID).getObjectID() == playerID) {
+			if (room.getCharactorCell(playerID) != null
+					&& room.getCharactorCell(playerID).getObjectOnCell().getObjectID() == playerID) {
 				//move the player in the room
 				return room.movePlayer(playerID, Direction.UP);
 			}

@@ -14,6 +14,7 @@ import javax.swing.JPanel;
 
 import catgame.gameObjects.*;
 import catgame.gui.ClientFrame;
+import catgame.logic.GameUtil;
 import catgame.logic.GameUtil.Direction;
 import catgame.logic.Room;
 import catgame.logic.RoomBuilder;
@@ -36,7 +37,6 @@ public class RenderPanel extends JPanel {
 	private Image catBackLeft1;
 	private Image catBackRight1;
 	
-	public static Direction viewDirection = Direction.NORTH;
 	
 	//Classes for creating a test board
 	private RoomBuilder buildBoard;
@@ -89,15 +89,6 @@ public class RenderPanel extends JPanel {
 	}	
 
 	
-	//TODO see if theses two methods are necessary as viewDirection is public static
-	public Direction getViewDiriection(){
-		return viewDirection;
-	}
-
-	public void setViewDir(Direction vd){
-		viewDirection = vd;
-	}
-	
 
 	
 	/**
@@ -115,25 +106,25 @@ public class RenderPanel extends JPanel {
 		int sendY;
 		for (int y = 0; y < testRoom.getBoardGrid().length; y++){
 			for (int x = testRoom.getBoardGrid()[0].length-1; x >= 0; x--){
-				if (viewDirection == Direction.NORTH){
+				if (GameUtil.viewDirection == Direction.NORTH){
 					sendX = y;
 					sendY = testRoom.getBoardGrid()[0].length-x-1;
 					determineAndDrawGround(g, sendY, sendX, y, x);
 					determineAndDrawObject(g, sendY, sendX, y, x);					
 				}
-				else if (viewDirection == Direction.WEST){
+				else if (GameUtil.viewDirection == Direction.WEST){
 					sendX = x;
 					sendY = y;
 					determineAndDrawGround(g, sendY, sendX, y, x);
 					determineAndDrawObject(g, sendY, sendX, y, x);
 				}
-				else if (viewDirection == Direction.SOUTH){
+				else if (GameUtil.viewDirection == Direction.SOUTH){
 					sendX = testRoom.getBoardGrid().length-y-1;
 					sendY = x;
 					determineAndDrawGround(g, sendY, sendX, y, x);
 					determineAndDrawObject(g, sendY, sendX, y, x);
 				}
-				else if (viewDirection == Direction.EAST){
+				else if (GameUtil.viewDirection == Direction.EAST){
 					sendX = testRoom.getBoardGrid()[0].length-x-1;
 					sendY = testRoom.getBoardGrid().length-y-1;
 					determineAndDrawGround(g, sendY, sendX, y, x);

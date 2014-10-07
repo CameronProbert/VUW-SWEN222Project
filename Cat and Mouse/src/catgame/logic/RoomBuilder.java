@@ -88,7 +88,6 @@ public class RoomBuilder {
 	public Room loadRoom() {
 		// Make the new Room
 		Room loadingRoom = new Room(roomNum++);
-		System.out.println(loadingRoom.getRoomID());
 		// this will need to be added in at the end
 		BoardCell[][] board = new BoardCell[0][0];
 
@@ -132,12 +131,12 @@ public class RoomBuilder {
 						break;
 					case playableCharacters + "":
 						board[y][x] = addPlayer(x, y, loadingRoom);
-						loadingRoom.addToPlayerLocationMap(board[y][x].getObjectOnCell().getObjectID(), board[x][y]);
+						loadingRoom.addToPlayerLocationMap(board[y][x].getObjectOnCell().getObjectID(), board[y][x]);
 						break;
-					case minionOne+"":
+					case minionOne + "":
 						board[y][x] = addMinionOne(x, y, loadingRoom);
 						break;
-						
+
 					}
 				}
 				y++;
@@ -223,30 +222,20 @@ public class RoomBuilder {
 		// Create starting items
 		List<GameItem> newInv = new ArrayList<GameItem>();
 		newInv.add(new Food(food, 20));
-		//Create new Player
+		// Create new Player
 		PlayableCharacter newPlayableCharacter = new PlayableCharacter(newPlayerId, newPlayerId, room, Direction.NORTH, 20, 100, newInv);
 		room.addToInventory(newPlayableCharacter);
 		return new BoardCell(new Position(x, y), newPlayableCharacter, groundTypeGrass);
 	}
-	
-	private BoardCell addMinionOne(int x , int y, Room room){
+
+	private BoardCell addMinionOne(int x, int y, Room room) {
 		int newMinionId = genorateObjectId(minionOne, genorateRandomObjectType(1), minoinNum++);
 		List<GameItem> newInv = new ArrayList<GameItem>();
 		newInv.add(new Food(food, 10));
 		Minion newMin = new Minion(newMinionId, room, 8, 60, newInv);
 		room.addToInventory(newMin);
 		return new BoardCell(new Position(x, y), newMin, groundTypeGrass);
-		
-	}
 
-	/**
-	 * use for quick testing in the roomBuilder
-	 * 
-	 * @param args
-	 */
-	public static void main(String[] args) {
-		RoomBuilder buildBoard = new RoomBuilder();
-		buildBoard.loadRoom();
 	}
 
 	/**
@@ -280,5 +269,15 @@ public class RoomBuilder {
 			return 10;
 		}
 		return (int) ((Math.random() * numOfType) + 10);
+	}
+
+	/**
+	 * use for quick testing in the roomBuilder
+	 * 
+	 * @param args
+	 */
+	public static void main(String[] args) {
+		RoomBuilder buildBoard = new RoomBuilder();
+		buildBoard.loadRoom();
 	}
 }

@@ -2,10 +2,15 @@ package catgame.tests;
 
 import static org.junit.Assert.*;
 
+import java.awt.Dimension;
+
 import org.junit.Test;
 
+import catgame.gui.renderpanel.RenderPanel;
 import catgame.logic.GameUtil.Direction;
 import catgame.logic.GameError;
+import catgame.logic.GameUtil;
+import catgame.logic.Position;
 import catgame.logic.Room;
 import catgame.logic.RoomBuilder;
 
@@ -104,5 +109,26 @@ public class LogicTests {
 		assertTrue(testRoom.genorateRandomObjectType(5) > 9 && testRoom.genorateRandomObjectType(5) <= 15);
 		assertTrue(testRoom.genorateRandomObjectType(3) > 9 && testRoom.genorateRandomObjectType(3) <= 13);
 		assertTrue(testRoom.genorateRandomObjectType(1) == 10);
+	}
+	
+	@Test
+	public void TestGetPlayersGrid(){
+		RoomBuilder testBuilder = new RoomBuilder();
+		Room testRoom = testBuilder.loadRoom();
+		assertEquals(101010, testRoom.getCharactorCell(101010).getObjectOnCell().getObjectID());
+	}
+	
+	@Test
+	public void TestPlayerMoveNorth(){
+		GameUtil util= new GameUtil();
+		util.viewDirection = Direction.NORTH;
+		RoomBuilder testBuilder = new RoomBuilder();
+		Room testRoom = testBuilder.loadRoom();
+		//testRoom.
+		Position preMovePos = testRoom.getCharactorCell(101010).getPosition();
+		assertEquals(101010, testRoom.getBoardGrid()[preMovePos.getY()][preMovePos.getX()].getObjectOnCell().getObjectID());
+		assertEquals(1, testRoom.movePlayer(101010, Direction.UP));
+		assertEquals(null, testRoom.getBoardGrid()[preMovePos.getY()][preMovePos.getX()].getObjectOnCell());
+		assertEquals(101010, testRoom.getBoardGrid()[preMovePos.getY()-1][preMovePos.getX()].getObjectOnCell().getObjectID());		
 	}
 }

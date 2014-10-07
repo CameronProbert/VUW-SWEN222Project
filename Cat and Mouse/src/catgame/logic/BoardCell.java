@@ -38,7 +38,7 @@ public class BoardCell {
 
 	public String toString() {
 		if (groundType == null) {
-			return " ";
+			return "Empty";
 		}else if (objectOnCell == null) {
 			return this.groundType;
 		}else{
