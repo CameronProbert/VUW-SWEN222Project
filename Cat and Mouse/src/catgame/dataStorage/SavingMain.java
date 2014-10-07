@@ -47,12 +47,17 @@ public class SavingMain {
 				new FileOutputStream(new File("test.xml")));
 	}
 
+	/**
+	 * Saves the details of BoardData class, in particular creates elements for all the rooms
+	 * @return Element 
+	 */
 	public Element writeBoardData() {
-		Element boardDataElement = new Element("BoardDate");
+		Element boardDataElement = new Element("BoardData");
 		List<Room> boardDataRooms = boardData.getAllRooms();
 		boardDataElement.setAttribute(new Attribute("allRooms", ""
 				+ boardDataRooms.size()));
 
+		// Add elements about all the rooms in boardData to boardDataElement
 		for (int id = 0; id < boardDataRooms.size(); id++) {
 			try {
 				boardDataElement.addContent(writeRoom(boardDataRooms.get(id),
@@ -62,16 +67,26 @@ public class SavingMain {
 				e.printStackTrace();
 			}
 		}
+		
 		return boardDataElement;
 	}
 
+	/**
+	 * Saves the room's id, roomGrid, and details on objects in the room's inventory
+	 * @param room Room
+	 * @param id int
+	 * @return Element
+	 * @throws XMLException
+	 */
 	private Element writeRoom(Room room, int id) throws XMLException {
+		// Create element and include room ID
 		Element roomElement = new Element("Room_" + id);
 		roomElement.setAttribute(new Attribute("id", "" + id));
 		if (room == null) {
 			throw new XMLException("Room_" + id + " is null");
 		}
 
+		// 
 		Element boardGrid = new Element("boardGrid");
 		BoardCell[][] roomGrid = room.getBoardGrid();
 		for (int y = 0; y < roomGrid.length; y++) {

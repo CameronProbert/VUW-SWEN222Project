@@ -62,7 +62,7 @@ public class SavingMasterObjects {
 		Element doorElement = new Element("Door");
 		doorElement.setAttribute(new Attribute("id", "" + door.getObjectID()));
 		
-		// TODO Door entrance's room
+		// TODO Door entrance's room!!!!
 		//doorElement.addContent(new Element("DoorEntrance").setAttribute(new Attribute("Room", "" + door.)))
 		return doorElement;
 	}
