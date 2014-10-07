@@ -3,6 +3,7 @@ package catgame.logic;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Set;
 
 import catgame.gameObjects.Character;
 import catgame.gameObjects.Chest;
@@ -11,6 +12,7 @@ import catgame.gameObjects.GameItem;
 import catgame.gameObjects.GameObject;
 import catgame.gameObjects.Key;
 import catgame.gameObjects.MasterObject;
+import catgame.gameObjects.NonPlayableCharacter;
 import catgame.gameObjects.PlayableCharacter;
 
 /**
@@ -21,6 +23,8 @@ import catgame.gameObjects.PlayableCharacter;
  *then this decides how to go about these specific tasks within the games logic
  */
 public class GameUtil {
+	
+	private ObjectStorer storer = new ObjectStorer();
 
 	public GameUtil() {
 
@@ -163,34 +167,6 @@ public class GameUtil {
 		return null;
 	}
 							//TODO CHECK IF THESE ARE NEEDED
-	public PlayableCharacter findCharacter(int objectID) {
-		// TODO Auto-generated method stub
-		// //////////////////////////////////////////////////
-		// For testing
-		ArrayList<GameItem> items = new ArrayList<GameItem>();
-		items.add(new Food(2, 30));
-		items.add(new Key(3));
-		items.add(new Food(2, 30));
-
-		PlayableCharacter ch = new PlayableCharacter(1, null, Direction.NORTH,
-				3, 5, items);
-		return ch;
-		// ///////////////////////////////////////////////////
-	}
-
-	public GameItem findItem(int i) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	public void addPlayer(int playerID) {
-		// TODO Auto-generated method stub
-	}
-
-	public GameObject findGameObject(int ownerID) {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
 	/**
 	 * 
@@ -215,6 +191,11 @@ public class GameUtil {
 		public int getValue() {
 			return this.value;
 		}
-	};
+	}
 
+	public ObjectStorer getStorer(){
+		return this.storer;
+	}
+	
+	
 }

@@ -19,13 +19,6 @@ public class BroadcastMessage {
 			out.writeInt(objectID);
 			out.writeInt(ch.getAttackPower());
 			out.writeInt(ch.getHealth());
-			if(ch instanceof PlayableCharacter){
-				PlayableCharacter playC = (PlayableCharacter) ch;
-				//out.writeInt(playC.getXp());
-			}
-			else{
-				out.writeInt(0);
-			}
 			// out.write(ch.getCurrentCell().); // send position somehow TODO
 			int inSize = ch.getInventory().size();
 			out.writeInt(inSize);
@@ -58,7 +51,6 @@ public class BroadcastMessage {
 			for(GameItem item : chest.getLoot()){
 				out.writeInt(item.getObjectID());
 			}
-			// out.writeInt(x);// TODO somehow send position
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

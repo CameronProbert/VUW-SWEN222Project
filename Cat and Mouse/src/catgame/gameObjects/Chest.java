@@ -36,5 +36,8 @@ public class Chest implements NonMovavble {
 	public List<GameItem> openChest(){
 		return inventory;
 	}
+	public void updateLoot(List<GameItem> items) {
+		this.inventory = items;
+	}
 
 }

@@ -81,7 +81,7 @@ public class LauncherFrame extends AbstractFrame {
 					Socket s = new Socket(url, port );
 					Slave slave = new Slave(s);
 					NetworkHandler net = new NetworkHandler(NetworkHandler.Type.CLIENT);
-					PlayableCharacter ch = net.getGameUtill().findCharacter(1); // TODO change to actual ID
+					PlayableCharacter ch = net.getGameUtill().getStorer().findCharacter(1); // TODO change to actual ID
 					ClientFrame frame = new ClientFrame(net, 1, true, ch, slave);
 				} catch (IOException e1) {
 					// TODO Auto-generated catch block

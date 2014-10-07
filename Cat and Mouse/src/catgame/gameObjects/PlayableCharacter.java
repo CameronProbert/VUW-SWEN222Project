@@ -17,15 +17,16 @@ import catgame.logic.Room;
  */
 public class PlayableCharacter implements Character {
 
+	private final int START_ATTACK_POWER = 10; // arbitrary number, can change
+	private final int START_HEALTH_LEVEL = 10; // arbitrary number, can change
 	private final int id;
 	private final int maxItems = 6;
 	private Room currentRoom;
 	private Direction facingDirection;
 	private int health;
 	private List<GameItem> inventory = new ArrayList<GameItem>();
-	
+	private int ownersID;
 	private int attackPower;
-	private int xp;
 
 	/**
 	 * Constuct a new Playable Character object designed such that it can be made dynamically for the .xml loading and saving 
@@ -36,7 +37,8 @@ public class PlayableCharacter implements Character {
 	 * @param health
 	 * @param items
 	 */
-	public PlayableCharacter(int ID, Room currentRoom, Direction direction, int attackPower, int health, List<GameItem> items) {
+	public PlayableCharacter(int ownerID, int ID, Room currentRoom, Direction direction, int attackPower, int health, List<GameItem> items) {
+		this.ownersID = ownerID;
 		this.id = ID;
 		this.currentRoom = currentRoom;
 		this.facingDirection = direction;
@@ -131,5 +133,9 @@ public class PlayableCharacter implements Character {
 	public void move(Direction direction) {
 		// TODO Auto-generated method stub
 		
+	}
+	
+	public int getOwner(){
+		return this.ownersID;
 	}
 }

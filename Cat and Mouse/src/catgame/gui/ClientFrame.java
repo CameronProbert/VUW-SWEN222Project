@@ -329,7 +329,7 @@ public class ClientFrame extends AbstractFrame implements KeyListener {
 		items.add(new Key(3));
 		items.add(new Food(2, 30));
 
-		PlayableCharacter character = new PlayableCharacter(1, null, Direction.NORTH, 3, 5,
+		PlayableCharacter character = new PlayableCharacter(1, 10, null, Direction.NORTH, 3, 5,
 				items);
 		new ClientFrame(null, 0, false, character, null);
 	}

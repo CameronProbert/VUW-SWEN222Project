@@ -6,10 +6,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import catgame.gameObjects.Character;
+import catgame.gameObjects.Chest;
 import catgame.gameObjects.GameItem;
 import catgame.gameObjects.GameObject;
 import catgame.gameObjects.PlayableCharacter;
 import catgame.logic.GameUtil;
+import catgame.logic.ObjectStorer;
 
 public class ReceiveMessage {
 
@@ -26,27 +28,24 @@ public class ReceiveMessage {
 			int objectID = in.readInt();
 			int attackPower = in.readInt();
 			int health = in.readInt();
-			int XP = in.readInt();
 			int level = in.readInt();
 			// int x,y = .. // receive position somehow TODO
+			
 			int inSize = in.readInt();
 			int[] itemIDs = new int[inSize];
 			for(int i=0; i<inSize; i++){
 				itemIDs[i] = in.readInt();
 			}
 
-			Character ch = game.findCharacter(objectID);
+			ObjectStorer storer = game.getStorer();
+			Character ch = storer.findCharacter(objectID);
 
 			ch.reset(attackPower, health, level);
-
-			if(ch instanceof PlayableCharacter){
-				PlayableCharacter playCh = (PlayableCharacter) ch;
-			}
 
 			List<GameItem> items = new ArrayList<GameItem>();
 
 			for(int i = 0; i< inSize; i++){
-				GameItem item = game.findItem(itemIDs[i]);
+				GameItem item = storer.findItem(itemIDs[i]);
 				items.add(item);
 			}
 
@@ -62,8 +61,9 @@ public class ReceiveMessage {
 		try {
 			int id = in.readInt();
 			int ownerID = in.readInt();
-			GameItem item = game.findItem(id);
-			GameObject owner = game.findGameObject(ownerID);
+			ObjectStorer storer = game.getStorer();
+			GameItem item = storer.findItem(id);
+			GameObject owner = storer.findGameObject(ownerID);
 			item.setOwner(owner);
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -71,7 +71,19 @@ public class ReceiveMessage {
 	}
 	
 	public void readChest(){
-		// TODO get id and check inventory
+		try {
+			int id = in.readInt();
+			int lootSize = in.readInt();
+			Chest chest = game.getStorer().findChest(id);
+			List<GameItem> items = new ArrayList<GameItem>();
+			for(GameItem item : chest.getLoot()){
+				int itemID = in.readInt();
+				items.add(game.getStorer().findItem(itemID));
+			}
+			chest.updateLoot(items);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 

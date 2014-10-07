@@ -5,6 +5,12 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
 
+import catgame.gameObjects.Chest;
+import catgame.gameObjects.GameItem;
+import catgame.gameObjects.NonPlayableCharacter;
+import catgame.gameObjects.PlayableCharacter;
+import catgame.logic.ObjectStorer;
+
 public final class Master extends Thread {
 
 
@@ -103,6 +109,45 @@ public final class Master extends Thread {
 		//for each non playable character send update
 		//for each chest
 		//for each item
+		BroadcastMessage broadcast = new BroadcastMessage(output);
+		try {
+			ObjectStorer storer = game.getGameUtill().getStorer();
+			
+			int noChars = storer.getNumChars();
+			output.writeInt(noChars);
+			for(int i : storer.getCharIDs()){
+				PlayableCharacter c = storer.findCharacter(i);
+				broadcast.sendCharacter(i, c);
+			}
+			
+			int noNCPs = storer.getNumNCPs();
+			output.writeInt(noNCPs);
+			for(int i: storer.getNCPIDs()){
+				NonPlayableCharacter nc = storer.findNCP(i);
+				broadcast.sendCharacter(i, nc);
+			}
+			
+			int noChests = storer.getNumChests();
+			output.writeInt(noChests);
+			for(int i: storer.getChestIDs()){
+				Chest chest = storer.findChest(i);
+				broadcast.sendChest(i, chest);
+			}
+			
+			int noItems = storer.getNumItems();
+			output.writeInt(noItems);
+			for(int i: storer.getItemIDs()){
+				GameItem item = storer.findItem(i);
+				broadcast.sendItem(i, item);
+			}	
+			
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		
+		
+		
 	}
 
 	public int getNumber(){
