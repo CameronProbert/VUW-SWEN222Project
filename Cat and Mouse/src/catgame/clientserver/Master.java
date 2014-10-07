@@ -11,6 +11,16 @@ import catgame.gameObjects.NonPlayableCharacter;
 import catgame.gameObjects.PlayableCharacter;
 import catgame.logic.ObjectStorer;
 
+/**
+ * This is the thread that runs at the server end,
+ * it is constantly checking for updates and every clock tick writes the
+ * latest update out to the client it is connected to over the socket
+ * 
+ * Also sends out a mass update periodically (less frequent than other updates)
+ * 
+ * @author Francine
+ *
+ */
 public final class Master extends Thread {
 
 
@@ -27,6 +37,7 @@ public final class Master extends Thread {
 	private int number = 0;
 	private boolean testing = false; // true when testing
 	private int timer = 0;
+	private boolean canStart = false;
 
 	private final static int TIMESUP = 10; // when timer reaches TIMESUP massive update to system 
 
@@ -41,7 +52,6 @@ public final class Master extends Thread {
 		try {
 			DataInputStream input = new DataInputStream(socket.getInputStream());
 			DataOutputStream output = new DataOutputStream(socket.getOutputStream());
-
 			writeStart(output);
 
 			boolean exit=false;
@@ -51,7 +61,7 @@ public final class Master extends Thread {
 					if(timer==TIMESUP){
 						timer=0;
 						output.writeInt(MASSUPDATE);
-						broadcastGameState(output);
+						//broadcastGameState(output);
 					}
 					else{
 
@@ -104,6 +114,11 @@ public final class Master extends Thread {
 		}		
 	}
 
+	/**
+	 * Handles the mass update, updates every object in the game (other than rooms)
+	 * 
+	 * @param output
+	 */
 	private void broadcastGameState(DataOutputStream output) {
 		//for each player send update
 		//for each non playable character send update
@@ -150,16 +165,21 @@ public final class Master extends Thread {
 		
 	}
 
-	public int getNumber(){
-		return number;
-	}
-
+	/**
+	 * first messages sent, telling the slave the more important information
+	 * @param output
+	 */
 	public void writeStart(DataOutputStream output){
 		// First, give the client its uid
 		try {
 			output.writeInt(uid);
 			System.out.println("wrote uid to client");
 
+			// TODO  need to add a state that it will only do anything if the game has started!
+			// other wise will try and add all players even though not all connected yet
+			while(!canStart){
+				
+			}
 			//then give it all the players IDs
 			int noPlayers = game.noPlayers();
 			output.writeInt(noPlayers);
@@ -173,6 +193,10 @@ public final class Master extends Thread {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+
+	public void setStart(boolean b) {
+		this.canStart = b;
 	}
 
 }

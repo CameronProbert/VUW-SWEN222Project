@@ -11,6 +11,11 @@ import java.util.List;
 
 import catgame.gui.ClientFrame;
 
+/**
+ * Sends update across socket to master everytime he user successfully makes a change to their game state
+ * @author Francine
+ *
+ */
 public final class Slave {
 
 
@@ -18,11 +23,7 @@ public final class Slave {
 	private DataOutputStream output;
 
 	/**
-	 * Construct a slave connection from a socket. A slave connection does no
-	 * local computation, other than to display the current state of the board;
-	 * instead, board logic is controlled entirely by the server, and the slave
-	 * display is only refreshed when data is received from the master
-	 * connection.
+	 * Construct a slave connection from a socket. 
 	 * 
 	 * @param socket
 	 * @param dumbTerminal
@@ -32,6 +33,10 @@ public final class Slave {
 		System.out.println("made slave");
 	}
 
+	/**
+	 * dumb method, takes the update and passes it on
+	 * @param update
+	 */
 	public void sendUpdate(Update update){
 		try {
 			output = new DataOutputStream(socket.getOutputStream());

@@ -11,7 +11,12 @@ import java.util.List;
 import catgame.gui.ClientFrame;
 
 
-
+/**
+ * handles the setup of the server and singleplayer
+ * handles sockets and also manages whether the game is over or not
+ * @author Francine
+ *
+ */
 public class NetworkSetUp extends Thread {
 
 	private static final int DEFAULT_CLK_PERIOD = 20;
@@ -30,6 +35,10 @@ public class NetworkSetUp extends Thread {
 		gameClock = DEFAULT_CLK_PERIOD;
 	}
 
+	/**
+	 * sets up the server given a number of players
+	 * @param numPlayers
+	 */
 	public void setServer(int numPlayers){
 		maxPlayers = numPlayers;
 		if(url != null) {
@@ -38,11 +47,13 @@ public class NetworkSetUp extends Thread {
 		}
 		// Run in Server mode
 		game = new NetworkHandler(NetworkHandler.Type.SERVER);
-		start();
-		// TODO start the server pane with a button that says ready!
-		
+		start();		
 	}
 	
+	/**
+	 * sets the single player, may be obsolete may only need to make a singleplayer handler
+	 * 
+	 */
 	public void setSinglePlayer(){
 		
 		try {
@@ -52,6 +63,9 @@ public class NetworkSetUp extends Thread {
 		}
 	}
 
+	/**
+	 * accepts the clients "slave" and makes a master connection for them 
+	 */
 	public void run() {
 
 		ClockThread clk = new ClockThread(gameClock,game);	
@@ -73,16 +87,13 @@ public class NetworkSetUp extends Thread {
 				connections.add(mconn);
 				nclients++;
 				mconn.start();
-				////////////////////////////////////////////////////////////////
-				/////////////// HOW WILL WE KNOW WHEN TO START THE GAME????????????
-				//////////////
-				////////////////////////////////////////////////////////////////
 				if(nclients == maxPlayers) {
 					if(nclients==0){
 						System.out.println("No clients game over");
 						return;
 					}
 					System.out.println("ALL CLIENTS ACCEPTED --- GAME BEGINS");
+					allowMastersStart(connections);
 					multiUserGame(clk, game,connections);
 					System.out.println("ALL CLIENTS DISCONNECTED --- GAME OVER");
 					return; // done
@@ -91,6 +102,12 @@ public class NetworkSetUp extends Thread {
 		} catch(IOException e) {
 			System.err.println("I/O error: " + e.getMessage());
 		} 
+	}
+
+	private void allowMastersStart(List<Master> connections) {
+		for(Master m : connections){
+			m.setStart(true);
+		}
 	}
 
 	/**
@@ -142,6 +159,11 @@ public class NetworkSetUp extends Thread {
 		return false;
 	}
 
+	/**
+	 * similar to multiplayer except only one user, checks whether game is over or not
+	 * @param gameClock
+	 * @throws IOException
+	 */
 	private static void singleUserGame(int gameClock) throws IOException {
 		SinglePlayerHandler game = new SinglePlayerHandler(1); // pass a uid, 1 does fine as only one player		
 		// save initial state of board, so we can reset it.
@@ -166,6 +188,9 @@ public class NetworkSetUp extends Thread {
 		}
 	}
 	
+	/**
+	 * activate by a button press may be obsolete
+	 */
 	public void readyToStart(){
 		this.readyToStart = true;
 	}

@@ -1,5 +1,12 @@
 package catgame.clientserver;
 
+
+/**
+ * Keeps game ticking, may be an obsolete class, would need it to move non playable characters if the game
+ * was extended that way
+ * @author Francine
+ *
+ */
 public class ClockThread extends Thread{
 
 

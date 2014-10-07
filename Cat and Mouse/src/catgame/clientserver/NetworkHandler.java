@@ -1,11 +1,17 @@
 package catgame.clientserver;
 
 import java.net.Socket;
+
 import java.util.ArrayList;
 import java.util.List;
 
 import catgame.logic.GameUtil;
 
+/**
+ * Game state holder specifically used by games where networking is present, it handles multiplayer gaming
+ * @author Francine
+ *
+ */
 public class NetworkHandler extends GameRunner{
 
 
@@ -63,11 +69,20 @@ public class NetworkHandler extends GameRunner{
 		return this.lastUpdate;
 	}
 
+	/**
+	 * may be obsolete
+	 * 
+	 * @param uid
+	 */
 	public void addClientPlayer(int uid) {
 		this.clientPlayerID = uid;
 	}
 
 
+	/**
+	 * may be obsolete
+	 * @return
+	 */
 	public List<Integer> getPlayerIds() {
 		return playerIds;
 	}
