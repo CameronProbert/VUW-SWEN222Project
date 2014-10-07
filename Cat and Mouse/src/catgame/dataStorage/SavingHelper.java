@@ -16,7 +16,7 @@ public class SavingHelper {
 		this.masterObj = masterObj;
 	}
 	
-	public Element writeMasterObject(MasterObject obj) {
+	public Element writeMasterObject(MasterObject obj) throws XMLException {
 		if(obj instanceof Boss){
 			return masterObj.writeBoss(obj);
 		}
@@ -32,7 +32,7 @@ public class SavingHelper {
 		return null;
 	}
 	
-	public Element makeInventory(List<GameItem> list){
+	public Element makeInventory(List<GameItem> list) throws XMLException{
 		Element inventoryList = new Element("Inventory");
 		for(GameItem item: list){
 			inventoryList.addContent(writeMasterObject(item));
