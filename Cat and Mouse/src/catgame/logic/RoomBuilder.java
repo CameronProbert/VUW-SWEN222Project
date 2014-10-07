@@ -25,9 +25,30 @@ public class RoomBuilder {
 	//Object ID's
 	private final int empty = 0;
 	private final int grass = 1;
-	private final int bush = 20;
-	private final int tree = 30;
-	private final int rock = 40;
+	
+	//characters id's 10 - 19
+	private final int playableCharactors = 10;
+	private final int bossOne = 11;
+	private final int bossTwo = 12;
+	private final int bossThree = 13;
+	private final int minion = 1;
+	
+	//Room accessories 20-39
+	private final int bushOne = 20;
+	private final int bushTwo = 21;
+	private final int bushThree = 22;
+	private final int treeOne = 23;
+	private final int treeTwo = 24;
+	private final int treeThree = 25;
+	private final int rockOne = 26;
+	private final int rockTwo = 27;
+	private final int rockThree = 28;
+	private final int hedgeOne = 29;
+	private final int hedgeTwo = 30;
+	private final int hedgeThree = 31;
+	
+	
+	private final int door = 40;
 
 	// Unique Id numbers for objects
 	private int playerNum = 10;
