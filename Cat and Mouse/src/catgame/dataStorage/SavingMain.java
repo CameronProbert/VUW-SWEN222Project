@@ -76,16 +76,32 @@ public class SavingMain {
 		// roomElement.addContent(new
 		// Element("boardGrid").setText(room.getBoardGrid().));
 
+		Element boardGrid = new Element("boardGrid");
 		BoardCell[][] roomGrid = room.getBoardGrid();
 
-		for (int i = 0; i < roomGrid.length; i++) {
-			String boardCellValues = "";
-			for (int j = 0; j < roomGrid[i].length; j++) {
-				boardCellValues += roomGrid[i][j];
-				if (j + 1 == roomGrid.length) {
-					boardCellValues += ", ";
+		for (int y = 0; y < roomGrid.length; y++) {
+			Element rowBoardCellElement = new Element("Row" + y);
+			String cellValuesOfRow = "[";
+			for (int x = 0; x < roomGrid[y].length; x++) {
+				String boardCellValues = "("
+						+ roomGrid[y][x].getPosition().getX() + ", "
+						+ roomGrid[y][x].getPosition().getX() + ", ";
+				if (roomGrid[y][x].getObjectOnCell() == null) {
+					boardCellValues += "null, ";
+				} else {
+					boardCellValues += roomGrid[y][x].getObjectOnCell()
+							.getObjectID() + ", ";
 				}
+				if (roomGrid[y][x].getGroundType() == null
+						|| roomGrid[y][x].getGroundType().equals("")) {
+					boardCellValues += "null)";
+				} else {
+					boardCellValues += roomGrid[y][x].getGroundType() + ")";
+				}
+				cellValuesOfRow += boardCellValues; // TODO add space or not??
 			}
+			rowBoardCellElement.setText(cellValuesOfRow += "]");
+			boardGrid.addContent(rowBoardCellElement);
 		}
 
 		// Inventory
