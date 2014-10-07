@@ -5,7 +5,6 @@ import catgame.logic.Room;
 
 public class Door implements NonMovavble {
 	private final int id;
-	private final BoardCell cell;
 	private final DoorsEntrance entranceTo;
 	private boolean isLocked = false;
 	private int keyID;
@@ -21,9 +20,8 @@ public class Door implements NonMovavble {
 	 * @param keyId
 	 *            (If keyID == 0 then there is no key for the door)
 	 */
-	public Door(int id, BoardCell cell, DoorsEntrance entrance, int keyId) {
+	public Door(int id, DoorsEntrance entrance, int keyId) {
 		this.id = id;
-		this.cell = cell;
 		this.entranceTo = entrance;
 		if (keyId != 0) {
 			this.isLocked = true;
@@ -78,5 +76,4 @@ public class Door implements NonMovavble {
 			this.entrance = entrance;
 		}
 	}
-
 }
