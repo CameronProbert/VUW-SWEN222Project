@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import catgame.gameObjects.GameObject;
 import catgame.gameObjects.MasterObject;
 import catgame.gameObjects.PlayableCharacter;
 import catgame.gui.renderpanel.RenderPanel;
@@ -22,8 +23,8 @@ public class Room {
 
 	private final int roomID;
 	private BoardCell[][] roomGrid;
-	private List<MasterObject> roomInventory = new ArrayList<MasterObject>();
-	private HashMap<Integer, BoardCell> locationMap = new HashMap<Integer, BoardCell>();
+	private List<GameObject> roomInventory = new ArrayList<GameObject>();
+	private HashMap<Integer, BoardCell> playerLocationMap = new HashMap<Integer, BoardCell>();
 
 	/**
 	 * TODO Room parameters are subject to change, once the .xml file readers
@@ -32,9 +33,8 @@ public class Room {
 	 * @param groundFile
 	 * @param objectLayerFile
 	 */
-	public Room(int roomID, BoardCell[][] room) {
+	public Room(int roomID) {
 		this.roomID = roomID;
-		this.roomGrid = room;
 	}
 
 	public void printBoard() {
@@ -56,7 +56,7 @@ public class Room {
 		return roomGrid;
 	}
 
-	public List<MasterObject> getRoomInventory() {
+	public List<GameObject> getRoomInventory() {
 		return roomInventory;
 	}
 
@@ -80,8 +80,9 @@ public class Room {
 		}
 		//Check that the next Position is empty then move the player
 		if (roomGrid[newPos.getX()][newPos.getY()].getGroundType() != null && roomGrid[newPos.getX()][newPos.getY()].getObjectOnCell() == null) {
-			BoardCell oldCell = locationMap.get(playerID);
+			BoardCell oldCell = playerLocationMap.get(playerID);
 			roomGrid[newPos.getX()][newPos.getY()].setObjectOnCell(oldCell.removeObjectOnCell());
+			playerLocationMap.put(playerID, roomGrid[newPos.getY()][newPos.getY()]);
 			return 1;
 		}
 		//the move wasn't successful;
@@ -115,11 +116,11 @@ public class Room {
 	/**
 	 * 
 	 * @return a position on the board from where the player is and
-	 *         corrisponding to the movementDirection
+	 *         Corresponding to the movementDirection
 	 */
 	private Position findPosition(int playerID, Direction boardOrientation, Direction playerDirection) {
-		int direction = translateForGid(boardOrientation, playerDirection);
-		Position playerPos = locationMap.get(playerID).getPosition();
+		int direction = translateForGrid(boardOrientation, playerDirection);
+		Position playerPos = playerLocationMap.get(playerID).getPosition();
 
 		switch (direction) {
 		case 0:
@@ -149,11 +150,31 @@ public class Room {
 	 * @param playerDirection
 	 * 
 	 */
-	public int translateForGid(Direction boardOrientation, Direction playerDirection) {
+	public int translateForGrid(Direction boardOrientation, Direction playerDirection) {
 		return (boardOrientation.getValue() + playerDirection.getValue()) % 4;
 	}
 
 	public PlayableCharacter getCharactor(int playerID) {
-		return (PlayableCharacter) locationMap.get(playerID).getObjectOnCell();
+		return (PlayableCharacter) playerLocationMap.get(playerID).getObjectOnCell();
+	}
+	
+	public void loadBoardCellToRoom(BoardCell[][] newRoom){
+		this.roomGrid = newRoom;
+	}
+	
+	public void addToInventory(GameObject object){
+		this.roomInventory.add(object);
+	}
+	
+	public void removeFromInventory(GameObject object){
+		
+	}
+	
+	public void addToPlayerLocationMap(int playersID , BoardCell cell){
+		playerLocationMap.put(playersID, cell);
+	}
+	
+	public void RemoveFromPlayerLocationMap(int playersID){
+		playerLocationMap.remove(playersID);
 	}
 }
