@@ -8,6 +8,7 @@ import java.util.List;
 import catgame.gameObjects.Bush;
 import catgame.gameObjects.Food;
 import catgame.gameObjects.GameItem;
+import catgame.gameObjects.Minion;
 import catgame.gameObjects.PlayableCharacter;
 import catgame.gameObjects.Rock;
 import catgame.gameObjects.Tree;
@@ -133,6 +134,10 @@ public class RoomBuilder {
 						board[y][x] = addPlayer(x, y, loadingRoom);
 						loadingRoom.addToPlayerLocationMap(board[y][x].getObjectOnCell().getObjectID(), board[x][y]);
 						break;
+					case minionOne+"":
+						board[y][x] = addMinionOne(x, y, loadingRoom);
+						break;
+						
 					}
 				}
 				y++;
@@ -213,15 +218,25 @@ public class RoomBuilder {
 	 * @return
 	 */
 	private BoardCell addPlayer(int x, int y, Room room) {
-		int newPlayerId = genorateObjectId(playableCharacters, playerNum, playerNum);
+		int newPlayerId = genorateObjectId(playableCharacters, playerNum, playerNum++);
 		// TODO OwnerId
 		// Create starting items
-		Food startingFood = new Food(food, 20);
 		List<GameItem> newInv = new ArrayList<GameItem>();
-		newInv.add(startingFood);
-		PlayableCharacter newPlayableCharacter = new PlayableCharacter(newPlayerId, newPlayerId, room, Direction.NORTH, 10, 100, newInv);
+		newInv.add(new Food(food, 20));
+		//Create new Player
+		PlayableCharacter newPlayableCharacter = new PlayableCharacter(newPlayerId, newPlayerId, room, Direction.NORTH, 20, 100, newInv);
 		room.addToInventory(newPlayableCharacter);
 		return new BoardCell(new Position(x, y), newPlayableCharacter, groundTypeGrass);
+	}
+	
+	private BoardCell addMinionOne(int x , int y, Room room){
+		int newMinionId = genorateObjectId(minionOne, genorateRandomObjectType(1), minoinNum++);
+		List<GameItem> newInv = new ArrayList<GameItem>();
+		newInv.add(new Food(food, 10));
+		Minion newMin = new Minion(newMinionId, room, 8, 60, newInv);
+		room.addToInventory(newMin);
+		return new BoardCell(new Position(x, y), newMin, groundTypeGrass);
+		
 	}
 
 	/**

@@ -53,7 +53,7 @@ public class RenderPanel extends JPanel {
 		
 		//Roombuilder testing
 		buildBoard = new RoomBuilder();
-		testRoom = new Room(1, buildBoard.loadRoom());
+		testRoom = buildBoard.loadRoom();
 		testRoom.printBoard();
 		
 		

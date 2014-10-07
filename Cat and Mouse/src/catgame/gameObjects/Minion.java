@@ -1,6 +1,6 @@
 package catgame.gameObjects;
 
-import java.awt.List;
+import java.util.List;
 import java.util.ArrayList;
 
 import catgame.logic.BoardCell;
@@ -20,11 +20,11 @@ public class Minion implements NonPlayableCharacter {
 	private final int maxItems = 3;
 	private Room currentRoom;
 	private int health;
-	private ArrayList<GameItem> inventory = new ArrayList<GameItem>();
+	private List<GameItem> inventory = new ArrayList<GameItem>();
 	
 	private int attackPower;
  
-	public Minion(int ID,Room currentRoom, int attackPower, int health, ArrayList<GameItem> items) {
+	public Minion(int ID,Room currentRoom, int attackPower, int health, List<GameItem> items) {
 		this.id = ID;
 		this.currentRoom = currentRoom;
 		this.attackPower = attackPower;
@@ -40,7 +40,7 @@ public class Minion implements NonPlayableCharacter {
 		this.health += change;
 	}
 
-	public ArrayList<GameItem> getInventory() {
+	public List<GameItem> getInventory() {
 		return inventory;
 	}
 
