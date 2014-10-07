@@ -4,6 +4,7 @@ import java.util.List;
 import org.jdom2.Element;
 
 import catgame.gameObjects.*;
+import catgame.logic.BoardCell;
 
 public class SavingHelper {
 	private SavingMain main;
@@ -37,5 +38,26 @@ public class SavingHelper {
 			inventoryList.addContent(writeMasterObject(item));
 		}
 		return inventoryList;
+	}
+	
+	public String makeBoardCell(BoardCell cell) throws XMLException{
+		if(cell.getPosition() == null){
+			throw new XMLException("BoardCell Position is null");
+		}
+		String boardCellInfo = cell.getPosition().getX() + ", " + cell.getPosition().getY() + ", ";
+		if (cell.getObjectOnCell() == null) {
+			boardCellInfo += "null, ";
+		} else {
+			boardCellInfo += cell.getObjectOnCell()
+					.getObjectID() + ", ";
+		}
+		if (cell.getGroundType() == null
+				|| cell.getGroundType().equals("")) {
+			boardCellInfo += "null";
+		} else {
+			boardCellInfo += cell.getGroundType();
+		}
+		
+		return boardCellInfo;
 	}
 }

@@ -72,22 +72,20 @@ public class SavingMain {
 			throw new XMLException("Room_" + id + " is null");
 		}
 
-		// BoardCell[][] --> need to figure out how to save this :/
-		// roomElement.addContent(new
-		// Element("boardGrid").setText(room.getBoardGrid().));
-
+		Element boardGrid = new Element("boardGrid");
 		BoardCell[][] roomGrid = room.getBoardGrid();
-
-		for (int i = 0; i < roomGrid.length; i++) {
-			String boardCellValues = "";
-			for (int j = 0; j < roomGrid[i].length; j++) {
-				boardCellValues += roomGrid[i][j];
-				if (j + 1 == roomGrid.length) {
-					boardCellValues += ", ";
-				}
+		for (int y = 0; y < roomGrid.length; y++) {
+			Element rowBoardCellElement = new Element("Row" + y);
+			String cellValuesOfRow = "[";
+			for (int x = 0; x < roomGrid[y].length; x++) {
+				String boardCellValues = "(";
+				boardCellValues += helper.makeBoardCell(roomGrid[y][x]) +")";
+				cellValuesOfRow += boardCellValues; // TODO add space or not??
 			}
+			rowBoardCellElement.setText(cellValuesOfRow += "]");
+			boardGrid.addContent(rowBoardCellElement);
 		}
-
+		roomElement.addContent(boardGrid);
 		// Inventory
 		for (MasterObject obj : room.getRoomInventory()) {
 			roomElement.addContent(helper.writeMasterObject(obj));
