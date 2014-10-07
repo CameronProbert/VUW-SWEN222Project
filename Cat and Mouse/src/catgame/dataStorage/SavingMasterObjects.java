@@ -21,7 +21,7 @@ public class SavingMasterObjects {
 		this.helper = main.getHelper();
 	}
 
-	public Element writeBoss(MasterObject obj) {
+	public Element writeBoss(MasterObject obj) throws XMLException {
 		Boss boss = (Boss) obj;
 		Element bossElement = new Element("Boss");
 		bossElement.setAttribute(new Attribute("id", "" + boss.getObjectID()));
@@ -43,16 +43,16 @@ public class SavingMasterObjects {
 		return bushElement;
 	}
 
-	public Element writeChest(MasterObject obj) {
+	public Element writeChest(MasterObject obj) throws XMLException {
 		Chest chest = (Chest) obj;
 		Element chestElement = new Element("Chest");
 		chestElement
 				.setAttribute(new Attribute("id", "" + chest.getObjectID()));
 
-		// TODO BoardCell!!
-		//String boardCellInfo = chest.getCurrentCell().getPosition().getX() + ", " + chest.getCurrentCell().getPosition().getY() + ", " +
-		//Element boardCellElement = new Element("boardCell").setText()
-
+		Element boardCell = new Element("boardCell");
+		boardCell.setText(helper.makeBoardCell(chest.getCurrentCell()));
+		chestElement.addContent(boardCell);
+		
 		chestElement.addContent(helper.makeInventory(chest.openChest()));
 		return chestElement;
 	}
@@ -61,7 +61,7 @@ public class SavingMasterObjects {
 		Door door = (Door) obj;
 		Element doorElement = new Element("Door");
 		doorElement.setAttribute(new Attribute("id", "" + door.getObjectID()));
-		// TODO BoardCell!!
+		
 		// TODO Door entrance's room
 		//doorElement.addContent(new Element("DoorEntrance").setAttribute(new Attribute("Room", "" + door.)))
 		return doorElement;
@@ -107,7 +107,7 @@ public class SavingMasterObjects {
 		return treeElement;
 	}
 
-	public Element writePlayableCharacter(MasterObject obj) {
+	public Element writePlayableCharacter(MasterObject obj) throws XMLException {
 		PlayableCharacter character = (PlayableCharacter) obj;
 		Element characterElement = new Element("PlayableCharacter");
 		characterElement.setAttribute(new Attribute("id", ""
