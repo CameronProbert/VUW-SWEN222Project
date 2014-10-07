@@ -11,8 +11,8 @@ import catgame.logic.Room;
  *
  * @author Dan Henton
  * 
- * A Dumb playable Character which only holds information about it's self:
- * id, currentRoom, facing direction, health and inventory
+ *         A Dumb playable Character which only holds information about it's
+ *         self: id, currentRoom, facing direction, health and inventory
  *
  */
 public class PlayableCharacter implements Character {
@@ -29,7 +29,9 @@ public class PlayableCharacter implements Character {
 	private int attackPower;
 
 	/**
-	 * Constuct a new Playable Character object designed such that it can be made dynamically for the .xml loading and saving 
+	 * Constuct a new Playable Character object designed such that it can be
+	 * made dynamically for the .xml loading and saving
+	 * 
 	 * @param ID
 	 * @param currentRoom
 	 * @param direction
@@ -44,7 +46,9 @@ public class PlayableCharacter implements Character {
 		this.facingDirection = direction;
 		this.attackPower = attackPower;
 		this.health = health;
-		this.inventory.addAll(items);
+		if (items != null) {
+			this.inventory.addAll(items);
+		}
 	}
 
 	public int getObjectID() {
@@ -99,7 +103,7 @@ public class PlayableCharacter implements Character {
 	}
 
 	public void useItem(GameItem item) {
-		
+
 	}
 
 	public Room getCurrentRoom() {
@@ -109,9 +113,10 @@ public class PlayableCharacter implements Character {
 	public Direction getFacingDirection() {
 		return facingDirection;
 	}
-	
-	public void attack(){
-		//this.currentRoom.playerAttack(id, facingDirection , this.attackPower);
+
+	public void attack() {
+		// this.currentRoom.playerAttack(id, facingDirection ,
+		// this.attackPower);
 	}
 
 	public int getLevel() {
@@ -121,21 +126,22 @@ public class PlayableCharacter implements Character {
 
 	public void reset(int attackPower, int health, int level) {
 		// TODO Auto-generated method stub
-		
-	}
-	
-	public void resetItems(List<GameItem> items) {
-		// TODO Auto-generated method stub
-		
+
 	}
 
-	//TODO check to see if this is still necessary as the room controls who is moving
+	public void resetItems(List<GameItem> items) {
+		// TODO Auto-generated method stub
+
+	}
+
+	// TODO check to see if this is still necessary as the room controls who is
+	// moving
 	public void move(Direction direction) {
 		// TODO Auto-generated method stub
-		
+
 	}
-	
-	public int getOwner(){
+
+	public int getOwner() {
 		return this.ownersID;
 	}
 }
