@@ -56,27 +56,27 @@ public class LogicTests {
 	@Test
 	public void testTranslateForGid() {
 		
-		Room testRoom = new Room(0, null);
+		Room testRoom = new Room(0);
 		// NORTH
-		assertEquals(0, testRoom.translateForGid(Direction.NORTH, Direction.UP));
-		assertEquals(1, testRoom.translateForGid(Direction.NORTH, Direction.RIGHT));
-		assertEquals(2, testRoom.translateForGid(Direction.NORTH, Direction.DOWN));
-		assertEquals(3, testRoom.translateForGid(Direction.NORTH, Direction.LEFT));
+		assertEquals(0, testRoom.translateForGrid(Direction.NORTH, Direction.UP));
+		assertEquals(1, testRoom.translateForGrid(Direction.NORTH, Direction.RIGHT));
+		assertEquals(2, testRoom.translateForGrid(Direction.NORTH, Direction.DOWN));
+		assertEquals(3, testRoom.translateForGrid(Direction.NORTH, Direction.LEFT));
 		// EAST
-		assertEquals(1, testRoom.translateForGid(Direction.EAST, Direction.UP));
-		assertEquals(2, testRoom.translateForGid(Direction.EAST, Direction.RIGHT));
-		assertEquals(3, testRoom.translateForGid(Direction.EAST, Direction.DOWN));
-		assertEquals(0, testRoom.translateForGid(Direction.EAST, Direction.LEFT));
+		assertEquals(1, testRoom.translateForGrid(Direction.EAST, Direction.UP));
+		assertEquals(2, testRoom.translateForGrid(Direction.EAST, Direction.RIGHT));
+		assertEquals(3, testRoom.translateForGrid(Direction.EAST, Direction.DOWN));
+		assertEquals(0, testRoom.translateForGrid(Direction.EAST, Direction.LEFT));
 		// SOUTH
-		assertEquals(2, testRoom.translateForGid(Direction.SOUTH, Direction.UP));
-		assertEquals(3, testRoom.translateForGid(Direction.SOUTH, Direction.RIGHT));
-		assertEquals(0, testRoom.translateForGid(Direction.SOUTH, Direction.DOWN));
-		assertEquals(1, testRoom.translateForGid(Direction.SOUTH, Direction.LEFT));
+		assertEquals(2, testRoom.translateForGrid(Direction.SOUTH, Direction.UP));
+		assertEquals(3, testRoom.translateForGrid(Direction.SOUTH, Direction.RIGHT));
+		assertEquals(0, testRoom.translateForGrid(Direction.SOUTH, Direction.DOWN));
+		assertEquals(1, testRoom.translateForGrid(Direction.SOUTH, Direction.LEFT));
 		// WEST
-		assertEquals(3, testRoom.translateForGid(Direction.WEST, Direction.UP));
-		assertEquals(0, testRoom.translateForGid(Direction.WEST, Direction.RIGHT));
-		assertEquals(1, testRoom.translateForGid(Direction.WEST, Direction.DOWN));
-		assertEquals(2, testRoom.translateForGid(Direction.WEST, Direction.LEFT));
+		assertEquals(3, testRoom.translateForGrid(Direction.WEST, Direction.UP));
+		assertEquals(0, testRoom.translateForGrid(Direction.WEST, Direction.RIGHT));
+		assertEquals(1, testRoom.translateForGrid(Direction.WEST, Direction.DOWN));
+		assertEquals(2, testRoom.translateForGrid(Direction.WEST, Direction.LEFT));
 	}
 
 	/**
@@ -95,5 +95,14 @@ public class LogicTests {
 			return;
 		}
 		fail();
+	}
+	
+	@Test
+	public void TestGenorateRandomObjectType(){
+		RoomBuilder testRoom = new RoomBuilder();
+		assertEquals(10, testRoom.genorateRandomObjectType(100));
+		assertTrue(testRoom.genorateRandomObjectType(5) > 9 && testRoom.genorateRandomObjectType(5) <= 15);
+		assertTrue(testRoom.genorateRandomObjectType(3) > 9 && testRoom.genorateRandomObjectType(3) <= 13);
+		assertTrue(testRoom.genorateRandomObjectType(1) == 10);
 	}
 }
