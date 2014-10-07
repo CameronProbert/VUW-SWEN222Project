@@ -50,6 +50,8 @@ public class SavingMasterObjects {
 				.setAttribute(new Attribute("id", "" + chest.getObjectID()));
 
 		// TODO BoardCell!!
+		//String boardCellInfo = chest.getCurrentCell().getPosition().getX() + ", " + chest.getCurrentCell().getPosition().getY() + ", " +
+		//Element boardCellElement = new Element("boardCell").setText()
 
 		chestElement.addContent(helper.makeInventory(chest.openChest()));
 		return chestElement;
