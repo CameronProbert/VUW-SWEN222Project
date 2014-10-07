@@ -105,19 +105,19 @@ public class SavingMain {
 	 * @throws FileNotFoundException
 	 * @throws IOException
 	 */
-	public static void main(String[] args) throws FileNotFoundException,
-			IOException {
-		BoardCell[][] boardCell = new BoardCell[2][2];
-		boardCell[0][0] = new BoardCell(new Position(0, 0), new Rock(23), null);
-		boardCell[0][1] = new BoardCell(new Position(0, 1), new Rock(24), null);
-		boardCell[1][0] = new BoardCell(new Position(1, 0), new Tree(25), null);
-		boardCell[1][1] = new BoardCell(new Position(1, 1), new Tree(26), null);
-
-		BoardData boardData = new BoardData();
-		Room room = new Room(1, boardCell);
-		room.getRoomInventory().add(new Food(55, 5));
-		boardData.getAllRooms().add(room);
-
-		new SavingMain(boardData);
-	}
+//	public static void main(String[] args) throws FileNotFoundException,
+//			IOException {
+//		BoardCell[][] boardCell = new BoardCell[2][2];
+//		boardCell[0][0] = new BoardCell(new Position(0, 0), new Rock(23), null);
+//		boardCell[0][1] = new BoardCell(new Position(0, 1), new Rock(24), null);
+//		boardCell[1][0] = new BoardCell(new Position(1, 0), new Tree(25), null);
+//		boardCell[1][1] = new BoardCell(new Position(1, 1), new Tree(26), null);
+//
+//		BoardData boardData = new BoardData();
+//		Room room = new Room(1, boardCell);
+//		room.getRoomInventory().add(new Food(55, 5));
+//		boardData.getAllRooms().add(room);
+//
+//		new SavingMain(boardData);
+//	}
 }
