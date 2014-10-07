@@ -131,4 +131,44 @@ public class LogicTests {
 		assertEquals(null, testRoom.getBoardGrid()[preMovePos.getY()][preMovePos.getX()].getObjectOnCell());
 		assertEquals(101010, testRoom.getBoardGrid()[preMovePos.getY()-1][preMovePos.getX()].getObjectOnCell().getObjectID());		
 	}
+	
+	@Test
+	public void TestPlayerMoveRight(){
+		GameUtil util= new GameUtil();
+		util.viewDirection = Direction.NORTH;
+		RoomBuilder testBuilder = new RoomBuilder();
+		Room testRoom = testBuilder.loadRoom();
+		//testRoom.
+		Position preMovePos = testRoom.getCharactorCell(101010).getPosition();
+		assertEquals(101010, testRoom.getBoardGrid()[preMovePos.getY()][preMovePos.getX()].getObjectOnCell().getObjectID());
+		assertEquals(1, testRoom.movePlayer(101010, Direction.RIGHT));
+		assertEquals(null, testRoom.getBoardGrid()[preMovePos.getY()][preMovePos.getX()].getObjectOnCell());
+		assertEquals(101010, testRoom.getBoardGrid()[preMovePos.getY()][preMovePos.getX()+1].getObjectOnCell().getObjectID());		
+	}
+	@Test
+	public void TestPlayerMoveDown(){
+		GameUtil util= new GameUtil();
+		util.viewDirection = Direction.NORTH;
+		RoomBuilder testBuilder = new RoomBuilder();
+		Room testRoom = testBuilder.loadRoom();
+		//testRoom.
+		Position preMovePos = testRoom.getCharactorCell(101010).getPosition();
+		assertEquals(101010, testRoom.getBoardGrid()[preMovePos.getY()][preMovePos.getX()].getObjectOnCell().getObjectID());
+		assertEquals(1, testRoom.movePlayer(101010, Direction.DOWN));
+		assertEquals(null, testRoom.getBoardGrid()[preMovePos.getY()][preMovePos.getX()].getObjectOnCell());
+		assertEquals(101010, testRoom.getBoardGrid()[preMovePos.getY()+1][preMovePos.getX()].getObjectOnCell().getObjectID());		
+	}
+	@Test
+	public void TestPlayerMoveLeft(){
+		GameUtil util= new GameUtil();
+		util.viewDirection = Direction.NORTH;
+		RoomBuilder testBuilder = new RoomBuilder();
+		Room testRoom = testBuilder.loadRoom();
+		//testRoom.
+		Position preMovePos = testRoom.getCharactorCell(101010).getPosition();
+		assertEquals(101010, testRoom.getBoardGrid()[preMovePos.getY()][preMovePos.getX()].getObjectOnCell().getObjectID());
+		assertEquals(1, testRoom.movePlayer(101010, Direction.LEFT));
+		assertEquals(null, testRoom.getBoardGrid()[preMovePos.getY()][preMovePos.getX()].getObjectOnCell());
+		assertEquals(101010, testRoom.getBoardGrid()[preMovePos.getY()][preMovePos.getX()-1].getObjectOnCell().getObjectID());		
+	}
 }

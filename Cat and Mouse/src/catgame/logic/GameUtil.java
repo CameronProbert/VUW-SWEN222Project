@@ -19,79 +19,85 @@ import catgame.gameObjects.PlayableCharacter;
  * 
  * @author Dan Henton
  *
- *This Class is used to talk to the game logic via the client. The networking traffic comes in and calls methods inside this class
- *then this decides how to go about these specific tasks within the games logic
+ *         This Class is used to talk to the game logic via the client. The
+ *         networking traffic comes in and calls methods inside this class then
+ *         this decides how to go about these specific tasks within the games
+ *         logic
  */
 public class GameUtil {
-	
+
 	private ObjectStorer storer = new ObjectStorer();
 
 	public static Direction viewDirection = Direction.NORTH;
-	
+
 	public GameUtil() {
 
 	}
 
 	/**
-	 * This method tells the logic the direction of a playable characters movement, 
-	 * Call to move the player in an upward(NORTH) direction (going north on the screen) via the "w" key
+	 * This method tells the logic the direction of a playable characters
+	 * movement, Call to move the player in an upward(NORTH) direction (going
+	 * north on the screen) via the "w" key
 	 * 
 	 * 
 	 * @param playerID
 	 * @return whether a successful move or not (-1 = not success, 1 = success)
 	 */
 	public int moveUp(int playerID) {
-		//TODO if ID not found throw IDNotFoundError
-		// find the character then try and move it
-		for (Room room : BoardData.getAllRooms()) {
-			if (room.getCharactorCell(playerID) != null
-					&& room.getCharactorCell(playerID).getObjectOnCell().getObjectID() == playerID) {
-				//move the player in the room
-				return room.movePlayer(playerID, Direction.UP);
-			}
-		}
-
-		return -1;
+		return move(playerID, Direction.UP);
 	}
 
 	/**
-	 * This method tells the logic the direction of a playable characters movement, 
-	 * Call to move the player in an right(EAST) direction via the "d" key
+	 * This method tells the logic the direction of a playable characters
+	 * movement, Call to move the player in an right(EAST) direction via the "d"
+	 * key
 	 * 
 	 * @param playerID
 	 * @return whether a successful move or not (-1 = not success, 1 = success)
 	 */
 	public int moveRight(int playerID) {
-		//TODO if ID not found throw IDNotFoundError
-		return 1; //TODO once we have the game going we can check move up and most of the logic is the same
+		return move(playerID, Direction.RIGHT);
 	}
 
 	/**
-	 * This method tells the logic the direction of a playable characters movement, 
-	 * Call to move the player in an down(SOUTH) direction via the "s" key
+	 * This method tells the logic the direction of a playable characters
+	 * movement, Call to move the player in an down(SOUTH) direction via the "s"
+	 * key
 	 * 
 	 * @param playerID
 	 * @return whether a successful move or not (-1 = not success, 1 = success)
 	 */
 	public int moveDown(int playerID) {
-		//TODO if ID not found throw IDNotFoundError
-		return 1;//TODO once we have the game going we can check move up and most of the logic is the same
+		return move(playerID, Direction.DOWN);
 	}
 
 	/**
 	 * 
-	 * This method tells the logic the direction of a playable characters movement, 
-	 * Call to move the player in an left(WEST) direction via the "a" key
+	 * This method tells the logic the direction of a playable characters
+	 * movement, Call to move the player in an left(WEST) direction via the "a"
+	 * key
 	 * 
 	 * @param playerID
 	 * @return whether a successful move or not (-1 = not success, 1 = success)
 	 */
 	public int moveLeft(int playerID) {
-		//TODO if ID not found throw IDNotFoundError
-		return 1; //TODO once we have the game going we can check move up and most of the logic is the same
+		return move(playerID, Direction.LEFT);
 	}
-								//TODO CHECK WHICH ONE IS NEEDED
-	////////////////////////////////////////////////////////////////////////////////////////
+
+	private int move(int playerID, Direction direction) {
+		// TODO if ID not found throw IDNotFoundError
+		// find the character then try and move it
+		for (Room room : BoardData.getAllRooms()) {
+			if (room.getCharactorCell(playerID) != null && room.getCharactorCell(playerID).getObjectOnCell().getObjectID() == playerID) {
+				// move the player in the room
+				return room.movePlayer(playerID, direction);
+			}
+		}
+		return -1;
+	}
+
+	// TODO CHECK WHICH ONE IS NEEDED
+	// //////////////////////////////////////////////////////////////////////////////////////
 	/**
 	 * Call to the logic to attack in the facing direction of a character
 	 * 
@@ -100,7 +106,7 @@ public class GameUtil {
 	 *         attack return the id of what was attacked
 	 */
 	public int attack(int playerID) {
-		//TODO if ID not found throw IDNotFoundError
+		// TODO if ID not found throw IDNotFoundError
 		// TODO find the target and attack it, then return the ID of the target
 		return -1; // should return the attackerID
 	}
@@ -113,37 +119,40 @@ public class GameUtil {
 	 *         attack return the id of what was attacked
 	 */
 	public int attack(int playerID, int attackedID) {
-		//TODO if either ID not found throw IDNotFoundError
+		// TODO if either ID not found throw IDNotFoundError
 		// TODO attack the target
 		return attackedID; // should return the attackerID (though it is
 							// obsolete for this method, so it is acceptable
 							// to return -1)
 	}
-	
-////////////////////////////////////////////////////////////////////////////////////////
-	
+
+	// //////////////////////////////////////////////////////////////////////////////////////
+
 	/**
 	 * Add an Gameobject to a players inventory using an objects Id.
+	 * 
 	 * @param playerID
 	 * @param ObjectID
 	 * @return
 	 */
 	public boolean addObjectToInventory(int playerID, int ObjectID) {
-		//TODO if either ID not found throw IDNotFoundError
+		// TODO if either ID not found throw IDNotFoundError
 		return false; // TODO gameMap.get(playerID).addToInventory(GameITem);
 	}
+
 	/**
 	 * Remove an GameObject from an players inventory using the objects id
+	 * 
 	 * @param playerID
 	 * @param ObjectID
 	 * @return
 	 */
 	public boolean removeItem(int playerID, int ObjectID) {
-		//TODO if either ID not found throw IDNotFoundError
+		// TODO if either ID not found throw IDNotFoundError
 		return false; // TODO
 						// gameMap.get(playerID).removeFromInventory(GameITem);
 	}
-	
+
 	/**
 	 * Use an item in a players Inventory
 	 * 
@@ -152,18 +161,19 @@ public class GameUtil {
 	 * @return
 	 */
 	public boolean useItem(int playerID, int objectID) {
-		//TODO if either ID not found throw IDNotFoundError
+		// TODO if either ID not found throw IDNotFoundError
 		return false; // TODO gameMap.get(playerID).useItem(GameITem)
 	}
-	
+
 	/**
 	 * Call to the logic to move the player to the other side of a door
+	 * 
 	 * @param playerID
 	 * @param roomID
 	 * @return
 	 */
 	public boolean moveToNextRoom(int playerID, int roomID) {
-		//TODO if either ID not found throw IDNotFoundError
+		// TODO if either ID not found throw IDNotFoundError
 		return false;
 	}
 
@@ -175,19 +185,20 @@ public class GameUtil {
 	 * @return
 	 */
 	public Chest getChest(int clientsUID) {
-		//TODO if ID not found throw IDNotFoundError
+		// TODO if ID not found throw IDNotFoundError
 		// TODO Auto-generated method stub
 		return null;
 	}
-							//TODO CHECK IF THESE ARE NEEDED
+
+	// TODO CHECK IF THESE ARE NEEDED
 
 	/**
 	 * 
 	 * @author Dan Henton
 	 *
 	 *
-	 *         Direction of the map or a players orientation and movement, 
-	 *         Every enum maps to a corrosponding int for calculation
+	 *         Direction of the map or a players orientation and movement, Every
+	 *         enum maps to a corrosponding int for calculation
 	 * 
 	 *         * NORTH = UP = 0, EAST = RIGHT = 1, SOUTH = DOWN = 2, WEST = LEFT
 	 *         = 3,
@@ -206,9 +217,8 @@ public class GameUtil {
 		}
 	}
 
-	public ObjectStorer getStorer(){
+	public ObjectStorer getStorer() {
 		return this.storer;
 	}
-	
-	
+
 }
