@@ -1,4 +1,4 @@
-package catgame.DataStorage;
+package catgame.dataStorage;
 
 public class XMLException extends Exception{
 

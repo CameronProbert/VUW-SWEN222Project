@@ -1,16 +1,16 @@
-package catgame.DataStorage;
+package catgame.dataStorage;
 import java.util.List;
 
 import org.jdom2.Element;
 
 import catgame.gameObjects.*;
 
-public class SavingHelperMethods {
+public class SavingHelper {
 	private SavingMain main;
 	private SavingMasterObjects masterObj;
 	
 	
-	public SavingHelperMethods(SavingMain main, SavingMasterObjects masterObj){
+	public SavingHelper(SavingMain main, SavingMasterObjects masterObj){
 		this.main = main;
 		this.masterObj = masterObj;
 	}

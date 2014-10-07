@@ -1,4 +1,4 @@
-package catgame.DataStorage;
+package catgame.dataStorage;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -14,7 +14,7 @@ import catgame.gameObjects.*;
 
 public class SavingMasterObjects {
 	private SavingMain main;
-	private SavingHelperMethods helper;
+	private SavingHelper helper;
 
 	public SavingMasterObjects(SavingMain main) {
 		this.main = main;
@@ -36,6 +36,13 @@ public class SavingMasterObjects {
 		return bossElement;
 	}
 
+	public Element writeBush(MasterObject obj) {
+		Bush bush = (Bush) obj;
+		Element bushElement = new Element("bush");
+		bushElement.setAttribute(new Attribute("id", "" + bush.getObjectID()));
+		return bushElement;
+	}
+
 	public Element writeChest(MasterObject obj) {
 		Chest chest = (Chest) obj;
 		Element chestElement = new Element("Chest");
@@ -46,6 +53,16 @@ public class SavingMasterObjects {
 
 		chestElement.addContent(helper.makeInventory(chest.openChest()));
 		return chestElement;
+	}
+	
+	public Element writeDoor(MasterObject obj){
+		Door door = (Door) obj;
+		Element doorElement = new Element("Door");
+		doorElement.setAttribute(new Attribute("id", "" + door.getObjectID()));
+		// TODO BoardCell!!
+		// TODO Door entrance's room
+		//doorElement.addContent(new Element("DoorEntrance").setAttribute(new Attribute("Room", "" + door.)))
+		return doorElement;
 	}
 
 	public Element writeFood(MasterObject obj) {
@@ -59,8 +76,12 @@ public class SavingMasterObjects {
 	}
 
 	public Element writeKey(MasterObject obj) {
-
-		return null;
+		Key key = (Key) obj;
+		Element keyElement = new Element("Key");
+		keyElement.setAttribute(new Attribute("id", "" + key.getObjectID()));
+		keyElement.addContent(new Element("owner_ID").setText(""
+				+ key.getOwner().getObjectID()));
+		return keyElement;
 	}
 
 	public Element writeMinion(MasterObject obj) {

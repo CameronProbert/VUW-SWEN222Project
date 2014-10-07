@@ -1,4 +1,4 @@
-package catgame.DataStorage;
+package catgame.dataStorage;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -16,14 +16,14 @@ import catgame.logic.*;
 
 public class SavingMain {
 	private SavingMasterObjects masterObj;
-	private SavingHelperMethods helper;
+	private SavingHelper helper;
 	private Document document;
 	private Element root;
 	private BoardData boardData;
 
 	public SavingMain(BoardData boardData) throws IOException {
 		masterObj = new SavingMasterObjects(this);
-		helper = new SavingHelperMethods(this, masterObj);
+		helper = new SavingHelper(this, masterObj);
 
 		this.boardData = boardData;
 		document = new Document();
@@ -41,8 +41,10 @@ public class SavingMain {
 	public void write() throws IOException {
 		document.getRootElement().addContent(writeBoardData());
 		// Outputting xml file
-		XMLOutputter xmlOutputter = new XMLOutputter(org.jdom2.output.Format.getPrettyFormat());
-		xmlOutputter.output(document, new FileOutputStream(new File("test.xml")));
+		XMLOutputter xmlOutputter = new XMLOutputter(
+				org.jdom2.output.Format.getPrettyFormat());
+		xmlOutputter.output(document,
+				new FileOutputStream(new File("test.xml")));
 	}
 
 	public Element writeBoardData() {
@@ -50,7 +52,7 @@ public class SavingMain {
 		List<Room> boardDataRooms = boardData.getAllRooms();
 		boardDataElement.setAttribute(new Attribute("allRooms", ""
 				+ boardDataRooms.size()));
-		
+
 		for (int id = 0; id < boardDataRooms.size(); id++) {
 			try {
 				boardDataElement.addContent(writeRoom(boardDataRooms.get(id),
@@ -74,6 +76,18 @@ public class SavingMain {
 		// roomElement.addContent(new
 		// Element("boardGrid").setText(room.getBoardGrid().));
 
+		BoardCell[][] roomGrid = room.getBoardGrid();
+
+		for (int i = 0; i < roomGrid.length; i++) {
+			String boardCellValues = "";
+			for (int j = 0; j < roomGrid[i].length; j++) {
+				boardCellValues += roomGrid[i][j];
+				if (j + 1 == roomGrid.length) {
+					boardCellValues += ", ";
+				}
+			}
+		}
+
 		// Inventory
 		for (MasterObject obj : room.getRoomInventory()) {
 			roomElement.addContent(helper.writeMasterObject(obj));
@@ -81,7 +95,7 @@ public class SavingMain {
 		return roomElement;
 	}
 
-	public SavingHelperMethods getHelper() {
+	public SavingHelper getHelper() {
 		return helper;
 	}
 
@@ -97,15 +111,15 @@ public class SavingMain {
 			IOException {
 		BoardCell[][] boardCell = new BoardCell[2][2];
 		boardCell[0][0] = new BoardCell(new Position(0, 0), new Rock(23), null);
-		boardCell[0][1] =new BoardCell(new Position(0, 1), new Rock(24), null);
+		boardCell[0][1] = new BoardCell(new Position(0, 1), new Rock(24), null);
 		boardCell[1][0] = new BoardCell(new Position(1, 0), new Tree(25), null);
-		boardCell[1][1] =  new BoardCell(new Position(1, 1), new Tree(26), null);
-		
+		boardCell[1][1] = new BoardCell(new Position(1, 1), new Tree(26), null);
+
 		BoardData boardData = new BoardData();
 		Room room = new Room(1, boardCell);
 		room.getRoomInventory().add(new Food(55, 5));
 		boardData.getAllRooms().add(room);
-		
+
 		new SavingMain(boardData);
 	}
 }
