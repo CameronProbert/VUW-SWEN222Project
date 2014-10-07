@@ -9,6 +9,11 @@ import catgame.gameObjects.PlayableCharacter;
 import catgame.gui.ClientFrame;
 import catgame.logic.GameUtil;
 
+/**
+ * simple handler for singleplayer games, has a main method for easier testing
+ * @author Francine
+ *
+ */
 public class SinglePlayerHandler extends GameRunner {
 
 

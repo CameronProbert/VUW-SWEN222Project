@@ -2,6 +2,11 @@ package catgame.clientserver;
 
 import catgame.logic.GameUtil;
 
+/**
+ * abstract class that holds important game state and game state modifiers
+ * @author Francine
+ *
+ */
 public abstract class GameRunner {
 	
 	public enum GameState{
@@ -57,6 +62,10 @@ public abstract class GameRunner {
 		return noPlayers;
 	}
 
+	/** return the main utilization class for the game
+	 * 
+	 * @return
+	 */
 	public GameUtil getGameUtill(){
 		return game;
 	}

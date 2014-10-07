@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Set;
 
+import catgame.clientserver.IDNotFoundError;
 import catgame.gameObjects.Chest;
 import catgame.gameObjects.Food;
 import catgame.gameObjects.GameItem;
@@ -113,8 +114,13 @@ public class ObjectStorer {
 	}
 
 	public GameObject findGameObject(int ownerID) {
-		// TODO Auto-generated method stub
-		return null;
+		PlayableCharacter ch = this.playableChs.get(ownerID);
+		Chest chest = this.chests.get(ownerID);
+		NonPlayableCharacter nch = this.nonPlayableChs.get(ownerID);
+		if(ch!=null) return ch;
+		if(chest!=null) return chest;
+		if(nch!=null) return nch;
+		throw new IDNotFoundError();
 	}
 
 }

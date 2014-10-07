@@ -34,15 +34,6 @@ public class HostFrame extends AbstractFrame {
 	 * removed soon.
 	 */
 	private void setupButtons() {
-		JButton readyButton = HelperMethods.createButton("Start Game",
-				new Dimension(200, 100));
-		readyButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				host.readyToStart();
-			}
-		});
-		readyButton.setLocation(100, 250);
-		this.add(readyButton);
 		JButton startServerButton = HelperMethods.createButton("Start Server",
 				new Dimension(200, 100));
 		startServerButton.addActionListener(new ActionListener() {

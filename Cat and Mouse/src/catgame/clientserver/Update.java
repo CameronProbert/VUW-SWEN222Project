@@ -2,6 +2,12 @@ package catgame.clientserver;
 
 import catgame.logic.GameUtil;
 
+/**
+ * converts legal changes to gamestate into ints which can be sent over a network
+ * 
+ * @author Francine
+ *
+ */
 public class Update {
 
 	private int code;
@@ -120,10 +126,17 @@ public class Update {
 		
 	}
 
+	/**
+	 * 
+	 * @return the update as an int
+	 */
 	public int getCode(){
 		return code;
 	}
 
+	/**
+	 * if the two codes are equal, same update
+	 */
 	public boolean equals(Object other){
 		if(!(other instanceof Update)){
 			return false;

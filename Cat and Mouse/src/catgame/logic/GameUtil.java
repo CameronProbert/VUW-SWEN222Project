@@ -39,6 +39,7 @@ public class GameUtil {
 	 * @return whether a successful move or not (-1 = not success, 1 = success)
 	 */
 	public int moveUp(int playerID) {
+		//TODO if ID not found throw IDNotFoundError
 		// find the character then try and move it
 		for (Room room : BoardData.getAllRooms()) {
 			if (room.getCharactor(playerID) != null
@@ -59,6 +60,7 @@ public class GameUtil {
 	 * @return whether a successful move or not (-1 = not success, 1 = success)
 	 */
 	public int moveRight(int playerID) {
+		//TODO if ID not found throw IDNotFoundError
 		return 1; //TODO once we have the game going we can check move up and most of the logic is the same
 	}
 
@@ -70,6 +72,7 @@ public class GameUtil {
 	 * @return whether a successful move or not (-1 = not success, 1 = success)
 	 */
 	public int moveDown(int playerID) {
+		//TODO if ID not found throw IDNotFoundError
 		return 1;//TODO once we have the game going we can check move up and most of the logic is the same
 	}
 
@@ -82,6 +85,7 @@ public class GameUtil {
 	 * @return whether a successful move or not (-1 = not success, 1 = success)
 	 */
 	public int moveLeft(int playerID) {
+		//TODO if ID not found throw IDNotFoundError
 		return 1; //TODO once we have the game going we can check move up and most of the logic is the same
 	}
 								//TODO CHECK WHICH ONE IS NEEDED
@@ -94,6 +98,7 @@ public class GameUtil {
 	 *         attack return the id of what was attacked
 	 */
 	public int attack(int playerID) {
+		//TODO if ID not found throw IDNotFoundError
 		// TODO find the target and attack it, then return the ID of the target
 		return -1; // should return the attackerID
 	}
@@ -106,6 +111,7 @@ public class GameUtil {
 	 *         attack return the id of what was attacked
 	 */
 	public int attack(int playerID, int attackedID) {
+		//TODO if either ID not found throw IDNotFoundError
 		// TODO attack the target
 		return attackedID; // should return the attackerID (though it is
 							// obsolete for this method, so it is acceptable
@@ -121,6 +127,7 @@ public class GameUtil {
 	 * @return
 	 */
 	public boolean addObjectToInventory(int playerID, int ObjectID) {
+		//TODO if either ID not found throw IDNotFoundError
 		return false; // TODO gameMap.get(playerID).addToInventory(GameITem);
 	}
 	/**
@@ -130,6 +137,7 @@ public class GameUtil {
 	 * @return
 	 */
 	public boolean removeItem(int playerID, int ObjectID) {
+		//TODO if either ID not found throw IDNotFoundError
 		return false; // TODO
 						// gameMap.get(playerID).removeFromInventory(GameITem);
 	}
@@ -142,6 +150,7 @@ public class GameUtil {
 	 * @return
 	 */
 	public boolean useItem(int playerID, int objectID) {
+		//TODO if either ID not found throw IDNotFoundError
 		return false; // TODO gameMap.get(playerID).useItem(GameITem)
 	}
 	
@@ -152,6 +161,7 @@ public class GameUtil {
 	 * @return
 	 */
 	public boolean moveToNextRoom(int playerID, int roomID) {
+		//TODO if either ID not found throw IDNotFoundError
 		return false;
 	}
 
@@ -163,6 +173,7 @@ public class GameUtil {
 	 * @return
 	 */
 	public Chest getChest(int clientsUID) {
+		//TODO if ID not found throw IDNotFoundError
 		// TODO Auto-generated method stub
 		return null;
 	}

@@ -63,12 +63,14 @@ public class ClientFrame extends AbstractFrame implements KeyListener {
 		this.runner = network;
 		this.isClient = isClient;
 		if(slave!=null){
-
 			this.slaveR = new SlaveReceiver(slave, runner);
 			slaveR.run();
 		}
 		this.slave = slave;
 		this.setVisible(true);
+		if(this.slaveR!=null){
+			this.clientsUID = slaveR.getUID();
+		}
 	}
 
 	/**
@@ -253,6 +255,9 @@ public class ClientFrame extends AbstractFrame implements KeyListener {
 	 */
 	@Override
 	public void keyPressed(KeyEvent key) {
+		if(slaveR!=null&&!slaveR.isReady()){
+			return;
+		}
 		int keyID = key.getKeyCode();
 		int validAction = 0;
 		Update up = new Update(0);
