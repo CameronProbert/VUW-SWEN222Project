@@ -135,7 +135,7 @@ public class PlayableCharacter implements Character {
 
 	public void resetItems(List<GameItem> items) {
 		// TODO Auto-generated method stub
-
+ 
 	}
 
 	// TODO check to see if this is still necessary as the room controls who is

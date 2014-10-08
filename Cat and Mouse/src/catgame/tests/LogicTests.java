@@ -6,6 +6,7 @@ import java.awt.Dimension;
 
 import org.junit.Test;
 
+import catgame.gameObjects.NonPlayableCharacter;
 import catgame.gameObjects.PlayableCharacter;
 import catgame.gui.renderpanel.RenderPanel;
 import catgame.logic.GameUtil.Direction;
@@ -196,5 +197,24 @@ public class LogicTests {
 		assertEquals(1, testRoom.movePlayer(101010, Direction.LEFT));
 		assertEquals(null, testRoom.getBoardGrid()[preMovePos.getY()][preMovePos.getX()].getObjectOnCell());
 		assertEquals(101010, testRoom.getBoardGrid()[preMovePos.getY()][preMovePos.getX()-1].getObjectOnCell().getObjectID());		
+	}
+	
+	@Test
+	public void TestAttackMinion(){
+		GameUtil util= new GameUtil();
+		util.viewDirection = Direction.NORTH;
+		RoomBuilder testBuilder = new RoomBuilder();
+		Room testRoom = testBuilder.loadRoom();
+		assertEquals(-1, testRoom.movePlayer(101010, Direction.RIGHT));
+		assertEquals(1, testRoom.movePlayer(101010, Direction.RIGHT));
+		assertEquals(1, testRoom.movePlayer(101010, Direction.RIGHT));
+		assertEquals(1, testRoom.movePlayer(101010, Direction.RIGHT));
+		assertEquals(-1, testRoom.movePlayer(101010, Direction.UP));
+		assertEquals(1, testRoom.movePlayer(101010, Direction.UP));
+		assertEquals(1, testRoom.movePlayer(101010, Direction.UP));
+		//We know that the player successfully attacked because of the return 1
+		assertEquals(1, testRoom.playerAttack(101010));
+		//checking that he attacked and was attacked back
+		assertTrue(((PlayableCharacter)testRoom.getCharactorCell(101010).getObjectOnCell()).getHealth() < 100);
 	}
 }

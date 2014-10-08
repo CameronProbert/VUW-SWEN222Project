@@ -7,9 +7,7 @@ import java.util.List;
 import org.omg.CosNaming.IstringHelper;
 
 import catgame.clientserver.GameRunner.GameState;
-import catgame.gameObjects.GameObject;
-import catgame.gameObjects.MasterObject;
-import catgame.gameObjects.PlayableCharacter;
+import catgame.gameObjects.*;
 import catgame.gui.renderpanel.RenderPanel;
 import catgame.logic.GameUtil.Direction;
 
@@ -76,43 +74,33 @@ public class Room {
 	 */
 	public int movePlayer(int playerID, Direction playerDirection) {
 		// TODO add the direction facing stuff here
-		
-		if (!(getCharactorCell(playerID).getObjectOnCell() instanceof PlayableCharacter)
-				&& getCharactorCell(playerID).getObjectOnCell().getObjectID() != playerID) {
+
+		if (!(getCharactorCell(playerID).getObjectOnCell() instanceof PlayableCharacter) && getCharactorCell(playerID).getObjectOnCell().getObjectID() != playerID) {
 			throw new GameError("PlayerLocationMap isn't pointing to a player");
 		}
-		if (((PlayableCharacter) getCharactorCell(playerID).getObjectOnCell())
-				.isDead()) {
+		if (((PlayableCharacter) getCharactorCell(playerID).getObjectOnCell()).isDead()) {
 			throw new GameError("Player " + playerID + " is dead!");
 		}
-		if(((PlayableCharacter)getCharactorCell(playerID).getObjectOnCell()).getFacingDirection().getValue() != playerDirection.getValue()){
-			((PlayableCharacter)getCharactorCell(playerID).getObjectOnCell()).changeDirection(getNewDirection(playerDirection));
+		if (((PlayableCharacter) getCharactorCell(playerID).getObjectOnCell()).getFacingDirection().getValue() != playerDirection.getValue()) {
+			((PlayableCharacter) getCharactorCell(playerID).getObjectOnCell()).changeDirection(getNewDirection(playerDirection));
 			return -1;
 		}
 
-		Position newPos = findPosition(playerID, GameUtil.viewDirection,
-				playerDirection);
+		Position newPos = findPosition(playerID, GameUtil.viewDirection, playerDirection);
 		// Check if the move is on the board
-		if (newPos.getX() < 0 || newPos.getY() < 0
-				|| newPos.getX() > roomGrid.length
-				|| newPos.getY() > roomGrid[0].length) {
-			System.out.println("New Move Position to x:" + newPos.getX()
-					+ " y:" + newPos.getY() + " is not valid");
+		if (newPos.getX() < 0 || newPos.getY() < 0 || newPos.getX() > roomGrid.length || newPos.getY() > roomGrid[0].length) {
+			System.out.println("New Move Position to x:" + newPos.getX() + " y:" + newPos.getY() + " is not valid");
 			return -1;
 		}
 		// Check that the next Position is empty then move the player
-		if (roomGrid[newPos.getY()][newPos.getX()].getGroundType() != null
-				&& roomGrid[newPos.getY()][newPos.getX()].getObjectOnCell() == null) {
+		if (roomGrid[newPos.getY()][newPos.getX()].getGroundType() != null && roomGrid[newPos.getY()][newPos.getX()].getObjectOnCell() == null) {
 			BoardCell oldCell = playerLocationMap.get(playerID);
-			roomGrid[newPos.getY()][newPos.getX()].setObjectOnCell(oldCell
-					.removeObjectOnCell());
-			playerLocationMap.put(playerID,
-					roomGrid[newPos.getY()][newPos.getX()]);
+			roomGrid[newPos.getY()][newPos.getX()].setObjectOnCell(oldCell.removeObjectOnCell());
+			playerLocationMap.put(playerID, roomGrid[newPos.getY()][newPos.getX()]);
 			return 1;
 		}
 		// the move wasn't successful;
-		System.out.println("Grid @ x:" + newPos.getX() + " y:" + newPos.getY()
-				+ " is not empty");
+		System.out.println("Grid @ x:" + newPos.getX() + " y:" + newPos.getY() + " is not empty");
 		return -1;
 	}
 
@@ -135,13 +123,20 @@ public class Room {
 	 * @param attackPower
 	 */
 	public int playerAttack(int playerID) {
-		if(playerLocationMap.get(playerID).getObjectOnCell() instanceof PlayableCharacter){
+		if (playerLocationMap.get(playerID).getObjectOnCell() instanceof PlayableCharacter) {
 			BoardCell playersCell = playerLocationMap.get(playerID);
 			PlayableCharacter player = (PlayableCharacter) playersCell.getObjectOnCell();
-			Position attackPosition = findPosition(playerID, GameUtil.viewDirection ,player.getFacingDirection());
-			
+			Position attackPosition = findPosition(playerID, GameUtil.viewDirection, player.getFacingDirection());
+			//Check to see if a npc is there then we can attack it
+			if (roomGrid[attackPosition.getY()][attackPosition.getX()].getObjectOnCell() != null
+					&& roomGrid[attackPosition.getY()][attackPosition.getX()].getObjectOnCell() instanceof NonPlayableCharacter) {
+				NonPlayableCharacter npc = (NonPlayableCharacter) roomGrid[attackPosition.getY()][attackPosition.getX()].getObjectOnCell();
+				npc.changeHealth(-player.getAttackPower());
+				player.changeHealth(-npc.getAttackPower());
+				return 1;
+			}
 		}
-		
+
 		return -1;
 	}
 
@@ -150,8 +145,7 @@ public class Room {
 	 * @return a position on the board from where the player is and
 	 *         Corresponding to the movementDirection
 	 */
-	private Position findPosition(int playerID, Direction boardOrientation,
-			Direction playerDirection) {
+	private Position findPosition(int playerID, Direction boardOrientation, Direction playerDirection) {
 		int direction = translateForGrid(boardOrientation, playerDirection);
 		Position playerPos = playerLocationMap.get(playerID).getPosition();
 		switch (direction) {
@@ -165,8 +159,7 @@ public class Room {
 			return new Position(playerPos.getX() - 1, playerPos.getY());
 		}
 		// should be dead Code just in case its not
-		throw new GameError("Find Position Couldn't find a new Position for :"
-				+ direction);
+		throw new GameError("Find Position Couldn't find a new Position for :" + direction);
 	}
 
 	public int getRoomID() {
@@ -183,8 +176,7 @@ public class Room {
 	 * @param playerDirection
 	 * 
 	 */
-	public int translateForGrid(Direction boardOrientation,
-			Direction playerDirection) {
+	public int translateForGrid(Direction boardOrientation, Direction playerDirection) {
 		return (boardOrientation.getValue() + playerDirection.getValue()) % 4;
 	}
 
@@ -211,14 +203,16 @@ public class Room {
 	public void RemoveFromPlayerLocationMap(int playersID) {
 		playerLocationMap.remove(playersID);
 	}
-	
+
 	/**
-	 * Finds and returns the correct facing direction rather than a moving direction
+	 * Finds and returns the correct facing direction rather than a moving
+	 * direction
+	 * 
 	 * @param movementDirection
 	 * @return
 	 */
-	public Direction getNewDirection(Direction movementDirection){
-		switch (movementDirection.getValue()){
+	public Direction getNewDirection(Direction movementDirection) {
+		switch (movementDirection.getValue()) {
 		case 0:
 			return Direction.NORTH;
 		case 1:
@@ -226,6 +220,6 @@ public class Room {
 		case 2:
 			return Direction.SOUTH;
 		}
-			return Direction.WEST;
+		return Direction.WEST;
 	}
 }
