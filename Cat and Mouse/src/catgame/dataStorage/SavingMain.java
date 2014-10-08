@@ -48,8 +48,10 @@ public class SavingMain {
 	}
 
 	/**
-	 * Saves the details of BoardData class, in particular creates elements for all the rooms
-	 * @return Element 
+	 * Saves the details of BoardData class, in particular creates elements for
+	 * all the rooms
+	 * 
+	 * @return Element
 	 */
 	public Element writeBoardData() {
 		Element boardDataElement = new Element("BoardData");
@@ -67,14 +69,18 @@ public class SavingMain {
 				e.printStackTrace();
 			}
 		}
-		
+
 		return boardDataElement;
 	}
 
 	/**
-	 * Saves the room's id, roomGrid, and details on objects in the room's inventory
-	 * @param room Room
-	 * @param id int
+	 * Saves the room's id, roomGrid, and details on objects in the room's
+	 * inventory
+	 * 
+	 * @param room
+	 *            Room
+	 * @param id
+	 *            int
 	 * @return Element
 	 * @throws XMLException
 	 */
@@ -85,8 +91,17 @@ public class SavingMain {
 		if (room == null) {
 			throw new XMLException("Room_" + id + " is null");
 		}
+		// ----------------------------------------------------------------
 
-		// 
+		// ------------ Inventory ------------
+		Element roomInventoryElement = new Element("Inventory");
+		for (MasterObject obj : room.getRoomInventory()) {
+			roomInventoryElement.addContent(helper.writeMasterObject(obj));
+		}
+		roomElement.addContent(roomInventoryElement);//add to roomElement
+		// ----------------------------------------------------------------
+		
+		// ------------ RoomGrid ------------
 		Element boardGrid = new Element("boardGrid");
 		BoardCell[][] roomGrid = room.getBoardGrid();
 		for (int y = 0; y < roomGrid.length; y++) {
@@ -94,17 +109,15 @@ public class SavingMain {
 			String cellValuesOfRow = "[";
 			for (int x = 0; x < roomGrid[y].length; x++) {
 				String boardCellValues = "(";
-				boardCellValues += helper.makeBoardCell(roomGrid[y][x]) +")";
+				boardCellValues += helper.makeBoardCell(roomGrid[y][x]) + ")";
 				cellValuesOfRow += boardCellValues; // TODO add space or not??
 			}
 			rowBoardCellElement.setText(cellValuesOfRow += "]");
 			boardGrid.addContent(rowBoardCellElement);
 		}
-		roomElement.addContent(boardGrid);
-		// Inventory
-		for (MasterObject obj : room.getRoomInventory()) {
-			roomElement.addContent(helper.writeMasterObject(obj));
-		}
+		roomElement.addContent(boardGrid); //add to roomElement
+		// ----------------------------------------------------------------
+
 		return roomElement;
 	}
 
@@ -120,19 +133,19 @@ public class SavingMain {
 	 * @throws FileNotFoundException
 	 * @throws IOException
 	 */
-//	public static void main(String[] args) throws FileNotFoundException,
-//			IOException {
-//		BoardCell[][] boardCell = new BoardCell[2][2];
-//		boardCell[0][0] = new BoardCell(new Position(0, 0), new Rock(23), null);
-//		boardCell[0][1] = new BoardCell(new Position(0, 1), new Rock(24), null);
-//		boardCell[1][0] = new BoardCell(new Position(1, 0), new Tree(25), null);
-//		boardCell[1][1] = new BoardCell(new Position(1, 1), new Tree(26), null);
-//
-//		BoardData boardData = new BoardData();
-//		Room room = new Room(1, boardCell);
-//		room.getRoomInventory().add(new Food(55, 5));
-//		boardData.getAllRooms().add(room);
-//
-//		new SavingMain(boardData);
-//	}
+	// public static void main(String[] args) throws FileNotFoundException,
+	// IOException {
+	// BoardCell[][] boardCell = new BoardCell[2][2];
+	// boardCell[0][0] = new BoardCell(new Position(0, 0), new Rock(23), null);
+	// boardCell[0][1] = new BoardCell(new Position(0, 1), new Rock(24), null);
+	// boardCell[1][0] = new BoardCell(new Position(1, 0), new Tree(25), null);
+	// boardCell[1][1] = new BoardCell(new Position(1, 1), new Tree(26), null);
+	//
+	// BoardData boardData = new BoardData();
+	// Room room = new Room(1, boardCell);
+	// room.getRoomInventory().add(new Food(55, 5));
+	// boardData.getAllRooms().add(room);
+	//
+	// new SavingMain(boardData);
+	// }
 }
