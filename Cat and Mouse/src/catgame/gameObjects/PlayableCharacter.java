@@ -78,16 +78,12 @@ public class PlayableCharacter implements Character {
 	 * TODO the item could be checked via the items id
 	 */
 	public GameItem removeFromInventory(GameItem item) {
-		GameItem result = null;
-		if (inventory.contains(item)) {
-			for (GameItem i : inventory) {
-				if (i.equals(item)) {
-					result = i;
-					break;
-				}
+		for (int i = 0; i < inventory.size(); i++) {
+			if (inventory.get(i).getObjectID() == item.getObjectID()) {
+				return inventory.remove(i);
 			}
 		}
-		return result;
+		return null;
 	}
 
 	public int getAttackPower() {
@@ -102,8 +98,12 @@ public class PlayableCharacter implements Character {
 		return health < 0;
 	}
 
-	public void useItem(GameItem item) {
-
+	public void useItem(int itemId) {
+		for (int i = 0; i < inventory.size(); i++) {
+			if (inventory.get(i).getObjectID() == itemId) {
+				removeFromInventory(inventory.get(i)).use();
+			}
+		}
 	}
 
 	public Room getCurrentRoom() {
@@ -112,6 +112,10 @@ public class PlayableCharacter implements Character {
 
 	public Direction getFacingDirection() {
 		return facingDirection;
+	}
+	
+	public void changeDirection(Direction direction){
+		this.facingDirection = direction;
 	}
 
 	public void attack() {

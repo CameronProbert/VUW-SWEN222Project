@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.omg.CosNaming.IstringHelper;
 
+import catgame.clientserver.GameRunner.GameState;
 import catgame.gameObjects.GameObject;
 import catgame.gameObjects.MasterObject;
 import catgame.gameObjects.PlayableCharacter;
@@ -75,6 +76,7 @@ public class Room {
 	 */
 	public int movePlayer(int playerID, Direction playerDirection) {
 		// TODO add the direction facing stuff here
+		
 		if (!(getCharactorCell(playerID).getObjectOnCell() instanceof PlayableCharacter)
 				&& getCharactorCell(playerID).getObjectOnCell().getObjectID() != playerID) {
 			throw new GameError("PlayerLocationMap isn't pointing to a player");
@@ -82,6 +84,10 @@ public class Room {
 		if (((PlayableCharacter) getCharactorCell(playerID).getObjectOnCell())
 				.isDead()) {
 			throw new GameError("Player " + playerID + " is dead!");
+		}
+		if(((PlayableCharacter)getCharactorCell(playerID).getObjectOnCell()).getFacingDirection().getValue() != playerDirection.getValue()){
+			((PlayableCharacter)getCharactorCell(playerID).getObjectOnCell()).changeDirection(getNewDirection(playerDirection));
+			return -1;
 		}
 
 		Position newPos = findPosition(playerID, GameUtil.viewDirection,
@@ -128,8 +134,14 @@ public class Room {
 	 * @param direction
 	 * @param attackPower
 	 */
-	public int playerAttack(int playerID, int playerDirection, int attackPower) {
-
+	public int playerAttack(int playerID) {
+		if(playerLocationMap.get(playerID).getObjectOnCell() instanceof PlayableCharacter){
+			BoardCell playersCell = playerLocationMap.get(playerID);
+			PlayableCharacter player = (PlayableCharacter) playersCell.getObjectOnCell();
+			Position attackPosition = findPosition(playerID, GameUtil.viewDirection ,player.getFacingDirection());
+			
+		}
+		
 		return -1;
 	}
 
@@ -198,5 +210,22 @@ public class Room {
 
 	public void RemoveFromPlayerLocationMap(int playersID) {
 		playerLocationMap.remove(playersID);
+	}
+	
+	/**
+	 * Finds and returns the correct facing direction rather than a moving direction
+	 * @param movementDirection
+	 * @return
+	 */
+	public Direction getNewDirection(Direction movementDirection){
+		switch (movementDirection.getValue()){
+		case 0:
+			return Direction.NORTH;
+		case 1:
+			return Direction.EAST;
+		case 2:
+			return Direction.SOUTH;
+		}
+			return Direction.WEST;
 	}
 }
