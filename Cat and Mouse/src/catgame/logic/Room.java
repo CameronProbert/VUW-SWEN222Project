@@ -89,10 +89,10 @@ public class Room {
 			return -1;
 		}
 		// Check that the next Position is empty then move the player
-		if (roomGrid[newPos.getX()][newPos.getY()].getGroundType() != null && roomGrid[newPos.getX()][newPos.getY()].getObjectOnCell() == null) {
+		if (roomGrid[newPos.getY()][newPos.getX()].getGroundType() != null && roomGrid[newPos.getY()][newPos.getX()].getObjectOnCell() == null) {
 			BoardCell oldCell = playerLocationMap.get(playerID);
-			roomGrid[newPos.getX()][newPos.getY()].setObjectOnCell(oldCell.removeObjectOnCell());
-			playerLocationMap.put(playerID, roomGrid[newPos.getY()][newPos.getY()]);
+			roomGrid[newPos.getY()][newPos.getX()].setObjectOnCell(oldCell.removeObjectOnCell());
+			playerLocationMap.put(playerID, roomGrid[newPos.getY()][newPos.getX()]);
 			return 1;
 		}
 		// the move wasn't successful;
