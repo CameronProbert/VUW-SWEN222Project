@@ -85,15 +85,21 @@ public class GameUtil {
 	}
 
 	private int move(int playerID, Direction direction) {
-		// TODO if ID not found throw IDNotFoundError
 		// find the character then try and move it
+		if (findPlayersRoom(playerID) != null) {
+			return findPlayersRoom(playerID).movePlayer(playerID, direction);
+		}
+		return -1;
+	}
+
+	private Room findPlayersRoom(int playerID) {
 		for (Room room : BoardData.getAllRooms()) {
 			if (room.getCharactorCell(playerID) != null && room.getCharactorCell(playerID).getObjectOnCell().getObjectID() == playerID) {
 				// move the player in the room
-				return room.movePlayer(playerID, direction);
+				return room;
 			}
 		}
-		return -1;
+		return null;
 	}
 
 	// TODO CHECK WHICH ONE IS NEEDED
@@ -106,9 +112,10 @@ public class GameUtil {
 	 *         attack return the id of what was attacked
 	 */
 	public int attack(int playerID) {
-		// TODO if ID not found throw IDNotFoundError
-		// TODO find the target and attack it, then return the ID of the target
-		return -1; // should return the attackerID
+		if (findPlayersRoom(playerID) != null) {
+			return findPlayersRoom(playerID).playerAttack(playerID);
+		}
+		return -1;
 	}
 
 	/**

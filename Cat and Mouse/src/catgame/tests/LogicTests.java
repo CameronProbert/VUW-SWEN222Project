@@ -17,10 +17,10 @@ import catgame.logic.Room;
 import catgame.logic.RoomBuilder;
 
 public class LogicTests {
-	
+
 	/**
-	 * Test that the games public enum Direction is working correctly,
-	 * and all enums map to the correct value
+	 * Test that the games public enum Direction is working correctly, and all
+	 * enums map to the correct value
 	 */
 	@Test
 	public void testDirectionEnum() {
@@ -58,11 +58,12 @@ public class LogicTests {
 	}
 
 	/**
-	 * Test the TranslateForGrid algorithm, Checks that all inputs have a correct output
+	 * Test the TranslateForGrid algorithm, Checks that all inputs have a
+	 * correct output
 	 */
 	@Test
 	public void testTranslateForGid() {
-		
+
 		Room testRoom = new Room(0);
 		// NORTH
 		assertEquals(0, testRoom.translateForGrid(Direction.NORTH, Direction.UP));
@@ -87,8 +88,8 @@ public class LogicTests {
 	}
 
 	/**
-	 * Tests for GenorateID in the room builder class. All Id's are required to be 6 digits long
-	 * if they aren't there will be a gameError Thrown
+	 * Tests for GenorateID in the room builder class. All Id's are required to
+	 * be 6 digits long if they aren't there will be a gameError Thrown
 	 */
 	@Test
 	public void TestGenorateId() {
@@ -96,40 +97,40 @@ public class LogicTests {
 		String lenghtTest = testRoom.genorateObjectId(10, 10, 10) + "";
 		assertEquals(6, lenghtTest.length());
 		assertEquals(101010, testRoom.genorateObjectId(10, 10, 10));
-		try{
-		assertFalse(testRoom.genorateObjectId(01, 01, 01)+"".length() == 6);
-		}catch(GameError e){
+		try {
+			assertFalse(testRoom.genorateObjectId(01, 01, 01) + "".length() == 6);
+		} catch (GameError e) {
 			return;
 		}
 		fail();
 	}
-	
+
 	@Test
-	public void TestGenorateRandomObjectType(){
+	public void TestGenorateRandomObjectType() {
 		RoomBuilder testRoom = new RoomBuilder();
 		assertEquals(10, testRoom.genorateRandomObjectType(100));
 		assertTrue(testRoom.genorateRandomObjectType(5) > 9 && testRoom.genorateRandomObjectType(5) <= 15);
 		assertTrue(testRoom.genorateRandomObjectType(3) > 9 && testRoom.genorateRandomObjectType(3) <= 13);
 		assertTrue(testRoom.genorateRandomObjectType(1) == 10);
 	}
-	
+
 	@Test
-	public void TestGetPlayersGrid(){
+	public void TestGetPlayersGrid() {
 		RoomBuilder testBuilder = new RoomBuilder();
 		Room testRoom = testBuilder.loadRoom();
 		assertEquals(101010, testRoom.getCharactorCell(101010).getObjectOnCell().getObjectID());
 	}
-	
+
 	@Test
-	public void TestPlayerAttempedMoveChangeDirection(){
-		GameUtil util= new GameUtil();
+	public void TestPlayerAttempedMoveChangeDirection() {
+		GameUtil util = new GameUtil();
 		util.viewDirection = Direction.NORTH;
 		RoomBuilder testBuilder = new RoomBuilder();
 		Room testRoom = testBuilder.loadRoom();
-		//testRoom.
+		// testRoom.
 		((PlayableCharacter) testRoom.getCharactorCell(101010).getObjectOnCell()).changeDirection(Direction.NORTH);
 		Position preMovePos = testRoom.getCharactorCell(101010).getPosition();
-		//we know that the character isn't moving because it is returning -1
+		// we know that the character isn't moving because it is returning -1
 		assertEquals(-1, testRoom.movePlayer(101010, Direction.RIGHT));
 		assertEquals(Direction.EAST, ((PlayableCharacter) testRoom.getCharactorCell(101010).getObjectOnCell()).getFacingDirection());
 		assertEquals(-1, testRoom.movePlayer(101010, Direction.DOWN));
@@ -138,70 +139,72 @@ public class LogicTests {
 		assertEquals(Direction.WEST, ((PlayableCharacter) testRoom.getCharactorCell(101010).getObjectOnCell()).getFacingDirection());
 		assertEquals(-1, testRoom.movePlayer(101010, Direction.UP));
 		assertEquals(Direction.NORTH, ((PlayableCharacter) testRoom.getCharactorCell(101010).getObjectOnCell()).getFacingDirection());
-		
+
 	}
-	
+
 	@Test
-	public void TestPlayerMoveNorth(){
-		GameUtil util= new GameUtil();
+	public void TestPlayerMoveNorth() {
+		GameUtil util = new GameUtil();
 		util.viewDirection = Direction.NORTH;
 		RoomBuilder testBuilder = new RoomBuilder();
 		Room testRoom = testBuilder.loadRoom();
-		//testRoom.
+		// testRoom.
 		((PlayableCharacter) testRoom.getCharactorCell(101010).getObjectOnCell()).changeDirection(Direction.NORTH);
 		Position preMovePos = testRoom.getCharactorCell(101010).getPosition();
 		assertEquals(101010, testRoom.getBoardGrid()[preMovePos.getY()][preMovePos.getX()].getObjectOnCell().getObjectID());
 		assertEquals(1, testRoom.movePlayer(101010, Direction.UP));
 		assertEquals(null, testRoom.getBoardGrid()[preMovePos.getY()][preMovePos.getX()].getObjectOnCell());
-		assertEquals(101010, testRoom.getBoardGrid()[preMovePos.getY()-1][preMovePos.getX()].getObjectOnCell().getObjectID());		
+		assertEquals(101010, testRoom.getBoardGrid()[preMovePos.getY() - 1][preMovePos.getX()].getObjectOnCell().getObjectID());
 	}
-	
+
 	@Test
-	public void TestPlayerMoveRight(){
-		GameUtil util= new GameUtil();
+	public void TestPlayerMoveRight() {
+		GameUtil util = new GameUtil();
 		util.viewDirection = Direction.NORTH;
 		RoomBuilder testBuilder = new RoomBuilder();
 		Room testRoom = testBuilder.loadRoom();
-		//testRoom.
+		// testRoom.
 		((PlayableCharacter) testRoom.getCharactorCell(101010).getObjectOnCell()).changeDirection(Direction.EAST);
 		Position preMovePos = testRoom.getCharactorCell(101010).getPosition();
 		assertEquals(101010, testRoom.getBoardGrid()[preMovePos.getY()][preMovePos.getX()].getObjectOnCell().getObjectID());
 		assertEquals(1, testRoom.movePlayer(101010, Direction.RIGHT));
 		assertEquals(null, testRoom.getBoardGrid()[preMovePos.getY()][preMovePos.getX()].getObjectOnCell());
-		assertEquals(101010, testRoom.getBoardGrid()[preMovePos.getY()][preMovePos.getX()+1].getObjectOnCell().getObjectID());		
+		assertEquals(101010, testRoom.getBoardGrid()[preMovePos.getY()][preMovePos.getX() + 1].getObjectOnCell().getObjectID());
 	}
+
 	@Test
-	public void TestPlayerMoveDown(){
-		GameUtil util= new GameUtil();
+	public void TestPlayerMoveDown() {
+		GameUtil util = new GameUtil();
 		util.viewDirection = Direction.NORTH;
 		RoomBuilder testBuilder = new RoomBuilder();
 		Room testRoom = testBuilder.loadRoom();
-		//testRoom.
+		// testRoom.
 		((PlayableCharacter) testRoom.getCharactorCell(101010).getObjectOnCell()).changeDirection(Direction.SOUTH);
 		Position preMovePos = testRoom.getCharactorCell(101010).getPosition();
 		assertEquals(101010, testRoom.getBoardGrid()[preMovePos.getY()][preMovePos.getX()].getObjectOnCell().getObjectID());
 		assertEquals(1, testRoom.movePlayer(101010, Direction.DOWN));
 		assertEquals(null, testRoom.getBoardGrid()[preMovePos.getY()][preMovePos.getX()].getObjectOnCell());
-		assertEquals(101010, testRoom.getBoardGrid()[preMovePos.getY()+1][preMovePos.getX()].getObjectOnCell().getObjectID());		
+		assertEquals(101010, testRoom.getBoardGrid()[preMovePos.getY() + 1][preMovePos.getX()].getObjectOnCell().getObjectID());
 	}
+
 	@Test
-	public void TestPlayerMoveLeft(){
-		GameUtil util= new GameUtil();
+	public void TestPlayerMoveLeft() {
+		GameUtil util = new GameUtil();
 		util.viewDirection = Direction.NORTH;
 		RoomBuilder testBuilder = new RoomBuilder();
 		Room testRoom = testBuilder.loadRoom();
-		//testRoom.
+		// testRoom.
 		((PlayableCharacter) testRoom.getCharactorCell(101010).getObjectOnCell()).changeDirection(Direction.WEST);
 		Position preMovePos = testRoom.getCharactorCell(101010).getPosition();
 		assertEquals(101010, testRoom.getBoardGrid()[preMovePos.getY()][preMovePos.getX()].getObjectOnCell().getObjectID());
 		assertEquals(1, testRoom.movePlayer(101010, Direction.LEFT));
 		assertEquals(null, testRoom.getBoardGrid()[preMovePos.getY()][preMovePos.getX()].getObjectOnCell());
-		assertEquals(101010, testRoom.getBoardGrid()[preMovePos.getY()][preMovePos.getX()-1].getObjectOnCell().getObjectID());		
+		assertEquals(101010, testRoom.getBoardGrid()[preMovePos.getY()][preMovePos.getX() - 1].getObjectOnCell().getObjectID());
 	}
-	
+
 	@Test
-	public void TestAttackMinion(){
-		GameUtil util= new GameUtil();
+	public void TestAttackMinion() {
+		GameUtil util = new GameUtil();
 		util.viewDirection = Direction.NORTH;
 		RoomBuilder testBuilder = new RoomBuilder();
 		Room testRoom = testBuilder.loadRoom();
@@ -212,9 +215,9 @@ public class LogicTests {
 		assertEquals(-1, testRoom.movePlayer(101010, Direction.UP));
 		assertEquals(1, testRoom.movePlayer(101010, Direction.UP));
 		assertEquals(1, testRoom.movePlayer(101010, Direction.UP));
-		//We know that the player successfully attacked because of the return 1
+		// We know that the player successfully attacked because of the return 1
 		assertEquals(1, testRoom.playerAttack(101010));
-		//checking that he attacked and was attacked back
-		assertTrue(((PlayableCharacter)testRoom.getCharactorCell(101010).getObjectOnCell()).getHealth() < 100);
+		// checking that he attacked and was attacked back
+		assertTrue(((PlayableCharacter) testRoom.getCharactorCell(101010).getObjectOnCell()).getHealth() < 100);
 	}
 }
