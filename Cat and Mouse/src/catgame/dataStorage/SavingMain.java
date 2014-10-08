@@ -98,12 +98,17 @@ public class SavingMain {
 		for (MasterObject obj : room.getRoomInventory()) {
 			roomInventoryElement.addContent(helper.writeMasterObject(obj));
 		}
-		roomElement.addContent(roomInventoryElement);//add to roomElement
+		roomElement.addContent(roomInventoryElement);// add to roomElement
 		// ----------------------------------------------------------------
-		
+
 		// ------------ RoomGrid ------------
-		Element boardGrid = new Element("boardGrid");
 		BoardCell[][] roomGrid = room.getBoardGrid();
+		Element boardGrid = new Element("boardGrid");
+		boardGrid.setAttribute(new Attribute("" + roomGrid.length, ""
+				+ roomGrid[0].length));
+		// TODO check about attributes!!! especially if roomGrid[0].length
+		// works!!
+
 		for (int y = 0; y < roomGrid.length; y++) {
 			Element rowBoardCellElement = new Element("Row" + y);
 			String cellValuesOfRow = "[";
@@ -115,7 +120,7 @@ public class SavingMain {
 			rowBoardCellElement.setText(cellValuesOfRow += "]");
 			boardGrid.addContent(rowBoardCellElement);
 		}
-		roomElement.addContent(boardGrid); //add to roomElement
+		roomElement.addContent(boardGrid); // add to roomElement
 		// ----------------------------------------------------------------
 
 		return roomElement;

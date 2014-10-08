@@ -25,7 +25,8 @@ public class SavingMasterObjects {
 		Boss boss = (Boss) obj;
 		Element bossElement = new Element("Boss");
 		bossElement.setAttribute(new Attribute("id", "" + boss.getObjectID()));
-
+		bossElement.addContent(new Element("CurrentRoom").setText(""
+				+ boss.getCurrentRoom().getRoomID()));
 		bossElement.addContent(new Element("health").setText(""
 				+ boss.getHealth()));
 		bossElement.addContent(helper.makeInventory(boss.getInventory()));
@@ -38,7 +39,7 @@ public class SavingMasterObjects {
 
 	public Element writeBush(MasterObject obj) {
 		Bush bush = (Bush) obj;
-		Element bushElement = new Element("bush");
+		Element bushElement = new Element("Bush");
 		bushElement.setAttribute(new Attribute("id", "" + bush.getObjectID()));
 		return bushElement;
 	}
@@ -52,18 +53,19 @@ public class SavingMasterObjects {
 		Element boardCell = new Element("boardCell");
 		boardCell.setText(helper.makeBoardCell(chest.getCurrentCell()));
 		chestElement.addContent(boardCell);
-		
+
 		chestElement.addContent(helper.makeInventory(chest.openChest()));
 		return chestElement;
 	}
-	
-	public Element writeDoor(MasterObject obj){
+
+	public Element writeDoor(MasterObject obj) {
 		Door door = (Door) obj;
 		Element doorElement = new Element("Door");
 		doorElement.setAttribute(new Attribute("id", "" + door.getObjectID()));
-		
+
 		// TODO Door entrance's room!!!!
-		//doorElement.addContent(new Element("DoorEntrance").setAttribute(new Attribute("Room", "" + door.)))
+		// doorElement.addContent(new Element("DoorEntrance").setAttribute(new
+		// Attribute("Room", "" + door.)))
 		return doorElement;
 	}
 
@@ -81,13 +83,18 @@ public class SavingMasterObjects {
 		Key key = (Key) obj;
 		Element keyElement = new Element("Key");
 		keyElement.setAttribute(new Attribute("id", "" + key.getObjectID()));
-		keyElement.addContent(new Element("owner_ID").setText(""
-				+ key.getOwner().getObjectID()));
+		if (key.getOwner() == null) {
+			keyElement.addContent(new Element("owner_ID").setText("null"));
+		} else {
+			keyElement.addContent(new Element("owner_ID").setText(""
+					+ key.getOwner().getObjectID()));
+		}
+
 		return keyElement;
 	}
 
 	public Element writeMinion(MasterObject obj) {
-
+		// TODO
 		return null;
 	}
 

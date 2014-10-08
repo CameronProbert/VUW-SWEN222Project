@@ -20,9 +20,12 @@ import java.io.IOException;
 import java.util.*;
 
 public class LoadingGameMain {
-	private Map<Integer, MasterObject> objectIDMap = new HashMap<Integer, MasterObject>();
+	private Map<Integer, GameObject> objectIDMap = new HashMap<Integer, GameObject>();
+	private Map<Integer, Room> roomIDMap = new HashMap<Integer, Room>();
+	private LoadMasterObjects masterObjectLoader;
 
 	public LoadingGameMain() throws JDOMException, XMLException {
+		this.masterObjectLoader = new LoadMasterObjects(this);
 		SAXBuilder builder = new SAXBuilder();
 		File xmlFile = new File("/Cat and Mouse/test.xml");
 		try {
@@ -63,28 +66,54 @@ public class LoadingGameMain {
 			throw new XMLException("roomElement is null");
 		}
 
-		int id = roomElement.getAttribute("id").getIntValue();
-		Room room = new Room(id);
+		int id = Integer.parseInt(roomElement.getAttribute("id").getValue());
+		Room room = addRoomToMap(id);
 		
 		for (Element childrenElement : roomElement.getChildren()) {
 			if (childrenElement.getName().equals("Inventory")) {
-				room.addToInventory(createRoomInventory(childrenElement, room));
-			}
-			else if(childrenElement.getName().equals("boardGrid")){
+				createRoomInventory(childrenElement, room);
+			} else if (childrenElement.getName().equals("boardGrid")) {
 				room.loadBoardCellToRoom(loadRoomGrid(childrenElement));
 			}
 		}
-		
+
 		return room;
 	}
 
-	private BoardCell[][] loadRoomGrid(Element childrenElement) {
-		
+	private GameObject createRoomInventory(Element childrenElement, Room room)
+			throws XMLException {
+		List<Element> gameObjList = childrenElement.getChildren();
+
+		for (Element objElement : gameObjList) {
+			room.addToInventory(masterObjectLoader.verifyElement(objElement));
+		}
 		return null;
 	}
 
-	private GameObject createRoomInventory(Element childrenElement, Room room) {
-		
+	private BoardCell[][] loadRoomGrid(Element childrenElement) {
+		// BoardCell[][] roomGrid = new BoardCell[childrenElement.getat][];
 		return null;
 	}
+
+	public Map<Integer, Room> getRoomIDMap() {
+		return roomIDMap;
+	}
+
+	public Map<Integer, GameObject> getObjectIDMap() {
+		return objectIDMap;
+	}
+
+	public Room addRoomToMap(int ID) {
+		if (!roomIDMap.containsKey(ID)) {
+			roomIDMap.put(ID, new Room(ID));
+		}
+		return roomIDMap.get(ID);
+	}
+	
+	public void addObjectToMap(GameObject obj){
+		if(!objectIDMap.containsKey(obj.getObjectID())){
+			objectIDMap.put(obj.getObjectID(), obj);
+		}
+	}
+
 }
