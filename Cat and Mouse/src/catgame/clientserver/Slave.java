@@ -40,8 +40,8 @@ public final class Slave {
 	public void sendUpdate(Update update){
 		try {
 			output = new DataOutputStream(socket.getOutputStream());
-			output.writeInt(update.getCode());
-			System.out.printf("writing update to client : %d\n", update.getCode());
+			output.writeDouble(update.getCode());
+			System.out.printf("writing update to client : %f\n", update.getCode());
 			
 		} catch (IOException e) {
 			// TODO Auto-generated catch block

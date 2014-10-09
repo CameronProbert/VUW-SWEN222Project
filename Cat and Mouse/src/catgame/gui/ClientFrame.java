@@ -11,12 +11,17 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 
+import org.jdom2.JDOMException;
+
 import catgame.clientserver.*;
+import catgame.dataStorage.LoadingGameMain;
+import catgame.dataStorage.XMLException;
 import catgame.gameObjects.*;
 import catgame.gui.renderpanel.*;
 import catgame.logic.*;
@@ -43,6 +48,7 @@ public class ClientFrame extends AbstractFrame implements KeyListener {
 	private Dimension windowSize;
 	private SlaveReceiver slaveR;
 	private Slave slave;
+	private LoadingGameMain loadMain;
 
 	/**
 	 * Creates a new Client frame.
@@ -51,26 +57,35 @@ public class ClientFrame extends AbstractFrame implements KeyListener {
 	 * @param isClient
 	 * @param character
 	 */
-	public ClientFrame(GameRunner network, int UID, boolean isClient,
-			PlayableCharacter character, Slave slave) {
+	public ClientFrame(GameRunner network, boolean isClient, Slave slave) {
 		super("Cat and Mouse");
 		this.setDimensions();
 		this.setLayout(null);
 		this.addKeyListener(this);
-		this.addPanels(character);
 		this.addMenus();
-		this.clientsUID = UID;
 		this.runner = network;
 		this.isClient = isClient;
+		
 		if(slave!=null){
-			this.slaveR = new SlaveReceiver(slave, runner);
+			this.slaveR = new SlaveReceiver(slave, runner, this);
 			slaveR.run();
+			this.slave = slave;
 		}
-		this.slave = slave;
+		else{
+			this.clientsUID = 101010;
+			List<Integer> id = new ArrayList<Integer>();
+			id.add(clientsUID);
+			/*try {
+				loadMain = new LoadingGameMain(id);
+			} catch (JDOMException | XMLException e) {
+				e.printStackTrace();
+			}*/
+			PlayableCharacter character = runner.getGameUtill().getStorer().findCharacter(clientsUID);
+			this.addPanels(character);
+		}
+		PlayableCharacter character = new PlayableCharacter(1, 10, null, Direction.NORTH, 3, 5,null);
+		this.addPanels(character);
 		this.setVisible(true);
-		if(this.slaveR!=null){
-			this.clientsUID = slaveR.getUID();
-		}
 	}
 
 	/**
@@ -301,6 +316,7 @@ public class ClientFrame extends AbstractFrame implements KeyListener {
 			statPanel.modifyChar();
 			break;
 		}
+		validAction = 1;
 		if (validAction > 0 && isClient) {
 			slave.sendUpdate(up);
 		}
@@ -329,14 +345,19 @@ public class ClientFrame extends AbstractFrame implements KeyListener {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		ArrayList<GameItem> items = new ArrayList<GameItem>();
-		items.add(new Food(2, 30));
-		items.add(new Key(3));
-		items.add(new Food(2, 30));
+		new ClientFrame(null, false, null);
+	}
 
-		PlayableCharacter character = new PlayableCharacter(1, 10, null, Direction.NORTH, 3, 5,
-				items);
-		new ClientFrame(null, 0, false, character, null);
+	public void startXMLFiles(List<Integer> playerIds) {
+		this.clientsUID = slaveR.getUID();
+		System.out.println("\nclient frame received uid : " + clientsUID +"\n");
+		/*try {
+			loadMain = new LoadingGameMain(playerIds);
+		} catch (JDOMException |XMLException e) {
+			e.printStackTrace();
+		}
+		PlayableCharacter ch = runner.getGameUtill().getStorer().findCharacter(clientsUID);
+		this.addPanels(ch);*/
 	}
 
 }

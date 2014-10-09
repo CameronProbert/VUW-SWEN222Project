@@ -1,18 +1,18 @@
 
-Each message sent from master-slave and slave to master will either be 0, signalling a non-update or will consist of 8 numbers.
+Each message sent from master-slave and slave to master will either be 0, signalling a non-update or will consist of 14 numbers.
 
-For the first 4 digits:
+For the first 2 digits:
 
 01 : move north
 02 : move west
 03 : move east
 04 : move south
 
-05 : attack ~ next 2 numbers are player ID then next 4 number character attacked ID 
-06 : object added to inventory ~ next 2 numbers are player ID then next 4 numbers are object ID 
-07 : object removed from inventory ~ next 2 numbers are player ID then next 4 numbers are object ID (removing will just delete object?)
-08 : moved to room ~ next 2 numbers are player ID then next 4 numbers are room ID
-09 : consume item ~ next 2 numbers are player ID then next 4 numbers are object ID
+05 : attack ~ next 6 numbers are player ID then next 6 number character attacked ID 
+06 : object added to inventory ~ next 6 numbers are player ID then next 6 numbers are object ID 
+07 : object removed from inventory ~ next 6 numbers are player ID then next 6 numbers are object ID (removing will just delete object?)
+08 : moved to room ~ next 6 numbers are player ID then next 6 numbers are room ID
+09 : consume item ~ next 6 numbers are player ID then next 6 numbers are object ID
 
 
 

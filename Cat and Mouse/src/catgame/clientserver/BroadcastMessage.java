@@ -28,14 +28,14 @@ public class BroadcastMessage {
 	 */
 	public void sendCharacter(int objectID, Character ch){
 		try {
-			out.writeInt(objectID);
-			out.writeInt(ch.getAttackPower());
-			out.writeInt(ch.getHealth());
+			out.writeDouble(objectID);
+			out.writeDouble(ch.getAttackPower());
+			out.writeDouble(ch.getHealth());
 			// out.write(ch.getCurrentCell().); // send position somehow TODO
 			int inSize = ch.getInventory().size();
-			out.writeInt(inSize);
+			out.writeDouble(inSize);
 			for(GameItem item : ch.getInventory()){
-				out.writeInt(item.getObjectID());
+				out.writeDouble(item.getObjectID());
 			}
 
 		} catch (IOException e) {
@@ -54,8 +54,8 @@ public class BroadcastMessage {
 	public void sendItem(int objectID, GameItem item){
 		// TODO send the location of each item that must be held, in terms of what is the id that is holding it
 		try {
-			out.writeInt(objectID);
-			out.writeInt(item.getOwner().getObjectID());
+			out.writeDouble(objectID);
+			out.writeDouble(item.getOwner().getObjectID());
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -70,10 +70,10 @@ public class BroadcastMessage {
 	 */
 	public void sendChest(int objectID, Chest chest){
 		try {
-			out.writeInt(objectID);
-			out.writeInt(chest.getLoot().size());
+			out.writeDouble(objectID);
+			out.writeDouble(chest.getLoot().size());
 			for(GameItem item : chest.getLoot()){
-				out.writeInt(item.getObjectID());
+				out.writeDouble(item.getObjectID());
 			}
 		} catch (IOException e) {
 			e.printStackTrace();

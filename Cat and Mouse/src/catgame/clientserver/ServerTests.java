@@ -25,7 +25,7 @@ public class ServerTests {
 			Slave slave1 = new Slave(c1);
 			NetworkHandler cR1 = new NetworkHandler(NetworkHandler.Type.CLIENT);
 			GameRunner clientRun1 = (GameRunner) cR1;
-			SlaveReceiver slaveR1 = new SlaveReceiver(slave1, clientRun1);
+			SlaveReceiver slaveR1 = new SlaveReceiver(slave1, clientRun1, null);
 			slaveR1.run();
 			
 			Socket s1 = ss.accept();				
@@ -36,7 +36,7 @@ public class ServerTests {
 			Slave slave2 = new Slave(c2);
 			NetworkHandler cR2 = new NetworkHandler(NetworkHandler.Type.CLIENT);
 			GameRunner clientRun2 = (GameRunner) cR2;
-			SlaveReceiver slaveR2 = new SlaveReceiver(slave2, clientRun1);
+			SlaveReceiver slaveR2 = new SlaveReceiver(slave2, clientRun1, null);
 			slaveR2.run();
 			
 			Socket s2 = ss.accept();				

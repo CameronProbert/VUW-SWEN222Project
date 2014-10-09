@@ -36,9 +36,10 @@ public class NetworkHandler extends GameRunner{
 	 * @return the uid of the player added
 	 */
 	public int registerPlayer() {
+		int playerID = 100000 + (noPlayers+10)*100 + (noPlayers+10); // making the unique id for each player
+		playerIds.add(playerID);
 		noPlayers++;
-		playerIds.add(noPlayers);
-		return noPlayers;
+		return playerID;
 	}
 
 	/**

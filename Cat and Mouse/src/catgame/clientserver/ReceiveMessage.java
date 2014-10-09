@@ -37,29 +37,29 @@ public class ReceiveMessage {
 	 */
 	public void readPlayer(){
 		try {
-			int objectID = in.readInt();
-			int attackPower = in.readInt();
-			int health = in.readInt();
-			int level = in.readInt();
-			// int x,y = .. // receive position somehow TODO
+			double objectID = in.readDouble();
+			double attackPower = in.readDouble();
+			double health = in.readDouble();
+			double level = in.readDouble();
+			// double x,y = .. // receive position somehow TODO
 			
-			int inSize = in.readInt();
-			int[] itemIDs = new int[inSize];
+			double inSize = in.readDouble();
+			double[] itemIDs = new double[(int)inSize];
 			for(int i=0; i<inSize; i++){
-				itemIDs[i] = in.readInt();
+				itemIDs[i] = in.readDouble();
 			}
 
 			ObjectStorer storer = game.getStorer();
-			Character ch = storer.findCharacter(objectID);
+			Character ch = storer.findCharacter((int)objectID);
 			if(ch==null){
 				throw new IDNotFoundError();
 			}
-			ch.reset(attackPower, health, level);
+			ch.reset((int)attackPower, (int)health, (int)level);
 
 			List<GameItem> items = new ArrayList<GameItem>();
 
 			for(int i = 0; i< inSize; i++){
-				GameItem item = storer.findItem(itemIDs[i]);
+				GameItem item = storer.findItem((int)itemIDs[i]);
 				items.add(item);
 			}
 
@@ -76,14 +76,14 @@ public class ReceiveMessage {
 	 */
 	public void readItem(){
 		try {
-			int id = in.readInt();
-			int ownerID = in.readInt();
+			double id = in.readDouble();
+			double ownerID = in.readDouble();
 			ObjectStorer storer = game.getStorer();
-			GameItem item = storer.findItem(id);
+			GameItem item = storer.findItem((int)id);
 			if(item==null){
 				throw new IDNotFoundError();
 			}
-			GameObject owner = storer.findGameObject(ownerID);
+			GameObject owner = storer.findGameObject((int)ownerID);
 			item.setOwner(owner);
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -95,16 +95,16 @@ public class ReceiveMessage {
 	 */
 	public void readChest(){
 		try {
-			int id = in.readInt();
-			int lootSize = in.readInt();
-			Chest chest = game.getStorer().findChest(id);
+			double id = in.readDouble();
+			double lootSize = in.readDouble();
+			Chest chest = game.getStorer().findChest((int)id);
 			if(chest==null){
 				throw new IDNotFoundError();
 			}
 			List<GameItem> items = new ArrayList<GameItem>();
 			for(GameItem item : chest.getLoot()){
-				int itemID = in.readInt();
-				items.add(game.getStorer().findItem(itemID));
+				double itemID = in.readDouble();
+				items.add(game.getStorer().findItem((int)itemID));
 			}
 			chest.updateLoot(items);
 		} catch (IOException e) {

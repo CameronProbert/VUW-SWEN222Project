@@ -10,9 +10,9 @@ import catgame.logic.GameUtil;
  */
 public class Update {
 
-	private int code;
-	private int ONE_MILLION = 1000000;
-	private int TEN_THOUSAND =  10000;
+	private double code;
+	private double TRILLION = 1000000000000.0;
+	private double MILLION =  1000000;
 	
 	public enum Descriptor{
 		NORTH,
@@ -30,7 +30,7 @@ public class Update {
 	 * make a new update given some code (16 number grammar system)
 	 * @param code
 	 */
-	public Update(int code){
+	public Update(double code){
 		this.code = code;
 	}
 
@@ -49,31 +49,31 @@ public class Update {
 	public Update(Descriptor describe, int playerID, int supID){
 		switch(describe){
 		case NORTH:
-			this.code = 01*ONE_MILLION + playerID*TEN_THOUSAND; 
+			this.code = 01*TRILLION + playerID*MILLION; 
 			break;
 		case WEST:
-			this.code = 02*ONE_MILLION + playerID*TEN_THOUSAND;
+			this.code = 02*TRILLION + playerID*MILLION;
 			break;
 		case EAST:
-			this.code = 03*ONE_MILLION + playerID*TEN_THOUSAND;
+			this.code = 03*TRILLION + playerID*MILLION;
 			break;
 		case SOUTH:
-			this.code = 04*ONE_MILLION + playerID*TEN_THOUSAND;
+			this.code = 04*TRILLION + playerID*MILLION;
 			break;
 		case ATTACK:
-			this.code = 05*ONE_MILLION + playerID*TEN_THOUSAND + supID;
+			this.code = 05*TRILLION + playerID*MILLION + supID;
 			break;
 		case PICKUP:
-			this.code = 06*ONE_MILLION + playerID*TEN_THOUSAND + supID;
+			this.code = 06*TRILLION + playerID*MILLION + supID;
 			break;
 		case DROP://may be not used as a player cannot really remove an item
-			this.code = 07*ONE_MILLION + playerID*TEN_THOUSAND + supID;
+			this.code = 07*TRILLION + playerID*MILLION + supID;
 			break;
 		case NEWROOM:
-			this.code = 8*ONE_MILLION + playerID*TEN_THOUSAND + supID;
+			this.code = 8*TRILLION + playerID*MILLION + supID;
 			break;
 		case CONSUME:
-			this.code = 9*ONE_MILLION + playerID*TEN_THOUSAND + supID;
+			this.code = 9*TRILLION + playerID*MILLION + supID;
 			break;
 
 		}
@@ -85,14 +85,14 @@ public class Update {
 	 * @param game
 	 */
 	public void decode(GameUtil game){
-		String str = Integer.toString(code);
+		String str = Double.toString(code);
 		String first2 = str.substring(0, 1);
-		String next2 = str.substring(2,3);
-		String last4 = str.substring(4, 7);
+		String next6 = str.substring(2, 7);
+		String last6 = str.substring(8, 13);
 		
 		int instruction = Integer.parseInt(first2);
-		int playerID = Integer.parseInt(next2);
-		int lastID = Integer.parseInt(last4);
+		int playerID = Integer.parseInt(next6);
+		int lastID = Integer.parseInt(last6);
 		
 		switch(instruction){
 		case 1: // move forward
@@ -130,7 +130,7 @@ public class Update {
 	 * 
 	 * @return the update as an int
 	 */
-	public int getCode(){
+	public double getCode(){
 		return code;
 	}
 

@@ -10,6 +10,7 @@ import catgame.gameObjects.Chest;
 import catgame.gameObjects.GameItem;
 import catgame.gameObjects.NonPlayableCharacter;
 import catgame.gameObjects.PlayableCharacter;
+import catgame.gui.ClientFrame;
 
 /**
  * receives updates from the server (from its master connection)
@@ -26,10 +27,12 @@ public class SlaveReceiver {
 	private final int MASSUPDATE = 35;
 	private final int MINORUPDATE = 30;
 	private boolean readyToStart = false;
+	private ClientFrame frame;
 
-	public SlaveReceiver(Slave slave, GameRunner net){
+	public SlaveReceiver(Slave slave, GameRunner net, ClientFrame frame){
 		this.slave = slave;
 		this.net = (NetworkHandler)net;
+		this.frame = frame;
 	}
 
 	public void run(){
@@ -48,28 +51,30 @@ public class SlaveReceiver {
 				input = new DataInputStream(s.getInputStream());
 
 				// First job, is to read the period so we can create the clock				
-				uid = input.readInt();		
-				System.out.println("reading uid from server");
+				uid = (int)input.readDouble();		
+				System.out.println("read uid from server");
 				
 				net.addClientPlayer(uid);
-				/////////////////////////////////////////////////////////////////////////////////////////
-				/////////////////////////////////////////////////////////////////////////////////////////
-				// TODO will need to put break in here so that it can only continue if it has a message from the master saying to continue
-				// now read the other players IDs
-				int noPlayers = input.readInt();
+				
+				double noPlayers = input.readDouble();
 				System.out.println("reading noPlayers from server");
 				List<Integer> playerIds = new ArrayList<Integer>();
 
 				for(; noPlayers>0; noPlayers--){
-					playerIds.add(input.readInt());
+					playerIds.add((int)input.readDouble());
 					System.out.println("reading player ids from server");
 				}
-
-				net.setPlayerIds(playerIds);
+				/////////////////////////////////////////////////////////////////
+				// LOAD the game
+				////////////////////////////////////////////////////////////////
+				frame.startXMLFiles(playerIds);
+				frame.repaint();
+				net.setPlayerIds(playerIds); //  may be obsolete 
 				readyToStart=true; // now the players can start trying to do things
 
 				while(locked){
 					workOutUpdate(input);
+					frame.repaint();
 					try {
 						Thread.sleep(2000);
 					} catch (InterruptedException e) {
@@ -91,7 +96,7 @@ public class SlaveReceiver {
 
 		try {
 
-			int todo = input.readInt();
+			double todo = input.readDouble();
 			if(todo==MINORUPDATE){
 				System.out.println("received 30");
 				recieveUpdate(input);
@@ -113,27 +118,25 @@ public class SlaveReceiver {
 		try {
 			ReceiveMessage receiver = new ReceiveMessage(input, net.getGameUtill());
 
-			int noChars = input.readInt();
+			double noChars = input.readDouble();
 
 			for(int i=0; i<noChars; i++){
 				receiver.readPlayer();
 			}
 
-			int noNCPs = input.readInt();
+			double noNCPs = input.readDouble();
 
 			for(int i=0; i<noNCPs; i++){
 				receiver.readPlayer();
 			}
 
-			int noChests = input.readInt();
+			double noChests = input.readDouble();
 
 			for(int i=0; i<noChests; i++){
 				receiver.readChest();
 			}
 
-			int noItems;
-
-			noItems = input.readInt();
+			double noItems = input.readDouble();
 
 			for(int i=0; i<noItems; i++){
 				receiver.readItem();
@@ -153,12 +156,12 @@ public class SlaveReceiver {
 	private void recieveUpdate(DataInputStream input) {
 		System.out.println("still running");
 		try {
-			int updateFromMaster = input.readInt();
+			double updateFromMaster = input.readDouble();
 			if(updateFromMaster!=0){
 				net.update(new Update(updateFromMaster), false);// will not record last update
 				System.out.println("update recieved to actually use");
 			}
-			System.out.printf("received update from the server : %d\n", updateFromMaster);
+			System.out.printf("received update from the server : %f\n", updateFromMaster);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

@@ -8,6 +8,10 @@ import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.jdom2.JDOMException;
+
+import catgame.dataStorage.LoadingGameMain;
+import catgame.dataStorage.XMLException;
 import catgame.gui.ClientFrame;
 
 
@@ -87,6 +91,7 @@ public class NetworkSetUp extends Thread {
 				connections.add(mconn);
 				nclients++;
 				mconn.start();
+				System.out.println("\n joined a master to slave\n");
 				if(nclients == maxPlayers) {
 					if(nclients==0){
 						System.out.println("No clients game over");
@@ -126,6 +131,11 @@ public class NetworkSetUp extends Thread {
 		//byte[] state = game.toByteArray();						
 
 		clk.start();
+		/*try {
+			LoadingGameMain loadMain = new LoadingGameMain(game.getPlayerIds());
+		} catch (JDOMException | XMLException e) {
+			e.printStackTrace();
+		}*/
 		
 		// loop forever
 		while(atleastOneConnection(connections)) {
@@ -165,7 +175,7 @@ public class NetworkSetUp extends Thread {
 	 * @throws IOException
 	 */
 	private static void singleUserGame(int gameClock) throws IOException {
-		SinglePlayerHandler game = new SinglePlayerHandler(1); // pass a uid, 1 does fine as only one player		
+		SinglePlayerHandler game = new SinglePlayerHandler(); 		
 		// save initial state of board, so we can reset it.
 		ClockThread clk = new ClockThread(gameClock,game);
 		//byte[] state = game.toByteArray();	

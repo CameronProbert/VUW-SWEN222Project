@@ -60,17 +60,17 @@ public final class Master extends Thread {
 
 					if(timer==TIMESUP){
 						timer=0;
-						output.writeInt(MASSUPDATE);
+						output.writeDouble(MASSUPDATE);
 						//broadcastGameState(output);
 					}
 					else{
 
-						output.writeInt(MINORUPDATE);
+						output.writeDouble(MINORUPDATE);
 
 
 						// this will read the last update from the slave
 						if(input.available()!=0){
-							int updateFromSlave = input.readInt(); 
+							double updateFromSlave = input.readDouble(); 
 							if(updateFromSlave != 0){
 								game.update(new Update(updateFromSlave), true);
 								this.lastUpdateReceived = new Update(updateFromSlave);
@@ -87,15 +87,15 @@ public final class Master extends Thread {
 						Update updateToSlave = game.getLatestUpdate();
 
 						if(updateToSlave.equals(lastUpdateReceived)){
-							output.writeInt(0); // writes a 'no update'
+							output.writeDouble(0); // writes a 'no update'
 							System.out.printf("\n\nMy clients uid is : %d and I had a nothing to update\n", uid);
-							System.out.printf("the games latest update is : %d\n", updateToSlave.getCode());
-							System.out.printf("the masters last update received was : %d\n\n", lastUpdateReceived.getCode());
+							System.out.printf("the games latest update is : %f\n", updateToSlave.getCode());
+							System.out.printf("the masters last update received was : %f\n\n", lastUpdateReceived.getCode());
 						}
 						else{
-							output.writeInt(updateToSlave.getCode()); 
+							output.writeDouble(updateToSlave.getCode()); 
 							System.out.printf("\n\nMy clients uid is : %d and I have SOMETHING to update\n", uid);
-							System.out.printf("the games latest update is : %d\n\n", updateToSlave.getCode());
+							System.out.printf("the games latest update is : %f\n\n", updateToSlave.getCode());
 						}
 
 						timer++;
@@ -127,42 +127,42 @@ public final class Master extends Thread {
 		BroadcastMessage broadcast = new BroadcastMessage(output);
 		try {
 			ObjectStorer storer = game.getGameUtill().getStorer();
-			
+
 			int noChars = storer.getNumChars();
-			output.writeInt(noChars);
+			output.writeDouble(noChars);
 			for(int i : storer.getCharIDs()){
 				PlayableCharacter c = storer.findCharacter(i);
 				broadcast.sendCharacter(i, c);
 			}
-			
+
 			int noNCPs = storer.getNumNCPs();
-			output.writeInt(noNCPs);
+			output.writeDouble(noNCPs);
 			for(int i: storer.getNCPIDs()){
 				NonPlayableCharacter nc = storer.findNCP(i);
 				broadcast.sendCharacter(i, nc);
 			}
-			
+
 			int noChests = storer.getNumChests();
-			output.writeInt(noChests);
+			output.writeDouble(noChests);
 			for(int i: storer.getChestIDs()){
 				Chest chest = storer.findChest(i);
 				broadcast.sendChest(i, chest);
 			}
-			
+
 			int noItems = storer.getNumItems();
-			output.writeInt(noItems);
+			output.writeDouble(noItems);
 			for(int i: storer.getItemIDs()){
 				GameItem item = storer.findItem(i);
 				broadcast.sendItem(i, item);
 			}	
-			
+
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		
-		
-		
-		
+
+
+
+
 	}
 
 	/**
@@ -172,22 +172,30 @@ public final class Master extends Thread {
 	public void writeStart(DataOutputStream output){
 		// First, give the client its uid
 		try {
-			output.writeInt(uid);
-			System.out.println("wrote uid to client");
+			output.writeDouble(uid);
+			System.out.println("wrote uid to client id is " + uid + "\n");
 
 			// TODO  need to add a state that it will only do anything if the game has started!
 			// other wise will try and add all players even though not all connected yet
-			while(!canStart){
-				
-			}
-			//then give it all the players IDs
-			int noPlayers = game.noPlayers();
-			output.writeInt(noPlayers);
-			System.out.println("wrote no players to client");
+			boolean hasStarted = false;
+			while(!hasStarted){
+				if(canStart){
+					System.out.println("\nI am going to start now my id is " + uid + "\n");
+					//then give it all the players IDs
+					int noPlayers = game.noPlayers();
+					System.out.println("want to write no players to client my id is " + uid + "\n");
+					output.writeDouble(noPlayers);
+					System.out.println("wrote no players to client my id is " + uid + "\n");
 
-			for(int id : game.getPlayerIds()){
-				output.writeInt(id);
-				System.out.println("writing player ids to client");
+					for(int id : game.getPlayerIds()){
+						output.writeDouble(id);
+						System.out.println("writing player ids to clientid is " + uid + "\n");
+					}
+					hasStarted = true;
+				}
+				else{
+					System.out.printf(""); // if I don't have this it go break
+				}
 			}
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
@@ -197,6 +205,7 @@ public final class Master extends Thread {
 
 	public void setStart(boolean b) {
 		this.canStart = b;
+		System.out.println("\nI have been allowed to start, my id is : " + uid + "\n");
 	}
 
 }

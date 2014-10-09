@@ -22,15 +22,13 @@ public class SinglePlayerHandler extends GameRunner {
 	 * set up a game for one person on single player
 	 * @param playerID
 	 */
-	public SinglePlayerHandler (int playerID){
+	public SinglePlayerHandler (){
 		game = new GameUtil();
-		game.getStorer().addPlayer(playerID);
-		PlayableCharacter ch = game.getStorer().findCharacter(playerID);
-		ClientFrame frame = new ClientFrame(this, playerID, false, ch, null);
+		ClientFrame frame = new ClientFrame(this, false, null);
 		
 	}
 	
 	public static void main(String[] args){
-		new SinglePlayerHandler(1);
+		new SinglePlayerHandler();
 	}
 }

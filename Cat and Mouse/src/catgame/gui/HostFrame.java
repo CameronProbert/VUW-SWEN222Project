@@ -39,7 +39,7 @@ public class HostFrame extends AbstractFrame {
 		startServerButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				int numPlayers = HelperMethods.getNumSliderDialog(
-						"Select number of players", 2, 8, 4);
+						"Select number of players", 2, 8, 2);
 				host.setServer(numPlayers);
 			}
 		});
