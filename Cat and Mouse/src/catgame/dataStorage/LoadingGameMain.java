@@ -24,7 +24,7 @@ public class LoadingGameMain {
 	private Map<Integer, Room> roomIDMap = new HashMap<Integer, Room>();
 	private LoadMasterObjects masterObjectLoader;
 
-	public LoadingGameMain() throws JDOMException, XMLException {
+	public LoadingGameMain(List<Integer> playerIDLIst) throws JDOMException, XMLException {
 		this.masterObjectLoader = new LoadMasterObjects(this);
 		SAXBuilder builder = new SAXBuilder();
 		File xmlFile = new File("/Cat and Mouse/test.xml");

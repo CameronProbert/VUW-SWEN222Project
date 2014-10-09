@@ -106,6 +106,7 @@ public class SavingMain {
 		Element boardGrid = new Element("boardGrid");
 		boardGrid.setAttribute(new Attribute("" + roomGrid.length, ""
 				+ roomGrid[0].length));
+		
 		// TODO check about attributes!!! especially if roomGrid[0].length
 		// works!!
 
