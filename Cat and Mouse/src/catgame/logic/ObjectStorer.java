@@ -15,9 +15,9 @@ import catgame.gameObjects.PlayableCharacter;
 import catgame.logic.GameUtil.Direction;
 
 /**
- * This class stores all the GameObjects, in various ways for quick lookup. 
- * This class is mostly used by the server client doing a mass update and by
- * the main when doing logical calculations
+ * This class stores all the GameObjects, in various ways for quick lookup. This
+ * class is mostly used by the server client doing a mass update and by the main
+ * when doing logical calculations
  * 
  * @author Francine
  *
@@ -25,15 +25,30 @@ import catgame.logic.GameUtil.Direction;
 
 public class ObjectStorer {
 
-
-	
 	private HashMap<Integer, PlayableCharacter> playableChs = new HashMap<Integer, PlayableCharacter>();
 	private HashMap<Integer, NonPlayableCharacter> nonPlayableChs = new HashMap<Integer, NonPlayableCharacter>();
 	private HashMap<Integer, Chest> chests = new HashMap<Integer, Chest>();
 	private HashMap<Integer, GameItem> items = new HashMap<Integer, GameItem>();
+
+	public void addplayableChs(int objId, PlayableCharacter player) {
+		playableChs.put(objId, player);
+	}
+
+	public void addNPC(int objId, NonPlayableCharacter npc) {
+		nonPlayableChs.put(objId, npc);
+	}
+
+	public void addChest(int objId, Chest chest) {
+		chests.put(objId, chest);
+	}
 	
+	public void addItems(int objId, GameItem item){
+		items.put(objId, item);
+	}
+
 	/**
 	 * returns how many NCP characters there are
+	 * 
 	 * @return
 	 */
 	public int getNumNCPs() {
@@ -75,7 +90,7 @@ public class ObjectStorer {
 	public Set<Integer> getCharIDs() {
 		return this.playableChs.keySet();
 	}
-	
+
 	public PlayableCharacter findCharacter(int objectID) {
 		// TODO Auto-generated method stub
 		// //////////////////////////////////////////////////
@@ -85,22 +100,18 @@ public class ObjectStorer {
 		items.add(new Key(3));
 		items.add(new Food(2, 30));
 
-		PlayableCharacter ch = new PlayableCharacter(1, 10, null, Direction.NORTH,
-				3, 5, items);
+		PlayableCharacter ch = new PlayableCharacter(1, 10, null, Direction.NORTH, 3, 5, items);
 		return ch;
 		// ///////////////////////////////////////////////////
-		//ACTUAL code
-		//////////////////////////////////////////////////////
-		//return playableChs.get(objectID);
-		
-		
-		
+		// ACTUAL code
+		// ////////////////////////////////////////////////////
+		// return playableChs.get(objectID);
+
 	}
 
 	public GameItem findItem(int objectID) {
 		return this.items.get(objectID);
 	}
-
 
 	public void addPlayer(int playerID) {
 		// TODO:
@@ -117,9 +128,12 @@ public class ObjectStorer {
 		PlayableCharacter ch = this.playableChs.get(ownerID);
 		Chest chest = this.chests.get(ownerID);
 		NonPlayableCharacter nch = this.nonPlayableChs.get(ownerID);
-		if(ch!=null) return ch;
-		if(chest!=null) return chest;
-		if(nch!=null) return nch;
+		if (ch != null)
+			return ch;
+		if (chest != null)
+			return chest;
+		if (nch != null)
+			return nch;
 		throw new IDNotFoundError();
 	}
 

@@ -28,8 +28,6 @@ import catgame.logic.GameUtil.Direction;
 public class RoomBuilder {
 	private String fileName;
 
-	private final String groundTypeGrass = "Grass";
-
 	// Object ID's
 	private final int empty = 0;
 	private final int grass = 1;
@@ -57,25 +55,18 @@ public class RoomBuilder {
 	private final int chestTree = 27;
 	private final int chestFour = 28;
 
+	private int roomNum = 0;
+
 	// Game Items
-	private final int food = 80;
+	private final int food = 80; // Don't chnage
 
 	// TODO do the doors
 	private final int door = 40;
 
-	// Unique Id numbers for objects
-	private int roomNum = 0;
-	private int playerNum = 10;
-	private int minoinNum = 10;
-	private int bossNum = 10;
-	private int chestNum = 10;
-	private int doorNum = 10;
-	private int treeNum = 10;
-	private int bushNum = 10;
-	private int rockNum = 10;
+	private ObjectBuilder objBuilder;
 
 	public RoomBuilder() {
-
+		objBuilder = new ObjectBuilder();
 	}
 
 	/**
@@ -85,7 +76,7 @@ public class RoomBuilder {
 	 * @param fileName
 	 * @return
 	 */
-	public Room loadRoom() {
+	public Room loadRoom(ObjectStorer objStore) {
 		// Make the new Room
 		Room loadingRoom = new Room(roomNum++);
 		// this will need to be added in at the end
@@ -115,26 +106,26 @@ public class RoomBuilder {
 					// using a switch for efficiency
 					switch (values[x]) {
 					case empty + "":
-						board[y][x] = addEmptyCell(x, y, loadingRoom);
+						board[y][x] = objBuilder.addEmptyCell(x, y, empty, loadingRoom);
 						break;
 					case grass + "":
-						board[y][x] = addGrass(x, y, loadingRoom);
+						board[y][x] = objBuilder.addGrass(x, y, grass, loadingRoom);
 						break;
 					case bush + "":
-						board[y][x] = addBush(x, y, loadingRoom);
+						board[y][x] = objBuilder.addBush(x, y, bush, loadingRoom);
 						break;
 					case tree + "":
-						board[y][x] = addTree(x, y, loadingRoom);
+						board[y][x] = objBuilder.addTree(x, y, tree, loadingRoom);
 						break;
 					case rock + "":
-						board[y][x] = addRock(x, y, loadingRoom);
+						board[y][x] = objBuilder.addRock(x, y, rock, loadingRoom);
 						break;
 					case playableCharacters + "":
-						board[y][x] = addPlayer(x, y, loadingRoom);
+						board[y][x] = objBuilder.addPlayer(x, y, playableCharacters, loadingRoom, objStore);
 						loadingRoom.addToPlayerLocationMap(board[y][x].getObjectOnCell().getObjectID(), board[y][x]);
 						break;
 					case minionOne + "":
-						board[y][x] = addMinionOne(x, y, loadingRoom);
+						board[y][x] = objBuilder.addMinionOne(x, y, minionOne, loadingRoom, objStore);
 						break;
 
 					}
@@ -149,135 +140,4 @@ public class RoomBuilder {
 		return loadingRoom;
 	}
 
-	/*
-	 * Construct an empty BoardCell used for having holes and different room
-	 * shapes
-	 */
-	private BoardCell addEmptyCell(int x, int y, Room room) {
-		return new BoardCell(new Position(x, y), null, "");
-	}
-
-	/**
-	 * Construct a basic BoardCell on that doesn't have any objects on it
-	 * 
-	 * @param x
-	 * @param y
-	 * @return new grass BoardCell
-	 */
-	private BoardCell addGrass(int x, int y, Room room) {
-		return new BoardCell(new Position(x, y), null, groundTypeGrass);
-	}
-
-	/**
-	 * Construct a grass BoardCell thats object is a bush
-	 * 
-	 * @param x
-	 * @param y
-	 * @return new bush BoardCell
-	 */
-	private BoardCell addBush(int x, int y, Room room) {
-		int newBushId = genorateObjectId(bush, genorateRandomObjectType(1), bushNum++);
-		Bush newBush = new Bush(newBushId);
-		room.addToInventory(newBush);
-		return new BoardCell(new Position(x, y), newBush, groundTypeGrass);
-	}
-
-	/**
-	 * Construct a grass BoardCell thats object is a tree
-	 * 
-	 * @param x
-	 * @param y
-	 * @return new tree BoardCell
-	 */
-	private BoardCell addTree(int x, int y, Room room) {
-		int newTreeId = genorateObjectId(tree, genorateRandomObjectType(2), treeNum++);
-		Tree newTree = new Tree(newTreeId);
-		room.addToInventory(newTree);
-		return new BoardCell(new Position(x, y), newTree, groundTypeGrass);
-	}
-
-	/**
-	 * Construct a grass BoardCell thats object is a rock
-	 * 
-	 * @param x
-	 * @param y
-	 * @return new bush BoardCell
-	 */
-	private BoardCell addRock(int x, int y, Room room) {
-		int newRockId = genorateObjectId(rock, genorateRandomObjectType(1), rockNum++);
-		Rock newRock = new Rock(newRockId);
-		room.addToInventory(newRock);
-		return new BoardCell(new Position(x, y), newRock, groundTypeGrass);
-	}
-
-	/**
-	 * Construct a grass BoardCell thats object is a player
-	 * 
-	 * @param x
-	 * @return
-	 */
-	private BoardCell addPlayer(int x, int y, Room room) {
-		int newPlayerId = genorateObjectId(playableCharacters, playerNum, playerNum++);
-		// TODO OwnerId
-		// Create starting items
-		List<GameItem> newInv = new ArrayList<GameItem>();
-		newInv.add(new Food(food, 20));
-		// Create new Player
-		PlayableCharacter newPlayableCharacter = new PlayableCharacter(newPlayerId, newPlayerId, room, Direction.NORTH, 20, 100, newInv);
-		room.addToInventory(newPlayableCharacter);
-		return new BoardCell(new Position(x, y), newPlayableCharacter, groundTypeGrass);
-	}
-
-	private BoardCell addMinionOne(int x, int y, Room room) {
-		int newMinionId = genorateObjectId(minionOne, genorateRandomObjectType(1), minoinNum++);
-		List<GameItem> newInv = new ArrayList<GameItem>();
-		newInv.add(new Food(food, 10));
-		Minion newMin = new Minion(newMinionId, room, 8, 60, newInv);
-		room.addToInventory(newMin);
-		return new BoardCell(new Position(x, y), newMin, groundTypeGrass);
-
-	}
-
-	/**
-	 * Concatenates the IDs together and returns them as a integer
-	 * 
-	 * @param objectID
-	 * @param objectType
-	 * @param objectNum
-	 * @return
-	 */
-	public int genorateObjectId(int objectID, int objectType, int objectNum) throws GameError {
-		String result = "";
-		result += objectID;
-		result += objectType;
-		result += objectNum;
-		// System.out.println(result);
-		if (result.length() != 6) {
-			throw new GameError("InvalidObject ID:" + result);
-		}
-		return Integer.parseInt(result);
-	}
-
-	/**
-	 * 
-	 * @param numOfType
-	 *            needs to be < 9
-	 * @return
-	 */
-	public int genorateRandomObjectType(int numOfType) {
-		if (numOfType == 1 || numOfType > 9) {
-			return 10;
-		}
-		return (int) ((Math.random() * numOfType) + 10);
-	}
-
-	/**
-	 * use for quick testing in the roomBuilder
-	 * 
-	 * @param args
-	 */
-	public static void main(String[] args) {
-		RoomBuilder buildBoard = new RoomBuilder();
-		buildBoard.loadRoom();
-	}
 }
