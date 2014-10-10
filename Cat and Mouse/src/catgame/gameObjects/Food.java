@@ -33,7 +33,7 @@ public class Food implements GameItem{
 	
 	
 	
-	public void draw(Graphics g ,Position framePosition) {
+	public void draw(Graphics g) {
 		
 		
 	}

@@ -26,7 +26,7 @@ public class Key implements GameItem{
 		return false;
 	}
 
-	public void draw(Graphics g, Position framePosition) {
+	public void draw(Graphics g) {
 		// TODO Auto-generated method stub
 		
 	}

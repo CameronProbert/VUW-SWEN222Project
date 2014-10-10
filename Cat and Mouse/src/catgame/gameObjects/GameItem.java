@@ -21,7 +21,7 @@ public interface GameItem extends MasterObject {
 	 * Draws a game item for use in the inventory
 	 * @param framePosition
 	 */
-	public void draw(Graphics g, Position framePosition);
+	public void draw(Graphics g);
 
 	public GameObject getOwner();
 	
