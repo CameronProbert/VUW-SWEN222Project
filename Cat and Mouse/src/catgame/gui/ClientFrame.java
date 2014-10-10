@@ -83,7 +83,12 @@ public class ClientFrame extends AbstractFrame implements KeyListener {
 			PlayableCharacter character = runner.getGameUtill().getStorer().findCharacter(clientsUID);
 			this.addPanels(character);
 		}
-		PlayableCharacter character = new PlayableCharacter(1, 10, null, Direction.NORTH, 3, 5,null);
+		ArrayList<GameItem> testInventory = new ArrayList<GameItem>();
+		testInventory.add(new Key(0));
+		testInventory.add(new Food(1, 20));
+		testInventory.add(new Key(2));
+		testInventory.add(new Food(3, 10));
+		PlayableCharacter character = new PlayableCharacter(1, 10, null, Direction.NORTH, 3, 5, testInventory);
 		this.addPanels(character);
 		this.setVisible(true);
 	}
