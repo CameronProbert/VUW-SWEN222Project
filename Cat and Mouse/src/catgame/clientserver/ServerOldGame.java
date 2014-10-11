@@ -13,6 +13,7 @@ import org.jdom2.JDOMException;
 import catgame.dataStorage.LoadingGameMain;
 import catgame.dataStorage.XMLException;
 import catgame.gui.ClientFrame;
+import catgame.logic.BoardData;
 
 
 /**
@@ -21,7 +22,7 @@ import catgame.gui.ClientFrame;
  * @author Francine
  *
  */
-public class NetworkSetUp extends Thread {
+public class ServerOldGame extends Thread {
 
 	private static final int DEFAULT_CLK_PERIOD = 20;
 	private static final int DEFAULT_BROADCAST_CLK_PERIOD = 5;
@@ -29,12 +30,15 @@ public class NetworkSetUp extends Thread {
 	private int gameClock;
 	private int port = 32768; // default
 	private static boolean readyToStart = false;
-	private NetworkHandler game;
+	private NetworkHandler handler;
 	private static int maxPlayers;
-	
+	private String fileName;
+	private List<Integer> playerIDs;
+	private BoardData boardData;
+
 	private String url = null;	
-	
-	public NetworkSetUp(){
+
+	public ServerOldGame(){
 		broadcastClock = DEFAULT_BROADCAST_CLK_PERIOD;
 		gameClock = DEFAULT_CLK_PERIOD;
 	}
@@ -43,28 +47,17 @@ public class NetworkSetUp extends Thread {
 	 * sets up the server given a number of players
 	 * @param numPlayers
 	 */
-	public void setServer(int numPlayers){
-		maxPlayers = numPlayers;
+	public void setServer(String fileName){
+		if(fileName==null){
+			return; // cannot load from null file
+		}
+		this.fileName = fileName;
 		if(url != null) {
 			System.out.println("Cannot be a server and connect to another server!");
 			System.exit(1);
 		}
 		// Run in Server mode
-		game = new NetworkHandler(NetworkHandler.Type.SERVER);
 		start();		
-	}
-	
-	/**
-	 * sets the single player, may be obsolete may only need to make a singleplayer handler
-	 * 
-	 */
-	public void setSinglePlayer(){
-		
-		try {
-			singleUserGame(gameClock);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
 	}
 
 	/**
@@ -72,8 +65,7 @@ public class NetworkSetUp extends Thread {
 	 */
 	public void run() {
 
-		ClockThread clk = new ClockThread(gameClock,game);	
-		
+		setUpGame();
 		// Listen for connections
 		System.out.println("SERVER LISTENING ON PORT " + port);
 		System.out.println("SERVER AWAITING CLIENTS");
@@ -85,9 +77,9 @@ public class NetworkSetUp extends Thread {
 			while (true) {
 				// 	Wait for a socket
 				Socket s = ss.accept();
-				System.out.println("ACCEPTED CONNECTION FROM: " + s.getInetAddress());				
-				int uid = game.registerPlayer();
-				Master mconn = new Master(s,uid,broadcastClock,game);
+				System.out.println("ACCEPTED CONNECTION FROM: " + s.getInetAddress());
+
+				Master mconn = new Master(s,broadcastClock,handler);
 				connections.add(mconn);
 				nclients++;
 				mconn.start();
@@ -98,8 +90,9 @@ public class NetworkSetUp extends Thread {
 						return;
 					}
 					System.out.println("ALL CLIENTS ACCEPTED --- GAME BEGINS");
+					setMasterIDs(connections);
 					allowMastersStart(connections);
-					multiUserGame(clk, game,connections);
+					multiUserGame(handler,connections);
 					System.out.println("ALL CLIENTS DISCONNECTED --- GAME OVER");
 					return; // done
 				}
@@ -107,6 +100,26 @@ public class NetworkSetUp extends Thread {
 		} catch(IOException e) {
 			System.err.println("I/O error: " + e.getMessage());
 		} 
+	}
+
+	private void setMasterIDs(List<Master> connections) {
+		if(playerIDs!=null){
+			int i=0;
+			for(Master m: connections){
+				m.setUID(playerIDs.get(i));
+				i++;
+			}
+		}
+
+	}
+
+	private void setUpGame() {
+		// TODO loadXML = new LoadOldGame(fileName)
+		// TODO boardData = loadXML.getBoardData();
+		// TODO GameUtil game = boardData.getGame();
+		// TODO handler.setGameUtil(game);
+		// TODO playerIDs = loadXML.getPlayerIDs();
+		// TODO maxPlayers = playerIDs.size();
 	}
 
 	private void allowMastersStart(List<Master> connections) {
@@ -125,18 +138,10 @@ public class NetworkSetUp extends Thread {
 	 * @param connections
 	 * @throws IOException
 	 */
-	private static void multiUserGame(ClockThread clk, NetworkHandler game,
-			List<Master> connections) throws IOException {
-		// save initial state of board, so we can reset it.
-		//byte[] state = game.toByteArray();						
+	private static void multiUserGame(NetworkHandler game,
+			List<Master> connections) throws IOException {						
 
-		clk.start();
-		/*try {
-			LoadingGameMain loadMain = new LoadingGameMain(game.getPlayerIds());
-		} catch (JDOMException | XMLException e) {
-			e.printStackTrace();
-		}*/
-		
+
 		// loop forever
 		while(atleastOneConnection(connections)) {
 			game.setState(GameRunner.GameState.READY);
@@ -175,12 +180,8 @@ public class NetworkSetUp extends Thread {
 	 * @throws IOException
 	 */
 	private static void singleUserGame(int gameClock) throws IOException {
-		SinglePlayerHandler game = new SinglePlayerHandler(); 		
-		// save initial state of board, so we can reset it.
-		ClockThread clk = new ClockThread(gameClock,game);
-		//byte[] state = game.toByteArray();	
-		
-		clk.start();
+
+		SinglePlayerHandler game = new SinglePlayerHandler(); 
 
 		while(game.isNotOver()) {
 			// keep going until the frame becomes invisible
@@ -197,14 +198,14 @@ public class NetworkSetUp extends Thread {
 			//game.fromByteArray(state);
 		}
 	}
-	
+
 	/**
 	 * activate by a button press may be obsolete
 	 */
 	public void readyToStart(){
 		this.readyToStart = true;
 	}
-	
+
 	private static void pause(int delay) {
 		try {
 			Thread.sleep(delay);
