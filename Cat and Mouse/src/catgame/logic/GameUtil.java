@@ -256,7 +256,7 @@ public class GameUtil {
 	 *         = 3,
 	 * 
 	 */
-	public static enum Direction {
+	public enum Direction {
 		NORTH(0), UP(0), EAST(1), RIGHT(1), SOUTH(2), DOWN(2), WEST(3), LEFT(3);
 		private int value;
 
@@ -266,6 +266,58 @@ public class GameUtil {
 
 		public int getValue() {
 			return this.value;
+		}
+		
+		/**
+		 * Returns the Direction to the left of the given Direction
+		 */
+		public static Direction leftDir(Direction dir){
+			Direction newDir = NORTH;
+			switch (dir){
+			case NORTH:
+				return WEST;
+			case UP:
+				return LEFT;
+			case EAST:
+				return NORTH;
+			case RIGHT:
+				return UP;
+			case SOUTH:
+				return EAST;
+			case DOWN:
+				return RIGHT;
+			case WEST:
+				return SOUTH;
+			case LEFT:
+				return DOWN;
+			}
+			return newDir;
+		}
+		
+		/**
+		 * Returns the Direction to the right of the given Direction
+		 */
+		public static Direction rightDir(Direction dir){
+			Direction newDir = NORTH;
+			switch (dir){
+			case NORTH:
+				return EAST;
+			case UP:
+				return RIGHT;
+			case EAST:
+				return SOUTH;
+			case RIGHT:
+				return DOWN;
+			case SOUTH:
+				return WEST;
+			case DOWN:
+				return LEFT;
+			case WEST:
+				return NORTH;
+			case LEFT:
+				return UP;
+			}
+			return newDir;
 		}
 	}
 
@@ -278,11 +330,11 @@ public class GameUtil {
 	}
 
 	public void lookLeft() {
-		viewDirection = Direction.values()[(viewDirection.getValue()-1)%4];
+		viewDirection = Direction.rightDir(viewDirection);
 	}
 
 	public void lookRight() {
-		viewDirection = Direction.values()[(viewDirection.getValue()+1)%4];
+		viewDirection = Direction.leftDir(viewDirection);
 	}
 	
 }
