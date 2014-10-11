@@ -149,14 +149,6 @@ public class FrameClient extends FrameAbstract implements KeyListener {
 	 * @param menu
 	 */
 	private void addFileItems(JMenu menu) {
-		// Creates the load menu item
-		JMenuItem optionLoad = new JMenuItem("Load");
-		optionLoad.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				// TODO load();
-			}
-		});
-
 		// Creates the save menu item
 		JMenuItem optionSave = new JMenuItem("Save");
 		optionSave.addActionListener(new ActionListener() {
@@ -173,7 +165,6 @@ public class FrameClient extends FrameAbstract implements KeyListener {
 			}
 		});
 
-		menu.add(optionLoad);
 		menu.add(optionSave);
 		menu.add(optionQuit);
 	}
@@ -346,6 +337,7 @@ public class FrameClient extends FrameAbstract implements KeyListener {
 		if (validAction > 0 && isClient) {
 			slave.sendUpdate(up);
 		}
+		System.out.printf("VALIDACTION: %d", validAction);
 		repaint();
 	}
 
