@@ -20,6 +20,8 @@ import catgame.logic.Room;
 import catgame.logic.RoomBuilder;
 
 public class PanelRender extends JPanel {
+	
+	private String playableCharID;
 
 	public final FrameClient parentFrame;
 	private Image grassBlock;
@@ -47,7 +49,7 @@ public class PanelRender extends JPanel {
 	private RoomBuilder buildBoard;
 	private Room testRoom;
 
-	public PanelRender(Dimension windowSize, FrameClient parentFrame) {
+	public PanelRender(Dimension windowSize, FrameClient parentFrame, String playableCharID) {
 		this.parentFrame = parentFrame;
 
 		setLayout(null);
@@ -60,6 +62,8 @@ public class PanelRender extends JPanel {
 		ObjectStorer objStorer = new ObjectStorer();
 		testRoom = buildBoard.loadRoom(objStorer);
 		testRoom.printBoard();
+		
+		this.playableCharID = playableCharID;
 
 		setupImages();
 		repaint();
@@ -219,9 +223,25 @@ public class PanelRender extends JPanel {
 			drawObject(g, rock1, sendY, sendX, y, x, startY, startX);
 			break;
 		case GameUtil.CHESTONE+"":
-			startX = parentFrame.getWidth() / 4 + 60;
-			startY = 85 + 340;
-			drawObject(g, chestFrontLeft1, sendY, sendX, y, x, startY, startX);
+			startX = parentFrame.getWidth() / 4 + 50;
+			startY = 60 + 340;
+			switch (GameUtil.VIEWDIRECTION) {
+			case NORTH:
+				drawObject(g, chestFrontLeft1, sendY, sendX, y, x, startY, startX);
+				break;
+			case EAST:
+				drawObject(g, chestBackLeft1, sendY, sendX, y, x, startY, startX);
+				break;
+			case SOUTH:
+				drawObject(g, chestBackRight1, sendY, sendX, y, x, startY, startX);
+				break;
+			case WEST:
+				drawObject(g, chestFrontRight1, sendY, sendX, y, x, startY, startX);
+				break;
+			default:
+				drawObject(g, catBackRight1, sendY, sendX, y, x, startY, startX);
+				break;				
+			}			
 			break;
 		case GameUtil.PLAYABLECHARACTER+"":
 			PlayableCharacter character = (PlayableCharacter) testRoom.getBoardGrid()[sendY][sendX]
@@ -244,6 +264,7 @@ public class PanelRender extends JPanel {
 				drawObject(g, catBackLeft1, sendY, sendX, y, x, startY, startX);
 				break;				
 			}
+			break;
 		}
 //		if (testRoom.getBoardGrid()[sendY][sendX].getObjectOnCell() instanceof Tree) {
 //			int treeStartX = parentFrame.getWidth() / 4 - 30;
