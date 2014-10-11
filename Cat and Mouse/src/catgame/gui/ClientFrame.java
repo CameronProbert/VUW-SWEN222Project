@@ -80,8 +80,8 @@ public class ClientFrame extends AbstractFrame implements KeyListener {
 			} catch (JDOMException | XMLException e) {
 				e.printStackTrace();
 			}*/
-			PlayableCharacter character = runner.getGameUtill().getStorer().findCharacter(clientsUID);
-			this.addPanels(character);
+			//TODO REMOVED TO TEST PlayableCharacter character = runner.getGameUtill().getStorer().findCharacter(clientsUID);
+			//TODO REMOVED TO TEST this.addPanels(character);
 		}
 		ArrayList<GameItem> testInventory = new ArrayList<GameItem>();
 		testInventory.add(new Key(0));
