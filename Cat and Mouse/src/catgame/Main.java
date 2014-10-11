@@ -1,9 +1,9 @@
 package catgame;
 
-import catgame.gui.LauncherFrame;
+import catgame.gui.FrameLauncher;
 
 public class Main {
 	public static void main(String[] args){
-		new LauncherFrame();
+		new FrameLauncher();
 	}
 }
