@@ -61,7 +61,7 @@ public class FrameClient extends FrameAbstract implements KeyListener {
 	 * @param isClient
 	 * @param character
 	 */
-	public FrameClient(GameRunner network, boolean isClient, Slave slave) {
+	public FrameClient(GameRunner network, boolean isClient, Slave slave, int ID) {
 		super("Cat and Mouse");
 		this.setDimensions();
 		this.setLayout(null);
@@ -69,20 +69,8 @@ public class FrameClient extends FrameAbstract implements KeyListener {
 		this.addMenus();
 		this.runner = network;
 		this.isClient = isClient;
-
-		if (slave == null) {
-			this.clientsUID = 101010;
-		}
-		// character = runner.getBoardData().getObjStorer().findPlayer(clientsID);
-		// TODO add above once all done
-		System.out.println("FINDING CHARACTER");
-		if (character == null) {
-			System.out.println("DID NOT FIND CHARACTER");
-			character = new PlayableCharacter(1, 10, null, Direction.SOUTH, 3,
-					5, null);
-		}
-		character.addToInventory(new Key(0));
-		character.addToInventory(new Food(10, 10));
+		this.clientsUID = ID;
+		character = runner.getBoardData().getObjStorer().findCharacter(clientsUID);
 		this.addPanels(character);
 		this.setVisible(true);
 	}
