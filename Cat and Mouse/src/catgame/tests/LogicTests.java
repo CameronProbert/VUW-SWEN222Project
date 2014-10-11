@@ -6,6 +6,7 @@ import java.awt.Dimension;
 
 import org.junit.Test;
 
+import catgame.gameObjects.Door;
 import catgame.gameObjects.NonPlayableCharacter;
 import catgame.gameObjects.PlayableCharacter;
 import catgame.gui.renderpanel.RenderPanel;
@@ -228,5 +229,18 @@ public class LogicTests {
 		assertEquals(1, testRoom.playerAttack(101010));
 		// checking that he attacked and was attacked back
 		assertTrue(((PlayableCharacter) testRoom.getCharactorCell(101010).getObjectOnCell()).getHealth() < 100);
+	}
+	
+	@Test
+	public void TestDoor(){
+		GameUtil util = new GameUtil();
+		util.VIEWDIRECTION = Direction.NORTH;
+		ObjectStorer objStore = new ObjectStorer();
+		RoomBuilder testBuilder = new RoomBuilder();
+		Room testRoom = testBuilder.loadRoom(objStore);
+		assertTrue(testRoom.getBoardGrid()[5][0].getObjectOnCell() instanceof Door);
+		assertTrue(testRoom.getBoardGrid()[5][5].getObjectOnCell() instanceof Door);
+		((Door)testRoom.getBoardGrid()[5][0].getObjectOnCell()).addOtherSide(testRoom.getBoardGrid()[5][5].getObjectOnCell().getObjectID(),0);
+		assertEquals(401011,((Door) testRoom.getBoardGrid()[5][0].getObjectOnCell()).getOtherSide());
 	}
 }

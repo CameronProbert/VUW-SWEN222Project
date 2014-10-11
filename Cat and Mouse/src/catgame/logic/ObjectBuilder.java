@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import catgame.gameObjects.Bush;
+import catgame.gameObjects.Door;
 import catgame.gameObjects.Food;
 import catgame.gameObjects.GameItem;
 import catgame.gameObjects.Minion;
@@ -20,7 +21,7 @@ import catgame.logic.GameUtil.Direction;
  */
 public class ObjectBuilder {
 
-	private final String groundTypeGrass = "Grass";
+	private final String GROUNDTYPEGRASS = "Grass";
 
 	// Unique Id numbers for objects
 
@@ -54,7 +55,7 @@ public class ObjectBuilder {
 	 * @return new grass BoardCell
 	 */
 	public BoardCell addGrass(int x, int y, Room room) {
-		return new BoardCell(new Position(x, y), null, groundTypeGrass);
+		return new BoardCell(new Position(x, y), null, GROUNDTYPEGRASS);
 	}
 
 	/**
@@ -70,7 +71,7 @@ public class ObjectBuilder {
 		int newBushId = genorateObjectId(GameUtil.BUSH, genorateRandomObjectType(1), bushNum++);
 		Bush newBush = new Bush(newBushId);
 		room.addToInventory(newBush);
-		return new BoardCell(new Position(x, y), newBush, groundTypeGrass);
+		return new BoardCell(new Position(x, y), newBush, GROUNDTYPEGRASS);
 	}
 
 	/**
@@ -87,7 +88,7 @@ public class ObjectBuilder {
 		int newTreeId = genorateObjectId(GameUtil.TREE, genorateRandomObjectType(2), treeNum++);
 		Tree newTree = new Tree(newTreeId);
 		room.addToInventory(newTree);
-		return new BoardCell(new Position(x, y), newTree, groundTypeGrass);
+		return new BoardCell(new Position(x, y), newTree, GROUNDTYPEGRASS);
 	}
 
 	/**
@@ -103,7 +104,7 @@ public class ObjectBuilder {
 		int newRockId = genorateObjectId(GameUtil.ROCK, genorateRandomObjectType(1), rockNum++);
 		Rock newRock = new Rock(newRockId);
 		room.addToInventory(newRock);
-		return new BoardCell(new Position(x, y), newRock, groundTypeGrass);
+		return new BoardCell(new Position(x, y), newRock, GROUNDTYPEGRASS);
 	}
 
 	/**
@@ -125,7 +126,7 @@ public class ObjectBuilder {
 		PlayableCharacter newPlayableCharacter = new PlayableCharacter(newPlayerId, newPlayerId, room, Direction.NORTH, 20, 100, newInv);
 		objStore.addplayableChs(newPlayerId, newPlayableCharacter);
 		room.addToInventory(newPlayableCharacter);
-		return new BoardCell(new Position(x, y), newPlayableCharacter, groundTypeGrass);
+		return new BoardCell(new Position(x, y), newPlayableCharacter, GROUNDTYPEGRASS);
 	}
 
 	public BoardCell addMinionOne(int x, int y, Room room, ObjectStorer objStore) {
@@ -135,7 +136,7 @@ public class ObjectBuilder {
 		Minion newMin = new Minion(newMinionId, room, 8, 60, newInv);
 		objStore.addNPC(newMinionId, newMin);
 		room.addToInventory(newMin);
-		return new BoardCell(new Position(x, y), newMin, groundTypeGrass);
+		return new BoardCell(new Position(x, y), newMin, GROUNDTYPEGRASS);
 
 	}
 
@@ -170,5 +171,12 @@ public class ObjectBuilder {
 			return 10;
 		}
 		return (int) ((Math.random() * numOfType) + 10);
+	}
+
+	public BoardCell addDoor(int x, int y, Room loadingRoom) {
+		int newDoorId = genorateObjectId(GameUtil.DOOR, genorateRandomObjectType(1), doorNum++);
+		Door newDoor = new Door(newDoorId);
+		loadingRoom.addToInventory(newDoor);
+		return new BoardCell(new Position(x, y), newDoor, GROUNDTYPEGRASS);
 	}
 }

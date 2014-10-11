@@ -1,13 +1,17 @@
 package catgame.gameObjects;
 
+import java.awt.Dimension;
+
 import catgame.logic.BoardCell;
+import catgame.logic.GameUtil.Direction;
 import catgame.logic.Room;
 
 public class Door implements NonMovavble {
-	private final int id;
-	private final DoorsEntrance entranceTo;
+	private final int ID;
+	private int entranceToDoor = 0;
 	private boolean isLocked = false;
-	private int keyID;
+	private int keyID;  
+	// Direction wallEdge; TODO 
 
 	/**
 	 * The GameObject Door which can be locked and opened by keys. When created
@@ -15,22 +19,25 @@ public class Door implements NonMovavble {
 	 * door
 	 * 
 	 * @param id
-	 * @param cell
-	 * @param entrance
+	 * @param door ID to the other side of the door
 	 * @param keyId
 	 *            (If keyID == 0 then there is no key for the door)
 	 */
-	public Door(int id, DoorsEntrance entranceTo, int keyId) {
-		this.id = id;
-		this.entranceTo = entranceTo;
+	public Door(int id) {
+		this.ID = id;	
+	}
+
+	public int getObjectID() {
+		return ID;
+	}
+	
+	public void addOtherSide(int entrance, int keyId){
+		this.entranceToDoor = entrance;
+		//this.wallEdge = wallEdge;
 		if (keyId != 0) {
 			this.isLocked = true;
 			this.keyID = keyId;
 		}
-	}
-
-	public int getObjectID() {
-		return id;
 	}
 
 	/**
@@ -38,12 +45,12 @@ public class Door implements NonMovavble {
 	 * 
 	 * @return The Other side of the door
 	 */
-	public DoorsEntrance enterDoor() {
+	public int enterDoor() {
 		if (isLocked) {
 			System.out.println("TODO POP UP FOR UNLOCK DOOR");
-			return null;
+			return -1;
 		}
-		return this.entranceTo;
+		return this.entranceToDoor;
 	}
 
 	/**
@@ -59,21 +66,13 @@ public class Door implements NonMovavble {
 		}
 		return this.isLocked;
 	}
-
-	/**
-	 * 
-	 * @author Dan Henton
-	 * 
-	 *         Helper Class for using a door. This Class stores The room in
-	 *         which a door will enter and the other side of the door.
-	 */
-	protected class DoorsEntrance {
-		private Room room;
-		private Door entrance;
-
-		public DoorsEntrance(Room room, Door entrance) {
-			this.room = room;
-			this.entrance = entrance;
+	
+	public int getOtherSide(){
+		if(entranceToDoor == 0){
+			return 0;
+		}
+		else {
+			return entranceToDoor;
 		}
 	}
 }
