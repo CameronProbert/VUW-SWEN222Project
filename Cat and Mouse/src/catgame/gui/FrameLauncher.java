@@ -88,7 +88,8 @@ public class FrameLauncher extends FrameAbstract {
 						// TODO nothing here
 					}
 					// TODO get rid of loading frame
-					FrameClient frame = new FrameClient(net, true, slave);
+					int id = slaveR.getUID();
+					FrameClient frame = new FrameClient(net, true, slave, id);
 					slaveR.addFrame(frame);
 				} catch (IOException e1) {
 					// TODO Auto-generated catch block
