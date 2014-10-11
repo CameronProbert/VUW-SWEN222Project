@@ -24,11 +24,28 @@ public class StatPanel extends AbstractPanel {
 		super();
 		try {
 			backGround = ImageIO.read(RenderPanel.class
-					.getResource("/images/Tree1.png"));
+					.getResource("/images/Tree1.png")); //TODO StatBG
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 		this.character = character;
+		this.addMinimap();
+	}
+
+	private void addMinimap() {
+		PanelMinimap map = new PanelMinimap();
+		
+		// Set the size of the mini-map
+		Dimension mapSize = new Dimension(this.getWidth(), (int) (this.getHeight()*0.7));
+		map.setSize(mapSize);
+		map.setPreferredSize(mapSize);
+		
+		// Set the placement of the mini-map
+		int mapX = 0;
+		int mapY = (int) (this.getHeight()*0.3);
+		map.setLocation(mapX, mapY);
+		
+		this.add(map);
 	}
 
 	/**

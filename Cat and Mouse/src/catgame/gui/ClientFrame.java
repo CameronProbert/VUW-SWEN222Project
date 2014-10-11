@@ -37,8 +37,8 @@ import catgame.logic.GameUtil.Direction;
  */
 public class ClientFrame extends AbstractFrame implements KeyListener {
 
-	private static final double FRAMEHEIGHTMODIFIER = 600.0 / 768;
-	private static final double ASPECTRATIO = 2;
+	private static final double FRAMEHEIGHTMODIFIER = .9;
+	private static final double ASPECTRATIO = 1.8;
 
 	private GameRunner runner;
 	private int clientsUID;
@@ -80,8 +80,8 @@ public class ClientFrame extends AbstractFrame implements KeyListener {
 			} catch (JDOMException | XMLException e) {
 				e.printStackTrace();
 			}*/
-			PlayableCharacter character = runner.getGameUtill().getStorer().findCharacter(clientsUID);
-			this.addPanels(character);
+			//TODO REMOVED TO TEST PlayableCharacter character = runner.getGameUtill().getStorer().findCharacter(clientsUID);
+			//TODO REMOVED TO TEST this.addPanels(character);
 		}
 		ArrayList<GameItem> testInventory = new ArrayList<GameItem>();
 		testInventory.add(new Key(0));
