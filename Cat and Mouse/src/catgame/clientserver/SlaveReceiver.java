@@ -1,6 +1,7 @@
 package catgame.clientserver;
 
 import java.io.DataInputStream;
+import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
 import java.util.ArrayList;
@@ -47,29 +48,19 @@ public class SlaveReceiver {
 		public void run() {
 			Socket s = slave.getSocket();
 			DataInputStream input;
+			DataOutputStream output;
 			try {
 				input = new DataInputStream(s.getInputStream());
+				output = new DataOutputStream(s.getOutputStream());
 
 				// First job, is to read the period so we can create the clock				
-				uid = (int)input.readDouble();		
-				System.out.println("read uid from server");
-				
-				net.addClientPlayer(uid);
-				
-				double noPlayers = input.readDouble();
-				System.out.println("reading noPlayers from server");
-				List<Integer> playerIds = new ArrayList<Integer>();
-
-				for(; noPlayers>0; noPlayers--){
-					playerIds.add((int)input.readDouble());
-					System.out.println("reading player ids from server");
-				}
+				uid = (int)input.readDouble();	
 				/////////////////////////////////////////////////////////////////
 				// LOAD the game
 				////////////////////////////////////////////////////////////////
-				frame.startXMLFiles(playerIds);
-				frame.repaint();
-				net.setPlayerIds(playerIds); //  may be obsolete 
+				
+				
+				
 				readyToStart=true; // now the players can start trying to do things
 
 				while(locked){

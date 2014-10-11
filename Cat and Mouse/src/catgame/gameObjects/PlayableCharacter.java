@@ -138,13 +138,6 @@ public class PlayableCharacter implements Character {
  
 	}
 
-	// TODO check to see if this is still necessary as the room controls who is
-	// moving
-	public void move(Direction direction) {
-		// TODO Auto-generated method stub
-
-	}
-
 	public int getOwner() {
 		return this.ownersID;
 	}

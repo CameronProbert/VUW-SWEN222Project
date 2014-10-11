@@ -1,5 +1,6 @@
 package catgame.clientserver;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 import catgame.gameObjects.Food;
@@ -23,12 +24,40 @@ public class SinglePlayerHandler extends GameRunner {
 	 * @param playerID
 	 */
 	public SinglePlayerHandler (){
-		game = new GameUtil();
 		ClientFrame frame = new ClientFrame(this, false, null);
 		
 	}
 	
+	
+
+	private static void singleUserGame() throws IOException {
+
+		SinglePlayerHandler game = new SinglePlayerHandler(); 
+
+		while(game.isNotOver()) {
+			// keep going until the frame becomes invisible
+			game.setState(GameRunner.GameState.READY);
+			pause(3000);
+			game.setState(GameRunner.GameState.PLAYING);
+			// now, wait for the game to finish
+			while(game.state() == GameRunner.GameState.PLAYING) {
+				Thread.yield();
+			}
+			// If we get here, then we're in game over mode
+			pause(3000);
+			// Reset board state
+			//game.fromByteArray(state);
+		}
+	}
+	
 	public static void main(String[] args){
 		new SinglePlayerHandler();
+	}
+	
+	private static void pause(int delay) {
+		try {
+			Thread.sleep(delay);
+		} catch(InterruptedException e){			
+		}
 	}
 }

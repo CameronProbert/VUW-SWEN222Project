@@ -28,7 +28,6 @@ public class NetworkHandler extends GameRunner{
 
 	public NetworkHandler(Type type){
 		this.stateType = type;
-		this.game = new GameUtil();
 	}
 
 	/***
@@ -100,5 +99,7 @@ public class NetworkHandler extends GameRunner{
 		this.playerIds = playerIds;
 		// TODO pass to game main logic so it can make the characters associated
 	}
+	
+	
 
 }

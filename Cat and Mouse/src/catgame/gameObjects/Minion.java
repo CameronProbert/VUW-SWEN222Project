@@ -91,11 +91,4 @@ public class Minion implements NonPlayableCharacter {
 		// TODO Auto-generated method stub
 		
 	}
-
-	@Override
-	public void move(Direction direction) {
-		// TODO Auto-generated method stub
-		
-	}
-
 }
