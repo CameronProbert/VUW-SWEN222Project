@@ -30,6 +30,10 @@ public class ObjectStorer {
 	private HashMap<Integer, Chest> chests = new HashMap<Integer, Chest>();
 	private HashMap<Integer, GameItem> items = new HashMap<Integer, GameItem>();
 
+	public ObjectStorer(){
+		
+	}
+	
 	public void addplayableChs(int objId, PlayableCharacter player) {
 		playableChs.put(objId, player);
 	}

@@ -15,9 +15,12 @@ import java.util.List;
 public class BoardData {
 
 	private static List<Room> allRooms = new ArrayList<Room>();
+	private GameUtil gameUtil;
+	private ObjectStorer objStorer;
 
 	public BoardData() {
-
+		this.gameUtil = new GameUtil();
+		this.objStorer = new ObjectStorer();
 	}
 
 	/**
@@ -42,14 +45,28 @@ public class BoardData {
 	 * Populates the allRooms list with a new list of rooms that was created
 	 * when game is loaded from a saved game
 	 * 
-	 * @param newRooms List<Room>
+	 * @param newRooms
+	 *            List<Room>
 	 */
 	public void populateRooms(List<Room> newRooms) {
 		allRooms = newRooms;
 	}
-	
-	public void addRoom(Room room){
+
+	public void addRoom(Room room) {
 		allRooms.add(room);
+	}
+
+	public GameUtil getGameUtil() {
+		return gameUtil;
+	}
+
+	public ObjectStorer getObjStorer() {
+		return objStorer;
+	}
+	
+	public void loadTestData(){
+		RoomBuilder testRoom = new RoomBuilder();
+		addRoom(testRoom.loadRoom(objStorer));
 	}
 
 }
