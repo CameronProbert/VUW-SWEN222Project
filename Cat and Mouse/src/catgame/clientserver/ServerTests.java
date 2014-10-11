@@ -29,7 +29,7 @@ public class ServerTests {
 			slaveR1.run();
 			
 			Socket s1 = ss.accept();				
-			Master m1 = new Master(s1,1,20,server);
+			Master m1 = new Master(s1,20,server);
 			m1.start();
 			
 			Socket c2 = new Socket("localhost", port );
@@ -40,7 +40,7 @@ public class ServerTests {
 			slaveR2.run();
 			
 			Socket s2 = ss.accept();				
-			Master m2 = new Master(s2,2,20,server);
+			Master m2 = new Master(s2,20,server);
 			m2.start();
 			
 			Update update = new Update(1010000); //  move forward

@@ -32,10 +32,10 @@ public class SlaveReceiver {
 	private final int MINORUPDATE = 30;
 	private boolean readyToStart = false;
 	private FrameClient frame;
-	
+
 	public final static String
-    FILE_TO_RECEIVED = "/Cat And Mouse/Load_From";
-	
+	FILE_TO_RECEIVED = "/Cat And Mouse/Load_From";
+
 
 	public SlaveReceiver(Slave slave, GameRunner net, FrameClient frame){
 		this.slave = slave;
@@ -63,30 +63,33 @@ public class SlaveReceiver {
 				/////////////////////////////////////////////////////////////////
 				// LOAD the game
 				////////////////////////////////////////////////////////////////
-				
+
 				int FILE_SIZE = input.readInt() + 100;
-				
-				// receive file
-				byte [] mybytearray  = new byte [FILE_SIZE];
-				FileOutputStream fos = new FileOutputStream(FILE_TO_RECEIVED);
-				BufferedOutputStream bos = new BufferedOutputStream(fos);
-				int bytesRead = input.read(mybytearray,0,mybytearray.length);
-				int current = bytesRead;
+				if(FILE_SIZE!=0){
+					// receive file
+					byte [] mybytearray  = new byte [FILE_SIZE];
+					FileOutputStream fos = new FileOutputStream(FILE_TO_RECEIVED);
+					BufferedOutputStream bos = new BufferedOutputStream(fos);
+					int bytesRead = input.read(mybytearray,0,mybytearray.length);
+					int current = bytesRead;
 
-				do {
-					bytesRead =	input.read(mybytearray, current, (mybytearray.length-current));
-					if(bytesRead >= 0) current += bytesRead;
-				} while(bytesRead > -1);
+					do {
+						bytesRead =	input.read(mybytearray, current, (mybytearray.length-current));
+						if(bytesRead >= 0) current += bytesRead;
+					} while(bytesRead > -1);
 
-				bos.write(mybytearray, 0 , current);
-				bos.flush();
-				System.out.println("File " + FILE_TO_RECEIVED
-						+ " downloaded (" + current + " bytes read)");
-				// TODO LoadOldGame loadXML = new LoadOldGame(FILE_TO_RECEIVED);
-				// TODO boardData = loadXML.getBoardData();
-				// TODO GameUtil game = boardData.getGame();
-				// TODO net.setGameUtil(game);
-
+					bos.write(mybytearray, 0 , current);
+					bos.flush();
+					System.out.println("File " + FILE_TO_RECEIVED
+							+ " downloaded (" + current + " bytes read)");
+					// TODO LoadOldGame loadXML = new LoadOldGame(FILE_TO_RECEIVED);
+					// TODO boardData = loadXML.getBoardData();
+					// TODO GameUtil game = boardData.getGame();
+					// TODO net.setGameUtil(game);
+				}
+				else{
+					// return; // TODO throw an error
+				}
 
 				readyToStart=true; // now the players can start trying to do things
 

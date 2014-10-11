@@ -1,5 +1,6 @@
 package catgame.clientserver;
 
+import catgame.logic.BoardData;
 import catgame.logic.GameUtil;
 
 /**
@@ -18,7 +19,7 @@ public abstract class GameRunner {
 	}
 
 	protected GameState gameState = GameState.WAITING;
-	protected GameUtil game;
+	protected BoardData boardData;
 	protected int noPlayers = 0;
 
 	public boolean isNotOver() {
@@ -61,16 +62,12 @@ public abstract class GameRunner {
 	public int noPlayers() {
 		return noPlayers;
 	}
-
-	/** return the main utilization class for the game
-	 * 
-	 * @return
-	 */
-	public GameUtil getGameUtill(){
-		return game;
+	
+	public void setBoardData(BoardData data){
+		this.boardData = data;
 	}
 	
-	public void setGameUtil(GameUtil game){
-		this.game = game;
+	public BoardData getBoardData(){
+		return this.boardData;
 	}
 }

@@ -36,7 +36,7 @@ public class SinglePlayerHandler extends GameRunner {
 			// TODO GameUtil util = boardData.getGame();
 			// TODO this.setGameUtil(util);
 		}
-		game = new GameUtil(); //  TODO remove later only for testing
+		
 		FrameClient frame = new FrameClient(this, false, null);
 		try {
 			singleUserGame(this);

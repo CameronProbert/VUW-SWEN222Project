@@ -130,7 +130,7 @@ public final class Master extends Thread {
 		//for each item
 		BroadcastMessage broadcast = new BroadcastMessage(output);
 		try {
-			ObjectStorer storer = game.getGameUtill().getStorer();
+			ObjectStorer storer = game.getBoardData().getObjStorer();
 
 			int noChars = storer.getNumChars();
 			output.writeDouble(noChars);
@@ -179,12 +179,16 @@ public final class Master extends Thread {
 			while(!hasStarted){
 				if(canStart){
 					output.writeDouble(uid);
+					
+					if(file==null){
+						output.writeInt(0);
+						return;
+					}
+					
 					output.writeInt((int)file.length());
 
 					// send file
-					if(file==null){
-						return;
-					}
+					
 					byte [] mybytearray  = new byte [(int)file.length()];
 					FileInputStream fis = new FileInputStream(file);
 					BufferedInputStream bis = new BufferedInputStream(fis);
