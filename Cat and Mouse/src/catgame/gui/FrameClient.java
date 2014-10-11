@@ -234,7 +234,8 @@ public class FrameClient extends FrameAbstract implements KeyListener {
 	 * @param character
 	 */
 	private void addPanels(PlayableCharacter character) {
-		renderPanel = new PanelRender(windowSize, this);
+		renderPanel = new PanelRender(windowSize, Integer.toString(character
+				.getObjectID()), runner.getGameUtill());
 
 		// Create dimensions
 		int statPanelWidth = 200;
@@ -332,6 +333,7 @@ public class FrameClient extends FrameAbstract implements KeyListener {
 		if (validAction > 0 && isClient) {
 			slave.sendUpdate(up);
 		}
+		repaint();
 	}
 
 	public void itemUsed(GameItem item) {
