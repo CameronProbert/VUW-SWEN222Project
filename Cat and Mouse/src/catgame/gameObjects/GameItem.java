@@ -22,6 +22,8 @@ public interface GameItem extends MasterObject {
 	 * @param framePosition
 	 */
 	public void draw(Graphics g);
+	
+	public boolean isUsable();
 
 	public GameObject getOwner();
 	

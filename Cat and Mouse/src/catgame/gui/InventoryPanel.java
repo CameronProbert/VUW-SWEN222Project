@@ -7,13 +7,17 @@ import java.awt.LayoutManager;
 import java.awt.Point;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 
 import catgame.gameObjects.GameItem;
 import catgame.gameObjects.PlayableCharacter;
+import catgame.gui.renderpanel.RenderPanel;
 
 public class InventoryPanel extends AbstractPanel {
 
@@ -23,6 +27,7 @@ public class InventoryPanel extends AbstractPanel {
 	private PlayableCharacter character;
 	private ArrayList<ItemPanel> panels = new ArrayList<ItemPanel>();
 	private Dimension invSize;
+	private BufferedImage backGround;
 
 	/**
 	 * Needs to get linked to the player's inventory so it can draw it.
@@ -33,9 +38,15 @@ public class InventoryPanel extends AbstractPanel {
 	public InventoryPanel(PlayableCharacter character, Dimension invSize) {
 		super();
 		this.invSize = invSize;
+		this.character = character;
+		try {
+			backGround = ImageIO.read(RenderPanel.class
+					.getResource("/images/Tree1.png"));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 		// this.setOpaque(true);
 		createPanels();
-		this.character = character;
 	}
 
 	/**
@@ -55,6 +66,7 @@ public class InventoryPanel extends AbstractPanel {
 			panels.add(panel);
 			this.add(panel);
 		}
+		setInvItems();
 	}
 
 	public void setInvItems() {
@@ -63,6 +75,14 @@ public class InventoryPanel extends AbstractPanel {
 			for (int i = 0; i < items.size() && i < TOTALSLOTS; i++) {
 				panels.get(i).setItem(items.get(i));
 			}
+		}
+	}
+
+	@Override
+	public void paintComponent(Graphics g) {
+		super.paintComponent(g);
+		if (backGround != null) {
+			g.drawImage(backGround, 0, 0, null);
 		}
 	}
 

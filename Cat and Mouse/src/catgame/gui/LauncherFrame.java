@@ -73,6 +73,7 @@ public class LauncherFrame extends AbstractFrame {
 
 		JButton buttonClient = HelperMethods.createButton("Multiplayer Client", buttonSize);
 		buttonClient.addActionListener(new ActionListener() {
+			// Action performed on clicking button
 			public void actionPerformed(ActionEvent e) {
 				setVisible(false);
 				String url = HelperMethods.stringInputDialog("Enter URL", "");
