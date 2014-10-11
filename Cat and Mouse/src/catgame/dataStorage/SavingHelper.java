@@ -53,12 +53,12 @@ public class SavingHelper {
 		if (cell.getPosition() == null) {
 			throw new XMLException("BoardCell Position is null");
 		}
-		String boardCellInfo = cell.getPosition().getX() + ", "
-				+ cell.getPosition().getY() + ", ";
+		String boardCellInfo = cell.getPosition().getX() + ","
+				+ cell.getPosition().getY() + ",";
 		if (cell.getObjectOnCell() == null) {
-			boardCellInfo += "null, ";
+			boardCellInfo += "null,";
 		} else {
-			boardCellInfo += cell.getObjectOnCell().getObjectID() + ", ";
+			boardCellInfo += cell.getObjectOnCell().getObjectID() + ",";
 		}
 		if (cell.getGroundType() == null || cell.getGroundType().equals("")) {
 			boardCellInfo += "null";

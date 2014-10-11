@@ -15,12 +15,15 @@ public class LoadingGameMain {
 	private Map<Integer, Room> roomIDMap = new HashMap<Integer, Room>();
 	private List<Integer> playerIDList = new ArrayList<Integer>();
 	private LoadMasterObjects masterObjectLoader;
+	private LoadingHelper helper;
 	private BoardData boardData;
 
 	public LoadingGameMain(List<Integer> playerIDList) throws JDOMException,
 			XMLException {
 		// make obj loader
 		this.masterObjectLoader = new LoadMasterObjects(this);
+		// make loader helper
+		this.helper = new LoadingHelper(this);
 		this.playerIDList = playerIDList; // save ID list
 		boardData = startLoading();
 	}
@@ -65,7 +68,6 @@ public class LoadingGameMain {
 		if (roomElement == null) {
 			throw new XMLException("roomElement is null");
 		}
-
 		int id = Integer.parseInt(roomElement.getAttribute("id").getValue());
 		Room room = addRoomToMap(id);
 
@@ -89,22 +91,34 @@ public class LoadingGameMain {
 		return null;
 	}
 
-	private BoardCell[][] loadRoomGrid(Element childrenElement) {
-		// BoardCell[][] roomGrid = new BoardCell[childrenElement.getat][];
+	private BoardCell[][] loadRoomGrid(Element childrenElement)
+			throws XMLException {
+		// get the dimensions of the boardCell array
 		int firstArrayLength = Integer.parseInt(childrenElement.getChild(
 				"1stArray.length").getText());
 		int secondArrayLength = Integer.parseInt(childrenElement.getChild(
 				"2ndArray.length").getText());
+		// make new boardCell array using dimensions
 		BoardCell[][] boardCell = new BoardCell[firstArrayLength][secondArrayLength];
-		// TODO: Check sublisting below!!
-		List<Element> newElementList = childrenElement.getChildren().subList(2,
-				childrenElement.getChildren().size());
+		// ------------------------------------------------------------------------
+		// Start dealing with boardCell info stored in elements
+		// Get the element's text containing all the info and split
+		// the string into an array, "wholeElementArray". Each String value
+		// in this array is in format (x,y,ID,groundType) representing info
+		// to make each BoardCell. Once each BoardCell is created,
+		// it is saved in the new boardCell[][] which is then returned
 		for (int y = 0; y < boardCell.length; y++) {
 			String wholeElementText = childrenElement.getChild("Row_" + y)
 					.getText();
-			
+			String[] wholeElementArray = wholeElementText.split(",");
+			if (wholeElementArray.length != boardCell[y].length) {
+				throw new XMLException(
+						"String[] element info is not same size as boardCell[]");
+			}
 			for (int x = 0; x < boardCell[y].length; x++) {
-
+				// use helper method to parse string of (x,y,ID,groundType)
+				// and make new BoardCells
+				boardCell[y][x] = helper.loadBoardCell(wholeElementArray[y]);
 			}
 		}
 		return boardCell;
