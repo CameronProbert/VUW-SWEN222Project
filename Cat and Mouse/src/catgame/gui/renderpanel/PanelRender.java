@@ -36,6 +36,12 @@ public class PanelRender extends JPanel {
 	private Image catFrontRight1;
 	private Image catBackLeft1;
 	private Image catBackRight1;
+	
+	// chest images
+	private Image chestFrontLeft1;
+	private Image chestFrontRight1;
+	private Image chestBackLeft1;
+	private Image chestBackRight1;
 
 	// Classes for creating a test board
 	private RoomBuilder buildBoard;
@@ -69,7 +75,7 @@ public class PanelRender extends JPanel {
 
 	public void setupImages() {
 		try {
-			// Load object Images
+			// Load object images
 			grassBlock = ImageIO.read(PanelRender.class
 					.getResource("/images/Grass1.png"));
 			tree1 = ImageIO.read(PanelRender.class
@@ -80,7 +86,18 @@ public class PanelRender extends JPanel {
 					.getResource("/images/Bush1.png"));
 			rock1 = ImageIO.read(PanelRender.class
 					.getResource("/images/Rock1.png"));
-			// Load cat Images
+			
+			// Load chest images
+			chestFrontLeft1 = ImageIO.read(PanelRender.class
+					.getResource("/images/ChestFrontLeft1.png"));
+			chestFrontRight1 = ImageIO.read(PanelRender.class
+					.getResource("/images/ChestFrontRight1.png"));
+			chestBackLeft1 = ImageIO.read(PanelRender.class
+					.getResource("/images/ChestBackLeft1.png"));
+			chestBackRight1 = ImageIO.read(PanelRender.class
+					.getResource("/images/ChestBackRight1.png"));
+			
+			// Load cat images
 			catFrontLeft1 = ImageIO.read(PanelRender.class
 					.getResource("/images/CatFrontLeft1.png"));
 			catFrontRight1 = ImageIO.read(PanelRender.class
@@ -200,6 +217,11 @@ public class PanelRender extends JPanel {
 			startX = parentFrame.getWidth() / 4 + 60;
 			startY = 85 + 340;
 			drawObject(g, rock1, sendY, sendX, y, x, startY, startX);
+			break;
+		case GameUtil.CHESTONE+"":
+			startX = parentFrame.getWidth() / 4 + 60;
+			startY = 85 + 340;
+			drawObject(g, chestFrontLeft1, sendY, sendX, y, x, startY, startX);
 			break;
 		case GameUtil.PLAYABLECHARACTER+"":
 			PlayableCharacter character = (PlayableCharacter) testRoom.getBoardGrid()[sendY][sendX]
