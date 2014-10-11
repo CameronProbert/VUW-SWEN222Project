@@ -14,12 +14,12 @@ import java.util.List;
  */
 public class BoardData {
 
-	private static List<Room> allRooms = new ArrayList<Room>();
+	private List<Room> allRooms = new ArrayList<Room>();
 	private GameUtil gameUtil;
 	private ObjectStorer objStorer;
 
 	public BoardData() {
-		this.gameUtil = new GameUtil();
+		this.gameUtil = new GameUtil(this);
 		this.objStorer = new ObjectStorer();
 	}
 
@@ -37,7 +37,7 @@ public class BoardData {
 	 * 
 	 * @return all of the rooms
 	 */
-	public static List<Room> getAllRooms() {
+	public List<Room> getAllRooms() {
 		return allRooms;
 	}
 

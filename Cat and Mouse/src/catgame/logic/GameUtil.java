@@ -77,8 +77,10 @@ public class GameUtil {
 
 	private Direction viewDirection = Direction.NORTH;
 
-	public GameUtil() {
-
+	private final BoardData boardData;
+	
+	public GameUtil(BoardData boardData) {
+		this.boardData = boardData;
 	}
 
 	/**
@@ -140,7 +142,7 @@ public class GameUtil {
 	}
 
 	private Room findPlayersRoom(int playerID) {
-		for (Room room : BoardData.getAllRooms()) {
+		for (Room room : boardData.getAllRooms()) {
 			if (room.getCharactorCell(playerID) != null && room.getCharactorCell(playerID).getObjectOnCell().getObjectID() == playerID) {
 				// move the player in the room
 				return room;

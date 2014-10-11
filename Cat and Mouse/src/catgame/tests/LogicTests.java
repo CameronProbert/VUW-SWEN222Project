@@ -9,6 +9,7 @@ import org.junit.Test;
 import catgame.gameObjects.Door;
 import catgame.gameObjects.NonPlayableCharacter;
 import catgame.gameObjects.PlayableCharacter;
+import catgame.logic.BoardData;
 import catgame.logic.GameUtil.Direction;
 import catgame.logic.GameError;
 import catgame.logic.GameUtil;
@@ -126,117 +127,110 @@ public class LogicTests {
 
 	@Test
 	public void TestPlayerAttempedMoveChangeDirection() {
-		GameUtil util = new GameUtil();
-		util.TESTsetViewDirection(Direction.NORTH);
-		ObjectStorer objStore = new ObjectStorer();
-		RoomBuilder testBuilder = new RoomBuilder();
-		Room testRoom = testBuilder.loadRoom(objStore);
+		BoardData gameData = new BoardData();
+		gameData.loadTestData();
+		gameData.getGameUtil().TESTsetViewDirection(Direction.NORTH);
+		Room testRoom = gameData.getAllRooms().get(0);
 		// testRoom.
 		((PlayableCharacter) testRoom.getCharactorCell(101010).getObjectOnCell()).changeDirection(Direction.NORTH);
 		Position preMovePos = testRoom.getCharactorCell(101010).getPosition();
 		// we know that the character isn't moving because it is returning -1
-		assertEquals(-1, testRoom.movePlayer(101010, Direction.RIGHT, util.getViewDirection()));
+		assertEquals(-1, testRoom.movePlayer(101010, Direction.RIGHT, gameData.getGameUtil().getViewDirection()));
 		assertEquals(Direction.EAST, ((PlayableCharacter) testRoom.getCharactorCell(101010).getObjectOnCell()).getFacingDirection());
-		assertEquals(-1, testRoom.movePlayer(101010, Direction.DOWN, util.getViewDirection()));
+		assertEquals(-1, testRoom.movePlayer(101010, Direction.DOWN, gameData.getGameUtil().getViewDirection()));
 		assertEquals(Direction.SOUTH, ((PlayableCharacter) testRoom.getCharactorCell(101010).getObjectOnCell()).getFacingDirection());
-		assertEquals(-1, testRoom.movePlayer(101010, Direction.LEFT, util.getViewDirection()));
+		assertEquals(-1, testRoom.movePlayer(101010, Direction.LEFT, gameData.getGameUtil().getViewDirection()));
 		assertEquals(Direction.WEST, ((PlayableCharacter) testRoom.getCharactorCell(101010).getObjectOnCell()).getFacingDirection());
-		assertEquals(-1, testRoom.movePlayer(101010, Direction.UP, util.getViewDirection()));
+		assertEquals(-1, testRoom.movePlayer(101010, Direction.UP, gameData.getGameUtil().getViewDirection()));
 		assertEquals(Direction.NORTH, ((PlayableCharacter) testRoom.getCharactorCell(101010).getObjectOnCell()).getFacingDirection());
 
 	}
 
 	@Test
 	public void TestPlayerMoveNorth() {
-		GameUtil util = new GameUtil();
-		util.TESTsetViewDirection(Direction.NORTH);
-		ObjectStorer objStore = new ObjectStorer();
-		RoomBuilder testBuilder = new RoomBuilder();
-		Room testRoom = testBuilder.loadRoom(objStore);
+		BoardData gameData = new BoardData();
+		gameData.loadTestData();
+		gameData.getGameUtil().TESTsetViewDirection(Direction.NORTH);
+		Room testRoom = gameData.getAllRooms().get(0);
 		// testRoom.
 		((PlayableCharacter) testRoom.getCharactorCell(101010).getObjectOnCell()).changeDirection(Direction.NORTH);
 		Position preMovePos = testRoom.getCharactorCell(101010).getPosition();
 		assertEquals(101010, testRoom.getBoardGrid()[preMovePos.getY()][preMovePos.getX()].getObjectOnCell().getObjectID());
-		assertEquals(1, testRoom.movePlayer(101010, Direction.UP, util.getViewDirection()));
+		assertEquals(1, testRoom.movePlayer(101010, Direction.UP, gameData.getGameUtil().getViewDirection()));
 		assertEquals(null, testRoom.getBoardGrid()[preMovePos.getY()][preMovePos.getX()].getObjectOnCell());
 		assertEquals(101010, testRoom.getBoardGrid()[preMovePos.getY() - 1][preMovePos.getX()].getObjectOnCell().getObjectID());
 	}
 
 	@Test
 	public void TestPlayerMoveRight() {
-		GameUtil util = new GameUtil();
-		util.TESTsetViewDirection(Direction.NORTH);
-		ObjectStorer objStore = new ObjectStorer();
-		RoomBuilder testBuilder = new RoomBuilder();
-		Room testRoom = testBuilder.loadRoom(objStore);
+		BoardData gameData = new BoardData();
+		gameData.loadTestData();
+		gameData.getGameUtil().TESTsetViewDirection(Direction.NORTH);
+		Room testRoom = gameData.getAllRooms().get(0);
 		// testRoom.
 		((PlayableCharacter) testRoom.getCharactorCell(101010).getObjectOnCell()).changeDirection(Direction.EAST);
 		Position preMovePos = testRoom.getCharactorCell(101010).getPosition();
 		assertEquals(101010, testRoom.getBoardGrid()[preMovePos.getY()][preMovePos.getX()].getObjectOnCell().getObjectID());
-		assertEquals(1, testRoom.movePlayer(101010, Direction.RIGHT, util.getViewDirection()));
+		assertEquals(1, testRoom.movePlayer(101010, Direction.RIGHT, gameData.getGameUtil().getViewDirection()));
 		assertEquals(null, testRoom.getBoardGrid()[preMovePos.getY()][preMovePos.getX()].getObjectOnCell());
 		assertEquals(101010, testRoom.getBoardGrid()[preMovePos.getY()][preMovePos.getX() + 1].getObjectOnCell().getObjectID());
 	}
 
 	@Test
 	public void TestPlayerMoveDown() {
-		GameUtil util = new GameUtil();
-		util.TESTsetViewDirection(Direction.NORTH);
-		ObjectStorer objStore = new ObjectStorer();
-		RoomBuilder testBuilder = new RoomBuilder();
-		Room testRoom = testBuilder.loadRoom(objStore);
+		BoardData gameData = new BoardData();
+		gameData.loadTestData();
+		gameData.getGameUtil().TESTsetViewDirection(Direction.NORTH);
+		Room testRoom = gameData.getAllRooms().get(0);
 		// testRoom.
 		((PlayableCharacter) testRoom.getCharactorCell(101010).getObjectOnCell()).changeDirection(Direction.SOUTH);
 		Position preMovePos = testRoom.getCharactorCell(101010).getPosition();
 		assertEquals(101010, testRoom.getBoardGrid()[preMovePos.getY()][preMovePos.getX()].getObjectOnCell().getObjectID());
-		assertEquals(1, testRoom.movePlayer(101010, Direction.DOWN, util.getViewDirection()));
+		assertEquals(1, testRoom.movePlayer(101010, Direction.DOWN, gameData.getGameUtil().getViewDirection()));
 		assertEquals(null, testRoom.getBoardGrid()[preMovePos.getY()][preMovePos.getX()].getObjectOnCell());
 		assertEquals(101010, testRoom.getBoardGrid()[preMovePos.getY() + 1][preMovePos.getX()].getObjectOnCell().getObjectID());
 	}
 
 	@Test
 	public void TestPlayerMoveLeft() {
-		GameUtil util = new GameUtil();
-		util.TESTsetViewDirection(Direction.NORTH);
-		ObjectStorer objStore = new ObjectStorer();
-		RoomBuilder testBuilder = new RoomBuilder();
-		Room testRoom = testBuilder.loadRoom(objStore);
+		BoardData gameData = new BoardData();
+		gameData.loadTestData();
+		gameData.getGameUtil().TESTsetViewDirection(Direction.NORTH);
+		Room testRoom = gameData.getAllRooms().get(0);
 		// testRoom.
 		((PlayableCharacter) testRoom.getCharactorCell(101010).getObjectOnCell()).changeDirection(Direction.WEST);
 		Position preMovePos = testRoom.getCharactorCell(101010).getPosition();
 		assertEquals(101010, testRoom.getBoardGrid()[preMovePos.getY()][preMovePos.getX()].getObjectOnCell().getObjectID());
-		assertEquals(1, testRoom.movePlayer(101010, Direction.LEFT, util.getViewDirection()));
+		assertEquals(1, testRoom.movePlayer(101010, Direction.LEFT, gameData.getGameUtil().getViewDirection()));
 		assertEquals(null, testRoom.getBoardGrid()[preMovePos.getY()][preMovePos.getX()].getObjectOnCell());
 		assertEquals(101010, testRoom.getBoardGrid()[preMovePos.getY()][preMovePos.getX() - 1].getObjectOnCell().getObjectID());
 	}
 
 	@Test
 	public void TestAttackMinion() {
-		GameUtil util = new GameUtil();
-		util.TESTsetViewDirection(Direction.NORTH);
-		ObjectStorer objStore = new ObjectStorer();
-		RoomBuilder testBuilder = new RoomBuilder();
-		Room testRoom = testBuilder.loadRoom(objStore);
-		assertEquals(-1, testRoom.movePlayer(101010, Direction.RIGHT, util.getViewDirection()));
-		assertEquals(1, testRoom.movePlayer(101010, Direction.RIGHT,util.getViewDirection()));
-		assertEquals(1, testRoom.movePlayer(101010, Direction.RIGHT,util.getViewDirection()));
-		assertEquals(1, testRoom.movePlayer(101010, Direction.RIGHT,util.getViewDirection()));
-		assertEquals(-1, testRoom.movePlayer(101010, Direction.UP,util.getViewDirection()));
-		assertEquals(1, testRoom.movePlayer(101010, Direction.UP,util.getViewDirection()));
-		assertEquals(1, testRoom.movePlayer(101010, Direction.UP,util.getViewDirection()));
+		BoardData gameData = new BoardData();
+		gameData.loadTestData();
+		gameData.getGameUtil().TESTsetViewDirection(Direction.NORTH);
+		Room testRoom = gameData.getAllRooms().get(0);
+		assertEquals(-1, testRoom.movePlayer(101010, Direction.RIGHT, gameData.getGameUtil().getViewDirection()));
+		assertEquals(1, testRoom.movePlayer(101010, Direction.RIGHT,gameData.getGameUtil().getViewDirection()));
+		assertEquals(1, testRoom.movePlayer(101010, Direction.RIGHT,gameData.getGameUtil().getViewDirection()));
+		assertEquals(1, testRoom.movePlayer(101010, Direction.RIGHT,gameData.getGameUtil().getViewDirection()));
+		assertEquals(-1, testRoom.movePlayer(101010, Direction.UP,gameData.getGameUtil().getViewDirection()));
+		assertEquals(1, testRoom.movePlayer(101010, Direction.UP,gameData.getGameUtil().getViewDirection()));
+		assertEquals(1, testRoom.movePlayer(101010, Direction.UP,gameData.getGameUtil().getViewDirection()));
 		// We know that the player successfully attacked because of the return 1
-		assertEquals(1, testRoom.playerAttack(101010,util.getViewDirection()));
+		assertEquals(1, testRoom.playerAttack(101010,gameData.getGameUtil().getViewDirection()));
 		// checking that he attacked and was attacked back
 		assertTrue(((PlayableCharacter) testRoom.getCharactorCell(101010).getObjectOnCell()).getHealth() < 100);
 	}
 	
 	@Test
 	public void TestDoor(){
-		GameUtil util = new GameUtil();
-		util.TESTsetViewDirection(Direction.NORTH);
-		ObjectStorer objStore = new ObjectStorer();
-		RoomBuilder testBuilder = new RoomBuilder();
-		Room testRoom = testBuilder.loadRoom(objStore);
+		BoardData gameData = new BoardData();
+		gameData.loadTestData();
+		gameData.getGameUtil().TESTsetViewDirection(Direction.NORTH);
+		Room testRoom = gameData.getAllRooms().get(0);
 		assertTrue(testRoom.getBoardGrid()[4][0].getObjectOnCell() instanceof Door);
 		assertTrue(testRoom.getBoardGrid()[4][5].getObjectOnCell() instanceof Door);
 		((Door)testRoom.getBoardGrid()[4][0].getObjectOnCell()).addOtherSide(testRoom.getBoardGrid()[4][5].getObjectOnCell().getObjectID(),0);
