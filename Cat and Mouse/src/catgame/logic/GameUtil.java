@@ -15,6 +15,8 @@ import catgame.gameObjects.MasterObject;
 import catgame.gameObjects.NonPlayableCharacter;
 import catgame.gameObjects.PlayableCharacter;
 
+//characters id's 10 - 19
+
 /**
  * 
  * @author Dan Henton
@@ -25,6 +27,33 @@ import catgame.gameObjects.PlayableCharacter;
  *         logic
  */
 public class GameUtil {
+
+	// Object ID's
+	public static final int EMPTY = 0;
+	public static final int GRASS = 1;
+
+	// characters id's 10 - 19
+	public static final int PLAYABLECHARACTER = 10;
+
+	//NPC id's 11-19
+	public static final int BOSSONE = 11;
+	public static final int BOSSTWO = 12;
+	public static final int BOSSTHREE = 13;
+	public static final int MINIONONE = 14;
+	public static final int MINIONTWO = 15;
+	public static final int MINIONTHREE = 16;
+	public static final int MINIONFOUR = 17;
+
+	// Room accessories 20-39
+	public static final int BUSH = 20;
+	public static final int TREE = 21;
+	public static final int ROCK = 22;
+	public static final int HEDGE = 23;
+	public static final int FENCE = 24;
+	public static final int CHESTONE = 25;
+	public static final int CHESTTWO = 26;
+	public static final int CHESTTHREE = 27;
+	public static final int CHESTFOUR = 28;
 
 	private ObjectStorer storer = new ObjectStorer();
 
@@ -167,9 +196,9 @@ public class GameUtil {
 	 * @param objectID
 	 * @return
 	 */
-	public boolean useItem(int playerID, int objectID) {
+	public int useItem(int playerID, int objectID) {
 		// TODO if either ID not found throw IDNotFoundError
-		return false; // TODO gameMap.get(playerID).useItem(GameITem)
+		return -1; // TODO gameMap.get(playerID).useItem(GameITem)
 	}
 
 	/**
