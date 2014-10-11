@@ -1,5 +1,6 @@
 package catgame.gui;
 
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
@@ -54,6 +55,7 @@ public class FrameClient extends FrameAbstract implements KeyListener {
 
 	/**
 	 * Creates a new Client frame.
+	 * 
 	 * @param network
 	 * @param UID
 	 * @param isClient
@@ -67,76 +69,22 @@ public class FrameClient extends FrameAbstract implements KeyListener {
 		this.addMenus();
 		this.runner = network;
 		this.isClient = isClient;
-		
-		if(slave!=null){
-			this.slaveR = new SlaveReceiver(slave, runner, this);
-			slaveR.run();
-			this.slave = slave;
-		}
-		else{
-			this.clientsUID = 101010;
-			List<Integer> id = new ArrayList<Integer>();
-			id.add(clientsUID);
-			/*try {
-				loadMain = new LoadingGameMain(id);
-			} catch (JDOMException | XMLException e) {
-				e.printStackTrace();
-			}*/
-			//TODO REMOVED TO TEST PlayableCharacter character = runner.getGameUtill().getStorer().findCharacter(clientsUID);
-			//TODO REMOVED TO TEST this.addPanels(character);
-		}
-		System.out.println("FINDING CHARACTER");
-		character = TESTfindCharacter();
-		if (character == null){
-			System.out.println("DID NOT FIND CHARACTER");
-			character = new PlayableCharacter(1, 10, null, Direction.SOUTH, 3, 5, null);
-		}
-		character.addToInventory(new Key(0));
-		character.addToInventory(new Food(10, 10));
-		this.addPanels(character);
-		this.setVisible(true);
-	}
-	
-	public FrameClient(GameRunner network, boolean isClient, Slave slave, BoardData data) {
-		super("Cat and Mouse");
-		this.setDimensions();
-		this.setLayout(null);
-		this.addKeyListener(this);
-		this.addMenus();
-		this.runner = network;
-		this.isClient = isClient;
-		
-		if(slave!=null){
-			this.slaveR = new SlaveReceiver(slave, runner, this);
-			slaveR.run();
-			this.slave = slave;
-		}
-		else{
-			this.clientsUID = 101010;
-			List<Integer> id = new ArrayList<Integer>();
-			id.add(clientsUID);
-			/*try {
-				loadMain = new LoadingGameMain(id);
-			} catch (JDOMException | XMLException e) {
-				e.printStackTrace();
-			}*/
-			//TODO REMOVED TO TEST PlayableCharacter character = runner.getGameUtill().getStorer().findCharacter(clientsUID);
-			//TODO REMOVED TO TEST this.addPanels(character);
-		}
-		System.out.println("FINDING CHARACTER");
-		character = TESTfindCharacter();
-		if (character == null){
-			System.out.println("DID NOT FIND CHARACTER");
-			character = new PlayableCharacter(1, 10, null, Direction.SOUTH, 3, 5, null);
-		}
-		character.addToInventory(new Key(0));
-		character.addToInventory(new Food(10, 10));
-		this.addPanels(character);
-		this.setVisible(true);
-	}
 
-	private PlayableCharacter TESTfindCharacter() {
-		return runner.getBoardData().getObjStorer().findCharacter(10);
+		if (slave == null) {
+			this.clientsUID = 101010;
+		}
+		// character = runner.getBoardData().getObjStorer().findPlayer(clientsID);
+		// TODO add above once all done
+		System.out.println("FINDING CHARACTER");
+		if (character == null) {
+			System.out.println("DID NOT FIND CHARACTER");
+			character = new PlayableCharacter(1, 10, null, Direction.SOUTH, 3,
+					5, null);
+		}
+		character.addToInventory(new Key(0));
+		character.addToInventory(new Food(10, 10));
+		this.addPanels(character);
+		this.setVisible(true);
 	}
 
 	/**
@@ -268,11 +216,10 @@ public class FrameClient extends FrameAbstract implements KeyListener {
 
 	/**
 	 * Adds all the panels to the frame
+	 * 
 	 * @param character
 	 */
 	private void addPanels(PlayableCharacter character) {
-		renderPanel = new PanelRender(windowSize, Integer.toString(character
-				.getObjectID()), runner.getBoardData().getGameUtil());
 
 		// Create dimensions
 		int statPanelWidth = 200;
@@ -286,11 +233,13 @@ public class FrameClient extends FrameAbstract implements KeyListener {
 		// Create locations
 		int margin = (int) (1.0 / 60 * windowSize.getWidth());
 		int invLocationX = margin;
-		int invPanelLocationY = (int) (windowSize.getHeight()-invPanelHeight-margin*2);
-		int statLocationX = (int) (windowSize.getWidth()-statPanelWidth-margin);
-		int statPanelLocationY = (int) (windowSize.getHeight()-statPanelHeight-margin*2);
+		int invPanelLocationY = (int) (windowSize.getHeight() - invPanelHeight - margin * 2);
+		int statLocationX = (int) (windowSize.getWidth() - statPanelWidth - margin);
+		int statPanelLocationY = (int) (windowSize.getHeight()
+				- statPanelHeight - margin * 2);
 
-		PanelInventory invPanel = new PanelInventory(character, invPanelDim, this);
+		PanelInventory invPanel = new PanelInventory(character, invPanelDim,
+				this);
 		invPanel.setLocation(invLocationX, invPanelLocationY);
 		invPanel.setSize(invPanelDim);
 		invPanel.setPreferredSize(invPanelDim);
@@ -302,12 +251,63 @@ public class FrameClient extends FrameAbstract implements KeyListener {
 
 		this.add(invPanel);
 		this.add(statPanel);
+		initialiseRenderPanel();
+	}
+
+	public void initialiseRenderPanel() {
+		if (renderPanel != null) {
+			this.remove(renderPanel);
+		}
+		Room currentRoom = data.getGameUtil().findPlayersRoom(clientsUID);
+		renderPanel = new PanelRender(windowSize, Integer.toString(character
+				.getObjectID()), runner.getBoardData().getGameUtil(),
+				currentRoom);
 		this.add(renderPanel);
+	}
+
+	/**
+	 * Adds all the panels to the frame
+	 * 
+	 * @param character
+	 */
+	private void addPanels(PlayableCharacter character, BoardData data) {
+
+		// Create dimensions
+		int statPanelWidth = 200;
+		int statPanelHeight = 300;
+		int invPanelWidth = 65;
+		int invPanelHeight = 390;
+
+		Dimension statPanelDim = new Dimension(statPanelWidth, statPanelHeight);
+		Dimension invPanelDim = new Dimension(invPanelWidth, invPanelHeight);
+
+		// Create locations
+		int margin = (int) (1.0 / 60 * windowSize.getWidth());
+		int invLocationX = margin;
+		int invPanelLocationY = (int) (windowSize.getHeight() - invPanelHeight - margin * 2);
+		int statLocationX = (int) (windowSize.getWidth() - statPanelWidth - margin);
+		int statPanelLocationY = (int) (windowSize.getHeight()
+				- statPanelHeight - margin * 2);
+
+		PanelInventory invPanel = new PanelInventory(character, invPanelDim,
+				this);
+		invPanel.setLocation(invLocationX, invPanelLocationY);
+		invPanel.setSize(invPanelDim);
+		invPanel.setPreferredSize(invPanelDim);
+
+		statPanel = new PanelStat(character);
+		statPanel.setLocation(statLocationX, statPanelLocationY);
+		statPanel.setSize(statPanelDim);
+		statPanel.setPreferredSize(statPanelDim);
+
+		this.add(invPanel);
+		this.add(statPanel);
+		initialiseRenderPanel();
 	}
 
 	// @Override
 	// public void redraw(){
-	// 	
+	//
 	// }
 
 	/**
@@ -316,7 +316,7 @@ public class FrameClient extends FrameAbstract implements KeyListener {
 	@Override
 	public void keyPressed(KeyEvent key) {
 		System.out.printf("Client ID: %d", clientsUID);
-		if(slaveR!=null&&!slaveR.isReady()){
+		if (slaveR != null && !slaveR.isReady()) {
 			return;
 		}
 		int keyID = key.getKeyCode();
@@ -325,27 +325,32 @@ public class FrameClient extends FrameAbstract implements KeyListener {
 		switch (keyID) {
 		case KeyEvent.VK_W:
 			System.out.println("MOVE UP PRESSED");
-			validAction = runner.getBoardData().getGameUtil().moveUp(clientsUID);
+			validAction = runner.getBoardData().getGameUtil()
+					.moveUp(clientsUID);
 			up = new Update(Update.Descriptor.NORTH, clientsUID, 0);
 			break;
 		case KeyEvent.VK_A:
 			System.out.println("MOVE LEFT PRESSED");
-			validAction = runner.getBoardData().getGameUtil().moveLeft(clientsUID);
+			validAction = runner.getBoardData().getGameUtil()
+					.moveLeft(clientsUID);
 			up = new Update(Update.Descriptor.WEST, clientsUID, 0);
 			break;
 		case KeyEvent.VK_S:
 			System.out.println("MOVE DOWN PRESSED");
-			validAction = runner.getBoardData().getGameUtil().moveDown(clientsUID);
+			validAction = runner.getBoardData().getGameUtil()
+					.moveDown(clientsUID);
 			up = new Update(Update.Descriptor.SOUTH, clientsUID, 0);
 			break;
 		case KeyEvent.VK_D:
 			System.out.println("MOVE RIGHT PRESSED");
-			validAction = runner.getBoardData().getGameUtil().moveRight(clientsUID);
+			validAction = runner.getBoardData().getGameUtil()
+					.moveRight(clientsUID);
 			up = new Update(Update.Descriptor.EAST, clientsUID, 0);
 			break;
 		case KeyEvent.VK_SPACE:
 			System.out.println("ATTACK PRESSED");
-			int attacked = runner.getBoardData().getGameUtil().attack(clientsUID);
+			int attacked = runner.getBoardData().getGameUtil()
+					.attack(clientsUID);
 			if (attacked > 0) {
 				validAction = 1;
 				up = new Update(Update.Descriptor.ATTACK, clientsUID, attacked);
@@ -359,7 +364,8 @@ public class FrameClient extends FrameAbstract implements KeyListener {
 			break;
 		case KeyEvent.VK_E: // open a chest
 			System.out.println("OPEN CHEST PRESSED");
-			Chest chest = runner.getBoardData().getGameUtil().getChest(clientsUID);
+			Chest chest = runner.getBoardData().getGameUtil()
+					.getChest(clientsUID);
 			if (chest != null) {
 				validAction = 1;
 				// TODO open dialog box to choose items out of chest (using the
@@ -384,8 +390,10 @@ public class FrameClient extends FrameAbstract implements KeyListener {
 	public void itemUsed(GameItem item) {
 		int validAction = 0;
 		Update up = new Update(0);
-		validAction = runner.getBoardData().getGameUtil().useItem(clientsUID, item.getObjectID());
-		up = new Update(Update.Descriptor.CONSUME, clientsUID, item.getObjectID());
+		validAction = runner.getBoardData().getGameUtil()
+				.useItem(clientsUID, item.getObjectID());
+		up = new Update(Update.Descriptor.CONSUME, clientsUID,
+				item.getObjectID());
 		if (validAction > 0 && isClient) {
 			slave.sendUpdate(up);
 		}
@@ -395,21 +403,22 @@ public class FrameClient extends FrameAbstract implements KeyListener {
 	 * Unneeded for the game
 	 */
 	@Override
-	public void keyReleased(KeyEvent arg0) {}
+	public void keyReleased(KeyEvent arg0) {
+	}
 
 	/**
 	 * Unneeded for the game
 	 */
 	@Override
-	public void keyTyped(KeyEvent arg0) {}
+	public void keyTyped(KeyEvent arg0) {
+	}
 
 	/**
 	 * Testing main method
+	 * 
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		BoardData data = new BoardData();
-		data.loadTestData();
-		new FrameClient(null, false, null, data);
+		// ??
 	}
 }

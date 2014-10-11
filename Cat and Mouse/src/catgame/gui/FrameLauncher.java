@@ -18,6 +18,7 @@ import javax.swing.JSlider;
 import catgame.clientserver.NetworkHandler;
 import catgame.clientserver.SinglePlayerHandler;
 import catgame.clientserver.Slave;
+import catgame.clientserver.SlaveReceiver;
 import catgame.gameObjects.PlayableCharacter;
 
 /**
@@ -80,7 +81,15 @@ public class FrameLauncher extends FrameAbstract {
 					Socket s = new Socket(url, port );
 					Slave slave = new Slave(s);
 					NetworkHandler net = new NetworkHandler(NetworkHandler.Type.CLIENT);
+					SlaveReceiver slaveR = new SlaveReceiver(slave, net);
+					slaveR.run();
+					// TODO draw a frame saying loading!
+					while(!slaveR.isReady()){
+						// TODO nothing here
+					}
+					// TODO get rid of loading frame
 					FrameClient frame = new FrameClient(net, true, slave);
+					slaveR.addFrame(frame);
 				} catch (IOException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
