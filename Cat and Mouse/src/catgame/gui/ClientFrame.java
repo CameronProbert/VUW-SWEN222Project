@@ -88,7 +88,7 @@ public class ClientFrame extends AbstractFrame implements KeyListener {
 		testInventory.add(new Food(1, 20));
 		testInventory.add(new Key(2));
 		testInventory.add(new Food(3, 10));
-		PlayableCharacter character = new PlayableCharacter(1, 10, null, Direction.NORTH, 3, 5, testInventory);
+		PlayableCharacter character = new PlayableCharacter(1, 10, null, Direction.SOUTH, 3, 5, testInventory);
 		this.addPanels(character);
 		this.setVisible(true);
 	}
@@ -237,19 +237,20 @@ public class ClientFrame extends AbstractFrame implements KeyListener {
 		renderPanel = new RenderPanel(windowSize, this);
 
 		// Create dimensions
-		int panelHeight = 300;
 		int statPanelWidth = 200;
-		int invPanelWidth = 50;
+		int statPanelHeight = 300;
+		int invPanelWidth = 65;
+		int invPanelHeight = 390;
 
-		Dimension statPanelDim = new Dimension(statPanelWidth, panelHeight);
-		Dimension invPanelDim = new Dimension(invPanelWidth, panelHeight);
+		Dimension statPanelDim = new Dimension(statPanelWidth, statPanelHeight);
+		Dimension invPanelDim = new Dimension(invPanelWidth, invPanelHeight);
 
 		// Create locations
 		int margin = (int) (1.0 / 60 * windowSize.getWidth());
 		int invLocationX = margin;
-		int invPanelLocationY = (int) (windowSize.getHeight()-panelHeight-margin*2);
+		int invPanelLocationY = (int) (windowSize.getHeight()-invPanelHeight-margin*2);
 		int statLocationX = (int) (windowSize.getWidth()-statPanelWidth-margin);
-		int statPanelLocationY = (int) (windowSize.getHeight()-panelHeight-margin*2);
+		int statPanelLocationY = (int) (windowSize.getHeight()-statPanelHeight-margin*2);
 
 		InventoryPanel invPanel = new InventoryPanel(character, invPanelDim, this);
 		invPanel.setLocation(invLocationX, invPanelLocationY);
@@ -268,7 +269,7 @@ public class ClientFrame extends AbstractFrame implements KeyListener {
 
 	// @Override
 	// public void redraw(){
-	//
+	// 	
 	// }
 
 	/**
@@ -337,6 +338,18 @@ public class ClientFrame extends AbstractFrame implements KeyListener {
 		}
 	}
 
+	public void startXMLFiles(List<Integer> playerIds) {
+		this.clientsUID = slaveR.getUID();
+		System.out.println("\nclient frame received uid : " + clientsUID +"\n");
+		/*try {
+			loadMain = new LoadingGameMain(playerIds);
+		} catch (JDOMException |XMLException e) {
+			e.printStackTrace();
+		}
+		PlayableCharacter ch = runner.getGameUtill().getStorer().findCharacter(clientsUID);
+		this.addPanels(ch);*/
+	}
+
 	/**
 	 * Unneeded for the game
 	 */
@@ -355,18 +368,6 @@ public class ClientFrame extends AbstractFrame implements KeyListener {
 	 */
 	public static void main(String[] args) {
 		new ClientFrame(null, false, null);
-	}
-
-	public void startXMLFiles(List<Integer> playerIds) {
-		this.clientsUID = slaveR.getUID();
-		System.out.println("\nclient frame received uid : " + clientsUID +"\n");
-		/*try {
-			loadMain = new LoadingGameMain(playerIds);
-		} catch (JDOMException |XMLException e) {
-			e.printStackTrace();
-		}
-		PlayableCharacter ch = runner.getGameUtill().getStorer().findCharacter(clientsUID);
-		this.addPanels(ch);*/
 	}
 
 }
