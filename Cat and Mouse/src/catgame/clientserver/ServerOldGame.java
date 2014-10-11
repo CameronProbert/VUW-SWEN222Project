@@ -24,12 +24,8 @@ import catgame.logic.BoardData;
  */
 public class ServerOldGame extends Thread {
 
-	private static final int DEFAULT_CLK_PERIOD = 20;
-	private static final int DEFAULT_BROADCAST_CLK_PERIOD = 5;
 	private int broadcastClock;
-	private int gameClock;
 	private int port = 32768; // default
-	private static boolean readyToStart = false;
 	private NetworkHandler handler;
 	private static int maxPlayers;
 	private String fileName;
@@ -39,8 +35,6 @@ public class ServerOldGame extends Thread {
 	private String url = null;	
 
 	public ServerOldGame(){
-		broadcastClock = DEFAULT_BROADCAST_CLK_PERIOD;
-		gameClock = DEFAULT_CLK_PERIOD;
 	}
 
 	/**
@@ -172,38 +166,6 @@ public class ServerOldGame extends Thread {
 			}			
 		}
 		return false;
-	}
-
-	/**
-	 * similar to multiplayer except only one user, checks whether game is over or not
-	 * @param gameClock
-	 * @throws IOException
-	 */
-	private static void singleUserGame(int gameClock) throws IOException {
-
-		SinglePlayerHandler game = new SinglePlayerHandler(); 
-
-		while(game.isNotOver()) {
-			// keep going until the frame becomes invisible
-			game.setState(GameRunner.GameState.READY);
-			pause(3000);
-			game.setState(GameRunner.GameState.PLAYING);
-			// now, wait for the game to finish
-			while(game.state() == GameRunner.GameState.PLAYING) {
-				Thread.yield();
-			}
-			// If we get here, then we're in game over mode
-			pause(3000);
-			// Reset board state
-			//game.fromByteArray(state);
-		}
-	}
-
-	/**
-	 * activate by a button press may be obsolete
-	 */
-	public void readyToStart(){
-		this.readyToStart = true;
 	}
 
 	private static void pause(int delay) {

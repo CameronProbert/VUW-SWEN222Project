@@ -74,7 +74,7 @@ public class ServerNewGame extends Thread {
 
 					handler = new NetworkHandler(NetworkHandler.Type.SERVER);
 					setMasterIDs(connections);
-					setUpGame();
+					setUpGame(connections);
 					allowMastersStart(connections);
 
 					multiUserGame(handler,connections);
@@ -87,11 +87,14 @@ public class ServerNewGame extends Thread {
 		} 
 	}
 
-	private void setUpGame() {
-		// TODO loadXML = new LoadNewGame();
+	private void setUpGame(List<Master> connections) {
+		// TODO loadXML = new LoadNewGame(playerIds);
 		// TODO boardData = loadXML.getBoardData();
 		// TODO GameUtil util = boardData.getGame();
 		// TODO handler.setGameUtil(util);
+		for(Master m: connections){
+			//m.setFile(loadXML.getFile());
+		}
 	}
 
 	private void setMasterIDs(List<Master> connections) {
