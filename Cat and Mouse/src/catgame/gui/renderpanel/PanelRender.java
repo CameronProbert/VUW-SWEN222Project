@@ -22,8 +22,10 @@ import catgame.logic.RoomBuilder;
 public class PanelRender extends JPanel {
 	
 	private String playableCharID;
-
-	public final FrameClient parentFrame;
+	private GameUtil gUtil;
+	private int panelWidth;
+	private int panelHeight;
+	
 	private Image grassBlock;
 	private Image tree1;
 	private Image tree2;
@@ -49,11 +51,14 @@ public class PanelRender extends JPanel {
 	private RoomBuilder buildBoard;
 	private Room testRoom;
 
-	public PanelRender(Dimension windowSize, FrameClient parentFrame, String playableCharID) {
-		this.parentFrame = parentFrame;
+	public PanelRender(Dimension windowSize, String playableCharID, GameUtil gUtil) {
+		this.panelWidth = (int)(windowSize.getWidth());
+		this.panelHeight = (int)(windowSize.getHeight());
+		this.playableCharID = playableCharID;
+		this.gUtil = gUtil;
 
 		setLayout(null);
-		setSize(parentFrame.getWidth(), parentFrame.getHeight());
+		setSize((int)(windowSize.getWidth()), (int)(windowSize.getHeight()));
 		setBackground(Color.DARK_GRAY);
 		setVisible(true);
 
@@ -62,8 +67,6 @@ public class PanelRender extends JPanel {
 		ObjectStorer objStorer = new ObjectStorer();
 		testRoom = buildBoard.loadRoom(objStorer);
 		testRoom.printBoard();
-		
-		this.playableCharID = playableCharID;
 
 		setupImages();
 		repaint();
@@ -133,22 +136,22 @@ public class PanelRender extends JPanel {
 		int sendY;
 		for (int y = 0; y < testRoom.getBoardGrid().length; y++) {
 			for (int x = testRoom.getBoardGrid()[0].length - 1; x >= 0; x--) {
-				if (GameUtil.VIEWDIRECTION == Direction.NORTH) {
+				if (gUtil.getViewDirection() == Direction.NORTH) {
 					sendX = y;
 					sendY = testRoom.getBoardGrid()[0].length - x - 1;
 					determineAndDrawGround(g, sendY, sendX, y, x);
 					determineAndDrawObject(g, sendY, sendX, y, x);
-				} else if (GameUtil.VIEWDIRECTION == Direction.WEST) {
+				} else if (gUtil.getViewDirection() == Direction.WEST) {
 					sendX = x;
 					sendY = y;
 					determineAndDrawGround(g, sendY, sendX, y, x);
 					determineAndDrawObject(g, sendY, sendX, y, x);
-				} else if (GameUtil.VIEWDIRECTION == Direction.SOUTH) {
+				} else if (gUtil.getViewDirection() == Direction.SOUTH) {
 					sendX = testRoom.getBoardGrid().length - y - 1;
 					sendY = x;
 					determineAndDrawGround(g, sendY, sendX, y, x);
 					determineAndDrawObject(g, sendY, sendX, y, x);
-				} else if (GameUtil.VIEWDIRECTION == Direction.EAST) {
+				} else if (gUtil.getViewDirection() == Direction.EAST) {
 					sendX = testRoom.getBoardGrid()[0].length - x - 1;
 					sendY = testRoom.getBoardGrid().length - y - 1;
 					determineAndDrawGround(g, sendY, sendX, y, x);
@@ -170,7 +173,7 @@ public class PanelRender extends JPanel {
 	 */
 	public void determineAndDrawGround(Graphics g, int sendY, int sendX, int y,
 			int x) {
-		int startX = 19 + parentFrame.getWidth() / 4;
+		int startX = 19 + panelWidth / 4;
 		int startY = 20 + 400;
 		if (testRoom.getBoardGrid()[sendY][sendX].getGroundType() == "Grass") {
 			drawGround(g, grassBlock, sendY, sendX, y, x, startY, startX);
@@ -208,24 +211,24 @@ public class PanelRender extends JPanel {
 		switch (currentObjID) {
 		
 		case GameUtil.BUSH+"":
-			startX = parentFrame.getWidth() / 4 + 40;
+			startX = panelWidth / 4 + 40;
 			startY = 85 + 300;
 			drawObject(g, bush1, sendY, sendX, y, x, startY, startX);
 			break;
 		case GameUtil.TREE+"":
-			startX = parentFrame.getWidth() / 4 - 30;
+			startX = panelWidth / 4 - 30;
 			startY = 45 + 200;
 			drawObject(g, tree1, sendY, sendX, y, x, startY, startX);
 			break;
 		case GameUtil.ROCK+"":
-			startX = parentFrame.getWidth() / 4 + 60;
+			startX = panelWidth / 4 + 60;
 			startY = 85 + 340;
 			drawObject(g, rock1, sendY, sendX, y, x, startY, startX);
 			break;
 		case GameUtil.CHESTONE+"":
-			startX = parentFrame.getWidth() / 4 + 50;
+			startX = panelWidth / 4 + 50;
 			startY = 60 + 340;
-			switch (GameUtil.VIEWDIRECTION) {
+			switch (gUtil.getViewDirection()) {
 			case NORTH:
 				drawObject(g, chestFrontLeft1, sendY, sendX, y, x, startY, startX);
 				break;
@@ -246,8 +249,8 @@ public class PanelRender extends JPanel {
 		case GameUtil.PLAYABLECHARACTER+"":
 			PlayableCharacter character = (PlayableCharacter) testRoom.getBoardGrid()[sendY][sendX]
 					.getObjectOnCell();
-			int drawDirection = testRoom.directionTranslator(GameUtil.VIEWDIRECTION, character.getFacingDirection());
-			startX = parentFrame.getWidth() / 4 + 37;
+			int drawDirection = testRoom.directionTranslator(gUtil.getViewDirection(), character.getFacingDirection());
+			startX = panelWidth / 4 + 37;
 			startY = 85 + 305;
 			
 			switch (drawDirection) {
@@ -330,7 +333,7 @@ public class PanelRender extends JPanel {
 	}
 
 	public void redraw(Graphics g) {
-		g.fillRect(0, 0, parentFrame.getWidth(), parentFrame.getHeight());
+		g.fillRect(0, 0, panelWidth, panelHeight);
 		drawGroundAndObjects(g);
 		//drawCharacters(g);
 	}
