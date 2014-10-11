@@ -70,24 +70,24 @@ public class PanelRender extends JPanel {
 	public void setupImages() {
 		try {
 			// Load object Images
-			grassBlock = ImageIO.read(RenderPanel.class
+			grassBlock = ImageIO.read(PanelRender.class
 					.getResource("/images/Grass1.png"));
-			tree1 = ImageIO.read(RenderPanel.class
+			tree1 = ImageIO.read(PanelRender.class
 					.getResource("/images/Tree1.png"));
-			tree2 = ImageIO.read(RenderPanel.class
+			tree2 = ImageIO.read(PanelRender.class
 					.getResource("/images/Tree2.png"));
-			bush1 = ImageIO.read(RenderPanel.class
+			bush1 = ImageIO.read(PanelRender.class
 					.getResource("/images/Bush1.png"));
-			rock1 = ImageIO.read(RenderPanel.class
+			rock1 = ImageIO.read(PanelRender.class
 					.getResource("/images/Rock1.png"));
 			// Load cat Images
-			catFrontLeft1 = ImageIO.read(RenderPanel.class
+			catFrontLeft1 = ImageIO.read(PanelRender.class
 					.getResource("/images/CatFrontLeft1.png"));
-			catFrontRight1 = ImageIO.read(RenderPanel.class
+			catFrontRight1 = ImageIO.read(PanelRender.class
 					.getResource("/images/CatFrontRight1.png"));
-			catBackLeft1 = ImageIO.read(RenderPanel.class
+			catBackLeft1 = ImageIO.read(PanelRender.class
 					.getResource("/images/CatBackLeft1.png"));
-			catBackRight1 = ImageIO.read(RenderPanel.class
+			catBackRight1 = ImageIO.read(PanelRender.class
 					.getResource("/images/CatBackRight1.png"));
 		} catch (IOException e) {
 			System.out
