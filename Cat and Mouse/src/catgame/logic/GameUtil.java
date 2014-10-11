@@ -141,7 +141,7 @@ public class GameUtil {
 		return -1;
 	}
 
-	private Room findPlayersRoom(int playerID) {
+	public Room findPlayersRoom(int playerID) {
 		for (Room room : boardData.getAllRooms()) {
 			if (room.getCharactorCell(playerID) != null && room.getCharactorCell(playerID).getObjectOnCell().getObjectID() == playerID) {
 				// move the player in the room

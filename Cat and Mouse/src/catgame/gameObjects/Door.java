@@ -15,7 +15,7 @@ public class Door implements NonMovavble {
 
 	/**
 	 * The GameObject Door which can be locked and opened by keys. When created
-	 * if keyID != 0 then keys ID will be the only thing that will unlock the
+	 * if keyID != 0 then keys ID will be the only thing that will unlock the 
 	 * door
 	 * 
 	 * @param id
