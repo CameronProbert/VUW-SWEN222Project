@@ -43,7 +43,7 @@ public class PanelInventory extends PanelAbstract {
 		this.character = character;
 		try {
 			backGround = ImageIO.read(PanelRender.class
-					.getResource("/images/Tree1.png")); //TODO Inventory BG
+					.getResource("/images/InventoryPanel.png")); //TODO Inventory BG
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

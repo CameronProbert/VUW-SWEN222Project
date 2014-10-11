@@ -101,10 +101,11 @@ public class RoomBuilder {
 						loadingRoom.addToDoorsLocation(board[y][x].getObjectOnCell().getObjectID(), board[y][x]);
 						break;
 					case GameUtil.CHESTONE + "":
-						board[y][x] = objBuilder.addChestOne(x,y,loadingRoom);
+						board[y][x] = objBuilder.addChestOne(x,y,loadingRoom, objStore);
+						
 						break;
 					case GameUtil.CHESTTWO + "":
-						board[y][x] = objBuilder.addChestTwo(x,y,loadingRoom);
+						board[y][x] = objBuilder.addChestTwo(x,y,loadingRoom, objStore);
 						break;
 					}
 				}

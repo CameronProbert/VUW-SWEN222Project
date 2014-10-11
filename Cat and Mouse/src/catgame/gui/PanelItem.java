@@ -32,8 +32,6 @@ public class PanelItem extends PanelAbstract implements MouseListener {
 	@Override
 	protected void paintComponent(Graphics g) {
 		super.paintComponent(g);
-		g.setColor(Color.red);
-		g.drawRect(0, 0, getWidth() - 1, getHeight() - 1);
 		if (item != null) {
 			item.draw(g);
 		}

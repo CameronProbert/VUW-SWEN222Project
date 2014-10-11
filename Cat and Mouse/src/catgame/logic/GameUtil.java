@@ -57,6 +57,8 @@ public class GameUtil {
 	
 	
 	public static final int DOOR = 40;
+	public static final int KEY = 60;
+	public static final int FOOD = 80;
 
 	private ObjectStorer storer = new ObjectStorer();
 
