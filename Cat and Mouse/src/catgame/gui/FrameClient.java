@@ -49,6 +49,7 @@ public class FrameClient extends FrameAbstract implements KeyListener {
 	private SlaveReceiver slaveR;
 	private Slave slave;
 	private LoadingGameMain loadMain;
+	private PlayableCharacter character;
 
 	/**
 	 * Creates a new Client frame.
@@ -83,14 +84,20 @@ public class FrameClient extends FrameAbstract implements KeyListener {
 			//TODO REMOVED TO TEST PlayableCharacter character = runner.getGameUtill().getStorer().findCharacter(clientsUID);
 			//TODO REMOVED TO TEST this.addPanels(character);
 		}
-		ArrayList<GameItem> testInventory = new ArrayList<GameItem>();
-		testInventory.add(new Key(0));
-		testInventory.add(new Food(1, 20));
-		testInventory.add(new Key(2));
-		testInventory.add(new Food(3, 10));
-		PlayableCharacter character = new PlayableCharacter(1, 10, null, Direction.SOUTH, 3, 5, testInventory);
+		System.out.println("FINDING CHARACTER");
+		character = TESTfindCharacter();
+		if (character == null){
+			System.out.println("DID NOT FIND CHARACTER");
+			character = new PlayableCharacter(1, 10, null, Direction.SOUTH, 3, 5, null);
+		}
+		character.addToInventory(new Key(0));
+		character.addToInventory(new Food(10, 10));
 		this.addPanels(character);
 		this.setVisible(true);
+	}
+
+	private PlayableCharacter TESTfindCharacter() {
+		return runner.getGameUtill().getStorer().findCharacter(10);
 	}
 
 	/**
@@ -286,22 +293,27 @@ public class FrameClient extends FrameAbstract implements KeyListener {
 		Update up = new Update(0);
 		switch (keyID) {
 		case KeyEvent.VK_W:
+			System.out.println("MOVE UP PRESSED");
 			validAction = runner.getGameUtill().moveUp(clientsUID);
 			up = new Update(Update.Descriptor.NORTH, clientsUID, 0);
 			break;
 		case KeyEvent.VK_A:
+			System.out.println("MOVE LEFT PRESSED");
 			validAction = runner.getGameUtill().moveLeft(clientsUID);
 			up = new Update(Update.Descriptor.WEST, clientsUID, 0);
 			break;
 		case KeyEvent.VK_S:
+			System.out.println("MOVE DOWN PRESSED");
 			validAction = runner.getGameUtill().moveDown(clientsUID);
 			up = new Update(Update.Descriptor.SOUTH, clientsUID, 0);
 			break;
 		case KeyEvent.VK_D:
+			System.out.println("MOVE RIGHT PRESSED");
 			validAction = runner.getGameUtill().moveRight(clientsUID);
 			up = new Update(Update.Descriptor.EAST, clientsUID, 0);
 			break;
 		case KeyEvent.VK_SPACE:
+			System.out.println("ATTACK PRESSED");
 			int attacked = runner.getGameUtill().attack(clientsUID);
 			if (attacked > 0) {
 				validAction = 1;
@@ -315,6 +327,7 @@ public class FrameClient extends FrameAbstract implements KeyListener {
 			runner.getGameUtill().lookRight();
 			break;
 		case KeyEvent.VK_E: // open a chest
+			System.out.println("OPEN CHEST PRESSED");
 			Chest chest = runner.getGameUtill().getChest(clientsUID);
 			if (chest != null) {
 				validAction = 1;
