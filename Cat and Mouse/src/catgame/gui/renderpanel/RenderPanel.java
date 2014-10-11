@@ -204,7 +204,7 @@ public class RenderPanel extends JPanel {
 		case GameUtil.PLAYABLECHARACTER+"":
 			PlayableCharacter character = (PlayableCharacter) testRoom.getBoardGrid()[sendY][sendX]
 					.getObjectOnCell();
-			int drawDirection = testRoom.translateForGrid(GameUtil.viewDirection, character.getFacingDirection());
+			int drawDirection = testRoom.directionTranslator(GameUtil.VIEWDIRECTION, character.getFacingDirection());
 			startX = parentFrame.getWidth() / 4 + 37;
 			startY = 85 + 305;
 			
