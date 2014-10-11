@@ -41,7 +41,7 @@ public class SinglePlayerHandler extends GameRunner {
 		boardData = new BoardData();
 		boardData.loadTestData();
 		
-		FrameClient frame = new FrameClient(this, false, null);
+		FrameClient frame = new FrameClient(this, false, null, 101010);
 		try {
 			singleUserGame(this);
 		} catch (IOException e) {
