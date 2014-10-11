@@ -22,29 +22,39 @@ import java.util.*;
 public class LoadingGameMain {
 	private Map<Integer, GameObject> objectIDMap = new HashMap<Integer, GameObject>();
 	private Map<Integer, Room> roomIDMap = new HashMap<Integer, Room>();
+	private List<Integer> playerIDList = new ArrayList<Integer>();
 	private LoadMasterObjects masterObjectLoader;
+	private BoardData boardData;
 
-	public LoadingGameMain(List<Integer> playerIDList) throws JDOMException, XMLException {
+	public LoadingGameMain(List<Integer> playerIDList) throws JDOMException,
+			XMLException {
+		// make obj loader
 		this.masterObjectLoader = new LoadMasterObjects(this);
-		SAXBuilder builder = new SAXBuilder();
+		this.playerIDList = playerIDList; // save ID list
+		boardData = startLoading();
+	}
+
+	public BoardData startLoading() throws XMLException, JDOMException {
+		SAXBuilder builder = new SAXBuilder(); // make SAXBuilder
 		File xmlFile = new File("/Cat and Mouse/test.xml");
 		try {
+			// make document and read root
 			Document document = (Document) builder.build(xmlFile);
 			Element root = document.getRootElement();
+			// validate
 			if (root == null || root.getChildren().isEmpty()) {
 				throw new XMLException("XML file is empty at root");
 			}
-			loadBoardData(root);
+			return loadBoardData(root);
 
 		} catch (IOException e) {
 
 			e.printStackTrace();
 		}
-
+		return null;
 	}
 
-	private void loadBoardData(Element root) throws XMLException,
-			DataConversionException {
+	private BoardData loadBoardData(Element root) throws XMLException {
 		Element boardData = root.getChildren().get(0);
 		if (boardData == null || !boardData.getName().equals("BoardData")) {
 			throw new XMLException("XML file is empty at boardData");
@@ -57,18 +67,17 @@ public class LoadingGameMain {
 		// create BoardData class
 		BoardData board = new BoardData();
 		board.populateRooms(allRooms);
-
+		return board;
 	}
 
-	private Room loadRooms(Element roomElement) throws DataConversionException,
-			XMLException {
+	private Room loadRooms(Element roomElement) throws XMLException {
 		if (roomElement == null) {
 			throw new XMLException("roomElement is null");
 		}
 
 		int id = Integer.parseInt(roomElement.getAttribute("id").getValue());
 		Room room = addRoomToMap(id);
-		
+
 		for (Element childrenElement : roomElement.getChildren()) {
 			if (childrenElement.getName().equals("Inventory")) {
 				createRoomInventory(childrenElement, room);
@@ -109,11 +118,18 @@ public class LoadingGameMain {
 		}
 		return roomIDMap.get(ID);
 	}
-	
-	public void addObjectToMap(GameObject obj){
-		if(!objectIDMap.containsKey(obj.getObjectID())){
+
+	public void addObjectToMap(GameObject obj) {
+		if (!objectIDMap.containsKey(obj.getObjectID())) {
 			objectIDMap.put(obj.getObjectID(), obj);
 		}
+	}
+
+	public BoardData getBoardData() throws XMLException {
+		if (boardData == null) {
+			throw new XMLException("BoardData is null");
+		}
+		return boardData;
 	}
 
 }
