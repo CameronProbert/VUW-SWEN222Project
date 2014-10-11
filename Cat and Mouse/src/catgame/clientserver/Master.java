@@ -30,7 +30,7 @@ public final class Master extends Thread {
 
 	private final NetworkHandler game;
 	private final int broadcastClock;
-	private final int uid;
+	private int uid;
 	private final Socket socket;
 	private Update lastUpdateSent = new Update(0); // this keeps track of the last update sent
 	private Update lastUpdateReceived = new Update(0);
@@ -41,18 +41,18 @@ public final class Master extends Thread {
 
 	private final static int TIMESUP = 10; // when timer reaches TIMESUP massive update to system 
 
-	public Master(Socket socket, int uid, int broadcastClock, NetworkHandler game) {
+	public Master(Socket socket, int broadcastClock, NetworkHandler game) {
 		this.game = game;	
 		this.broadcastClock = broadcastClock + 1000;
 		this.socket = socket;
-		this.uid = uid;
 	}
 
 	public void run() {		
 		try {
 			DataInputStream input = new DataInputStream(socket.getInputStream());
 			DataOutputStream output = new DataOutputStream(socket.getOutputStream());
-			writeStart(output);
+
+			writeStart(input, output);
 
 			boolean exit=false;
 			while(!exit) {
@@ -169,28 +169,12 @@ public final class Master extends Thread {
 	 * first messages sent, telling the slave the more important information
 	 * @param output
 	 */
-	public void writeStart(DataOutputStream output){
-		// First, give the client its uid
+	public void writeStart(DataInputStream input, DataOutputStream output){
 		try {
-			output.writeDouble(uid);
-			System.out.println("wrote uid to client id is " + uid + "\n");
-
-			// TODO  need to add a state that it will only do anything if the game has started!
-			// other wise will try and add all players even though not all connected yet
 			boolean hasStarted = false;
 			while(!hasStarted){
 				if(canStart){
-					System.out.println("\nI am going to start now my id is " + uid + "\n");
-					//then give it all the players IDs
-					int noPlayers = game.noPlayers();
-					System.out.println("want to write no players to client my id is " + uid + "\n");
-					output.writeDouble(noPlayers);
-					System.out.println("wrote no players to client my id is " + uid + "\n");
-
-					for(int id : game.getPlayerIds()){
-						output.writeDouble(id);
-						System.out.println("writing player ids to clientid is " + uid + "\n");
-					}
+					output.writeDouble(uid);
 					hasStarted = true;
 				}
 				else{
@@ -206,6 +190,10 @@ public final class Master extends Thread {
 	public void setStart(boolean b) {
 		this.canStart = b;
 		System.out.println("\nI have been allowed to start, my id is : " + uid + "\n");
+	}
+
+	public void setUID(int uid){
+		this.uid = uid;
 	}
 
 }

@@ -69,4 +69,8 @@ public abstract class GameRunner {
 	public GameUtil getGameUtill(){
 		return game;
 	}
+	
+	public void setGameUtil(){
+		this.game = game;
+	}
 }
