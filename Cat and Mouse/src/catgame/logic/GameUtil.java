@@ -132,7 +132,7 @@ public class GameUtil {
 	private int move(int playerID, Direction direction) {
 		// find the character then try and move it
 		if (findPlayersRoom(playerID) != null) {
-			return findPlayersRoom(playerID).movePlayer(playerID, direction);
+			return findPlayersRoom(playerID).movePlayer(playerID, direction, this.viewDirection);
 		}
 		return -1;
 	}
@@ -158,7 +158,7 @@ public class GameUtil {
 	 */
 	public int attack(int playerID) {
 		if (findPlayersRoom(playerID) != null) {
-			return findPlayersRoom(playerID).playerAttack(playerID);
+			return findPlayersRoom(playerID).playerAttack(playerID, this.viewDirection);
 		}
 		return -1;
 	}

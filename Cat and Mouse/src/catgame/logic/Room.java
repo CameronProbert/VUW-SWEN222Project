@@ -69,7 +69,7 @@ public class Room {
 	 * @param playerID
 	 * @param direction
 	 */
-	public int movePlayer(int playerID, Direction playerDirection) {
+	public int movePlayer(int playerID, Direction playerDirection, Direction boardDirection) {
 		// TODO add the direction facing stuff here
 
 		if (!(getCharactorCell(playerID).getObjectOnCell() instanceof PlayableCharacter) && getCharactorCell(playerID).getObjectOnCell().getObjectID() != playerID) {
@@ -83,7 +83,7 @@ public class Room {
 			return -1;
 		}
 
-		Position newPos = findPosition(playerID, GameUtil.VIEWDIRECTION, playerDirection);
+		Position newPos = findPosition(playerID, boardDirection , playerDirection);
 		// Check if the move is on the board
 		if (newPos.getX() < 0 || newPos.getY() < 0 || newPos.getX() > roomGrid.length || newPos.getY() > roomGrid[0].length) {
 			System.out.println("New Move Position to x:" + newPos.getX() + " y:" + newPos.getY() + " is not valid");
@@ -119,11 +119,11 @@ public class Room {
 	 * @param direction
 	 * @param attackPower
 	 */
-	public int playerAttack(int playerID) {
+	public int playerAttack(int playerID, Direction boardDirection) {
 		if (playerLocationMap.get(playerID).getObjectOnCell() instanceof PlayableCharacter) {
 			BoardCell playersCell = playerLocationMap.get(playerID);
 			PlayableCharacter player = (PlayableCharacter) playersCell.getObjectOnCell();
-			Position attackPosition = findPosition(playerID, GameUtil.VIEWDIRECTION, player.getFacingDirection());
+			Position attackPosition = findPosition(playerID, boardDirection, player.getFacingDirection());
 			//Check to see if a npc is there then we can attack it
 			if (roomGrid[attackPosition.getY()][attackPosition.getX()].getObjectOnCell() != null
 					&& roomGrid[attackPosition.getY()][attackPosition.getX()].getObjectOnCell() instanceof NonPlayableCharacter) {
