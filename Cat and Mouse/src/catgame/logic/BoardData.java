@@ -47,5 +47,9 @@ public class BoardData {
 	public void populateRooms(List<Room> newRooms) {
 		allRooms = newRooms;
 	}
+	
+	public void addRoom(Room room){
+		allRooms.add(room);
+	}
 
 }

@@ -4,6 +4,7 @@ import java.util.*;
 
 import catgame.gameObjects.*;
 import catgame.logic.Room;
+import catgame.logic.GameUtil.Direction;
 
 import org.jdom2.*;
 
@@ -96,6 +97,8 @@ public class LoadMasterObjects {
 				// TODO if player isn't created yet, put on stack of
 				// "to do stuff" until player is created
 			}
+		} else {
+			key.setOwner(null);
 		}
 		// TODO check that the casting below is okay to use!!
 		return (GameObject) key;
@@ -106,8 +109,20 @@ public class LoadMasterObjects {
 		return null;
 	}
 
+	/**
+	 * PlayableCharacter(int ownerID, int ID, Room currentRoom, Direction
+	 * direction, int attackPower, int health, List<GameItem> items) {
+	 * 
+	 * @param element
+	 * @return
+	 */
 	public GameObject loadPlayableCharacter(Element element) {
-
+		int ID = Integer.parseInt(element.getAttribute("id").getValue());
+		String directionEnum = element.getChild("Direction").getText();
+		
+		if(directionEnum.equals("NORTH")){
+			
+		}
 		return null;
 	}
 

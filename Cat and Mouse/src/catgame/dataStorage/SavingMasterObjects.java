@@ -1,5 +1,6 @@
 package catgame.dataStorage;
 
+import java.io.CharConversionException;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -119,12 +120,26 @@ public class SavingMasterObjects {
 		Element characterElement = new Element("PlayableCharacter");
 		characterElement.setAttribute(new Attribute("id", ""
 				+ character.getObjectID()));
+		
+		// -------------- Room_ID --------------
+		characterElement.addContent(new Element("RoomID").setText(""
+				+ character.getCurrentRoom().getRoomID()));
+		// ------------------------------------------------
+		// ------------------- Direction ------------------
+		characterElement.addContent(new Element("Direction").setText(character
+				.getFacingDirection().name()));
+
+		// ------------------------------------------------
+		// ----------------- AttackPower ------------------
+		characterElement.addContent(new Element("attackPower").setText(""
+				+ character.getAttackPower()));
+		characterElement.addContent(new Element("health").setText(""
+				+ character.getHealth()));
+		// ------------------------------------------------
+		// -------------- Inventory List ------------------
 		characterElement.addContent(helper.makeInventory(character
 				.getInventory()));
-		characterElement.addContent(new Element("maxItems").setText("" + 6));
-		// characterElement.addContent(new
-		// Element("In_RoomID").setText(character.getCurrentRoom().))
-
+		// ------------------------------------------------
 		return characterElement;
 	}
 

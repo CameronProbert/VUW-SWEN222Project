@@ -2,6 +2,7 @@ package catgame.dataStorage;
 
 import catgame.gameObjects.*;
 import catgame.logic.*;
+import catgame.logic.GameUtil.Direction;
 
 import org.jdom2.*;
 import org.jdom2.input.SAXBuilder;
@@ -58,7 +59,6 @@ public class LoadingHelper {
 		// for (int i = 0; i < array.length; i++) {
 		// System.out.println(array2[i]);
 		// }
-		String temp = "(213,123,24,255)";
-		System.out.println(temp.substring(1, temp.length() - 1));
+		
 	}
 }
