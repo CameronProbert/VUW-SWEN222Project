@@ -146,7 +146,7 @@ public class Room {
 	 *         Corresponding to the movementDirection
 	 */
 	private Position findPosition(int playerID, Direction boardOrientation, Direction playerDirection) {
-		int direction = translateForGrid(boardOrientation, playerDirection);
+		int direction = directionTranslator(boardOrientation, playerDirection);
 		Position playerPos = playerLocationMap.get(playerID).getPosition();
 		switch (direction) {
 		case 0:
@@ -176,7 +176,7 @@ public class Room {
 	 * @param playerDirection
 	 * 
 	 */
-	public int translateForGrid(Direction boardOrientation, Direction playerDirection) {
+	public int directionTranslator(Direction boardOrientation, Direction playerDirection) {
 		return (boardOrientation.getValue() + playerDirection.getValue()) % 4;
 	}
 

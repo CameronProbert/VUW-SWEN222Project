@@ -56,14 +56,6 @@ public interface Character extends Movable {
 	public void changeAttackpower(int change);
 
 	/**
-	 * designed so that move can work straight from keybindings or an algorirthm
-	 * to move a charactors checks if a move is valid then moves character
-	 *
-	 * 
-	 */
-	public void move(Direction direction);
-
-	/**
 	 * @return true if the character is dead
 	 */
 	public boolean isDead();

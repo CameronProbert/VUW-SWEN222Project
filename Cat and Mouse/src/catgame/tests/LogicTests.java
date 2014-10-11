@@ -68,25 +68,25 @@ public class LogicTests {
 
 		Room testRoom = new Room(0);
 		// NORTH
-		assertEquals(0, testRoom.translateForGrid(Direction.NORTH, Direction.UP));
-		assertEquals(1, testRoom.translateForGrid(Direction.NORTH, Direction.RIGHT));
-		assertEquals(2, testRoom.translateForGrid(Direction.NORTH, Direction.DOWN));
-		assertEquals(3, testRoom.translateForGrid(Direction.NORTH, Direction.LEFT));
+		assertEquals(0, testRoom.directionTranslator(Direction.NORTH, Direction.UP));
+		assertEquals(1, testRoom.directionTranslator(Direction.NORTH, Direction.RIGHT));
+		assertEquals(2, testRoom.directionTranslator(Direction.NORTH, Direction.DOWN));
+		assertEquals(3, testRoom.directionTranslator(Direction.NORTH, Direction.LEFT));
 		// EAST
-		assertEquals(1, testRoom.translateForGrid(Direction.EAST, Direction.UP));
-		assertEquals(2, testRoom.translateForGrid(Direction.EAST, Direction.RIGHT));
-		assertEquals(3, testRoom.translateForGrid(Direction.EAST, Direction.DOWN));
-		assertEquals(0, testRoom.translateForGrid(Direction.EAST, Direction.LEFT));
+		assertEquals(1, testRoom.directionTranslator(Direction.EAST, Direction.UP));
+		assertEquals(2, testRoom.directionTranslator(Direction.EAST, Direction.RIGHT));
+		assertEquals(3, testRoom.directionTranslator(Direction.EAST, Direction.DOWN));
+		assertEquals(0, testRoom.directionTranslator(Direction.EAST, Direction.LEFT));
 		// SOUTH
-		assertEquals(2, testRoom.translateForGrid(Direction.SOUTH, Direction.UP));
-		assertEquals(3, testRoom.translateForGrid(Direction.SOUTH, Direction.RIGHT));
-		assertEquals(0, testRoom.translateForGrid(Direction.SOUTH, Direction.DOWN));
-		assertEquals(1, testRoom.translateForGrid(Direction.SOUTH, Direction.LEFT));
+		assertEquals(2, testRoom.directionTranslator(Direction.SOUTH, Direction.UP));
+		assertEquals(3, testRoom.directionTranslator(Direction.SOUTH, Direction.RIGHT));
+		assertEquals(0, testRoom.directionTranslator(Direction.SOUTH, Direction.DOWN));
+		assertEquals(1, testRoom.directionTranslator(Direction.SOUTH, Direction.LEFT));
 		// WEST
-		assertEquals(3, testRoom.translateForGrid(Direction.WEST, Direction.UP));
-		assertEquals(0, testRoom.translateForGrid(Direction.WEST, Direction.RIGHT));
-		assertEquals(1, testRoom.translateForGrid(Direction.WEST, Direction.DOWN));
-		assertEquals(2, testRoom.translateForGrid(Direction.WEST, Direction.LEFT));
+		assertEquals(3, testRoom.directionTranslator(Direction.WEST, Direction.UP));
+		assertEquals(0, testRoom.directionTranslator(Direction.WEST, Direction.RIGHT));
+		assertEquals(1, testRoom.directionTranslator(Direction.WEST, Direction.DOWN));
+		assertEquals(2, testRoom.directionTranslator(Direction.WEST, Direction.LEFT));
 	}
 
 	/**
