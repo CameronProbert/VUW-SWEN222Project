@@ -307,6 +307,12 @@ public class FrameClient extends FrameAbstract implements KeyListener {
 				up = new Update(Update.Descriptor.ATTACK, clientsUID, attacked);
 			}
 			break;
+		case KeyEvent.VK_LEFT:
+			runner.getGameUtill().lookLeft();
+			break;
+		case KeyEvent.VK_RIGHT:
+			runner.getGameUtill().lookRight();
+			break;
 		case KeyEvent.VK_E: // open a chest
 			Chest chest = runner.getGameUtill().getChest(clientsUID);
 			if (chest != null) {
