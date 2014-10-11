@@ -54,6 +54,9 @@ public class GameUtil {
 	public static final int CHESTTWO = 26;
 	public static final int CHESTTHREE = 27;
 	public static final int CHESTFOUR = 28;
+	
+	
+	public static final int DOOR = 40;
 
 	private ObjectStorer storer = new ObjectStorer();
 
