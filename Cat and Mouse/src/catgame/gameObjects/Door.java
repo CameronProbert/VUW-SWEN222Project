@@ -11,7 +11,7 @@ public class Door implements NonMovavble {
 	private int entranceToDoor = 0;
 	private boolean isLocked = false;
 	private int keyID;  
-	// Direction wallEdge; TODO 
+	Direction wallEdge;
 
 	/**
 	 * The GameObject Door which can be locked and opened by keys. When created
@@ -23,8 +23,9 @@ public class Door implements NonMovavble {
 	 * @param keyId
 	 *            (If keyID == 0 then there is no key for the door)
 	 */
-	public Door(int id) {
+	public Door(int id, Direction direction) {
 		this.ID = id;	
+		this.wallEdge = direction;
 	}
 
 	public int getObjectID() {
@@ -74,5 +75,9 @@ public class Door implements NonMovavble {
 		else {
 			return entranceToDoor;
 		}
+	}
+	
+	public Direction getDoorsWallEdge(){
+		return this.wallEdge;
 	}
 }

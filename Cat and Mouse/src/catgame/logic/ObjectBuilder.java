@@ -8,6 +8,7 @@ import catgame.gameObjects.Chest;
 import catgame.gameObjects.Door;
 import catgame.gameObjects.Food;
 import catgame.gameObjects.GameItem;
+import catgame.gameObjects.Hedge;
 import catgame.gameObjects.Key;
 import catgame.gameObjects.Minion;
 import catgame.gameObjects.PlayableCharacter;
@@ -35,6 +36,7 @@ public class ObjectBuilder {
 	private int treeNum = 10;
 	private int bushNum = 10;
 	private int rockNum = 10;
+	private int hedgeNum = 10;
 
 	public ObjectBuilder() {
 
@@ -175,13 +177,6 @@ public class ObjectBuilder {
 		return (int) ((Math.random() * numOfType) + 10);
 	}
 
-	public BoardCell addDoor(int x, int y, Room loadingRoom) {
-		int newDoorId = genorateObjectId(GameUtil.DOOR, genorateRandomObjectType(1), doorNum++);
-		Door newDoor = new Door(newDoorId);
-		loadingRoom.addToInventory(newDoor);
-		return new BoardCell(new Position(x, y), newDoor, GROUNDTYPEGRASS);
-	}
-
 	public BoardCell addChestOne(int x, int y, Room loadingRoom, ObjectStorer objStore) {
 		int newChestId = genorateObjectId(GameUtil.CHESTONE, genorateRandomObjectType(1), chestNum++);
 		List<GameItem> chestinv = new ArrayList<GameItem>();
@@ -202,4 +197,58 @@ public class ObjectBuilder {
 		loadingRoom.addToInventory(newChest);
 		return new BoardCell(new Position(x, y), newChest, GROUNDTYPEGRASS);
 	}
+
+	public BoardCell addDoorN(int x, int y, Room loadingRoom) {
+		int newDoorId = genorateObjectId(GameUtil.DOORN, genorateRandomObjectType(1), doorNum++);
+		Door newDoor = new Door(newDoorId, Direction.NORTH);
+		loadingRoom.addToInventory(newDoor);
+		return new BoardCell(new Position(x, y), newDoor, GROUNDTYPEGRASS);
+	}
+
+	public BoardCell addDoorE(int x, int y, Room loadingRoom) {
+		int newDoorId = genorateObjectId(GameUtil.DOORE, genorateRandomObjectType(1), doorNum++);
+		Door newDoor = new Door(newDoorId, Direction.EAST);
+		loadingRoom.addToInventory(newDoor);
+		return new BoardCell(new Position(x, y), newDoor, GROUNDTYPEGRASS);
+	}
+
+	public BoardCell addDoorS(int x, int y, Room loadingRoom) {
+		int newDoorId = genorateObjectId(GameUtil.DOORS, genorateRandomObjectType(1), doorNum++);
+		Door newDoor = new Door(newDoorId, Direction.SOUTH);
+		loadingRoom.addToInventory(newDoor);
+		return new BoardCell(new Position(x, y), newDoor, GROUNDTYPEGRASS);
+	}
+
+	public BoardCell addDoorW(int x, int y, Room loadingRoom) {
+		int newDoorId = genorateObjectId(GameUtil.DOORW, genorateRandomObjectType(1), doorNum++);
+		Door newDoor = new Door(newDoorId, Direction.WEST);
+		loadingRoom.addToInventory(newDoor);
+		return new BoardCell(new Position(x, y), newDoor, GROUNDTYPEGRASS);
+	}
+
+	public BoardCell addHedgeN(int x, int y, Room loadingRoom) {
+		int newHedgeId = genorateObjectId(GameUtil.HEDGEN, genorateRandomObjectType(1), hedgeNum++);
+		Hedge newHedge = new Hedge(newHedgeId, Direction.NORTH);
+		loadingRoom.addToInventory(newHedge);
+		return new BoardCell(new Position(x, y), newHedge, GROUNDTYPEGRASS);
+	}
+	public BoardCell addHedgeE(int x, int y, Room loadingRoom) {
+		int newHedgeId = genorateObjectId(GameUtil.HEDGEN, genorateRandomObjectType(1), hedgeNum++);
+		Hedge newHedge = new Hedge(newHedgeId, Direction.EAST);
+		loadingRoom.addToInventory(newHedge);
+		return new BoardCell(new Position(x, y), newHedge, GROUNDTYPEGRASS);
+	}
+	public BoardCell addHedgeS(int x, int y, Room loadingRoom) {
+		int newHedgeId = genorateObjectId(GameUtil.HEDGEN, genorateRandomObjectType(1), hedgeNum++);
+		Hedge newHedge = new Hedge(newHedgeId, Direction.SOUTH);
+		loadingRoom.addToInventory(newHedge);
+		return new BoardCell(new Position(x, y), newHedge, GROUNDTYPEGRASS);
+	}
+	public BoardCell addHedgeW(int x, int y, Room loadingRoom) {
+		int newHedgeId = genorateObjectId(GameUtil.HEDGEN, genorateRandomObjectType(1), hedgeNum++);
+		Hedge newHedge = new Hedge(newHedgeId, Direction.WEST);
+		loadingRoom.addToInventory(newHedge);
+		return new BoardCell(new Position(x, y), newHedge, GROUNDTYPEGRASS);
+	}
+	
 }

@@ -48,7 +48,7 @@ public class GameUtil {
 	public static final int BUSH = 20;
 	public static final int TREE = 21;
 	public static final int ROCK = 22;
-	public static final int HEDGE = 23;
+	
 	public static final int FENCE = 24;
 	public static final int CHESTONE = 25;
 	public static final int CHESTTWO = 26;
@@ -56,7 +56,18 @@ public class GameUtil {
 	public static final int CHESTFOUR = 28;
 	
 	
-	public static final int DOOR = 40;
+	public static final int HEDGEN = 30;
+	public static final int HEDGEE = 31;
+	public static final int HEDGES = 32;
+	public static final int HEDGEW = 33;
+	
+	
+	public static final int DOORN = 40;
+	public static final int DOORE = 41;
+	public static final int DOORS = 42;
+	public static final int DOORW = 43;
+	
+	
 	public static final int KEY = 60;
 	public static final int FOOD = 80;
 

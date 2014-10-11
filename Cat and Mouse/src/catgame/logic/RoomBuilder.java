@@ -89,6 +89,12 @@ public class RoomBuilder {
 					case GameUtil.ROCK + "":
 						board[y][x] = objBuilder.addRock(x, y, loadingRoom);
 						break;
+					case GameUtil.CHESTONE + "":
+						board[y][x] = objBuilder.addChestOne(x, y, loadingRoom, objStore);
+						break;
+					case GameUtil.CHESTTWO + "":
+						board[y][x] = objBuilder.addChestTwo(x, y, loadingRoom, objStore);
+						break;
 					case GameUtil.PLAYABLECHARACTER + "":
 						board[y][x] = objBuilder.addPlayer(x, y, loadingRoom, objStore);
 						loadingRoom.addToPlayerLocationMap(board[y][x].getObjectOnCell().getObjectID(), board[y][x]);
@@ -96,16 +102,33 @@ public class RoomBuilder {
 					case GameUtil.MINIONONE + "":
 						board[y][x] = objBuilder.addMinionOne(x, y, loadingRoom, objStore);
 						break;
-					case GameUtil.DOOR + "":
-						board[y][x] = objBuilder.addDoor(x, y, loadingRoom);
+					case GameUtil.DOORN + "":
+						board[y][x] = objBuilder.addDoorN(x, y, loadingRoom);
 						loadingRoom.addToDoorsLocation(board[y][x].getObjectOnCell().getObjectID(), board[y][x]);
 						break;
-					case GameUtil.CHESTONE + "":
-						board[y][x] = objBuilder.addChestOne(x,y,loadingRoom, objStore);
-						
+					case GameUtil.DOORE + "":
+						board[y][x] = objBuilder.addDoorE(x, y, loadingRoom);
+						loadingRoom.addToDoorsLocation(board[y][x].getObjectOnCell().getObjectID(), board[y][x]);
 						break;
-					case GameUtil.CHESTTWO + "":
-						board[y][x] = objBuilder.addChestTwo(x,y,loadingRoom, objStore);
+					case GameUtil.DOORS + "":
+						board[y][x] = objBuilder.addDoorS(x, y, loadingRoom);
+						loadingRoom.addToDoorsLocation(board[y][x].getObjectOnCell().getObjectID(), board[y][x]);
+						break;
+					case GameUtil.DOORW + "":
+						board[y][x] = objBuilder.addDoorW(x, y, loadingRoom);
+						loadingRoom.addToDoorsLocation(board[y][x].getObjectOnCell().getObjectID(), board[y][x]);
+						break;
+					case GameUtil.HEDGEN + "":
+						board[y][x] = objBuilder.addHedgeN(x, y, loadingRoom);
+						break;
+					case GameUtil.HEDGEE + "":
+						board[y][x] = objBuilder.addHedgeE(x, y, loadingRoom);
+						break;
+					case GameUtil.HEDGES + "":
+						board[y][x] = objBuilder.addHedgeS(x, y, loadingRoom);
+						break;
+					case GameUtil.HEDGEW + "":
+						board[y][x] = objBuilder.addHedgeW(x, y, loadingRoom);
 						break;
 					}
 				}
