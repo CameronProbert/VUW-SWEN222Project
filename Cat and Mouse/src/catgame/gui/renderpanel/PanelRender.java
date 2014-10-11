@@ -41,11 +41,17 @@ public class PanelRender extends JPanel {
 	private Image catBackLeft1;
 	private Image catBackRight1;
 	
-	// chest images
+	// Chest images
 	private Image chestFrontLeft1;
 	private Image chestFrontRight1;
 	private Image chestBackLeft1;
 	private Image chestBackRight1;
+	
+	// Minion image
+	private Image minionFrontLeft1;
+	private Image minionFrontRight1;
+	private Image minionBackLeft1;
+	private Image minionBackRight1;
 
 	// Classes for creating a test board
 	private RoomBuilder buildBoard;
@@ -78,36 +84,29 @@ public class PanelRender extends JPanel {
 	public void setupImages() {
 		try {
 			// Load object images
-			grassBlock = ImageIO.read(PanelRender.class
-					.getResource("/images/Grass1.png"));
-			tree1 = ImageIO.read(PanelRender.class
-					.getResource("/images/Tree1.png"));
-			tree2 = ImageIO.read(PanelRender.class
-					.getResource("/images/Tree2.png"));
-			bush1 = ImageIO.read(PanelRender.class
-					.getResource("/images/Bush1.png"));
-			rock1 = ImageIO.read(PanelRender.class
-					.getResource("/images/Rock1.png"));
+			grassBlock = ImageIO.read(PanelRender.class.getResource("/images/Grass1.png"));
+			tree1 = ImageIO.read(PanelRender.class.getResource("/images/Tree1.png"));
+			tree2 = ImageIO.read(PanelRender.class.getResource("/images/Tree2.png"));
+			bush1 = ImageIO.read(PanelRender.class.getResource("/images/Bush1.png"));
+			rock1 = ImageIO.read(PanelRender.class.getResource("/images/Rock1.png"));
 			
 			// Load chest images
-			chestFrontLeft1 = ImageIO.read(PanelRender.class
-					.getResource("/images/ChestFrontLeft1.png"));
-			chestFrontRight1 = ImageIO.read(PanelRender.class
-					.getResource("/images/ChestFrontRight1.png"));
-			chestBackLeft1 = ImageIO.read(PanelRender.class
-					.getResource("/images/ChestBackLeft1.png"));
-			chestBackRight1 = ImageIO.read(PanelRender.class
-					.getResource("/images/ChestBackRight1.png"));
+			chestFrontLeft1 = ImageIO.read(PanelRender.class.getResource("/images/ChestFrontLeft1.png"));
+			chestFrontRight1 = ImageIO.read(PanelRender.class.getResource("/images/ChestFrontRight1.png"));
+			chestBackLeft1 = ImageIO.read(PanelRender.class.getResource("/images/ChestBackLeft1.png"));
+			chestBackRight1 = ImageIO.read(PanelRender.class.getResource("/images/ChestBackRight1.png"));
+			
+			// Load minion images
+			minionFrontLeft1 = ImageIO.read(PanelRender.class.getResource("/images/RatMinionFrontLeft1.png"));
+			minionFrontRight1 = ImageIO.read(PanelRender.class.getResource("/images/RatMinionFrontRight1.png"));
+			minionBackLeft1 = ImageIO.read(PanelRender.class.getResource("/images/RatMinionBackLeft1.png"));
+			minionBackRight1 = ImageIO.read(PanelRender.class.getResource("/images/RatMinionBackRight1.png"));
 			
 			// Load cat images
-			catFrontLeft1 = ImageIO.read(PanelRender.class
-					.getResource("/images/CatFrontLeft1.png"));
-			catFrontRight1 = ImageIO.read(PanelRender.class
-					.getResource("/images/CatFrontRight1.png"));
-			catBackLeft1 = ImageIO.read(PanelRender.class
-					.getResource("/images/CatBackLeft1.png"));
-			catBackRight1 = ImageIO.read(PanelRender.class
-					.getResource("/images/CatBackRight1.png"));
+			catFrontLeft1 = ImageIO.read(PanelRender.class.getResource("/images/CatFrontLeft1.png"));
+			catFrontRight1 = ImageIO.read(PanelRender.class.getResource("/images/CatFrontRight1.png"));
+			catBackLeft1 = ImageIO.read(PanelRender.class.getResource("/images/CatBackLeft1.png"));
+			catBackRight1 = ImageIO.read(PanelRender.class.getResource("/images/CatBackRight1.png"));
 		} catch (IOException e) {
 			System.out
 					.println("There was an issue loading image files, check file locations are correct.");
@@ -194,11 +193,6 @@ public class PanelRender extends JPanel {
 				.getObjectOnCell().getObjectID()+"";
 		String objTypeID = objFullID.substring(0, 2);
 		String objImageID = objFullID.substring(2, 4);
-		
-//		System.out.println(objFullID);
-//		System.out.println(objTypeID);
-//		System.out.println(objImageID);
-//		System.out.println("----------");
 
 		int startX, startY;
 		switch (objTypeID) {
@@ -209,16 +203,7 @@ public class PanelRender extends JPanel {
 			drawObject(g, bush1, sendY, sendX, y, x, startY, startX);
 			break;
 		case GameUtil.TREE+"":
-			if (objImageID.equals("10")){
-				startX = panelWidth / 4 - 30;
-				startY = 45 + 200;
-				drawObject(g, tree1, sendY, sendX, y, x, startY, startX);
-			}
-			else if (objImageID.equals("11")){
-				int treeStartX = panelWidth / 4;
-				int treeStartY = 85 + 200;
-				drawObject(g, tree2, sendY, sendX, y, x, treeStartY, treeStartX);
-			}
+			drawTree(g, sendY, sendX, y, x, objImageID);
 			break;
 		case GameUtil.ROCK+"":
 			startX = panelWidth / 4 + 60;
@@ -226,66 +211,15 @@ public class PanelRender extends JPanel {
 			drawObject(g, rock1, sendY, sendX, y, x, startY, startX);
 			break;
 		case GameUtil.CHESTONE+"":
-			startX = panelWidth / 4 + 50;
-			startY = 60 + 340;
-			switch (gUtil.getViewDirection()) {
-			case NORTH:
-				drawObject(g, chestFrontLeft1, sendY, sendX, y, x, startY, startX);
-				break;
-			case EAST:
-				drawObject(g, chestFrontRight1, sendY, sendX, y, x, startY, startX);
-				break;
-			case SOUTH:
-				drawObject(g, chestBackLeft1, sendY, sendX, y, x, startY, startX);
-				break;
-			case WEST:
-				drawObject(g, chestBackRight1, sendY, sendX, y, x, startY, startX);
-				break;
-			default:
-				drawObject(g, catBackRight1, sendY, sendX, y, x, startY, startX);
-				break;				
-			}			
+			drawChest(g, sendY, sendX, y, x);		
 			break;
 		case GameUtil.PLAYABLECHARACTER+"":
-			PlayableCharacter character = (PlayableCharacter) currentRoom.getBoardGrid()[sendY][sendX]
-					.getObjectOnCell();
-			int drawDirection = currentRoom.directionTranslator(gUtil.getViewDirection(), character.getFacingDirection());
-			startX = panelWidth / 4 + 37;
-			startY = 85 + 305;
-			
-			switch (drawDirection) {
-			case 0:
-				drawObject(g, catBackRight1, sendY, sendX, y, x, startY, startX);
-				break;
-			case 1:
-				drawObject(g, catFrontRight1, sendY, sendX, y, x, startY, startX);
-				break;
-			case 2:
-				drawObject(g, catFrontLeft1, sendY, sendX, y, x, startY, startX);
-				break;
-			case 3:
-				drawObject(g, catBackLeft1, sendY, sendX, y, x, startY, startX);
-				break;				
-			}
+			drawPlayableChar(g, sendY, sendX, y, x);
+			break;
+		case GameUtil.MINIONONE+"":
+			drawMinion(g, sendY, sendX, y, x);
 			break;
 		}
-//		if (testRoom.getBoardGrid()[sendY][sendX].getObjectOnCell() instanceof Tree) {
-//			int treeStartX = parentFrame.getWidth() / 4 - 30;
-//			int treeStartY = 45 + 200;
-//			drawObject(g, tree1, sendY, sendX, y, x, treeStartY, treeStartX);
-//		} else if (testRoom.getBoardGrid()[sendY][sendX].getObjectOnCell() instanceof Tree) {
-//			int treeStartX = parentFrame.getWidth() / 4;
-//			int treeStartY = 85 + 200;
-//			drawObject(g, tree1, sendY, sendX, y, x, treeStartY, treeStartX);
-//		} else if (testRoom.getBoardGrid()[sendY][sendX].getObjectOnCell() instanceof Bush) {
-//			int bushStartX = parentFrame.getWidth() / 4 + 40;
-//			int bushStartY = 85 + 300;
-//			drawObject(g, bush1, sendY, sendX, y, x, bushStartY, bushStartX);
-//		} else if (testRoom.getBoardGrid()[sendY][sendX].getObjectOnCell() instanceof Rock) {
-//			int rockStartX = parentFrame.getWidth() / 4 + 60;
-//			int rockStartY = 85 + 340;
-//			drawObject(g, rock1, sendY, sendX, y, x, rockStartY, rockStartX);
-//		}
 	}
 
 	/**
@@ -328,14 +262,88 @@ public class PanelRender extends JPanel {
 						+ (y * blockHeight / 2) - (x * blockHeight / 2), null);
 	}
 
-	public void drawCharacters(Graphics g) {
-		g.drawImage(catFrontLeft1, 710, 325, null);
-	}
-
 	public void redraw(Graphics g) {
 		g.fillRect(0, 0, panelWidth, panelHeight);
 		drawGroundAndObjects(g);
-		//drawCharacters(g);
+	}
+	
+	public void drawTree(Graphics g, int sendY, int sendX, int y, int x, String objImageID){
+		if (objImageID.equals("10")){
+			int startX = panelWidth / 4 - 30;
+			int startY = 45 + 200;
+			drawObject(g, tree1, sendY, sendX, y, x, startY, startX);
+		}
+		else if (objImageID.equals("11")){
+			int treeStartX = panelWidth / 4;
+			int treeStartY = 85 + 200;
+			drawObject(g, tree2, sendY, sendX, y, x, treeStartY, treeStartX);
+		}
 	}
 
+	public void drawChest(Graphics g, int sendY, int sendX, int y, int x){
+		int startX = panelWidth / 4 + 50;
+		int startY = 60 + 340;
+		switch (gUtil.getViewDirection()) {
+		case NORTH:
+			drawObject(g, chestFrontLeft1, sendY, sendX, y, x, startY, startX);
+			break;
+		case EAST:
+			drawObject(g, chestFrontRight1, sendY, sendX, y, x, startY, startX);
+			break;
+		case SOUTH:
+			drawObject(g, chestBackLeft1, sendY, sendX, y, x, startY, startX);
+			break;
+		case WEST:
+			drawObject(g, chestBackRight1, sendY, sendX, y, x, startY, startX);
+			break;
+		default:
+			drawObject(g, catBackRight1, sendY, sendX, y, x, startY, startX);
+			break;				
+		}
+	}
+	
+	public void drawPlayableChar(Graphics g, int sendY, int sendX, int y, int x){
+		PlayableCharacter character = (PlayableCharacter) currentRoom.getBoardGrid()[sendY][sendX]
+				.getObjectOnCell();
+		int drawDirection = currentRoom.directionTranslator(gUtil.getViewDirection(), character.getFacingDirection());
+		int startX = panelWidth / 4 + 37;
+		int startY = 85 + 305;
+		
+		switch (drawDirection) {
+		case 0:
+			drawObject(g, catBackRight1, sendY, sendX, y, x, startY, startX);
+			break;
+		case 1:
+			drawObject(g, catFrontRight1, sendY, sendX, y, x, startY, startX);
+			break;
+		case 2:
+			drawObject(g, catFrontLeft1, sendY, sendX, y, x, startY, startX);
+			break;
+		case 3:
+			drawObject(g, catBackLeft1, sendY, sendX, y, x, startY, startX);
+			break;				
+		}
+	}
+	
+	public void drawMinion(Graphics g, int sendY, int sendX, int y, int x){
+		int startX = panelWidth / 4 + 50;
+		int startY = 60 + 340;
+		switch (gUtil.getViewDirection()) {
+		case NORTH:
+			drawObject(g, minionFrontLeft1, sendY, sendX, y, x, startY, startX);
+			break;
+		case EAST:
+			drawObject(g, minionFrontRight1, sendY, sendX, y, x, startY, startX);
+			break;
+		case SOUTH:
+			drawObject(g, minionBackLeft1, sendY, sendX, y, x, startY, startX);
+			break;
+		case WEST:
+			drawObject(g, minionBackRight1, sendY, sendX, y, x, startY, startX);
+			break;
+		default:
+			drawObject(g, minionBackRight1, sendY, sendX, y, x, startY, startX);
+			break;				
+		}
+	}
 }
