@@ -24,7 +24,7 @@ public class PanelStat extends PanelAbstract {
 		super();
 		try {
 			backGround = ImageIO.read(PanelRender.class
-					.getResource("/images/Tree1.png")); //TODO StatBG
+					.getResource("/images/StatPanel.png")); //TODO StatBG
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -77,9 +77,10 @@ public class PanelStat extends PanelAbstract {
 	}
 	
 	public void drawHPBar(Graphics g){
-		int HPWidth = this.getWidth()*9/10;
+		int margin = (int) (this.getWidth()*0.1);
+		int HPWidth = this.getWidth()-2*margin;
 		int HPHeight = this.getHeight()/15;
-		int HPX = this.getWidth()/20;
+		int HPX = margin;
 		int HPY = this.getHeight()/15;
 		
 		g.setColor(Color.black);

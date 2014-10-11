@@ -258,7 +258,7 @@ public class FrameClient extends FrameAbstract implements KeyListener {
 		if (renderPanel != null) {
 			this.remove(renderPanel);
 		}
-		Room currentRoom = data.getGameUtil().findPlayersRoom(clientsUID);
+		Room currentRoom = runner.getBoardData().getGameUtil().findPlayersRoom(clientsUID);
 		renderPanel = new PanelRender(windowSize, Integer.toString(character
 				.getObjectID()), runner.getBoardData().getGameUtil(),
 				currentRoom);
