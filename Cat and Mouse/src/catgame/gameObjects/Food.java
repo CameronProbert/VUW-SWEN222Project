@@ -25,7 +25,7 @@ public class Food implements GameItem{
 		this.heal = heal;
 		try {
 			picture = ImageIO.read(PanelRender.class
-					.getResource("/images/Tree1.png"));
+					.getResource("/images/Food.png"));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

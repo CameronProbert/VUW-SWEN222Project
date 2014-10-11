@@ -23,7 +23,7 @@ public class Key implements GameItem{
 		this.id = id;
 		try {
 			picture = ImageIO.read(PanelRender.class
-					.getResource("/images/key.png"));
+					.getResource("/images/Key.png"));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
