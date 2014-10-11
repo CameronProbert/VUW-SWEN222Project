@@ -39,7 +39,9 @@ public class PlayableCharacter implements Character {
 	 * @param health
 	 * @param items
 	 */
-	public PlayableCharacter(int ownerID, int ID, Room currentRoom, Direction direction, int attackPower, int health, List<GameItem> items) {
+	public PlayableCharacter(int ownerID, int ID, Room currentRoom,
+			Direction direction, int attackPower, int health,
+			List<GameItem> items) {
 		this.ownersID = ownerID;
 		this.id = ID;
 		this.currentRoom = currentRoom;
@@ -113,8 +115,8 @@ public class PlayableCharacter implements Character {
 	public Direction getFacingDirection() {
 		return facingDirection;
 	}
-	
-	public void changeDirection(Direction direction){
+
+	public void changeDirection(Direction direction) {
 		this.facingDirection = direction;
 	}
 
@@ -135,7 +137,7 @@ public class PlayableCharacter implements Character {
 
 	public void resetItems(List<GameItem> items) {
 		// TODO Auto-generated method stub
- 
+
 	}
 
 	public int getOwner() {

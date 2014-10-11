@@ -94,10 +94,35 @@ public class SavingMain {
 		// ----------------------------------------------------------------
 
 		// ------------ Inventory ------------
-		Element roomInventoryElement = new Element("Inventory");
-		for (MasterObject obj : room.getRoomInventory()) {
-			roomInventoryElement.addContent(helper.writeMasterObject(obj));
+		// Split the Room Inventory into lists of non-playerable objects
+		// and playerable 
+		List<GameObject> gameObjectsList = new ArrayList<GameObject>();
+		List<GameObject> playersInRoomList = new ArrayList<GameObject>();
+		
+		for(GameObject gameobj: room.getRoomInventory()){
+			// Save all the objects that are ONLY playable character
+			if(gameobj instanceof PlayableCharacter){
+				playersInRoomList.add(gameobj);
+			}
+			else{
+				// Save all the objects that are NOT playable character
+				gameObjectsList.add(gameobj);
+			}
 		}
+		Element roomInventoryElement = new Element("Inventory");
+		Element nonplayerableObjectsElement = new Element("non-playerable inventory");
+		Element playerableObjectsElement = new Element("playerable inventory");
+		// save non-playerable
+		for (MasterObject obj : gameObjectsList) {
+			nonplayerableObjectsElement.addContent(helper.writeMasterObject(obj));
+		}
+		// save playerable
+		for (MasterObject obj : playersInRoomList) {
+			playerableObjectsElement.addContent(helper.writeMasterObject(obj));
+		}
+		roomInventoryElement.addContent(nonplayerableObjectsElement);
+		roomInventoryElement.addContent(playerableObjectsElement);
+		
 		roomElement.addContent(roomInventoryElement);// add to roomElement
 		// ----------------------------------------------------------------
 

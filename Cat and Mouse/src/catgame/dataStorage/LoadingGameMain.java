@@ -86,7 +86,17 @@ public class LoadingGameMain {
 			throws XMLException {
 		List<Element> gameObjList = childrenElement.getChildren();
 		for (Element objElement : gameObjList) {
-			room.addToInventory(masterObjectLoader.verifyElement(objElement));
+			if(objElement.getName().equals("non-playerable inventory")){
+				for(Element nonPlayerableObj: objElement.getChildren()){
+					room.addToInventory(masterObjectLoader.verifyElement(nonPlayerableObj));
+				}
+			}
+			else if(objElement.getName().equals("playerable inventory")){
+				for(Element playerableObj: objElement.getChildren()){
+					room.addToInventory(masterObjectLoader.verifyElement(playerableObj));
+				}
+			}
+			
 		}
 		return null;
 	}
