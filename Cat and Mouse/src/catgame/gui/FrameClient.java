@@ -35,16 +35,16 @@ import catgame.logic.GameUtil.Direction;
  * @author Cameron Probert
  * 
  */
-public class ClientFrame extends AbstractFrame implements KeyListener {
+public class FrameClient extends FrameAbstract implements KeyListener {
 
 	private static final double FRAMEHEIGHTMODIFIER = .9;
 	private static final double ASPECTRATIO = 1.8;
 
 	private GameRunner runner;
 	private int clientsUID;
-	private RenderPanel renderPanel;
+	private PanelRender renderPanel;
 	private boolean isClient;
-	private StatPanel statPanel;
+	private PanelStat statPanel;
 	private Dimension windowSize;
 	private SlaveReceiver slaveR;
 	private Slave slave;
@@ -57,7 +57,7 @@ public class ClientFrame extends AbstractFrame implements KeyListener {
 	 * @param isClient
 	 * @param character
 	 */
-	public ClientFrame(GameRunner network, boolean isClient, Slave slave) {
+	public FrameClient(GameRunner network, boolean isClient, Slave slave) {
 		super("Cat and Mouse");
 		this.setDimensions();
 		this.setLayout(null);
@@ -234,7 +234,7 @@ public class ClientFrame extends AbstractFrame implements KeyListener {
 	 * @param character
 	 */
 	private void addPanels(PlayableCharacter character) {
-		renderPanel = new RenderPanel(windowSize, this);
+		renderPanel = new PanelRender(windowSize, this);
 
 		// Create dimensions
 		int statPanelWidth = 200;
@@ -252,12 +252,12 @@ public class ClientFrame extends AbstractFrame implements KeyListener {
 		int statLocationX = (int) (windowSize.getWidth()-statPanelWidth-margin);
 		int statPanelLocationY = (int) (windowSize.getHeight()-statPanelHeight-margin*2);
 
-		InventoryPanel invPanel = new InventoryPanel(character, invPanelDim, this);
+		PanelInventory invPanel = new PanelInventory(character, invPanelDim, this);
 		invPanel.setLocation(invLocationX, invPanelLocationY);
 		invPanel.setSize(invPanelDim);
 		invPanel.setPreferredSize(invPanelDim);
 
-		statPanel = new StatPanel(character);
+		statPanel = new PanelStat(character);
 		statPanel.setLocation(statLocationX, statPanelLocationY);
 		statPanel.setSize(statPanelDim);
 		statPanel.setPreferredSize(statPanelDim);
@@ -355,7 +355,7 @@ public class ClientFrame extends AbstractFrame implements KeyListener {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		new ClientFrame(null, false, null);
+		new FrameClient(null, false, null);
 	}
 
 }

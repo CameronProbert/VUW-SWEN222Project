@@ -13,17 +13,17 @@ import javax.imageio.ImageIO;
 import javax.swing.JButton;
 
 import catgame.gameObjects.PlayableCharacter;
-import catgame.gui.renderpanel.RenderPanel;
+import catgame.gui.renderpanel.PanelRender;
 
-public class StatPanel extends AbstractPanel {
+public class PanelStat extends PanelAbstract {
 
 	private PlayableCharacter character;
 	private BufferedImage backGround;
 
-	public StatPanel(PlayableCharacter character) {
+	public PanelStat(PlayableCharacter character) {
 		super();
 		try {
-			backGround = ImageIO.read(RenderPanel.class
+			backGround = ImageIO.read(PanelRender.class
 					.getResource("/images/Tree1.png")); //TODO StatBG
 		} catch (IOException e) {
 			e.printStackTrace();

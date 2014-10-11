@@ -7,9 +7,9 @@ import java.awt.Point;
 
 import javax.swing.JFrame;
 
-public abstract class AbstractFrame extends JFrame {
+public abstract class FrameAbstract extends JFrame {
 	
-	public AbstractFrame(String windowTitle) {
+	public FrameAbstract(String windowTitle) {
 		super();
 		setup();
 		this.setTitle(windowTitle);

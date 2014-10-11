@@ -12,16 +12,16 @@ import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 
 import catgame.gameObjects.*;
-import catgame.gui.ClientFrame;
+import catgame.gui.FrameClient;
 import catgame.logic.GameUtil;
 import catgame.logic.GameUtil.Direction;
 import catgame.logic.ObjectStorer;
 import catgame.logic.Room;
 import catgame.logic.RoomBuilder;
 
-public class RenderPanel extends JPanel {
+public class PanelRender extends JPanel {
 
-	public final ClientFrame parentFrame;
+	public final FrameClient parentFrame;
 	private Image grassBlock;
 	private Image tree1;
 	private Image tree2;
@@ -41,7 +41,7 @@ public class RenderPanel extends JPanel {
 	private RoomBuilder buildBoard;
 	private Room testRoom;
 
-	public RenderPanel(Dimension windowSize, ClientFrame parentFrame) {
+	public PanelRender(Dimension windowSize, FrameClient parentFrame) {
 		this.parentFrame = parentFrame;
 
 		setLayout(null);

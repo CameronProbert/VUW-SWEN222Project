@@ -30,14 +30,14 @@ import catgame.gameObjects.PlayableCharacter;
  * @author Cameron Probert
  * 
  */
-public class LauncherFrame extends AbstractFrame {
+public class FrameLauncher extends FrameAbstract {
 
 	protected int port = 32768;
 
 	/**
 	 * Creates and initialises the frame
 	 */
-	public LauncherFrame() {
+	public FrameLauncher() {
 		super("Launcher");
 		Dimension launcherSize = new Dimension(200, 400);
 		this.setSize(launcherSize);
@@ -65,7 +65,7 @@ public class LauncherFrame extends AbstractFrame {
 		buttonServer.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				setVisible(false);
-				new HostFrame();
+				new FrameHost();
 			}
 		});
 		buttonServer.setAlignmentX(CENTER_ALIGNMENT);
@@ -80,7 +80,7 @@ public class LauncherFrame extends AbstractFrame {
 					Socket s = new Socket(url, port );
 					Slave slave = new Slave(s);
 					NetworkHandler net = new NetworkHandler(NetworkHandler.Type.CLIENT);
-					ClientFrame frame = new ClientFrame(net, true, slave);
+					FrameClient frame = new FrameClient(net, true, slave);
 				} catch (IOException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
@@ -127,6 +127,6 @@ public class LauncherFrame extends AbstractFrame {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		new LauncherFrame();
+		new FrameLauncher();
 	}
 }

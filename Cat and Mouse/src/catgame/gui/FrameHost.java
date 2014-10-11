@@ -15,9 +15,9 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 
 import catgame.clientserver.ServerNewGame;
 import catgame.clientserver.ServerOldGame;
-import catgame.gui.renderpanel.RenderPanel;
+import catgame.gui.renderpanel.PanelRender;
 
-public class HostFrame extends AbstractFrame {
+public class FrameHost extends FrameAbstract {
 
 	private JButton startServerButton;
 	private JButton loadServerButton;
@@ -29,10 +29,10 @@ public class HostFrame extends AbstractFrame {
 	 * 
 	 * @param network
 	 */
-	public HostFrame() {
+	public FrameHost() {
 		super("Catgame Server");
 		try {
-			backGround = ImageIO.read(RenderPanel.class
+			backGround = ImageIO.read(PanelRender.class
 					.getResource("/images/Tree1.png")); // TODO Cat background
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -103,7 +103,7 @@ public class HostFrame extends AbstractFrame {
 	}
 
 	public static void main(String[] args) {
-		new HostFrame();
+		new FrameHost();
 	}
 
 }

@@ -17,18 +17,18 @@ import javax.swing.JPanel;
 
 import catgame.gameObjects.GameItem;
 import catgame.gameObjects.PlayableCharacter;
-import catgame.gui.renderpanel.RenderPanel;
+import catgame.gui.renderpanel.PanelRender;
 
-public class InventoryPanel extends AbstractPanel {
+public class PanelInventory extends PanelAbstract {
 
 	private static final int NUMCOLUMNS = 1;
 	private static final int NUMROWS = 6;
 	private static final double TOTALSLOTS = NUMCOLUMNS * NUMROWS;
 	private PlayableCharacter character;
-	private ArrayList<ItemPanel> panels = new ArrayList<ItemPanel>();
+	private ArrayList<PanelItem> panels = new ArrayList<PanelItem>();
 	private Dimension invSize;
 	private BufferedImage backGround;
-	private ClientFrame frame;
+	private FrameClient frame;
 
 	/**
 	 * Needs to get linked to the player's inventory so it can draw it.
@@ -36,13 +36,13 @@ public class InventoryPanel extends AbstractPanel {
 	 * @param windowSize
 	 * @param windowSize
 	 */
-	public InventoryPanel(PlayableCharacter character, Dimension invSize, ClientFrame frame) {
+	public PanelInventory(PlayableCharacter character, Dimension invSize, FrameClient frame) {
 		super();
 		this.invSize = invSize;
 		this.frame = frame;
 		this.character = character;
 		try {
-			backGround = ImageIO.read(RenderPanel.class
+			backGround = ImageIO.read(PanelRender.class
 					.getResource("/images/Tree1.png")); //TODO Inventory BG
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -64,7 +64,7 @@ public class InventoryPanel extends AbstractPanel {
 			int rowNum = i / NUMCOLUMNS;
 			int x = columnNum * itemWidth;
 			int y = rowNum * itemHeight;
-			ItemPanel panel = new ItemPanel(new Point(x, y), panelSize, frame);
+			PanelItem panel = new PanelItem(new Point(x, y), panelSize, frame);
 			panels.add(panel);
 			this.add(panel);
 		}

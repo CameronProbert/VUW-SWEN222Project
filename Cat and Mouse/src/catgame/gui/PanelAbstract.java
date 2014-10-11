@@ -12,10 +12,10 @@ import javax.swing.JPanel;
  * The AbstractPanel is an intermediary panel for the rest of the panels,
  * its purpose is to reduce code and ensure correct behaviours.
  */
-public class AbstractPanel extends JPanel {
+public class PanelAbstract extends JPanel {
 
 
-	public AbstractPanel() {
+	public PanelAbstract() {
 		this.setLayout(null);
 		this.setVisible(true);
 		this.setBackground(new Color((int) (Math.random() * 255), (int) (Math

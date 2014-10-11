@@ -9,12 +9,12 @@ import java.awt.event.MouseListener;
 
 import catgame.gameObjects.GameItem;
 
-public class ItemPanel extends AbstractPanel implements MouseListener {
+public class PanelItem extends PanelAbstract implements MouseListener {
 
 	private GameItem item;
-	private ClientFrame frame;
+	private FrameClient frame;
 
-	public ItemPanel(Point origin, Dimension dim, ClientFrame frame) {
+	public PanelItem(Point origin, Dimension dim, FrameClient frame) {
 		super();
 		this.frame = frame;
 		this.addMouseListener(this);
