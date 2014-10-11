@@ -8,6 +8,7 @@ import catgame.gameObjects.Chest;
 import catgame.gameObjects.Door;
 import catgame.gameObjects.Food;
 import catgame.gameObjects.GameItem;
+import catgame.gameObjects.Key;
 import catgame.gameObjects.Minion;
 import catgame.gameObjects.PlayableCharacter;
 import catgame.gameObjects.Rock;
@@ -183,13 +184,18 @@ public class ObjectBuilder {
 
 	public BoardCell addChestOne(int x, int y, Room loadingRoom) {
 		int newChestId = genorateObjectId(GameUtil.CHESTONE, genorateRandomObjectType(1), chestNum++);
-		
-		Chest newChest = new Chest(newChestId, null);
-		return null;
+		List<GameItem> chestinv = new ArrayList<GameItem>();
+		chestinv.add(new Food(80, 20));
+		Chest newChest = new Chest(newChestId, chestinv);
+		return new BoardCell(new Position(x, y), newChest, GROUNDTYPEGRASS);
 	}
 
 	public BoardCell addChestTwo(int x, int y, Room loadingRoom) {
-		// TODO Auto-generated method stub
-		return null;
+		int newChestId = genorateObjectId(GameUtil.CHESTONE, genorateRandomObjectType(1), chestNum++);
+		List<GameItem> chestinv = new ArrayList<GameItem>();
+		chestinv.add(new Food(GameUtil.FOOD, 20));
+		chestinv.add(new Key(GameUtil.KEY));
+		Chest newChest = new Chest(newChestId, chestinv);
+		return new BoardCell(new Position(x, y), newChest, GROUNDTYPEGRASS);
 	}
 }
