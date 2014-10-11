@@ -9,7 +9,6 @@ import java.util.List;
 
 
 
-import catgame.gui.ClientFrame;
 
 /**
  * Sends update across socket to master everytime he user successfully makes a change to their game state

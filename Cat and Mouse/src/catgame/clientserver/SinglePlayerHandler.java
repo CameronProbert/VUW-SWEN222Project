@@ -7,7 +7,7 @@ import catgame.gameObjects.Food;
 import catgame.gameObjects.GameItem;
 import catgame.gameObjects.Key;
 import catgame.gameObjects.PlayableCharacter;
-import catgame.gui.ClientFrame;
+import catgame.gui.FrameClient;
 import catgame.logic.GameUtil;
 
 /**
@@ -37,7 +37,7 @@ public class SinglePlayerHandler extends GameRunner {
 			// TODO this.setGameUtil(util);
 		}
 		game = new GameUtil(); //  TODO remove later only for testing
-		ClientFrame frame = new ClientFrame(this, false, null);
+		FrameClient frame = new FrameClient(this, false, null);
 		try {
 			singleUserGame(this);
 		} catch (IOException e) {

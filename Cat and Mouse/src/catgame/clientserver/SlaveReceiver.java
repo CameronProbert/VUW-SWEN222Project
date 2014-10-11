@@ -14,7 +14,7 @@ import catgame.gameObjects.Chest;
 import catgame.gameObjects.GameItem;
 import catgame.gameObjects.NonPlayableCharacter;
 import catgame.gameObjects.PlayableCharacter;
-import catgame.gui.ClientFrame;
+import catgame.gui.FrameClient;
 
 /**
  * receives updates from the server (from its master connection)
@@ -31,13 +31,13 @@ public class SlaveReceiver {
 	private final int MASSUPDATE = 35;
 	private final int MINORUPDATE = 30;
 	private boolean readyToStart = false;
-	private ClientFrame frame;
+	private FrameClient frame;
 	
 	public final static String
     FILE_TO_RECEIVED = "/Cat And Mouse/Load_From";
 	
 
-	public SlaveReceiver(Slave slave, GameRunner net, ClientFrame frame){
+	public SlaveReceiver(Slave slave, GameRunner net, FrameClient frame){
 		this.slave = slave;
 		this.net = (NetworkHandler)net;
 		this.frame = frame;
