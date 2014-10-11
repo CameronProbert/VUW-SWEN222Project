@@ -168,28 +168,86 @@ public class RenderPanel extends JPanel {
 	 */
 	public void determineAndDrawObject(Graphics g, int sendY, int sendX, int y,
 			int x) {
+
+		// characters id's 10 - 19
+		final int playableCharacter = 10;
+
+		final int bossOne = 11;
+		final int bossTwo = 12;
+		final int bossThree = 13;
+
+		final int minionOne = 14;
+		final int minionTwo = 15;
+		final int minionThree = 16;
+		final int minionFour = 17;
+
+		// Room accessories 20-39
+		final int bush = 20;
+		final int tree = 21;
+		final int rock = 22;
+		final int hedge = 23;
+		final int fence = 24;
+		final int chestOne = 25;
+		final int chestTwo = 26;
+		final int chestTree = 27;
+		final int chestFour = 28;
+
 		// -----------------------game object
 		// instanceof: MoveAble-------||------NonMovabke
 		// "" PlayerAbleCharacter----NPC------------tree||rock...etc
 		// -----------------------Boss||Minion
 
-		if (testRoom.getBoardGrid()[sendY][sendX].getObjectOnCell() instanceof Tree) {
-			int treeStartX = parentFrame.getWidth() / 4 - 30;
-			int treeStartY = 45 + 200;
-			drawObject(g, tree1, sendY, sendX, y, x, treeStartY, treeStartX);
-		} else if (testRoom.getBoardGrid()[sendY][sendX].getObjectOnCell() instanceof Tree) {
-			int treeStartX = parentFrame.getWidth() / 4;
-			int treeStartY = 85 + 200;
-			drawObject(g, tree1, sendY, sendX, y, x, treeStartY, treeStartX);
-		} else if (testRoom.getBoardGrid()[sendY][sendX].getObjectOnCell() instanceof Bush) {
-			int bushStartX = parentFrame.getWidth() / 4 + 40;
-			int bushStartY = 85 + 300;
-			drawObject(g, bush1, sendY, sendX, y, x, bushStartY, bushStartX);
-		} else if (testRoom.getBoardGrid()[sendY][sendX].getObjectOnCell() instanceof Rock) {
-			int rockStartX = parentFrame.getWidth() / 4 + 60;
-			int rockStartY = 85 + 340;
-			drawObject(g, rock1, sendY, sendX, y, x, rockStartY, rockStartX);
+		if (testRoom.getBoardGrid()[sendY][sendX].getObjectOnCell() == null) {
+			return;
 		}
+		MasterObject currentObj = testRoom.getBoardGrid()[sendY][sendX]
+				.getObjectOnCell();
+		String currentObjID = currentObj.getObjectID() + "";
+		currentObjID = currentObjID.substring(0, 2);
+		System.out.println(currentObjID);
+
+		int startX, startY;
+		switch (currentObjID) {
+		
+		case bush+"":
+			startX = parentFrame.getWidth() / 4 + 40;
+			startY = 85 + 300;
+			drawObject(g, bush1, sendY, sendX, y, x, startY, startX);
+			break;
+		case tree+"":
+			startX = parentFrame.getWidth() / 4 - 30;
+			startY = 45 + 200;
+			drawObject(g, tree1, sendY, sendX, y, x, startY, startX);
+			break;
+		case rock+"":
+			startX = parentFrame.getWidth() / 4 + 60;
+			startY = 85 + 340;
+			drawObject(g, rock1, sendY, sendX, y, x, startY, startX);
+			break;
+		case playableCharacter+"":
+			startX = parentFrame.getWidth() / 4 + 40;
+			startY = 85 + 300;
+			drawObject(g, catFrontLeft1, sendY, sendX, y, x, startY, startX);
+			break;
+		}
+
+//		if (testRoom.getBoardGrid()[sendY][sendX].getObjectOnCell() instanceof Tree) {
+//			int treeStartX = parentFrame.getWidth() / 4 - 30;
+//			int treeStartY = 45 + 200;
+//			drawObject(g, tree1, sendY, sendX, y, x, treeStartY, treeStartX);
+//		} else if (testRoom.getBoardGrid()[sendY][sendX].getObjectOnCell() instanceof Tree) {
+//			int treeStartX = parentFrame.getWidth() / 4;
+//			int treeStartY = 85 + 200;
+//			drawObject(g, tree1, sendY, sendX, y, x, treeStartY, treeStartX);
+//		} else if (testRoom.getBoardGrid()[sendY][sendX].getObjectOnCell() instanceof Bush) {
+//			int bushStartX = parentFrame.getWidth() / 4 + 40;
+//			int bushStartY = 85 + 300;
+//			drawObject(g, bush1, sendY, sendX, y, x, bushStartY, bushStartX);
+//		} else if (testRoom.getBoardGrid()[sendY][sendX].getObjectOnCell() instanceof Rock) {
+//			int rockStartX = parentFrame.getWidth() / 4 + 60;
+//			int rockStartY = 85 + 340;
+//			drawObject(g, rock1, sendY, sendX, y, x, rockStartY, rockStartX);
+//		}
 	}
 
 	/**
@@ -239,7 +297,7 @@ public class RenderPanel extends JPanel {
 	public void redraw(Graphics g) {
 		g.fillRect(0, 0, parentFrame.getWidth(), parentFrame.getHeight());
 		drawGroundAndObjects(g);
-		drawCharacters(g);
+		//drawCharacters(g);
 	}
 
 }
