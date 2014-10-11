@@ -35,7 +35,7 @@ public class GameUtil {
 	// characters id's 10 - 19
 	public static final int PLAYABLECHARACTER = 10;
 
-	//NPC id's 11-19
+	// NPC id's 11-19
 	public static final int BOSSONE = 11;
 	public static final int BOSSTWO = 12;
 	public static final int BOSSTHREE = 13;
@@ -48,32 +48,34 @@ public class GameUtil {
 	public static final int BUSH = 20;
 	public static final int TREE = 21;
 	public static final int ROCK = 22;
-	
+
 	public static final int FENCE = 24;
 	public static final int CHESTONE = 25;
 	public static final int CHESTTWO = 26;
 	public static final int CHESTTHREE = 27;
 	public static final int CHESTFOUR = 28;
-	
-	
+
 	public static final int HEDGEN = 30;
 	public static final int HEDGEE = 31;
 	public static final int HEDGES = 32;
 	public static final int HEDGEW = 33;
-	
-	
+
+	public static final int FENCEN = 34;
+	public static final int FENCEE = 35;
+	public static final int FENCES = 36;
+	public static final int FENCEW = 37;
+
 	public static final int DOORN = 40;
 	public static final int DOORE = 41;
 	public static final int DOORS = 42;
 	public static final int DOORW = 43;
-	
-	
+
 	public static final int KEY = 60;
 	public static final int FOOD = 80;
 
 	private ObjectStorer storer = new ObjectStorer();
 
-	public Direction viewDirection = Direction.NORTH;
+	private Direction viewDirection = Direction.NORTH;
 
 	public GameUtil() {
 
@@ -267,13 +269,13 @@ public class GameUtil {
 		public int getValue() {
 			return this.value;
 		}
-		
+
 		/**
 		 * Returns the Direction to the left of the given Direction
 		 */
-		public static Direction leftDir(Direction dir){
+		public static Direction leftDir(Direction dir) {
 			Direction newDir = NORTH;
-			switch (dir){
+			switch (dir) {
 			case NORTH:
 				return WEST;
 			case UP:
@@ -293,13 +295,13 @@ public class GameUtil {
 			}
 			return newDir;
 		}
-		
+
 		/**
 		 * Returns the Direction to the right of the given Direction
 		 */
-		public static Direction rightDir(Direction dir){
+		public static Direction rightDir(Direction dir) {
 			Direction newDir = NORTH;
-			switch (dir){
+			switch (dir) {
 			case NORTH:
 				return EAST;
 			case UP:
@@ -321,11 +323,15 @@ public class GameUtil {
 		}
 	}
 
+	public void TESTsetViewDirection(Direction d) {
+		this.viewDirection = d;
+	}
+
 	public ObjectStorer getStorer() {
 		return this.storer;
 	}
-	
-	public Direction getViewDirection(){
+
+	public Direction getViewDirection() {
 		return viewDirection;
 	}
 
@@ -336,5 +342,5 @@ public class GameUtil {
 	public void lookRight() {
 		viewDirection = Direction.leftDir(viewDirection);
 	}
-	
+
 }

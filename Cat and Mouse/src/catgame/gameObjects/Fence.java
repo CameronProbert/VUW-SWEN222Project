@@ -1,13 +1,18 @@
 package catgame.gameObjects;
 
+import catgame.logic.GameUtil.Direction;
+
 public class Fence implements NonMovavble{
 
-	public Fence(int id){
-		
+	private final int id;
+	private Direction direction;
+	
+	public Fence(int id, Direction direction){
+		this.id = id;
+		this.direction = direction;
 	}
 	public int getObjectID() {
-		// TODO Auto-generated method stub
-		return 0;
+		return id;
 	}
 
 }
