@@ -50,6 +50,7 @@ public class FrameClient extends FrameAbstract implements KeyListener {
 	private Slave slave;
 	private LoadingGameMain loadMain;
 	private PlayableCharacter character;
+	private BoardData data;
 
 	/**
 	 * Creates a new Client frame.
@@ -95,9 +96,47 @@ public class FrameClient extends FrameAbstract implements KeyListener {
 		this.addPanels(character);
 		this.setVisible(true);
 	}
+	
+	public FrameClient(GameRunner network, boolean isClient, Slave slave, BoardData data) {
+		super("Cat and Mouse");
+		this.setDimensions();
+		this.setLayout(null);
+		this.addKeyListener(this);
+		this.addMenus();
+		this.runner = network;
+		this.isClient = isClient;
+		
+		if(slave!=null){
+			this.slaveR = new SlaveReceiver(slave, runner, this);
+			slaveR.run();
+			this.slave = slave;
+		}
+		else{
+			this.clientsUID = 101010;
+			List<Integer> id = new ArrayList<Integer>();
+			id.add(clientsUID);
+			/*try {
+				loadMain = new LoadingGameMain(id);
+			} catch (JDOMException | XMLException e) {
+				e.printStackTrace();
+			}*/
+			//TODO REMOVED TO TEST PlayableCharacter character = runner.getGameUtill().getStorer().findCharacter(clientsUID);
+			//TODO REMOVED TO TEST this.addPanels(character);
+		}
+		System.out.println("FINDING CHARACTER");
+		character = TESTfindCharacter();
+		if (character == null){
+			System.out.println("DID NOT FIND CHARACTER");
+			character = new PlayableCharacter(1, 10, null, Direction.SOUTH, 3, 5, null);
+		}
+		character.addToInventory(new Key(0));
+		character.addToInventory(new Food(10, 10));
+		this.addPanels(character);
+		this.setVisible(true);
+	}
 
 	private PlayableCharacter TESTfindCharacter() {
-		return runner.getGameUtill().getStorer().findCharacter(10);
+		return runner.getBoardData().getObjStorer().findCharacter(10);
 	}
 
 	/**
@@ -233,7 +272,7 @@ public class FrameClient extends FrameAbstract implements KeyListener {
 	 */
 	private void addPanels(PlayableCharacter character) {
 		renderPanel = new PanelRender(windowSize, Integer.toString(character
-				.getObjectID()), runner.getGameUtill());
+				.getObjectID()), runner.getBoardData().getGameUtil());
 
 		// Create dimensions
 		int statPanelWidth = 200;
@@ -276,6 +315,7 @@ public class FrameClient extends FrameAbstract implements KeyListener {
 	 */
 	@Override
 	public void keyPressed(KeyEvent key) {
+		System.out.printf("Client ID: %d", clientsUID);
 		if(slaveR!=null&&!slaveR.isReady()){
 			return;
 		}
@@ -285,41 +325,41 @@ public class FrameClient extends FrameAbstract implements KeyListener {
 		switch (keyID) {
 		case KeyEvent.VK_W:
 			System.out.println("MOVE UP PRESSED");
-			validAction = runner.getGameUtill().moveUp(clientsUID);
+			validAction = runner.getBoardData().getGameUtil().moveUp(clientsUID);
 			up = new Update(Update.Descriptor.NORTH, clientsUID, 0);
 			break;
 		case KeyEvent.VK_A:
 			System.out.println("MOVE LEFT PRESSED");
-			validAction = runner.getGameUtill().moveLeft(clientsUID);
+			validAction = runner.getBoardData().getGameUtil().moveLeft(clientsUID);
 			up = new Update(Update.Descriptor.WEST, clientsUID, 0);
 			break;
 		case KeyEvent.VK_S:
 			System.out.println("MOVE DOWN PRESSED");
-			validAction = runner.getGameUtill().moveDown(clientsUID);
+			validAction = runner.getBoardData().getGameUtil().moveDown(clientsUID);
 			up = new Update(Update.Descriptor.SOUTH, clientsUID, 0);
 			break;
 		case KeyEvent.VK_D:
 			System.out.println("MOVE RIGHT PRESSED");
-			validAction = runner.getGameUtill().moveRight(clientsUID);
+			validAction = runner.getBoardData().getGameUtil().moveRight(clientsUID);
 			up = new Update(Update.Descriptor.EAST, clientsUID, 0);
 			break;
 		case KeyEvent.VK_SPACE:
 			System.out.println("ATTACK PRESSED");
-			int attacked = runner.getGameUtill().attack(clientsUID);
+			int attacked = runner.getBoardData().getGameUtil().attack(clientsUID);
 			if (attacked > 0) {
 				validAction = 1;
 				up = new Update(Update.Descriptor.ATTACK, clientsUID, attacked);
 			}
 			break;
 		case KeyEvent.VK_LEFT:
-			runner.getGameUtill().lookLeft();
+			runner.getBoardData().getGameUtil().lookLeft();
 			break;
 		case KeyEvent.VK_RIGHT:
-			runner.getGameUtill().lookRight();
+			runner.getBoardData().getGameUtil().lookRight();
 			break;
 		case KeyEvent.VK_E: // open a chest
 			System.out.println("OPEN CHEST PRESSED");
-			Chest chest = runner.getGameUtill().getChest(clientsUID);
+			Chest chest = runner.getBoardData().getGameUtil().getChest(clientsUID);
 			if (chest != null) {
 				validAction = 1;
 				// TODO open dialog box to choose items out of chest (using the
@@ -344,7 +384,7 @@ public class FrameClient extends FrameAbstract implements KeyListener {
 	public void itemUsed(GameItem item) {
 		int validAction = 0;
 		Update up = new Update(0);
-		validAction = runner.getGameUtill().useItem(clientsUID, item.getObjectID());
+		validAction = runner.getBoardData().getGameUtil().useItem(clientsUID, item.getObjectID());
 		up = new Update(Update.Descriptor.CONSUME, clientsUID, item.getObjectID());
 		if (validAction > 0 && isClient) {
 			slave.sendUpdate(up);
@@ -368,7 +408,8 @@ public class FrameClient extends FrameAbstract implements KeyListener {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		new FrameClient(null, false, null);
+		BoardData data = new BoardData();
+		data.loadTestData();
+		new FrameClient(null, false, null, data);
 	}
-
 }
