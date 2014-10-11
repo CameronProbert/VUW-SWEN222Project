@@ -333,16 +333,16 @@ public class PanelRender extends JPanel {
 			drawObject(g, minionFrontLeft1, sendY, sendX, y, x, startY, startX);
 			break;
 		case EAST:
-			drawObject(g, minionFrontRight1, sendY, sendX, y, x, startY, startX);
-			break;
-		case SOUTH:
 			drawObject(g, minionBackLeft1, sendY, sendX, y, x, startY, startX);
 			break;
-		case WEST:
+		case SOUTH:
 			drawObject(g, minionBackRight1, sendY, sendX, y, x, startY, startX);
 			break;
+		case WEST:
+			drawObject(g, minionFrontRight1, sendY, sendX, y, x, startY, startX);
+			break;
 		default:
-			drawObject(g, minionBackRight1, sendY, sendX, y, x, startY, startX);
+			drawObject(g, minionFrontRight1, sendY, sendX, y, x, startY, startX);
 			break;				
 		}
 	}
