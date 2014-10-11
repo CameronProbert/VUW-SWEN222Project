@@ -17,19 +17,54 @@ public class SavingHelper {
 	}
 
 	public Element writeMasterObject(MasterObject obj) throws XMLException {
+		if(obj == null){
+			throw new XMLException("obj is null");
+		}
 		if (obj instanceof Boss) {
 			return masterObj.writeBoss(obj);
 		}
-		if (obj instanceof Chest) {
+		else if (obj instanceof Bush) {
+			return masterObj.writeBush(obj);
+		}
+		else if (obj instanceof Door) {
+			return masterObj.writeDoor(obj);
+		}
+		else if (obj instanceof Fence) {
+			return masterObj.writeFence(obj);
+		}
+		else if (obj instanceof Hedge) {
+			return masterObj.writeHedge(obj);
+		}
+		else if (obj instanceof Key) {
+			return masterObj.writeKey(obj);
+		}
+		else if (obj instanceof Minion) {
+			return masterObj.writeMinion(obj);
+		}
+		else if (obj instanceof Chest) {
 			return masterObj.writeChest(obj);
 		}
-		if (obj instanceof Food) {
+		else if (obj instanceof Food) {
 			return masterObj.writeFood(obj);
 		}
-		if (obj instanceof PlayableCharacter) {
+		else if (obj instanceof Fence) {
+			return masterObj.writeFence(obj);
+		}
+		else if (obj instanceof PlayableCharacter) {
 			return masterObj.writePlayableCharacter(obj);
 		}
-		return null;
+		
+		else if (obj instanceof Minion) {
+			return masterObj.writeMinion(obj);
+		}
+		else if (obj instanceof Rock) {
+			return masterObj.writeRock(obj);
+		}
+		else if (obj instanceof Tree) {
+			return masterObj.writeTree(obj);
+		}
+		
+		throw new XMLException("Cannot find MasterObject type");
 	}
 
 	public Element makeInventory(List<GameItem> list) throws XMLException {
@@ -50,7 +85,7 @@ public class SavingHelper {
 	 * @throws XMLException
 	 */
 	public String makeBoardCell(BoardCell cell) throws XMLException {
-		if (cell.getPosition() == null) {
+		if (cell == null) {
 			throw new XMLException("BoardCell Position is null");
 		}
 		String boardCellInfo = cell.getPosition().getX() + ","
@@ -65,7 +100,7 @@ public class SavingHelper {
 		} else {
 			boardCellInfo += cell.getGroundType();
 		}
-
+		System.out.println("boardCellInfo = " + boardCellInfo);
 		return boardCellInfo;
 	}
 }

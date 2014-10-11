@@ -105,9 +105,9 @@ public class LoadingGameMain {
 			throws XMLException {
 		// get the dimensions of the boardCell array
 		int firstArrayLength = Integer.parseInt(childrenElement.getChild(
-				"1stArray.length").getText());
+				"FirstArray.length").getText());
 		int secondArrayLength = Integer.parseInt(childrenElement.getChild(
-				"2ndArray.length").getText());
+				"SecondArray.length").getText());
 		// make new boardCell array using dimensions
 		BoardCell[][] boardCell = new BoardCell[firstArrayLength][secondArrayLength];
 		// ------------------------------------------------------------------------
