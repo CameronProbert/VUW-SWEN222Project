@@ -200,10 +200,10 @@ public class PanelRender extends JPanel {
 		String objTypeID = objFullID.substring(0, 2);
 		String objImageID = objFullID.substring(2, 4);
 		
-		System.out.println(objFullID);
-		System.out.println(objTypeID);
-		System.out.println(objImageID);
-		System.out.println("----------");
+//		System.out.println(objFullID);
+//		System.out.println(objTypeID);
+//		System.out.println(objImageID);
+//		System.out.println("----------");
 
 		int startX, startY;
 		switch (objTypeID) {
