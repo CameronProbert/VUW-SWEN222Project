@@ -182,20 +182,24 @@ public class ObjectBuilder {
 		return new BoardCell(new Position(x, y), newDoor, GROUNDTYPEGRASS);
 	}
 
-	public BoardCell addChestOne(int x, int y, Room loadingRoom) {
+	public BoardCell addChestOne(int x, int y, Room loadingRoom, ObjectStorer objStore) {
 		int newChestId = genorateObjectId(GameUtil.CHESTONE, genorateRandomObjectType(1), chestNum++);
 		List<GameItem> chestinv = new ArrayList<GameItem>();
 		chestinv.add(new Food(80, 20));
 		Chest newChest = new Chest(newChestId, chestinv);
+		objStore.addChest(newChestId, newChest);
+		loadingRoom.addToInventory(newChest);
 		return new BoardCell(new Position(x, y), newChest, GROUNDTYPEGRASS);
 	}
 
-	public BoardCell addChestTwo(int x, int y, Room loadingRoom) {
+	public BoardCell addChestTwo(int x, int y, Room loadingRoom, ObjectStorer objStore) {
 		int newChestId = genorateObjectId(GameUtil.CHESTONE, genorateRandomObjectType(1), chestNum++);
 		List<GameItem> chestinv = new ArrayList<GameItem>();
 		chestinv.add(new Food(GameUtil.FOOD, 20));
 		chestinv.add(new Key(GameUtil.KEY));
 		Chest newChest = new Chest(newChestId, chestinv);
+		objStore.addChest(newChestId, newChest);
+		loadingRoom.addToInventory(newChest);
 		return new BoardCell(new Position(x, y), newChest, GROUNDTYPEGRASS);
 	}
 }
