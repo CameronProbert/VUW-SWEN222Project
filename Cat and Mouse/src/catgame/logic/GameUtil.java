@@ -57,7 +57,7 @@ public class GameUtil {
 
 	private ObjectStorer storer = new ObjectStorer();
 
-	public static Direction viewDirection = Direction.NORTH;
+	public static Direction VIEWDIRECTION = Direction.NORTH;
 
 	public GameUtil() {
 
