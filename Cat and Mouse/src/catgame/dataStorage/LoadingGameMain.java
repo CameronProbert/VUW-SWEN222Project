@@ -1,21 +1,12 @@
 package catgame.dataStorage;
 
-import javax.xml.stream.*;
-
-import catgame.*;
-import catgame.clientserver.*;
 import catgame.gameObjects.*;
-import catgame.gui.*;
-import catgame.gui.renderpanel.*;
-import catgame.gui.textfiles.*;
 import catgame.logic.*;
 
 import org.jdom2.*;
 import org.jdom2.input.SAXBuilder;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.*;
 
@@ -92,7 +83,6 @@ public class LoadingGameMain {
 	private GameObject createRoomInventory(Element childrenElement, Room room)
 			throws XMLException {
 		List<Element> gameObjList = childrenElement.getChildren();
-
 		for (Element objElement : gameObjList) {
 			room.addToInventory(masterObjectLoader.verifyElement(objElement));
 		}
@@ -101,15 +91,23 @@ public class LoadingGameMain {
 
 	private BoardCell[][] loadRoomGrid(Element childrenElement) {
 		// BoardCell[][] roomGrid = new BoardCell[childrenElement.getat][];
-		return null;
-	}
+		int firstArrayLength = Integer.parseInt(childrenElement.getChild(
+				"1stArray.length").getText());
+		int secondArrayLength = Integer.parseInt(childrenElement.getChild(
+				"2ndArray.length").getText());
+		BoardCell[][] boardCell = new BoardCell[firstArrayLength][secondArrayLength];
+		// TODO: Check sublisting below!!
+		List<Element> newElementList = childrenElement.getChildren().subList(2,
+				childrenElement.getChildren().size());
+		for (int y = 0; y < boardCell.length; y++) {
+			String wholeElementText = childrenElement.getChild("Row_" + y)
+					.getText();
+			
+			for (int x = 0; x < boardCell[y].length; x++) {
 
-	public Map<Integer, Room> getRoomIDMap() {
-		return roomIDMap;
-	}
-
-	public Map<Integer, GameObject> getObjectIDMap() {
-		return objectIDMap;
+			}
+		}
+		return boardCell;
 	}
 
 	public Room addRoomToMap(int ID) {
@@ -123,6 +121,14 @@ public class LoadingGameMain {
 		if (!objectIDMap.containsKey(obj.getObjectID())) {
 			objectIDMap.put(obj.getObjectID(), obj);
 		}
+	}
+
+	public Map<Integer, Room> getRoomIDMap() {
+		return roomIDMap;
+	}
+
+	public Map<Integer, GameObject> getObjectIDMap() {
+		return objectIDMap;
 	}
 
 	public BoardData getBoardData() throws XMLException {

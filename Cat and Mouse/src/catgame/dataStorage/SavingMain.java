@@ -106,19 +106,23 @@ public class SavingMain {
 		Element boardGrid = new Element("boardGrid");
 		boardGrid.setAttribute(new Attribute("" + roomGrid.length, ""
 				+ roomGrid[0].length));
-		
+
 		// TODO check about attributes!!! especially if roomGrid[0].length
 		// works!!
+		boardGrid.addContent(new Element("1stArray.length").setText(""
+				+ roomGrid.length));
+		boardGrid.addContent(new Element("2ndArray.length").setText(""
+				+ roomGrid[0].length));
 
 		for (int y = 0; y < roomGrid.length; y++) {
 			Element rowBoardCellElement = new Element("Row" + y);
-			String cellValuesOfRow = "[";
+			String cellValuesOfRow = "";
 			for (int x = 0; x < roomGrid[y].length; x++) {
 				String boardCellValues = "(";
 				boardCellValues += helper.makeBoardCell(roomGrid[y][x]) + ")";
 				cellValuesOfRow += boardCellValues; // TODO add space or not??
 			}
-			rowBoardCellElement.setText(cellValuesOfRow += "]");
+			rowBoardCellElement.setText(cellValuesOfRow);
 			boardGrid.addContent(rowBoardCellElement);
 		}
 		roomElement.addContent(boardGrid); // add to roomElement
