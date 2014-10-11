@@ -25,7 +25,6 @@ public class PlayableCharacter implements Character {
 	private Direction facingDirection;
 	private int health;
 	private List<GameItem> inventory = new ArrayList<GameItem>();
-	private int ownersID;
 	private int attackPower;
 
 	/**
@@ -39,10 +38,9 @@ public class PlayableCharacter implements Character {
 	 * @param health
 	 * @param items
 	 */
-	public PlayableCharacter(int ownerID, int ID, Room currentRoom,
+	public PlayableCharacter(int ID, Room currentRoom,
 			Direction direction, int attackPower, int health,
 			List<GameItem> items) {
-		this.ownersID = ownerID;
 		this.id = ID;
 		this.currentRoom = currentRoom;
 		this.facingDirection = direction;
@@ -138,9 +136,5 @@ public class PlayableCharacter implements Character {
 	public void resetItems(List<GameItem> items) {
 		// TODO Auto-generated method stub
 
-	}
-
-	public int getOwner() {
-		return this.ownersID;
 	}
 }
