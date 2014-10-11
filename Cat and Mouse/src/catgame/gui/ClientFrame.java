@@ -37,8 +37,8 @@ import catgame.logic.GameUtil.Direction;
  */
 public class ClientFrame extends AbstractFrame implements KeyListener {
 
-	private static final double FRAMEHEIGHTMODIFIER = 600.0 / 768;
-	private static final double ASPECTRATIO = 2;
+	private static final double FRAMEHEIGHTMODIFIER = .9;
+	private static final double ASPECTRATIO = 1.8;
 
 	private GameRunner runner;
 	private int clientsUID;
