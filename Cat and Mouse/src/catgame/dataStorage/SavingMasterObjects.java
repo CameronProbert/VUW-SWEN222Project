@@ -19,7 +19,7 @@ public class SavingMasterObjects {
 
 	public SavingMasterObjects(SavingMain main) {
 		this.main = main;
-		this.helper = main.getHelper();
+		this.helper =new SavingHelper(main, this);
 	}
 
 	public Element writeBoss(MasterObject obj) throws XMLException {
@@ -50,11 +50,6 @@ public class SavingMasterObjects {
 		Element chestElement = new Element("Chest");
 		chestElement
 				.setAttribute(new Attribute("id", "" + chest.getObjectID()));
-
-		Element boardCell = new Element("boardCell");
-		boardCell.setText(helper.makeBoardCell(chest.getCurrentCell()));
-		chestElement.addContent(boardCell);
-
 		chestElement.addContent(helper.makeInventory(chest.openChest()));
 		return chestElement;
 	}
@@ -96,7 +91,7 @@ public class SavingMasterObjects {
 
 	public Element writeMinion(MasterObject obj) {
 		// TODO
-		return null;
+		return new Element("Minion");
 	}
 
 	public Element writeRock(MasterObject obj) {
@@ -120,7 +115,7 @@ public class SavingMasterObjects {
 		Element characterElement = new Element("PlayableCharacter");
 		characterElement.setAttribute(new Attribute("id", ""
 				+ character.getObjectID()));
-		
+
 		// -------------- Room_ID --------------
 		characterElement.addContent(new Element("RoomID").setText(""
 				+ character.getCurrentRoom().getRoomID()));
@@ -141,6 +136,16 @@ public class SavingMasterObjects {
 				.getInventory()));
 		// ------------------------------------------------
 		return characterElement;
+	}
+
+	public Element writeFence(MasterObject obj) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public Element writeHedge(MasterObject obj) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

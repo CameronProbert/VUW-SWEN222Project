@@ -23,7 +23,7 @@ public class SavingMain {
 
 	public SavingMain(BoardData boardData) throws IOException {
 		masterObj = new SavingMasterObjects(this);
-		helper = new SavingHelper(this, masterObj);
+		this.helper = new SavingHelper(this, masterObj);
 
 		this.boardData = boardData;
 		document = new Document();
@@ -109,9 +109,15 @@ public class SavingMain {
 				gameObjectsList.add(gameobj);
 			}
 		}
+		if(gameObjectsList.isEmpty()){
+			throw new XMLException("gameObjectsList is empty");
+		}
+		else if(playersInRoomList.isEmpty()){
+			throw new XMLException("playersInRoomList is empty");
+		}
 		Element roomInventoryElement = new Element("Inventory");
-		Element nonplayerableObjectsElement = new Element("non-playerable inventory");
-		Element playerableObjectsElement = new Element("playerable inventory");
+		Element nonplayerableObjectsElement = new Element("non-playerableInventory");
+		Element playerableObjectsElement = new Element("playerableInventory");
 		// save non-playerable
 		for (MasterObject obj : gameObjectsList) {
 			nonplayerableObjectsElement.addContent(helper.writeMasterObject(obj));
@@ -129,14 +135,14 @@ public class SavingMain {
 		// ------------ RoomGrid ------------
 		BoardCell[][] roomGrid = room.getBoardGrid();
 		Element boardGrid = new Element("boardGrid");
-		boardGrid.setAttribute(new Attribute("" + roomGrid.length, ""
-				+ roomGrid[0].length));
+		// boardGrid.setAttribute(new Attribute("" + roomGrid.length, ""
+		// + roomGrid[0].length));
 
 		// TODO check about attributes!!! especially if roomGrid[0].length
 		// works!!
-		boardGrid.addContent(new Element("1stArray.length").setText(""
+		boardGrid.addContent(new Element("FirstArray.length").setText(""
 				+ roomGrid.length));
-		boardGrid.addContent(new Element("2ndArray.length").setText(""
+		boardGrid.addContent(new Element("SecondArray.length").setText(""
 				+ roomGrid[0].length));
 
 		for (int y = 0; y < roomGrid.length; y++) {
@@ -171,19 +177,21 @@ public class SavingMain {
 	 * @throws FileNotFoundException
 	 * @throws IOException
 	 */
-	// public static void main(String[] args) throws FileNotFoundException,
-	// IOException {
-	// BoardCell[][] boardCell = new BoardCell[2][2];
-	// boardCell[0][0] = new BoardCell(new Position(0, 0), new Rock(23), null);
-	// boardCell[0][1] = new BoardCell(new Position(0, 1), new Rock(24), null);
-	// boardCell[1][0] = new BoardCell(new Position(1, 0), new Tree(25), null);
-	// boardCell[1][1] = new BoardCell(new Position(1, 1), new Tree(26), null);
-	//
-	// BoardData boardData = new BoardData();
-	// Room room = new Room(1, boardCell);
-	// room.getRoomInventory().add(new Food(55, 5));
-	// boardData.getAllRooms().add(room);
-	//
-	// new SavingMain(boardData);
-	// }
+	 public static void main(String[] args) throws FileNotFoundException,
+	 IOException {
+		 RoomBuilder roomBuilder = new RoomBuilder();
+		 BoardData board = new BoardData();
+		 
+		 board.addRoom(roomBuilder.loadRoom(new ObjectStorer()));
+		 if(board.getAllRooms().isEmpty()){
+			 System.out.println("room list is empty");
+		 }
+		 else if(board.getAllRooms().get(0).getRoomInventory().isEmpty()){
+			 System.out.println("room's inventory is empty");
+		 }
+		 else{
+			 new SavingMain(board);
+		 }
+		 
+	 }
 }
