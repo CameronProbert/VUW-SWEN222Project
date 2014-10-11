@@ -37,10 +37,9 @@ public class SlaveReceiver {
 	FILE_TO_RECEIVED = "/Cat And Mouse/Load_From";
 
 
-	public SlaveReceiver(Slave slave, GameRunner net, FrameClient frame){
+	public SlaveReceiver(Slave slave, GameRunner net){
 		this.slave = slave;
 		this.net = (NetworkHandler)net;
-		this.frame = frame;
 	}
 
 	public void run(){
@@ -137,7 +136,7 @@ public class SlaveReceiver {
 	 */
 	private void recieveMassUpdate(DataInputStream input) {
 		try {
-			ReceiveMessage receiver = new ReceiveMessage(input, net.getGameUtill());
+			ReceiveMessage receiver = new ReceiveMessage(input, net.getBoardData().getGameUtil());
 
 			double noChars = input.readDouble();
 
@@ -205,6 +204,10 @@ public class SlaveReceiver {
 
 	public boolean isReady(){
 		return readyToStart;
+	}
+
+	public void addFrame(FrameClient frame) {
+		this.frame=frame;
 	}
 
 }

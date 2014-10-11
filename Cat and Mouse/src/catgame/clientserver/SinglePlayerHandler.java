@@ -8,6 +8,7 @@ import catgame.gameObjects.GameItem;
 import catgame.gameObjects.Key;
 import catgame.gameObjects.PlayableCharacter;
 import catgame.gui.FrameClient;
+import catgame.logic.BoardData;
 import catgame.logic.GameUtil;
 
 /**
@@ -36,6 +37,9 @@ public class SinglePlayerHandler extends GameRunner {
 			// TODO GameUtil util = boardData.getGame();
 			// TODO this.setGameUtil(util);
 		}
+		
+		boardData = new BoardData();
+		boardData.loadTestData();
 		
 		FrameClient frame = new FrameClient(this, false, null);
 		try {
