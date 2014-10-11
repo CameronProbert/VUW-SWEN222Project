@@ -28,6 +28,7 @@ public class InventoryPanel extends AbstractPanel {
 	private ArrayList<ItemPanel> panels = new ArrayList<ItemPanel>();
 	private Dimension invSize;
 	private BufferedImage backGround;
+	private ClientFrame frame;
 
 	/**
 	 * Needs to get linked to the player's inventory so it can draw it.
@@ -35,9 +36,10 @@ public class InventoryPanel extends AbstractPanel {
 	 * @param windowSize
 	 * @param windowSize
 	 */
-	public InventoryPanel(PlayableCharacter character, Dimension invSize) {
+	public InventoryPanel(PlayableCharacter character, Dimension invSize, ClientFrame frame) {
 		super();
 		this.invSize = invSize;
+		this.frame = frame;
 		this.character = character;
 		try {
 			backGround = ImageIO.read(RenderPanel.class
@@ -62,7 +64,7 @@ public class InventoryPanel extends AbstractPanel {
 			int rowNum = i / NUMCOLUMNS;
 			int x = columnNum * itemWidth;
 			int y = rowNum * itemHeight;
-			ItemPanel panel = new ItemPanel(new Point(x, y), panelSize);
+			ItemPanel panel = new ItemPanel(new Point(x, y), panelSize, frame);
 			panels.add(panel);
 			this.add(panel);
 		}
@@ -82,7 +84,7 @@ public class InventoryPanel extends AbstractPanel {
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		if (backGround != null) {
-			g.drawImage(backGround, 0, 0, null);
+			g.drawImage(backGround, 0, 0, this.getWidth(), this.getHeight(), null);
 		}
 	}
 

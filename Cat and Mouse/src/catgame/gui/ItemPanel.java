@@ -12,9 +12,11 @@ import catgame.gameObjects.GameItem;
 public class ItemPanel extends AbstractPanel implements MouseListener {
 
 	private GameItem item;
+	private ClientFrame frame;
 
-	public ItemPanel(Point origin, Dimension dim) {
+	public ItemPanel(Point origin, Dimension dim, ClientFrame frame) {
 		super();
+		this.frame = frame;
 		this.addMouseListener(this);
 		this.setSize(dim);
 		this.setPreferredSize(dim);
@@ -46,12 +48,19 @@ public class ItemPanel extends AbstractPanel implements MouseListener {
 		if (item != null) {
 			if (item.isUsable()) {
 				System.out.println("Usable item");
-				System.out.println(item.getClass().toString());
+				System.out.println(item.getClass().getSimpleName());
+				useItem();
 			} else {
-				System.out.println("Unusable item");
-				System.out.println(item.getClass().toString());
+				HelperMethods.textDialog(item.getClass().getSimpleName(), "Take this to the right door to use it");
 			}
 		}
+	}
+
+	/**
+	 * Uses the item contained in the itemPanel
+	 */
+	private void useItem() {
+		frame.itemUsed(this.item);
 	}
 
 	@Override
