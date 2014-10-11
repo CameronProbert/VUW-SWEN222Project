@@ -1,7 +1,10 @@
 package catgame.clientserver;
 
+import java.io.BufferedInputStream;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.net.Socket;
 
@@ -38,6 +41,7 @@ public final class Master extends Thread {
 	private boolean testing = false; // true when testing
 	private int timer = 0;
 	private boolean canStart = false;
+	private File file;
 
 	private final static int TIMESUP = 10; // when timer reaches TIMESUP massive update to system 
 
@@ -175,6 +179,23 @@ public final class Master extends Thread {
 			while(!hasStarted){
 				if(canStart){
 					output.writeDouble(uid);
+					output.writeInt((int)file.length());
+
+					// send file
+					if(file==null){
+						return;
+					}
+					byte [] mybytearray  = new byte [(int)file.length()];
+					FileInputStream fis = new FileInputStream(file);
+					BufferedInputStream bis = new BufferedInputStream(fis);
+					bis.read(mybytearray,0,mybytearray.length);
+					System.out.println("Sending " + file + "(" + mybytearray.length + " bytes)");
+					output.write(mybytearray,0,mybytearray.length);
+					output.flush();
+					System.out.println("Done.");
+
+
+
 					hasStarted = true;
 				}
 				else{
@@ -194,6 +215,10 @@ public final class Master extends Thread {
 
 	public void setUID(int uid){
 		this.uid = uid;
+	}
+
+	public void setFile(File file){
+		this.file = file;
 	}
 
 }
