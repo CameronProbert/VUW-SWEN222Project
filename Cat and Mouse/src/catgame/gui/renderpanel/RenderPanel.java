@@ -112,22 +112,22 @@ public class RenderPanel extends JPanel {
 		int sendY;
 		for (int y = 0; y < testRoom.getBoardGrid().length; y++) {
 			for (int x = testRoom.getBoardGrid()[0].length - 1; x >= 0; x--) {
-				if (GameUtil.viewDirection == Direction.NORTH) {
+				if (GameUtil.VIEWDIRECTION == Direction.NORTH) {
 					sendX = y;
 					sendY = testRoom.getBoardGrid()[0].length - x - 1;
 					determineAndDrawGround(g, sendY, sendX, y, x);
 					determineAndDrawObject(g, sendY, sendX, y, x);
-				} else if (GameUtil.viewDirection == Direction.WEST) {
+				} else if (GameUtil.VIEWDIRECTION == Direction.WEST) {
 					sendX = x;
 					sendY = y;
 					determineAndDrawGround(g, sendY, sendX, y, x);
 					determineAndDrawObject(g, sendY, sendX, y, x);
-				} else if (GameUtil.viewDirection == Direction.SOUTH) {
+				} else if (GameUtil.VIEWDIRECTION == Direction.SOUTH) {
 					sendX = testRoom.getBoardGrid().length - y - 1;
 					sendY = x;
 					determineAndDrawGround(g, sendY, sendX, y, x);
 					determineAndDrawObject(g, sendY, sendX, y, x);
-				} else if (GameUtil.viewDirection == Direction.EAST) {
+				} else if (GameUtil.VIEWDIRECTION == Direction.EAST) {
 					sendX = testRoom.getBoardGrid()[0].length - x - 1;
 					sendY = testRoom.getBoardGrid().length - y - 1;
 					determineAndDrawGround(g, sendY, sendX, y, x);

@@ -127,7 +127,7 @@ public class LogicTests {
 	@Test
 	public void TestPlayerAttempedMoveChangeDirection() {
 		GameUtil util = new GameUtil();
-		util.viewDirection = Direction.NORTH;
+		util.VIEWDIRECTION = Direction.NORTH;
 		ObjectStorer objStore = new ObjectStorer();
 		RoomBuilder testBuilder = new RoomBuilder();
 		Room testRoom = testBuilder.loadRoom(objStore);
@@ -149,7 +149,7 @@ public class LogicTests {
 	@Test
 	public void TestPlayerMoveNorth() {
 		GameUtil util = new GameUtil();
-		util.viewDirection = Direction.NORTH;
+		util.VIEWDIRECTION = Direction.NORTH;
 		ObjectStorer objStore = new ObjectStorer();
 		RoomBuilder testBuilder = new RoomBuilder();
 		Room testRoom = testBuilder.loadRoom(objStore);
@@ -165,7 +165,7 @@ public class LogicTests {
 	@Test
 	public void TestPlayerMoveRight() {
 		GameUtil util = new GameUtil();
-		util.viewDirection = Direction.NORTH;
+		util.VIEWDIRECTION = Direction.NORTH;
 		ObjectStorer objStore = new ObjectStorer();
 		RoomBuilder testBuilder = new RoomBuilder();
 		Room testRoom = testBuilder.loadRoom(objStore);
@@ -181,7 +181,7 @@ public class LogicTests {
 	@Test
 	public void TestPlayerMoveDown() {
 		GameUtil util = new GameUtil();
-		util.viewDirection = Direction.NORTH;
+		util.VIEWDIRECTION = Direction.NORTH;
 		ObjectStorer objStore = new ObjectStorer();
 		RoomBuilder testBuilder = new RoomBuilder();
 		Room testRoom = testBuilder.loadRoom(objStore);
@@ -197,7 +197,7 @@ public class LogicTests {
 	@Test
 	public void TestPlayerMoveLeft() {
 		GameUtil util = new GameUtil();
-		util.viewDirection = Direction.NORTH;
+		util.VIEWDIRECTION = Direction.NORTH;
 		ObjectStorer objStore = new ObjectStorer();
 		RoomBuilder testBuilder = new RoomBuilder();
 		Room testRoom = testBuilder.loadRoom(objStore);
@@ -213,7 +213,7 @@ public class LogicTests {
 	@Test
 	public void TestAttackMinion() {
 		GameUtil util = new GameUtil();
-		util.viewDirection = Direction.NORTH;
+		util.VIEWDIRECTION = Direction.NORTH;
 		ObjectStorer objStore = new ObjectStorer();
 		RoomBuilder testBuilder = new RoomBuilder();
 		Room testRoom = testBuilder.loadRoom(objStore);
