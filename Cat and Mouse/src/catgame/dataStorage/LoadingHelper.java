@@ -11,14 +11,54 @@ import java.io.IOException;
 import java.util.*;
 
 public class LoadingHelper {
+	LoadingGameMain main;
 
-	public LoadingHelper() {
-
+	public LoadingHelper(LoadingGameMain main) {
+		this.main = main;
 	}
 
-	public BoardCell loadBoardCell(String boardString) {
-		// get (x, y, ID, groundType)
-		//String[] boardInfo =  
-		return null;
+	public BoardCell loadBoardCell(String boardString) throws XMLException {
+		// get (x,y,ID,groundType)
+		String newBoardString = boardString.substring(1,
+				boardString.length() - 1);
+		String[] boardInfoArray = newBoardString.split(",");
+		int x = Integer.parseInt(boardInfoArray[0]);
+		int y = Integer.parseInt(boardInfoArray[1]);
+		Position position = new Position(x, y);
+		int ObjectID = Integer.parseInt(boardInfoArray[2]);
+		GameObject obj;
+		if (main.getObjectIDMap().containsKey(ObjectID)) {
+			obj = main.getObjectIDMap().get(ObjectID);
+		} else {
+			throw new XMLException(
+					"Cannot find GameObject that is supposed to be already made in the room. Cannot make BoardCell without this!");
+		}
+		String groundType = boardInfoArray[3];
+
+		return new BoardCell(position, obj, groundType);
+	}
+
+	/**
+	 * Main just for quick testing for parsing strings. This will be removed in
+	 * the future.
+	 * 
+	 * @param args
+	 */
+	public static void main(String[] args) {
+		// LoadingHelper helper = new LoadingHelper();
+		// String temp = "12,13,55342,235";
+		// String temp2 = "12, 13, 55342, 235";
+		// String[] array = helper.loadBoardCell(temp);
+		// System.out.println("First array");
+		// for (int i = 0; i < array.length; i++) {
+		// System.out.println(array[i]);
+		// }
+		// System.out.println("Second array");
+		// String[] array2 = helper.loadBoardCell(temp2);
+		// for (int i = 0; i < array.length; i++) {
+		// System.out.println(array2[i]);
+		// }
+		String temp = "(213,123,24,255)";
+		System.out.println(temp.substring(1, temp.length() - 1));
 	}
 }

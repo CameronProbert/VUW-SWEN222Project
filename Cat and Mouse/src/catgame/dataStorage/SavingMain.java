@@ -120,7 +120,10 @@ public class SavingMain {
 			for (int x = 0; x < roomGrid[y].length; x++) {
 				String boardCellValues = "(";
 				boardCellValues += helper.makeBoardCell(roomGrid[y][x]) + ")";
-				cellValuesOfRow += boardCellValues; // TODO add space or not??
+				if (x == roomGrid[y].length - 1) {
+					boardCellValues += ",";
+				}
+				cellValuesOfRow += boardCellValues;
 			}
 			rowBoardCellElement.setText(cellValuesOfRow);
 			boardGrid.addContent(rowBoardCellElement);

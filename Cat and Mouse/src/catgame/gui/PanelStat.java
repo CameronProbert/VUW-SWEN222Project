@@ -41,8 +41,8 @@ public class PanelStat extends PanelAbstract {
 		map.setPreferredSize(mapSize);
 		
 		// Set the placement of the mini-map
-		int mapX = 0;
-		int mapY = (int) (this.getHeight()*0.3);
+		int mapX = this.getX();
+		int mapY = (int) (this.getY()+this.getHeight()*0.3);
 		map.setLocation(mapX, mapY);
 		
 		this.add(map);

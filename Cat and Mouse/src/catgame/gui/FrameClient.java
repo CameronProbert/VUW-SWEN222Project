@@ -234,7 +234,8 @@ public class FrameClient extends FrameAbstract implements KeyListener {
 	 * @param character
 	 */
 	private void addPanels(PlayableCharacter character) {
-		renderPanel = new PanelRender(windowSize, this);
+		renderPanel = new PanelRender(windowSize, Integer.toString(character
+				.getObjectID()), runner.getGameUtill());
 
 		// Create dimensions
 		int statPanelWidth = 200;
@@ -307,6 +308,12 @@ public class FrameClient extends FrameAbstract implements KeyListener {
 				up = new Update(Update.Descriptor.ATTACK, clientsUID, attacked);
 			}
 			break;
+		case KeyEvent.VK_LEFT:
+			runner.getGameUtill().lookLeft();
+			break;
+		case KeyEvent.VK_RIGHT:
+			runner.getGameUtill().lookRight();
+			break;
 		case KeyEvent.VK_E: // open a chest
 			Chest chest = runner.getGameUtill().getChest(clientsUID);
 			if (chest != null) {
@@ -326,6 +333,7 @@ public class FrameClient extends FrameAbstract implements KeyListener {
 		if (validAction > 0 && isClient) {
 			slave.sendUpdate(up);
 		}
+		repaint();
 	}
 
 	public void itemUsed(GameItem item) {

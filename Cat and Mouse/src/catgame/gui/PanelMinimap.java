@@ -15,6 +15,7 @@ public class PanelMinimap extends PanelAbstract {
 	@Override
 	public void paintComponent(Graphics g){
 		super.paintComponent(g);
+		System.out.println("Redrawing minimap");
 		g.setColor(Color.red);
 		g.drawRect(0, 0, getWidth()-1, getHeight()-1);
 	}

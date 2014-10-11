@@ -1,7 +1,12 @@
 package catgame.gameObjects;
 
 import java.awt.Graphics;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
 
+import javax.imageio.ImageIO;
+
+import catgame.gui.renderpanel.PanelRender;
 import catgame.logic.Position;
 
 /**
@@ -12,9 +17,16 @@ import catgame.logic.Position;
 public class Key implements GameItem{	
 	private final int id;
 	private GameObject owner;
+	private BufferedImage picture;
 
 	public Key(int id){
 		this.id = id;
+		try {
+			picture = ImageIO.read(PanelRender.class
+					.getResource("/images/key.png"));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	public int getObjectID() {
@@ -27,8 +39,7 @@ public class Key implements GameItem{
 	}
 
 	public void draw(Graphics g) {
-		// TODO Auto-generated method stub
-		
+		g.drawImage(picture, 0, 0, null);
 	}
 	
 	@Override

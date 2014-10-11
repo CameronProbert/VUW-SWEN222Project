@@ -73,7 +73,7 @@ public class GameUtil {
 
 	private ObjectStorer storer = new ObjectStorer();
 
-	public Direction VIEWDIRECTION = Direction.NORTH;
+	public Direction viewDirection = Direction.NORTH;
 
 	public GameUtil() {
 
@@ -272,7 +272,7 @@ public class GameUtil {
 	public ObjectStorer getStorer() {
 		return this.storer;
 	}
-
+	
 	public Direction getViewDirection(){
 		return viewDirection;
 	}

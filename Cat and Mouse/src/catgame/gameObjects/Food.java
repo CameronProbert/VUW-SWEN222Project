@@ -1,7 +1,12 @@
 package catgame.gameObjects;
 
 import java.awt.Graphics;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
 
+import javax.imageio.ImageIO;
+
+import catgame.gui.renderpanel.PanelRender;
 import catgame.logic.Position;
 
 /**
@@ -13,11 +18,17 @@ public class Food implements GameItem{
 	private final int id;
 	private final int heal;
 	private GameObject owner;
+	private BufferedImage picture;
 
 	public Food(int id , int heal){
 		this.id = id;
 		this.heal = heal;
-		
+		try {
+			picture = ImageIO.read(PanelRender.class
+					.getResource("/images/Tree1.png"));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 	public int getObjectID() {
 		return id;
@@ -34,8 +45,7 @@ public class Food implements GameItem{
 	
 	
 	public void draw(Graphics g) {
-		
-		
+		g.drawImage(picture, 0, 0, null);
 	}
 	@Override
 	public GameObject getOwner() {
