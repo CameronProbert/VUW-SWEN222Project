@@ -30,11 +30,8 @@ public class RoomBuilder {
 
 	private int roomNum = 0;
 
-	// Game Items
 	private final int food = 80; // Don't chnage
 
-	// TODO do the doors
-	private final int door = 40;
 
 	private ObjectBuilder objBuilder;
 
@@ -100,7 +97,10 @@ public class RoomBuilder {
 					case GameUtil.MINIONONE + "":
 						board[y][x] = objBuilder.addMinionOne(x, y, loadingRoom, objStore);
 						break;
-
+					case GameUtil.DOOR+"":
+						board[y][x] = objBuilder.addDoor(x,y,loadingRoom);
+						loadingRoom.addToDoorsLocation(board[y][x].getObjectOnCell().getObjectID(), board[y][x]);
+						break;
 					}
 				}
 				y++;

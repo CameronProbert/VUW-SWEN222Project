@@ -23,16 +23,32 @@ public class SinglePlayerHandler extends GameRunner {
 	 * set up a game for one person on single player
 	 * @param playerID
 	 */
-	public SinglePlayerHandler (){
+	public SinglePlayerHandler (String fileName){
+		if(!fileName.equals("no file")){
+			// TODO loadXML = new LoadOldGame(fileName)
+			// TODO boardData = loadXML.getBoardData();
+			// TODO GameUtil util = boardData.getGame();
+			// TODO this.setGameUtil(util);
+		}
+		else{
+			// TODO loadXML = new LoadNewGame(playerIds);
+			// TODO boardData = loadXML.getBoardData();
+			// TODO GameUtil util = boardData.getGame();
+			// TODO this.setGameUtil(util);
+		}
+		game = new GameUtil(); //  TODO remove later only for testing
 		ClientFrame frame = new ClientFrame(this, false, null);
-		
+		try {
+			singleUserGame(this);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
 	}
-	
-	
 
-	private static void singleUserGame() throws IOException {
 
-		SinglePlayerHandler game = new SinglePlayerHandler(); 
+
+	private static void singleUserGame(GameRunner game) throws IOException {
 
 		while(game.isNotOver()) {
 			// keep going until the frame becomes invisible
@@ -49,11 +65,11 @@ public class SinglePlayerHandler extends GameRunner {
 			//game.fromByteArray(state);
 		}
 	}
-	
+
 	public static void main(String[] args){
-		new SinglePlayerHandler();
+		new SinglePlayerHandler(null);
 	}
-	
+
 	private static void pause(int delay) {
 		try {
 			Thread.sleep(delay);

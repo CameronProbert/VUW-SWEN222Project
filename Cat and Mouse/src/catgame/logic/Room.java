@@ -27,6 +27,7 @@ public class Room {
 	private BoardCell[][] roomGrid;
 	private List<GameObject> roomInventory = new ArrayList<GameObject>();
 	private HashMap<Integer, BoardCell> playerLocationMap = new HashMap<Integer, BoardCell>();
+	private HashMap<Integer, BoardCell> doorsLocation = new HashMap<Integer, BoardCell>();
 
 	/**
 	 * TODO Room parameters are subject to change, once the .xml file readers
@@ -221,5 +222,17 @@ public class Room {
 			return Direction.SOUTH;
 		}
 		return Direction.WEST;
+	}
+
+	public HashMap<Integer, BoardCell> getDoorsLocation() {
+		return doorsLocation;
+	}
+
+	public void addToDoorsLocation(int doorId, BoardCell cell) {
+		doorsLocation.put(doorId, cell);
+	}
+	
+	public BoardCell findDoor(int doorID){
+		return doorsLocation.get(doorID);
 	}
 }
