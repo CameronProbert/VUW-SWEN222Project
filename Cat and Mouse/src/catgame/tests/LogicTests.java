@@ -165,7 +165,7 @@ public class LogicTests {
 	@Test
 	public void TestPlayerMoveRight() {
 		GameUtil util = new GameUtil();
-		util.TESTsetViewDirection(Direction.EAST);
+		util.TESTsetViewDirection(Direction.NORTH);
 		ObjectStorer objStore = new ObjectStorer();
 		RoomBuilder testBuilder = new RoomBuilder();
 		Room testRoom = testBuilder.loadRoom(objStore);
@@ -181,7 +181,7 @@ public class LogicTests {
 	@Test
 	public void TestPlayerMoveDown() {
 		GameUtil util = new GameUtil();
-		util.TESTsetViewDirection(Direction.SOUTH);
+		util.TESTsetViewDirection(Direction.NORTH);
 		ObjectStorer objStore = new ObjectStorer();
 		RoomBuilder testBuilder = new RoomBuilder();
 		Room testRoom = testBuilder.loadRoom(objStore);
@@ -197,7 +197,7 @@ public class LogicTests {
 	@Test
 	public void TestPlayerMoveLeft() {
 		GameUtil util = new GameUtil();
-		util.TESTsetViewDirection(Direction.WEST);
+		util.TESTsetViewDirection(Direction.NORTH);
 		ObjectStorer objStore = new ObjectStorer();
 		RoomBuilder testBuilder = new RoomBuilder();
 		Room testRoom = testBuilder.loadRoom(objStore);
@@ -239,7 +239,7 @@ public class LogicTests {
 		Room testRoom = testBuilder.loadRoom(objStore);
 		assertTrue(testRoom.getBoardGrid()[4][0].getObjectOnCell() instanceof Door);
 		assertTrue(testRoom.getBoardGrid()[4][5].getObjectOnCell() instanceof Door);
-		((Door)testRoom.getBoardGrid()[4][0].getObjectOnCell()).addOtherSide(testRoom.getBoardGrid()[5][5].getObjectOnCell().getObjectID(),0);
-		assertEquals(431011,((Door) testRoom.getBoardGrid()[4][0].getObjectOnCell()).getOtherSide());
+		((Door)testRoom.getBoardGrid()[4][0].getObjectOnCell()).addOtherSide(testRoom.getBoardGrid()[4][5].getObjectOnCell().getObjectID(),0);
+		assertEquals(411011,((Door) testRoom.getBoardGrid()[4][0].getObjectOnCell()).getOtherSide());
 	}
 }
