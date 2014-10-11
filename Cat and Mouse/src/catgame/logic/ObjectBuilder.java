@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import catgame.gameObjects.Bush;
+import catgame.gameObjects.Chest;
 import catgame.gameObjects.Door;
 import catgame.gameObjects.Food;
 import catgame.gameObjects.GameItem;
@@ -178,5 +179,17 @@ public class ObjectBuilder {
 		Door newDoor = new Door(newDoorId);
 		loadingRoom.addToInventory(newDoor);
 		return new BoardCell(new Position(x, y), newDoor, GROUNDTYPEGRASS);
+	}
+
+	public BoardCell addChestOne(int x, int y, Room loadingRoom) {
+		int newChestId = genorateObjectId(GameUtil.CHESTONE, genorateRandomObjectType(1), chestNum++);
+		
+		Chest newChest = new Chest(newChestId, null);
+		return null;
+	}
+
+	public BoardCell addChestTwo(int x, int y, Room loadingRoom) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

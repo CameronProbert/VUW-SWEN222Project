@@ -2,14 +2,11 @@ package catgame.tests;
 
 import static org.junit.Assert.*;
 
-import java.awt.Dimension;
-
 import org.junit.Test;
 
 import catgame.gameObjects.Door;
 import catgame.gameObjects.NonPlayableCharacter;
 import catgame.gameObjects.PlayableCharacter;
-import catgame.gui.renderpanel.RenderPanel;
 import catgame.logic.GameUtil.Direction;
 import catgame.logic.GameError;
 import catgame.logic.GameUtil;

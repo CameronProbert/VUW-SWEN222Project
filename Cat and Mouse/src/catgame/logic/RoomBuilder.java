@@ -32,7 +32,6 @@ public class RoomBuilder {
 
 	private final int food = 80; // Don't chnage
 
-
 	private ObjectBuilder objBuilder;
 
 	public RoomBuilder() {
@@ -97,9 +96,15 @@ public class RoomBuilder {
 					case GameUtil.MINIONONE + "":
 						board[y][x] = objBuilder.addMinionOne(x, y, loadingRoom, objStore);
 						break;
-					case GameUtil.DOOR+"":
-						board[y][x] = objBuilder.addDoor(x,y,loadingRoom);
+					case GameUtil.DOOR + "":
+						board[y][x] = objBuilder.addDoor(x, y, loadingRoom);
 						loadingRoom.addToDoorsLocation(board[y][x].getObjectOnCell().getObjectID(), board[y][x]);
+						break;
+					case GameUtil.CHESTONE + "":
+						board[y][x] = objBuilder.addChestOne(x,y,loadingRoom);
+						break;
+					case GameUtil.CHESTTWO + "":
+						board[y][x] = objBuilder.addChestTwo(x,y,loadingRoom);
 						break;
 					}
 				}

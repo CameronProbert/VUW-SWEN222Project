@@ -4,11 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import org.omg.CosNaming.IstringHelper;
-
-import catgame.clientserver.GameRunner.GameState;
 import catgame.gameObjects.*;
-import catgame.gui.renderpanel.RenderPanel;
 import catgame.logic.GameUtil.Direction;
 
 /**
