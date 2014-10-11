@@ -12,7 +12,6 @@ import org.jdom2.JDOMException;
 
 import catgame.dataStorage.LoadingGameMain;
 import catgame.dataStorage.XMLException;
-import catgame.gui.ClientFrame;
 import catgame.logic.BoardData;
 
 
