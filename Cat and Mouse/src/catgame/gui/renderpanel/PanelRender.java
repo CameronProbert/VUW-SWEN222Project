@@ -49,24 +49,19 @@ public class PanelRender extends JPanel {
 
 	// Classes for creating a test board
 	private RoomBuilder buildBoard;
-	private Room testRoom;
+	private Room currentRoom;
 
-	public PanelRender(Dimension windowSize, String playableCharID, GameUtil gUtil) {
+	public PanelRender(Dimension windowSize, String playableCharID, GameUtil gUtil, Room room) {
 		this.panelWidth = (int)(windowSize.getWidth());
 		this.panelHeight = (int)(windowSize.getHeight());
 		this.playableCharID = playableCharID;
 		this.gUtil = gUtil;
+		this.currentRoom = room;
 
 		setLayout(null);
 		setSize((int)(windowSize.getWidth()), (int)(windowSize.getHeight()));
 		setBackground(Color.DARK_GRAY);
 		setVisible(true);
-
-		// Roombuilder testing
-		buildBoard = new RoomBuilder();
-		ObjectStorer objStorer = new ObjectStorer();
-		testRoom = buildBoard.loadRoom(objStorer);
-		testRoom.printBoard();
 
 		setupImages();
 		repaint();
@@ -134,11 +129,11 @@ public class PanelRender extends JPanel {
 	public void drawGroundAndObjects(Graphics g) {
 		int sendX;
 		int sendY;
-		for (int y = 0; y < testRoom.getBoardGrid().length; y++) {
-			for (int x = testRoom.getBoardGrid()[0].length - 1; x >= 0; x--) {
+		for (int y = 0; y < currentRoom.getBoardGrid().length; y++) {
+			for (int x = currentRoom.getBoardGrid()[0].length - 1; x >= 0; x--) {
 				if (gUtil.getViewDirection() == Direction.NORTH) {
 					sendX = y;
-					sendY = testRoom.getBoardGrid()[0].length - x - 1;
+					sendY = currentRoom.getBoardGrid()[0].length - x - 1;
 					determineAndDrawGround(g, sendY, sendX, y, x);
 					determineAndDrawObject(g, sendY, sendX, y, x);
 				} else if (gUtil.getViewDirection() == Direction.WEST) {
@@ -147,13 +142,13 @@ public class PanelRender extends JPanel {
 					determineAndDrawGround(g, sendY, sendX, y, x);
 					determineAndDrawObject(g, sendY, sendX, y, x);
 				} else if (gUtil.getViewDirection() == Direction.SOUTH) {
-					sendX = testRoom.getBoardGrid().length - y - 1;
+					sendX = currentRoom.getBoardGrid().length - y - 1;
 					sendY = x;
 					determineAndDrawGround(g, sendY, sendX, y, x);
 					determineAndDrawObject(g, sendY, sendX, y, x);
 				} else if (gUtil.getViewDirection() == Direction.EAST) {
-					sendX = testRoom.getBoardGrid()[0].length - x - 1;
-					sendY = testRoom.getBoardGrid().length - y - 1;
+					sendX = currentRoom.getBoardGrid()[0].length - x - 1;
+					sendY = currentRoom.getBoardGrid().length - y - 1;
 					determineAndDrawGround(g, sendY, sendX, y, x);
 					determineAndDrawObject(g, sendY, sendX, y, x);
 				}
@@ -175,7 +170,7 @@ public class PanelRender extends JPanel {
 			int x) {
 		int startX = 19 + panelWidth / 4;
 		int startY = 20 + 400;
-		if (testRoom.getBoardGrid()[sendY][sendX].getGroundType() == "Grass") {
+		if (currentRoom.getBoardGrid()[sendY][sendX].getGroundType() == "Grass") {
 			drawGround(g, grassBlock, sendY, sendX, y, x, startY, startX);
 		}
 	}
@@ -192,10 +187,10 @@ public class PanelRender extends JPanel {
 	 */
 	public void determineAndDrawObject(Graphics g, int sendY, int sendX, int y,	int x) {
 		//Returns if current cell doesn't contain an object or character
-		if (testRoom.getBoardGrid()[sendY][sendX].getObjectOnCell() == null) {
+		if (currentRoom.getBoardGrid()[sendY][sendX].getObjectOnCell() == null) {
 			return;
 		}
-		String objFullID = testRoom.getBoardGrid()[sendY][sendX]
+		String objFullID = currentRoom.getBoardGrid()[sendY][sendX]
 				.getObjectOnCell().getObjectID()+"";
 		String objTypeID = objFullID.substring(0, 2);
 		String objImageID = objFullID.substring(2, 4);
@@ -252,9 +247,9 @@ public class PanelRender extends JPanel {
 			}			
 			break;
 		case GameUtil.PLAYABLECHARACTER+"":
-			PlayableCharacter character = (PlayableCharacter) testRoom.getBoardGrid()[sendY][sendX]
+			PlayableCharacter character = (PlayableCharacter) currentRoom.getBoardGrid()[sendY][sendX]
 					.getObjectOnCell();
-			int drawDirection = testRoom.directionTranslator(gUtil.getViewDirection(), character.getFacingDirection());
+			int drawDirection = currentRoom.directionTranslator(gUtil.getViewDirection(), character.getFacingDirection());
 			startX = panelWidth / 4 + 37;
 			startY = 85 + 305;
 			
