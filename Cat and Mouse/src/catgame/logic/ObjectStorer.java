@@ -99,17 +99,10 @@ public class ObjectStorer {
 		// TODO Auto-generated method stub
 		// //////////////////////////////////////////////////
 		// For testing
-		ArrayList<GameItem> items = new ArrayList<GameItem>();
-		items.add(new Food(2, 30));
-		items.add(new Key(3));
-		items.add(new Food(2, 30));
-
-		PlayableCharacter ch = new PlayableCharacter(1, 10, null, Direction.NORTH, 3, 5, items);
-		return ch;
 		// ///////////////////////////////////////////////////
 		// ACTUAL code
 		// ////////////////////////////////////////////////////
-		// return playableChs.get(objectID);
+		 return playableChs.get(objectID);
 
 	}
 

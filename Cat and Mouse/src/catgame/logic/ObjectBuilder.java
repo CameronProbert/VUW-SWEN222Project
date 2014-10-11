@@ -127,7 +127,7 @@ public class ObjectBuilder {
 		// 80 is food
 		newInv.add(new Food(808080, 20));
 		// Create new Player
-		PlayableCharacter newPlayableCharacter = new PlayableCharacter(newPlayerId, newPlayerId, room, Direction.NORTH, 20, 100, newInv);
+		PlayableCharacter newPlayableCharacter = new PlayableCharacter(newPlayerId, room, Direction.NORTH, 20, 100, newInv);
 		objStore.addplayableChs(newPlayerId, newPlayableCharacter);
 		room.addToInventory(newPlayableCharacter);
 		return new BoardCell(new Position(x, y), newPlayableCharacter, GROUNDTYPEGRASS);
