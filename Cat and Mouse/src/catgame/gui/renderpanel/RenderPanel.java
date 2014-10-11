@@ -169,29 +169,6 @@ public class RenderPanel extends JPanel {
 	public void determineAndDrawObject(Graphics g, int sendY, int sendX, int y,
 			int x) {
 
-		// characters id's 10 - 19
-		final int playableCharacter = 10;
-
-		final int bossOne = 11;
-		final int bossTwo = 12;
-		final int bossThree = 13;
-
-		final int minionOne = 14;
-		final int minionTwo = 15;
-		final int minionThree = 16;
-		final int minionFour = 17;
-
-		// Room accessories 20-39
-		final int bush = 20;
-		final int tree = 21;
-		final int rock = 22;
-		final int hedge = 23;
-		final int fence = 24;
-		final int chestOne = 25;
-		final int chestTwo = 26;
-		final int chestTree = 27;
-		final int chestFour = 28;
-
 		// -----------------------game object
 		// instanceof: MoveAble-------||------NonMovabke
 		// "" PlayerAbleCharacter----NPC------------tree||rock...etc
@@ -209,28 +186,43 @@ public class RenderPanel extends JPanel {
 		int startX, startY;
 		switch (currentObjID) {
 		
-		case bush+"":
+		case GameUtil.BUSH+"":
 			startX = parentFrame.getWidth() / 4 + 40;
 			startY = 85 + 300;
 			drawObject(g, bush1, sendY, sendX, y, x, startY, startX);
 			break;
-		case tree+"":
+		case GameUtil.TREE+"":
 			startX = parentFrame.getWidth() / 4 - 30;
 			startY = 45 + 200;
 			drawObject(g, tree1, sendY, sendX, y, x, startY, startX);
 			break;
-		case rock+"":
+		case GameUtil.ROCK+"":
 			startX = parentFrame.getWidth() / 4 + 60;
 			startY = 85 + 340;
 			drawObject(g, rock1, sendY, sendX, y, x, startY, startX);
 			break;
-		case playableCharacter+"":
-			startX = parentFrame.getWidth() / 4 + 40;
-			startY = 85 + 300;
-			drawObject(g, catFrontLeft1, sendY, sendX, y, x, startY, startX);
-			break;
+		case GameUtil.PLAYABLECHARACTER+"":
+			PlayableCharacter character = (PlayableCharacter) testRoom.getBoardGrid()[sendY][sendX]
+					.getObjectOnCell();
+			int drawDirection = testRoom.translateForGrid(GameUtil.viewDirection, character.getFacingDirection());
+			startX = parentFrame.getWidth() / 4 + 37;
+			startY = 85 + 305;
+			
+			switch (drawDirection) {
+			case 0:
+				drawObject(g, catBackRight1, sendY, sendX, y, x, startY, startX);
+				break;
+			case 1:
+				drawObject(g, catFrontRight1, sendY, sendX, y, x, startY, startX);
+				break;
+			case 2:
+				drawObject(g, catFrontLeft1, sendY, sendX, y, x, startY, startX);
+				break;
+			case 3:
+				drawObject(g, catBackLeft1, sendY, sendX, y, x, startY, startX);
+				break;				
+			}
 		}
-
 //		if (testRoom.getBoardGrid()[sendY][sendX].getObjectOnCell() instanceof Tree) {
 //			int treeStartX = parentFrame.getWidth() / 4 - 30;
 //			int treeStartY = 45 + 200;
