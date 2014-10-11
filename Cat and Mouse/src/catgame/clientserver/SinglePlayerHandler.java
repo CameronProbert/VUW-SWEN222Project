@@ -24,7 +24,7 @@ public class SinglePlayerHandler extends GameRunner {
 	 * @param playerID
 	 */
 	public SinglePlayerHandler (String fileName){
-		if(fileName!=null){
+		if(!fileName.equals("no file")){
 			// TODO loadXML = new LoadOldGame(fileName)
 			// TODO boardData = loadXML.getBoardData();
 			// TODO GameUtil util = boardData.getGame();
@@ -36,6 +36,7 @@ public class SinglePlayerHandler extends GameRunner {
 			// TODO GameUtil util = boardData.getGame();
 			// TODO this.setGameUtil(util);
 		}
+		game = new GameUtil(); //  TODO remove later only for testing
 		ClientFrame frame = new ClientFrame(this, false, null);
 		try {
 			singleUserGame(this);

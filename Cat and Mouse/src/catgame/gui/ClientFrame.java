@@ -338,18 +338,6 @@ public class ClientFrame extends AbstractFrame implements KeyListener {
 		}
 	}
 
-	public void startXMLFiles(List<Integer> playerIds) {
-		this.clientsUID = slaveR.getUID();
-		System.out.println("\nclient frame received uid : " + clientsUID +"\n");
-		/*try {
-			loadMain = new LoadingGameMain(playerIds);
-		} catch (JDOMException |XMLException e) {
-			e.printStackTrace();
-		}
-		PlayableCharacter ch = runner.getGameUtill().getStorer().findCharacter(clientsUID);
-		this.addPanels(ch);*/
-	}
-
 	/**
 	 * Unneeded for the game
 	 */

@@ -16,7 +16,7 @@ import javax.swing.JPanel;
 import javax.swing.JSlider;
 
 import catgame.clientserver.NetworkHandler;
-import catgame.clientserver.NetworkSetUp;
+import catgame.clientserver.SinglePlayerHandler;
 import catgame.clientserver.Slave;
 import catgame.gameObjects.PlayableCharacter;
 
@@ -65,8 +65,7 @@ public class LauncherFrame extends AbstractFrame {
 		buttonServer.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				setVisible(false);
-				NetworkSetUp network = new NetworkSetUp();
-				new HostFrame(network);
+				new HostFrame();
 			}
 		});
 		buttonServer.setAlignmentX(CENTER_ALIGNMENT);
@@ -77,7 +76,6 @@ public class LauncherFrame extends AbstractFrame {
 			public void actionPerformed(ActionEvent e) {
 				setVisible(false);
 				String url = HelperMethods.stringInputDialog("Enter URL", "");
-				NetworkSetUp network = new NetworkSetUp();
 				try {
 					Socket s = new Socket(url, port );
 					Slave slave = new Slave(s);
@@ -95,8 +93,12 @@ public class LauncherFrame extends AbstractFrame {
 		buttonSinglePlayer.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				setVisible(false);
-				NetworkSetUp network = new NetworkSetUp();
-				network.setSinglePlayer();
+				// TODO make a chooser, choose new game or load game
+				// TODO if (new game) ----> pass file to SinglPlayerHandler
+				// TODO else if (load game) ----> make them choose a file, pass the string of that file to SinglPlayerHandler
+				
+				String file = "no file";
+				new SinglePlayerHandler(file);
 			}
 		});
 		buttonSinglePlayer.setAlignmentX(CENTER_ALIGNMENT);
