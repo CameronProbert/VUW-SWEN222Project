@@ -190,25 +190,23 @@ public class PanelRender extends JPanel {
 	 * @param y
 	 * @param x
 	 */
-	public void determineAndDrawObject(Graphics g, int sendY, int sendX, int y,
-			int x) {
-
-		// -----------------------game object
-		// instanceof: MoveAble-------||------NonMovabke
-		// "" PlayerAbleCharacter----NPC------------tree||rock...etc
-		// -----------------------Boss||Minion
-
+	public void determineAndDrawObject(Graphics g, int sendY, int sendX, int y,	int x) {
+		//Returns if current cell doesn't contain an object or character
 		if (testRoom.getBoardGrid()[sendY][sendX].getObjectOnCell() == null) {
 			return;
 		}
-		MasterObject currentObj = testRoom.getBoardGrid()[sendY][sendX]
-				.getObjectOnCell();
-		String currentObjID = currentObj.getObjectID() + "";
-		currentObjID = currentObjID.substring(0, 2);
-		System.out.println(currentObjID);
+		String objFullID = testRoom.getBoardGrid()[sendY][sendX]
+				.getObjectOnCell().getObjectID()+"";
+		String objTypeID = objFullID.substring(0, 2);
+		String objImageID = objFullID.substring(2, 4);
+		
+		System.out.println(objFullID);
+		System.out.println(objTypeID);
+		System.out.println(objImageID);
+		System.out.println("----------");
 
 		int startX, startY;
-		switch (currentObjID) {
+		switch (objTypeID) {
 		
 		case GameUtil.BUSH+"":
 			startX = panelWidth / 4 + 40;
@@ -216,9 +214,16 @@ public class PanelRender extends JPanel {
 			drawObject(g, bush1, sendY, sendX, y, x, startY, startX);
 			break;
 		case GameUtil.TREE+"":
-			startX = panelWidth / 4 - 30;
-			startY = 45 + 200;
-			drawObject(g, tree1, sendY, sendX, y, x, startY, startX);
+			if (objImageID.equals("10")){
+				startX = panelWidth / 4 - 30;
+				startY = 45 + 200;
+				drawObject(g, tree1, sendY, sendX, y, x, startY, startX);
+			}
+			else if (objImageID.equals("11")){
+				int treeStartX = panelWidth / 4;
+				int treeStartY = 85 + 200;
+				drawObject(g, tree2, sendY, sendX, y, x, treeStartY, treeStartX);
+			}
 			break;
 		case GameUtil.ROCK+"":
 			startX = panelWidth / 4 + 60;
@@ -233,13 +238,13 @@ public class PanelRender extends JPanel {
 				drawObject(g, chestFrontLeft1, sendY, sendX, y, x, startY, startX);
 				break;
 			case EAST:
-				drawObject(g, chestBackLeft1, sendY, sendX, y, x, startY, startX);
+				drawObject(g, chestFrontRight1, sendY, sendX, y, x, startY, startX);
 				break;
 			case SOUTH:
-				drawObject(g, chestBackRight1, sendY, sendX, y, x, startY, startX);
+				drawObject(g, chestBackLeft1, sendY, sendX, y, x, startY, startX);
 				break;
 			case WEST:
-				drawObject(g, chestFrontRight1, sendY, sendX, y, x, startY, startX);
+				drawObject(g, chestBackRight1, sendY, sendX, y, x, startY, startX);
 				break;
 			default:
 				drawObject(g, catBackRight1, sendY, sendX, y, x, startY, startX);
