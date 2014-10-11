@@ -28,33 +28,6 @@ import catgame.logic.GameUtil.Direction;
 public class RoomBuilder {
 	private String fileName;
 
-	// Object ID's
-	private final int empty = 0;
-	private final int grass = 1;
-
-	// characters id's 10 - 19
-	private final int playableCharacters = 10;
-
-	private final int bossOne = 11;
-	private final int bossTwo = 12;
-	private final int bossThree = 13;
-
-	private final int minionOne = 14;
-	private final int minionTwo = 15;
-	private final int minionThree = 16;
-	private final int minionFour = 17;
-
-	// Room accessories 20-39
-	private final int bush = 20;
-	private final int tree = 21;
-	private final int rock = 22;
-	private final int hedge = 23;
-	private final int fence = 24;
-	private final int chestOne = 25;
-	private final int chestTwo = 26;
-	private final int chestTree = 27;
-	private final int chestFour = 28;
-
 	private int roomNum = 0;
 
 	// Game Items
@@ -105,27 +78,27 @@ public class RoomBuilder {
 					// Parser that decides what is going in the BoardCell[][]
 					// using a switch for efficiency
 					switch (values[x]) {
-					case empty + "":
-						board[y][x] = objBuilder.addEmptyCell(x, y, empty, loadingRoom);
+					case GameUtil.EMPTY + "":
+						board[y][x] = objBuilder.addEmptyCell(x, y, loadingRoom);
 						break;
-					case grass + "":
-						board[y][x] = objBuilder.addGrass(x, y, grass, loadingRoom);
+					case GameUtil.GRASS + "":
+						board[y][x] = objBuilder.addGrass(x, y, loadingRoom);
 						break;
-					case bush + "":
-						board[y][x] = objBuilder.addBush(x, y, bush, loadingRoom);
+					case GameUtil.BUSH + "":
+						board[y][x] = objBuilder.addBush(x, y, loadingRoom);
 						break;
-					case tree + "":
-						board[y][x] = objBuilder.addTree(x, y, tree, loadingRoom);
+					case GameUtil.TREE + "":
+						board[y][x] = objBuilder.addTree(x, y, loadingRoom);
 						break;
-					case rock + "":
-						board[y][x] = objBuilder.addRock(x, y, rock, loadingRoom);
+					case GameUtil.ROCK + "":
+						board[y][x] = objBuilder.addRock(x, y, loadingRoom);
 						break;
-					case playableCharacters + "":
-						board[y][x] = objBuilder.addPlayer(x, y, playableCharacters, loadingRoom, objStore);
+					case GameUtil.PLAYABLECHARACTER + "":
+						board[y][x] = objBuilder.addPlayer(x, y, loadingRoom, objStore);
 						loadingRoom.addToPlayerLocationMap(board[y][x].getObjectOnCell().getObjectID(), board[y][x]);
 						break;
-					case minionOne + "":
-						board[y][x] = objBuilder.addMinionOne(x, y, minionOne, loadingRoom, objStore);
+					case GameUtil.MINIONONE + "":
+						board[y][x] = objBuilder.addMinionOne(x, y, loadingRoom, objStore);
 						break;
 
 					}

@@ -83,7 +83,12 @@ public class ClientFrame extends AbstractFrame implements KeyListener {
 			PlayableCharacter character = runner.getGameUtill().getStorer().findCharacter(clientsUID);
 			this.addPanels(character);
 		}
-		PlayableCharacter character = new PlayableCharacter(1, 10, null, Direction.NORTH, 3, 5,null);
+		ArrayList<GameItem> testInventory = new ArrayList<GameItem>();
+		testInventory.add(new Key(0));
+		testInventory.add(new Food(1, 20));
+		testInventory.add(new Key(2));
+		testInventory.add(new Food(3, 10));
+		PlayableCharacter character = new PlayableCharacter(1, 10, null, Direction.NORTH, 3, 5, testInventory);
 		this.addPanels(character);
 		this.setVisible(true);
 	}
@@ -232,20 +237,21 @@ public class ClientFrame extends AbstractFrame implements KeyListener {
 		renderPanel = new RenderPanel(windowSize, this);
 
 		// Create dimensions
-		int panelHeight = (int) (1.0 / 2 * windowSize.getHeight());
-		int statPanelWidth = (int) (1.0 / 6 * windowSize.getWidth());
-		int invPanelWidth = (int) (1.0 / 24 * windowSize.getWidth());
+		int panelHeight = 300;
+		int statPanelWidth = 200;
+		int invPanelWidth = 50;
 
 		Dimension statPanelDim = new Dimension(statPanelWidth, panelHeight);
 		Dimension invPanelDim = new Dimension(invPanelWidth, panelHeight);
 
 		// Create locations
-		int invLocationX = (int) (1.0 / 60 * windowSize.getWidth());
-		int invPanelLocationY = (int) (3.0 / 8 * windowSize.getHeight());
-		int statLocationX = (int) (49.0 / 60 * windowSize.getWidth());
-		int statPanelLocationY = (int) (7.0 / 16 * windowSize.getHeight());
+		int margin = (int) (1.0 / 60 * windowSize.getWidth());
+		int invLocationX = margin;
+		int invPanelLocationY = (int) (windowSize.getHeight()-panelHeight-margin*2);
+		int statLocationX = (int) (windowSize.getWidth()-statPanelWidth-margin);
+		int statPanelLocationY = (int) (windowSize.getHeight()-panelHeight-margin*2);
 
-		InventoryPanel invPanel = new InventoryPanel(character, invPanelDim);
+		InventoryPanel invPanel = new InventoryPanel(character, invPanelDim, this);
 		invPanel.setLocation(invLocationX, invPanelLocationY);
 		invPanel.setSize(invPanelDim);
 		invPanel.setPreferredSize(invPanelDim);
@@ -316,7 +322,16 @@ public class ClientFrame extends AbstractFrame implements KeyListener {
 			statPanel.modifyChar();
 			break;
 		}
-		validAction = 1;
+		if (validAction > 0 && isClient) {
+			slave.sendUpdate(up);
+		}
+	}
+
+	public void itemUsed(GameItem item) {
+		int validAction = 0;
+		Update up = new Update(0);
+		validAction = runner.getGameUtill().useItem(clientsUID, item.getObjectID());
+		up = new Update(Update.Descriptor.CONSUME, clientsUID, item.getObjectID());
 		if (validAction > 0 && isClient) {
 			slave.sendUpdate(up);
 		}
@@ -326,19 +341,13 @@ public class ClientFrame extends AbstractFrame implements KeyListener {
 	 * Unneeded for the game
 	 */
 	@Override
-	public void keyReleased(KeyEvent arg0) {
-		// TODO Auto-generated method stub
-
-	}
+	public void keyReleased(KeyEvent arg0) {}
 
 	/**
 	 * Unneeded for the game
 	 */
 	@Override
-	public void keyTyped(KeyEvent arg0) {
-		// TODO Auto-generated method stub
-
-	}
+	public void keyTyped(KeyEvent arg0) {}
 
 	/**
 	 * Testing main method

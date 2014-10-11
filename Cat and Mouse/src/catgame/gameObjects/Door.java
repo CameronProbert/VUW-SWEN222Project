@@ -20,9 +20,9 @@ public class Door implements NonMovavble {
 	 * @param keyId
 	 *            (If keyID == 0 then there is no key for the door)
 	 */
-	public Door(int id, DoorsEntrance entrance, int keyId) {
+	public Door(int id, DoorsEntrance entranceTo, int keyId) {
 		this.id = id;
-		this.entranceTo = entrance;
+		this.entranceTo = entranceTo;
 		if (keyId != 0) {
 			this.isLocked = true;
 			this.keyID = keyId;

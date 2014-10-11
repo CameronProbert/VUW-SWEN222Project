@@ -10,36 +10,57 @@ import java.awt.event.MouseListener;
 import catgame.gameObjects.GameItem;
 
 public class ItemPanel extends AbstractPanel implements MouseListener {
-	
-	private GameItem item;
 
-	public ItemPanel(Point origin, Dimension dim) {
+	private GameItem item;
+	private ClientFrame frame;
+
+	public ItemPanel(Point origin, Dimension dim, ClientFrame frame) {
 		super();
+		this.frame = frame;
+		this.addMouseListener(this);
 		this.setSize(dim);
 		this.setPreferredSize(dim);
 		this.setLocation(origin);
-		//this.setOpaque(true);
+		// this.setOpaque(true);
 	}
-	
-	public void setItem(GameItem item){
+
+	public void setItem(GameItem item) {
 		System.out.println("Setting item to " + item.toString());
 		this.item = item;
 	}
-	
+
 	@Override
-	protected void paintComponent(Graphics g){
+	protected void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		g.setColor(Color.red);
-		g.drawRect(0, 0, getWidth()-1, getHeight()-1);
-		if (item != null){
-			// TODO item.draw(g);
+		g.drawRect(0, 0, getWidth() - 1, getHeight() - 1);
+		if (item != null) {
+			item.draw(g);
 		}
 	}
 
+	/**
+	 * Actions to perform on mouse click
+	 */
 	@Override
 	public void mouseClicked(MouseEvent e) {
-		// TODO Auto-generated method stub
+		System.out.println("Item clicked");
+		if (item != null) {
+			if (item.isUsable()) {
+				System.out.println("Usable item");
+				System.out.println(item.getClass().getSimpleName());
+				useItem();
+			} else {
+				HelperMethods.textDialog(item.getClass().getSimpleName(), "Take this to the right door to use it");
+			}
+		}
+	}
 
+	/**
+	 * Uses the item contained in the itemPanel
+	 */
+	private void useItem() {
+		frame.itemUsed(this.item);
 	}
 
 	@Override

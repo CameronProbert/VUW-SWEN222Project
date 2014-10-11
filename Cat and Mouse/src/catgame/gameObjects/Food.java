@@ -45,5 +45,9 @@ public class Food implements GameItem{
 	public void setOwner(GameObject own) {
 		this.owner = own;
 	}
+	@Override
+	public boolean isUsable() {
+		return true;
+	}
 	 
 }

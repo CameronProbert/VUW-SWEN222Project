@@ -40,4 +40,9 @@ public class Key implements GameItem{
 		this.owner = own;
 	}
 
+	@Override
+	public boolean isUsable() {
+		return false;
+	}
+
 }

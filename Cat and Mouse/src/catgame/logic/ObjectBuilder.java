@@ -41,7 +41,7 @@ public class ObjectBuilder {
 	 * Construct an empty BoardCell used for having holes and different room
 	 * shapes
 	 */
-	public BoardCell addEmptyCell(int x, int y, int ObjType, Room room) {
+	public BoardCell addEmptyCell(int x, int y, Room room) {
 		return new BoardCell(new Position(x, y), null, "");
 	}
 
@@ -50,11 +50,10 @@ public class ObjectBuilder {
 	 * 
 	 * @param x
 	 * @param y
-	 * @param ObjType
 	 * @param objStore
 	 * @return new grass BoardCell
 	 */
-	public BoardCell addGrass(int x, int y, int ObjType, Room room) {
+	public BoardCell addGrass(int x, int y, Room room) {
 		return new BoardCell(new Position(x, y), null, groundTypeGrass);
 	}
 
@@ -67,8 +66,8 @@ public class ObjectBuilder {
 	 * @param objStore
 	 * @return new bush BoardCell
 	 */
-	public BoardCell addBush(int x, int y, int ObjType, Room room) {
-		int newBushId = genorateObjectId(ObjType, genorateRandomObjectType(1), bushNum++);
+	public BoardCell addBush(int x, int y, Room room) {
+		int newBushId = genorateObjectId(GameUtil.BUSH, genorateRandomObjectType(1), bushNum++);
 		Bush newBush = new Bush(newBushId);
 		room.addToInventory(newBush);
 		return new BoardCell(new Position(x, y), newBush, groundTypeGrass);
@@ -84,8 +83,8 @@ public class ObjectBuilder {
 	 * @param objStore
 	 * @return new tree BoardCell
 	 */
-	public BoardCell addTree(int x, int y, int ObjType, Room room) {
-		int newTreeId = genorateObjectId(ObjType, genorateRandomObjectType(2), treeNum++);
+	public BoardCell addTree(int x, int y, Room room) {
+		int newTreeId = genorateObjectId(GameUtil.TREE, genorateRandomObjectType(2), treeNum++);
 		Tree newTree = new Tree(newTreeId);
 		room.addToInventory(newTree);
 		return new BoardCell(new Position(x, y), newTree, groundTypeGrass);
@@ -100,8 +99,8 @@ public class ObjectBuilder {
 	 * @param objStore
 	 * @return new bush BoardCell
 	 */
-	public BoardCell addRock(int x, int y, int ObjType, Room room) {
-		int newRockId = genorateObjectId(ObjType, genorateRandomObjectType(1), rockNum++);
+	public BoardCell addRock(int x, int y, Room room) {
+		int newRockId = genorateObjectId(GameUtil.ROCK, genorateRandomObjectType(1), rockNum++);
 		Rock newRock = new Rock(newRockId);
 		room.addToInventory(newRock);
 		return new BoardCell(new Position(x, y), newRock, groundTypeGrass);
@@ -115,8 +114,8 @@ public class ObjectBuilder {
 	 * @param objStore
 	 * @return
 	 */
-	public BoardCell addPlayer(int x, int y, int ObjType, Room room, ObjectStorer objStore) {
-		int newPlayerId = genorateObjectId(ObjType, playerNum, playerNum++);
+	public BoardCell addPlayer(int x, int y, Room room, ObjectStorer objStore) {
+		int newPlayerId = genorateObjectId(GameUtil.PLAYABLECHARACTER, playerNum, playerNum++);
 		// TODO OwnerId
 		// Create starting items
 		List<GameItem> newInv = new ArrayList<GameItem>();
@@ -129,8 +128,8 @@ public class ObjectBuilder {
 		return new BoardCell(new Position(x, y), newPlayableCharacter, groundTypeGrass);
 	}
 
-	public BoardCell addMinionOne(int x, int y, int ObjType, Room room, ObjectStorer objStore) {
-		int newMinionId = genorateObjectId(ObjType, genorateRandomObjectType(1), minoinNum++);
+	public BoardCell addMinionOne(int x, int y, Room room, ObjectStorer objStore) {
+		int newMinionId = genorateObjectId(GameUtil.MINIONONE, genorateRandomObjectType(1), minoinNum++);
 		List<GameItem> newInv = new ArrayList<GameItem>();
 		newInv.add(new Food(808080, 10));
 		Minion newMin = new Minion(newMinionId, room, 8, 60, newInv);
