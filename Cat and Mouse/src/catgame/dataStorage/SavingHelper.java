@@ -100,7 +100,7 @@ public class SavingHelper {
 		} else {
 			boardCellInfo += cell.getGroundType();
 		}
-		System.out.println("boardCellInfo = " + boardCellInfo);
+
 		return boardCellInfo;
 	}
 }

@@ -30,7 +30,7 @@ public class LoadingGameMain {
 
 	public BoardData startLoading() throws XMLException, JDOMException {
 		SAXBuilder builder = new SAXBuilder(); // make SAXBuilder
-		File xmlFile = new File("/Cat and Mouse/test.xml");
+		File xmlFile = new File("test.xml");
 		try {
 			// make document and read root
 			Document document = (Document) builder.build(xmlFile);
@@ -86,17 +86,20 @@ public class LoadingGameMain {
 			throws XMLException {
 		List<Element> gameObjList = childrenElement.getChildren();
 		for (Element objElement : gameObjList) {
-			if(objElement.getName().equals("non-playerable inventory")){
-				for(Element nonPlayerableObj: objElement.getChildren()){
-					room.addToInventory(masterObjectLoader.verifyElement(nonPlayerableObj));
+			if (objElement.getName().equals("non-playerable inventory")) {
+				for (Element nonPlayerableObj : objElement.getChildren()) {
+					room.addToInventory((GameObject) masterObjectLoader
+							.verifyElement(nonPlayerableObj));
 				}
 			}
-			else if(objElement.getName().equals("playerable inventory")){
-				for(Element playerableObj: objElement.getChildren()){
-					room.addToInventory(masterObjectLoader.verifyElement(playerableObj));
+			// TODO Check casting!!!!
+			else if (objElement.getName().equals("playerable inventory")) {
+				for (Element playerableObj : objElement.getChildren()) {
+					room.addToInventory((GameObject) masterObjectLoader
+							.verifyElement(playerableObj));
 				}
 			}
-			
+
 		}
 		return null;
 	}
@@ -118,12 +121,15 @@ public class LoadingGameMain {
 		// to make each BoardCell. Once each BoardCell is created,
 		// it is saved in the new boardCell[][] which is then returned
 		for (int y = 0; y < boardCell.length; y++) {
-			String wholeElementText = childrenElement.getChild("Row_" + y)
-					.getText();
+			String row = "Row" + y;
+			String wholeElementText = childrenElement.getChild(row).getText();
 			String[] wholeElementArray = wholeElementText.split(",");
 			if (wholeElementArray.length != boardCell[y].length) {
 				throw new XMLException(
-						"String[] element info is not same size as boardCell[]");
+						"String[] element info is not same size as boardCell[]. wholeElementArray.length: "
+								+ wholeElementArray.length
+								+ " , boardCell[y].length: "
+								+ boardCell[y].length);
 			}
 			for (int x = 0; x < boardCell[y].length; x++) {
 				// use helper method to parse string of (x,y,ID,groundType)
@@ -160,6 +166,13 @@ public class LoadingGameMain {
 			throw new XMLException("BoardData is null");
 		}
 		return boardData;
+	}
+
+	public static void main(String[] args) throws JDOMException, XMLException {
+		List<Integer> temp = new ArrayList<Integer>();
+		temp.add(23);
+		temp.add(2345);
+		new LoadingGameMain(temp);
 	}
 
 }

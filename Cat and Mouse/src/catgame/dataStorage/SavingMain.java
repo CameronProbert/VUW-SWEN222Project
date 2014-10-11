@@ -144,9 +144,11 @@ public class SavingMain {
 				+ roomGrid.length));
 		boardGrid.addContent(new Element("SecondArray.length").setText(""
 				+ roomGrid[0].length));
-
+		System.out.println("FirstArray.length: " + roomGrid.length);
+		System.out.println("SecondArray.length: " + roomGrid[0].length);
 		for (int y = 0; y < roomGrid.length; y++) {
-			Element rowBoardCellElement = new Element("Row" + y);
+			String rowName = "Row" + y;
+			Element rowBoardCellElement = new Element(rowName);
 			String cellValuesOfRow = "";
 			for (int x = 0; x < roomGrid[y].length; x++) {
 				String boardCellValues = "(";

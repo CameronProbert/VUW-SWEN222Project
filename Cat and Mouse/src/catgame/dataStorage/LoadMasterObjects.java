@@ -15,7 +15,7 @@ public class LoadMasterObjects {
 		this.main = main;
 	}
 
-	public GameObject verifyElement(Element element) throws XMLException {
+	public MasterObject verifyElement(Element element) throws XMLException {
 		if (element == null) {
 			throw new XMLException("element is null when trying to vertify");
 		}
@@ -68,9 +68,14 @@ public class LoadMasterObjects {
 		return new Bush(Integer.parseInt(element.getAttribute("id").getValue()));
 	}
 
-	public GameObject loadChest(Element element) {
-
-		return null;
+	public GameObject loadChest(Element element) throws XMLException {
+		int ID = Integer.parseInt(element.getAttribute("id").getValue());
+		List<GameItem> inventory = new ArrayList<GameItem>();
+		for(Element inventoryElement: element.getChild("Inventory").getChildren()){
+			inventory.add((GameItem) verifyElement(inventoryElement));
+			// TODO Check casting!!
+		}
+		return new Chest(ID, inventory);
 	}
 
 	public GameObject loadDoor(Element element) {
@@ -115,15 +120,37 @@ public class LoadMasterObjects {
 	 * 
 	 * @param element
 	 * @return
+	 * @throws XMLException
 	 */
-	public GameObject loadPlayableCharacter(Element element) {
+	public GameObject loadPlayableCharacter(Element element)
+			throws XMLException {
 		int ID = Integer.parseInt(element.getAttribute("id").getValue());
 		String directionEnum = element.getChild("Direction").getText();
-		
-		if(directionEnum.equals("NORTH")){
-			
+		Direction dir = null;
+		if (directionEnum.equals("NORTH")) {
+			dir = Direction.NORTH;
+		} else if (directionEnum.equals("EAST")) {
+			dir = Direction.EAST;
+		} else if (directionEnum.equals("SOUTH")) {
+			dir = Direction.SOUTH;
+		} else {
+			dir = Direction.WEST;
 		}
-		return null;
+		int attackPower = Integer.parseInt(element.getAttribute("attackPower")
+				.getValue());
+		int health = Integer
+				.parseInt(element.getAttribute("health").getValue());
+		List<GameItem> inventoryList = new ArrayList<GameItem>();
+		List<Element> inventoryElementsList = element.getChild("Inventory")
+				.getChildren();
+		for (Element inventoryElement : inventoryElementsList) {
+			inventoryList.add((GameItem) verifyElement(inventoryElement));
+		}
+		int roomID = Integer
+				.parseInt(element.getAttribute("RoomID").getValue());
+		Room currentRoom = main.getRoomIDMap().get(roomID);
+		return new PlayableCharacter(ID, currentRoom, dir, attackPower, health,
+				inventoryList);
 	}
 
 	public GameObject loadRock(Element element) {

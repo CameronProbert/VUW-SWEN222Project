@@ -19,7 +19,7 @@ public class SavingMasterObjects {
 
 	public SavingMasterObjects(SavingMain main) {
 		this.main = main;
-		this.helper =new SavingHelper(main, this);
+		this.helper = new SavingHelper(main, this);
 	}
 
 	public Element writeBoss(MasterObject obj) throws XMLException {
@@ -128,6 +128,8 @@ public class SavingMasterObjects {
 		// ----------------- AttackPower ------------------
 		characterElement.addContent(new Element("attackPower").setText(""
 				+ character.getAttackPower()));
+		// ------------------------------------------------
+		// ----------------- AttackPower ------------------
 		characterElement.addContent(new Element("health").setText(""
 				+ character.getHealth()));
 		// ------------------------------------------------
