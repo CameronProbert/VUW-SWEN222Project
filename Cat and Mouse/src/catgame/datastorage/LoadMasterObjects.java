@@ -52,8 +52,6 @@ public class LoadMasterObjects {
 	public GameObject loadBoss(Element element) {
 		int id = Integer.parseInt(element.getAttribute("id").getValue());
 
-		Room roomID = main.addRoomToMap(Integer.parseInt(element.getAttribute(
-				"CurrentRoom").getValue()));
 		int health = Integer.parseInt(element.getChild("health").getText());
 
 		// TODO load list of items that Boss has
@@ -61,7 +59,7 @@ public class LoadMasterObjects {
 
 		int attackPower = Integer.parseInt(element.getChild("attackPower")
 				.getText());
-		return new Boss(id, roomID, attackPower, health, inventory);
+		return new Boss(id, attackPower, health, inventory);
 	}
 
 	public GameObject loadBush(Element element) {

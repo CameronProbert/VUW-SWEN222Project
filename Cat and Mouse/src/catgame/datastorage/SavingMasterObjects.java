@@ -26,8 +26,6 @@ public class SavingMasterObjects {
 		Boss boss = (Boss) obj;
 		Element bossElement = new Element("Boss");
 		bossElement.setAttribute(new Attribute("id", "" + boss.getObjectID()));
-		bossElement.addContent(new Element("CurrentRoom").setText(""
-				+ boss.getCurrentRoom().getRoomID()));
 		bossElement.addContent(new Element("health").setText(""
 				+ boss.getHealth()));
 		bossElement.addContent(helper.makeInventory(boss.getInventory()));
