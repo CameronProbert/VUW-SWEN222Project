@@ -31,6 +31,7 @@ public class PanelRender extends JPanel {
 	private Image tree2;
 	private Image bush1;
 	private Image rock1;
+	private Image corpse1;
 
 	private int blockWidth = 124;
 	private int blockHeight = 70;
@@ -89,6 +90,7 @@ public class PanelRender extends JPanel {
 			tree2 = ImageIO.read(PanelRender.class.getResource("/images/Tree2.png"));
 			bush1 = ImageIO.read(PanelRender.class.getResource("/images/Bush1.png"));
 			rock1 = ImageIO.read(PanelRender.class.getResource("/images/Rock1.png"));
+			corpse1 = ImageIO.read(PanelRender.class.getResource("/images/Corpse1.png"));
 			
 			// Load chest images
 			chestFrontLeft1 = ImageIO.read(PanelRender.class.getResource("/images/ChestFrontLeft1.png"));
