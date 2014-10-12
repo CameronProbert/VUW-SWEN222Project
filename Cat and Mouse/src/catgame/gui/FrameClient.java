@@ -21,8 +21,8 @@ import javax.swing.JMenuItem;
 import org.jdom2.JDOMException;
 
 import catgame.clientserver.*;
-import catgame.dataStorage.LoadingGameMain;
-import catgame.dataStorage.XMLException;
+import catgame.datastorage.LoadingGameMain;
+import catgame.datastorage.XMLException;
 import catgame.gameObjects.*;
 import catgame.gui.renderpanel.*;
 import catgame.logic.*;

@@ -10,8 +10,8 @@ import java.util.List;
 
 import org.jdom2.JDOMException;
 
-import catgame.dataStorage.LoadingGameMain;
-import catgame.dataStorage.XMLException;
+import catgame.datastorage.LoadingGameMain;
+import catgame.datastorage.XMLException;
 import catgame.logic.BoardData;
 
 

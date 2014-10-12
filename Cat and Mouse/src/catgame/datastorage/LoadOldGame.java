@@ -1,4 +1,4 @@
-package catgame.dataStorage;
+package catgame.datastorage;
 
 public class LoadOldGame {
 

@@ -9,7 +9,7 @@ import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
 
-import catgame.dataStorage.LoadOldGame;
+import catgame.datastorage.LoadOldGame;
 import catgame.gameObjects.Chest;
 import catgame.gameObjects.GameItem;
 import catgame.gameObjects.NonPlayableCharacter;

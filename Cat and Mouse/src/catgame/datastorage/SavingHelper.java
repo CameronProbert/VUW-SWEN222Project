@@ -1,4 +1,4 @@
-package catgame.dataStorage;
+package catgame.datastorage;
 
 import java.util.List;
 
