@@ -30,7 +30,7 @@ public class LoadingHelper {
 		if (!boardInfoArray[2].equals("null")) {
 			int ID = Integer.parseInt(boardInfoArray[2]);
 			if (main.getObjectIDMap().containsKey(ID)) {
-				ObjectID = main.getObjectIDMap().get(ID);
+				ObjectID = (GameObject) main.getObjectIDMap().get(ID);
 			} else {
 				throw new XMLException(
 						"Cannot find GameObject that is supposed to be already made in the room. Cannot make BoardCell without this!");

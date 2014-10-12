@@ -11,10 +11,10 @@ import java.io.IOException;
 import java.util.*;
 
 public class LoadingGameMain {
-	private Map<Integer, GameObject> objectIDMap = new HashMap<Integer, GameObject>();
+	private Map<Integer, MasterObject> objectIDMap = new HashMap<Integer, MasterObject>();
 	private Map<Integer, Room> roomIDMap = new HashMap<Integer, Room>();
 	private Map<Integer, PlayableCharacter> playerIDMap = new HashMap<Integer, PlayableCharacter>();
-	
+
 	private LoadMasterObjects masterObjectLoader;
 	private LoadingHelper helper;
 	private BoardData boardData;
@@ -25,14 +25,14 @@ public class LoadingGameMain {
 		this.masterObjectLoader = new LoadMasterObjects(this);
 		// make loader helper
 		this.helper = new LoadingHelper(this);
-		for(Integer id : playerIDList){
+		for (Integer id : playerIDList) {
 			// save ID list
 			playerIDMap.put(id, null);
 		}
 		boardData = startLoading();
 		if (boardData != null) {
 			System.out.println("Done");
-		}
+		} 
 	}
 
 	public BoardData startLoading() throws XMLException, JDOMException {
@@ -86,23 +86,29 @@ public class LoadingGameMain {
 			throws XMLException {
 		List<Element> gameObjList = childrenElement.getChildren();
 		for (Element objElement : gameObjList) {
-			if (objElement.getName().equals("non-playerable inventory")) {
+			if (objElement.getName().equals("non-playerableInventory")) {
 				for (Element nonPlayerableObj : objElement.getChildren()) {
-					GameObject inventoryObj = (GameObject) masterObjectLoader
+					MasterObject inventoryObj = masterObjectLoader
 							.verifyElement(nonPlayerableObj);
 					addObjectToMap(inventoryObj);
-					room.addToInventory(inventoryObj);
+					if (inventoryObj instanceof GameObject) {
+						room.addToInventory((GameObject) inventoryObj);
+					}
+
 				}
 			}
 			// TODO Check casting!!!!
-			else if (objElement.getName().equals("playerable inventory")) {
+			else if (objElement.getName().equals("playerableInventory")) {
 				for (Element playerableObj : objElement.getChildren()) {
-					GameObject inventoryObj = (GameObject) masterObjectLoader
+					MasterObject inventoryObj = masterObjectLoader
 							.verifyElement(playerableObj);
+					if (inventoryObj instanceof PlayableCharacter) {
+						addPlayerToMap((PlayableCharacter) inventoryObj);
+					}
+
 					addObjectToMap(inventoryObj);
-					room.addToInventory(inventoryObj);
-					room.addToInventory((GameObject) masterObjectLoader
-							.verifyElement(playerableObj));
+					room.addToInventory((GameObject) inventoryObj);
+
 				}
 			}
 
@@ -153,17 +159,17 @@ public class LoadingGameMain {
 		return roomIDMap.get(ID);
 	}
 
-	public void addObjectToMap(GameObject obj) {
-		if (!objectIDMap.containsKey(obj.getObjectID())) {
-			objectIDMap.put(obj.getObjectID(), obj);
+	public void addObjectToMap(MasterObject inventoryObj) throws XMLException {
+		if (inventoryObj == null) {
+			throw new XMLException("inventoryObj is null");
 		}
+		objectIDMap.put(inventoryObj.getObjectID(), inventoryObj);
 	}
 
 	public void addPlayerToMap(PlayableCharacter obj) {
 		if (!playerIDMap.containsKey(obj.getObjectID())) {
 			playerIDMap.put(obj.getObjectID(), obj);
-		}
-		else if(playerIDMap.containsKey(obj.getObjectID())){
+		} else if (playerIDMap.containsKey(obj.getObjectID())) {
 			playerIDMap.put(obj.getObjectID(), obj);
 		}
 	}
@@ -172,7 +178,7 @@ public class LoadingGameMain {
 		return roomIDMap;
 	}
 
-	public Map<Integer, GameObject> getObjectIDMap() {
+	public Map<Integer, MasterObject> getObjectIDMap() {
 		return objectIDMap;
 	}
 

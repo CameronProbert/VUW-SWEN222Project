@@ -7,7 +7,16 @@
           <Bush id="201010" />
           <Tree id="211010" />
           <Rock id="221010" />
-          <Minion />
+          <Minion id="141010">
+            <RoomID>0</RoomID>
+            <AttackPower>8</AttackPower>
+            <Health>60</Health>
+            <Inventory>
+              <Food id="80">
+                <heal>10</heal>
+              </Food>
+            </Inventory>
+          </Minion>
           <Chest id="251010">
             <Inventory>
               <Food id="80">

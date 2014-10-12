@@ -19,7 +19,6 @@ public class LoadMasterObjects {
 		if (element == null) {
 			throw new XMLException("element is null when trying to vertify");
 		}
-
 		int id = Integer.parseInt(element.getAttribute("id").getValue());
 		if (main.getObjectIDMap().containsKey(id)) {
 			return main.getObjectIDMap().get(id);
@@ -49,7 +48,7 @@ public class LoadMasterObjects {
 		throw new XMLException("Cannot determine GameObject element!");
 	}
 
-	public GameObject loadBoss(Element element) {
+	public Boss loadBoss(Element element) {
 		int id = Integer.parseInt(element.getAttribute("id").getValue());
 
 		int health = Integer.parseInt(element.getChild("health").getText());
@@ -62,11 +61,11 @@ public class LoadMasterObjects {
 		return new Boss(id, attackPower, health, inventory);
 	}
 
-	public GameObject loadBush(Element element) {
+	public Bush loadBush(Element element) {
 		return new Bush(Integer.parseInt(element.getAttribute("id").getValue()));
 	}
 
-	public GameObject loadChest(Element element) throws XMLException {
+	public Chest loadChest(Element element) throws XMLException {
 		int ID = Integer.parseInt(element.getAttribute("id").getValue());
 		List<GameItem> inventory = new ArrayList<GameItem>();
 		for(Element inventoryElement: element.getChild("Inventory").getChildren()){
@@ -76,26 +75,29 @@ public class LoadMasterObjects {
 		return new Chest(ID, inventory);
 	}
 
-	public GameObject loadDoor(Element element) {
-
-		return null;
+	public Door loadDoor(Element element) {
+		// TODO CREATING JUST TEMP DOOR
+		return new Door(12, Direction.NORTH);
 	}
 
-	public GameObject loadFood(Element element) {
+	public Food loadFood(Element element) {
 		int heal = Integer.parseInt(element.getChild("heal").getText());
 		// TODO check that the casting below is okay to use!!
-		return (GameObject) new Food(Integer.parseInt(element
+		return new Food(Integer.parseInt(element
 				.getAttribute("id").getValue()), heal);
 	}
 
-	public GameObject loadKey(Element element) {
+	public Key loadKey(Element element) {
 		Key key = new Key(Integer.parseInt(element.getAttribute("id")
 				.getValue()));
 		if (!element.getChild("owner_ID").getText().equals("null")) {
 			int ownerID = Integer.parseInt(element.getChild("owner_ID")
 					.getText());
 			if (main.getObjectIDMap().containsKey(ownerID)) {
-				key.setOwner(main.getObjectIDMap().get(ownerID));
+				if(main.getObjectIDMap().get(ownerID) instanceof GameObject){
+					System.out.println("okay");
+				}
+				key.setOwner((GameObject) main.getObjectIDMap().get(ownerID));
 			} else {
 				// TODO if player isn't created yet, put on stack of
 				// "to do stuff" until player is created
@@ -103,13 +105,24 @@ public class LoadMasterObjects {
 		} else {
 			key.setOwner(null);
 		}
-		// TODO check that the casting below is okay to use!!
-		return (GameObject) key;
+		
+		return key;
 	}
 
-	public GameObject loadMinion(Element element) {
-
-		return null;
+	public Minion loadMinion(Element element) throws XMLException {
+		int id = Integer.parseInt(element.getAttribute("id").getValue());
+		int roomID = Integer
+				.parseInt(element.getChildText("RoomID"));
+		Room currentRoom = main.getRoomIDMap().get(roomID);
+		int attackPower = Integer.parseInt(element.getChildText("AttackPower"));
+		int health = Integer.parseInt(element.getChildText("Health"));
+		List<GameItem> inventoryList = new ArrayList<GameItem>();
+		List<Element> inventoryElementsList = element.getChild("Inventory")
+				.getChildren();
+		for (Element inventoryElement : inventoryElementsList) {
+			inventoryList.add((GameItem) verifyElement(inventoryElement));
+		}
+		return new Minion(id, currentRoom, attackPower, health, inventoryList);
 	}
 
 	/**
@@ -120,7 +133,7 @@ public class LoadMasterObjects {
 	 * @return
 	 * @throws XMLException
 	 */
-	public GameObject loadPlayableCharacter(Element element)
+	public PlayableCharacter loadPlayableCharacter(Element element)
 			throws XMLException {
 		int ID = Integer.parseInt(element.getAttribute("id").getValue());
 		String directionEnum = element.getChild("Direction").getText();
@@ -132,12 +145,10 @@ public class LoadMasterObjects {
 		} else if (directionEnum.equals("SOUTH")) {
 			dir = Direction.SOUTH;
 		} else {
-			dir = Direction.WEST;
+			dir = Direction.WEST; 
 		}
-		int attackPower = Integer.parseInt(element.getAttribute("attackPower")
-				.getValue());
-		int health = Integer
-				.parseInt(element.getAttribute("health").getValue());
+		int attackPower = Integer.parseInt(element.getChildText("attackPower"));
+		int health = Integer.parseInt(element.getChildText("health"));
 		List<GameItem> inventoryList = new ArrayList<GameItem>();
 		List<Element> inventoryElementsList = element.getChild("Inventory")
 				.getChildren();
@@ -145,18 +156,18 @@ public class LoadMasterObjects {
 			inventoryList.add((GameItem) verifyElement(inventoryElement));
 		}
 		int roomID = Integer
-				.parseInt(element.getAttribute("RoomID").getValue());
+				.parseInt(element.getChildText("RoomID"));
 		Room currentRoom = main.getRoomIDMap().get(roomID);
 		return new PlayableCharacter(ID, currentRoom, dir, attackPower, health,
 				inventoryList);
 	}
 
-	public GameObject loadRock(Element element) {
+	public Rock loadRock(Element element) {
 
 		return new Rock(Integer.parseInt(element.getAttribute("id").getValue()));
 	}
 
-	public GameObject loadTree(Element element) {
+	public Tree loadTree(Element element) {
 
 		return new Tree(Integer.parseInt(element.getAttribute("id").getValue()));
 	}

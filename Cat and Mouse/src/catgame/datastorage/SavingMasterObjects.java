@@ -87,9 +87,16 @@ public class SavingMasterObjects {
 		return keyElement;
 	}
 
-	public Element writeMinion(MasterObject obj) {
-		// TODO
-		return new Element("Minion");
+	public Element writeMinion(MasterObject obj) throws XMLException {
+		Minion minion = (Minion) obj;
+		Element minionElement = new Element("Minion");
+		minionElement.setAttribute(new Attribute("id", "" + minion.getObjectID()));
+		minionElement.addContent(new Element("RoomID").setText("" + minion.getCurrentRoom().getRoomID()));
+		minionElement.addContent(new Element("AttackPower").setText("" + minion.getAttackPower()));
+		minionElement.addContent(new Element("Health").setText("" + minion.getHealth()));
+		minionElement.addContent(helper.makeInventory(minion.getInventory()));
+		 
+		return minionElement;
 	}
 
 	public Element writeRock(MasterObject obj) {
