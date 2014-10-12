@@ -26,17 +26,22 @@ public class LoadingHelper {
 		int x = Integer.parseInt(boardInfoArray[0]);
 		int y = Integer.parseInt(boardInfoArray[1]);
 		Position position = new Position(x, y);
-		int ObjectID = Integer.parseInt(boardInfoArray[2]);
-		GameObject obj;
-		if (main.getObjectIDMap().containsKey(ObjectID)) {
-			obj = main.getObjectIDMap().get(ObjectID);
-		} else {
-			throw new XMLException(
-					"Cannot find GameObject that is supposed to be already made in the room. Cannot make BoardCell without this!");
+		GameObject ObjectID = null;
+		if (!boardInfoArray[2].equals("null")) {
+			int ID = Integer.parseInt(boardInfoArray[2]);
+			if (main.getObjectIDMap().containsKey(ID)) {
+				ObjectID = main.getObjectIDMap().get(ID);
+			} else {
+				throw new XMLException(
+						"Cannot find GameObject that is supposed to be already made in the room. Cannot make BoardCell without this!");
+			}
 		}
-		String groundType = boardInfoArray[3];
+		String groundType = null;
+		if (!boardInfoArray[3].equals("null")) {
+			groundType = boardInfoArray[3];
+		}
 
-		return new BoardCell(position, obj, groundType);
+		return new BoardCell(position, ObjectID, groundType);
 	}
 
 	/**
@@ -59,6 +64,6 @@ public class LoadingHelper {
 		// for (int i = 0; i < array.length; i++) {
 		// System.out.println(array2[i]);
 		// }
-		
+
 	}
 }

@@ -13,7 +13,8 @@ import java.util.*;
 public class LoadingGameMain {
 	private Map<Integer, GameObject> objectIDMap = new HashMap<Integer, GameObject>();
 	private Map<Integer, Room> roomIDMap = new HashMap<Integer, Room>();
-	private List<Integer> playerIDList = new ArrayList<Integer>();
+	private Map<Integer, PlayableCharacter> playerIDMap = new HashMap<Integer, PlayableCharacter>();
+	
 	private LoadMasterObjects masterObjectLoader;
 	private LoadingHelper helper;
 	private BoardData boardData;
@@ -24,8 +25,14 @@ public class LoadingGameMain {
 		this.masterObjectLoader = new LoadMasterObjects(this);
 		// make loader helper
 		this.helper = new LoadingHelper(this);
-		this.playerIDList = playerIDList; // save ID list
+		for(Integer id : playerIDList){
+			// save ID list
+			playerIDMap.put(id, null);
+		}
 		boardData = startLoading();
+		if (boardData != null) {
+			System.out.println("Done");
+		}
 	}
 
 	public BoardData startLoading() throws XMLException, JDOMException {
@@ -70,15 +77,8 @@ public class LoadingGameMain {
 		}
 		int id = Integer.parseInt(roomElement.getAttribute("id").getValue());
 		Room room = addRoomToMap(id);
-
-		for (Element childrenElement : roomElement.getChildren()) {
-			if (childrenElement.getName().equals("Inventory")) {
-				createRoomInventory(childrenElement, room);
-			} else if (childrenElement.getName().equals("boardGrid")) {
-				room.loadBoardCellToRoom(loadRoomGrid(childrenElement));
-			}
-		}
-
+		createRoomInventory(roomElement.getChildren().get(0), room);
+		room.loadBoardCellToRoom(loadRoomGrid(roomElement.getChildren().get(1)));
 		return room;
 	}
 
@@ -88,13 +88,19 @@ public class LoadingGameMain {
 		for (Element objElement : gameObjList) {
 			if (objElement.getName().equals("non-playerable inventory")) {
 				for (Element nonPlayerableObj : objElement.getChildren()) {
-					room.addToInventory((GameObject) masterObjectLoader
-							.verifyElement(nonPlayerableObj));
+					GameObject inventoryObj = (GameObject) masterObjectLoader
+							.verifyElement(nonPlayerableObj);
+					addObjectToMap(inventoryObj);
+					room.addToInventory(inventoryObj);
 				}
 			}
 			// TODO Check casting!!!!
 			else if (objElement.getName().equals("playerable inventory")) {
 				for (Element playerableObj : objElement.getChildren()) {
+					GameObject inventoryObj = (GameObject) masterObjectLoader
+							.verifyElement(playerableObj);
+					addObjectToMap(inventoryObj);
+					room.addToInventory(inventoryObj);
 					room.addToInventory((GameObject) masterObjectLoader
 							.verifyElement(playerableObj));
 				}
@@ -123,7 +129,7 @@ public class LoadingGameMain {
 		for (int y = 0; y < boardCell.length; y++) {
 			String row = "Row" + y;
 			String wholeElementText = childrenElement.getChild(row).getText();
-			String[] wholeElementArray = wholeElementText.split(",");
+			String[] wholeElementArray = wholeElementText.split(" ");
 			if (wholeElementArray.length != boardCell[y].length) {
 				throw new XMLException(
 						"String[] element info is not same size as boardCell[]. wholeElementArray.length: "
@@ -153,6 +159,15 @@ public class LoadingGameMain {
 		}
 	}
 
+	public void addPlayerToMap(PlayableCharacter obj) {
+		if (!playerIDMap.containsKey(obj.getObjectID())) {
+			playerIDMap.put(obj.getObjectID(), obj);
+		}
+		else if(playerIDMap.containsKey(obj.getObjectID())){
+			playerIDMap.put(obj.getObjectID(), obj);
+		}
+	}
+
 	public Map<Integer, Room> getRoomIDMap() {
 		return roomIDMap;
 	}
@@ -173,6 +188,7 @@ public class LoadingGameMain {
 		temp.add(23);
 		temp.add(2345);
 		new LoadingGameMain(temp);
+
 	}
 
 }

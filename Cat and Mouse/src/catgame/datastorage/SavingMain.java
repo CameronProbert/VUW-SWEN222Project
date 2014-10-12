@@ -95,32 +95,32 @@ public class SavingMain {
 
 		// ------------ Inventory ------------
 		// Split the Room Inventory into lists of non-playerable objects
-		// and playerable 
+		// and playerable
 		List<GameObject> gameObjectsList = new ArrayList<GameObject>();
 		List<GameObject> playersInRoomList = new ArrayList<GameObject>();
-		
-		for(GameObject gameobj: room.getRoomInventory()){
+
+		for (GameObject gameobj : room.getRoomInventory()) {
 			// Save all the objects that are ONLY playable character
-			if(gameobj instanceof PlayableCharacter){
+			if (gameobj instanceof PlayableCharacter) {
 				playersInRoomList.add(gameobj);
-			}
-			else{
+			} else {
 				// Save all the objects that are NOT playable character
 				gameObjectsList.add(gameobj);
 			}
 		}
-		if(gameObjectsList.isEmpty()){
+		if (gameObjectsList.isEmpty()) {
 			throw new XMLException("gameObjectsList is empty");
-		}
-		else if(playersInRoomList.isEmpty()){
+		} else if (playersInRoomList.isEmpty()) {
 			throw new XMLException("playersInRoomList is empty");
 		}
 		Element roomInventoryElement = new Element("Inventory");
-		Element nonplayerableObjectsElement = new Element("non-playerableInventory");
+		Element nonplayerableObjectsElement = new Element(
+				"non-playerableInventory");
 		Element playerableObjectsElement = new Element("playerableInventory");
 		// save non-playerable
 		for (MasterObject obj : gameObjectsList) {
-			nonplayerableObjectsElement.addContent(helper.writeMasterObject(obj));
+			nonplayerableObjectsElement.addContent(helper
+					.writeMasterObject(obj));
 		}
 		// save playerable
 		for (MasterObject obj : playersInRoomList) {
@@ -128,7 +128,7 @@ public class SavingMain {
 		}
 		roomInventoryElement.addContent(nonplayerableObjectsElement);
 		roomInventoryElement.addContent(playerableObjectsElement);
-		
+
 		roomElement.addContent(roomInventoryElement);// add to roomElement
 		// ----------------------------------------------------------------
 
@@ -152,10 +152,10 @@ public class SavingMain {
 			String cellValuesOfRow = "";
 			for (int x = 0; x < roomGrid[y].length; x++) {
 				String boardCellValues = "(";
-				boardCellValues += helper.makeBoardCell(roomGrid[y][x]) + ")";
-				if (x == roomGrid[y].length - 1) {
-					boardCellValues += ",";
-				}
+				boardCellValues += helper.makeBoardCell(roomGrid[y][x]) + ") ";
+				// if (x == roomGrid[y].length - 1) {
+				// boardCellValues += ",";
+				// }
 				cellValuesOfRow += boardCellValues;
 			}
 			rowBoardCellElement.setText(cellValuesOfRow);
@@ -179,21 +179,19 @@ public class SavingMain {
 	 * @throws FileNotFoundException
 	 * @throws IOException
 	 */
-	 public static void main(String[] args) throws FileNotFoundException,
-	 IOException {
-		 RoomBuilder roomBuilder = new RoomBuilder();
-		 BoardData board = new BoardData();
-		 
-		 board.addRoom(roomBuilder.loadRoom(new ObjectStorer()));
-		 if(board.getAllRooms().isEmpty()){
-			 System.out.println("room list is empty");
-		 }
-		 else if(board.getAllRooms().get(0).getRoomInventory().isEmpty()){
-			 System.out.println("room's inventory is empty");
-		 }
-		 else{
-			 new SavingMain(board);
-		 }
-		 
-	 }
+	public static void main(String[] args) throws FileNotFoundException,
+			IOException {
+		RoomBuilder roomBuilder = new RoomBuilder();
+		BoardData board = new BoardData();
+
+		board.addRoom(roomBuilder.loadRoom(new ObjectStorer()));
+		if (board.getAllRooms().isEmpty()) {
+			System.out.println("room list is empty");
+		} else if (board.getAllRooms().get(0).getRoomInventory().isEmpty()) {
+			System.out.println("room's inventory is empty");
+		} else {
+			new SavingMain(board);
+		}
+
+	}
 }
