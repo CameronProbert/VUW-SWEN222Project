@@ -91,4 +91,10 @@ public class Minion implements NonPlayableCharacter {
 		// TODO Auto-generated method stub
 		
 	}
+
+	public List<GameItem> removeAllFromInv() {
+		List<GameItem> result = inventory;
+		inventory.removeAll(inventory);
+		return result;
+	}
 }

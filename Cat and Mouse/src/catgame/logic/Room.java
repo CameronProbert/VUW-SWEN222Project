@@ -83,7 +83,7 @@ public class Room {
 			return -1;
 		}
 
-		Position newPos = findPosition(playerID, boardDirection , playerDirection);
+		Position newPos = findPosition(playerID, boardDirection, playerDirection);
 		// Check if the move is on the board
 		if (newPos.getX() < 0 || newPos.getY() < 0 || newPos.getX() > roomGrid.length || newPos.getY() > roomGrid[0].length) {
 			System.out.println("New Move Position to x:" + newPos.getX() + " y:" + newPos.getY() + " is not valid");
@@ -124,13 +124,26 @@ public class Room {
 			BoardCell playersCell = playerLocationMap.get(playerID);
 			PlayableCharacter player = (PlayableCharacter) playersCell.getObjectOnCell();
 			Position attackPosition = findPosition(playerID, boardDirection, player.getFacingDirection());
-			//Check to see if a npc is there then we can attack it
+			// Check to see if a npc is there then we can attack it
 			if (roomGrid[attackPosition.getY()][attackPosition.getX()].getObjectOnCell() != null
 					&& roomGrid[attackPosition.getY()][attackPosition.getX()].getObjectOnCell() instanceof NonPlayableCharacter) {
-				NonPlayableCharacter npc = (NonPlayableCharacter) roomGrid[attackPosition.getY()][attackPosition.getX()].getObjectOnCell();
-				npc.changeHealth(-player.getAttackPower());
-				player.changeHealth(-npc.getAttackPower());
-				return 1;
+				//if the npc is dead
+				if (((NonPlayableCharacter) roomGrid[attackPosition.getY()][attackPosition.getX()].getObjectOnCell()).isDead()) {
+					List<GameItem> npcInv = ((NonPlayableCharacter) roomGrid[attackPosition.getY()][attackPosition.getX()].getObjectOnCell()).getInventory();
+					
+					switch (player.addAllToInventory(npcInv)){
+					case 1:
+						((NonPlayableCharacter) roomGrid[attackPosition.getY()][attackPosition.getX()].getObjectOnCell()).removeAllFromInv();
+						return 1;
+					case -1:
+						return -1;
+					}
+				} else {
+					NonPlayableCharacter npc = (NonPlayableCharacter) roomGrid[attackPosition.getY()][attackPosition.getX()].getObjectOnCell();
+					npc.changeHealth(-player.getAttackPower());
+					player.changeHealth(-npc.getAttackPower());
+					return 1;
+				}
 			}
 		}
 
@@ -227,8 +240,8 @@ public class Room {
 	public void addToDoorsLocation(int doorId, BoardCell cell) {
 		doorsLocation.put(doorId, cell);
 	}
-	
-	public BoardCell findDoor(int doorID){
+
+	public BoardCell findDoor(int doorID) {
 		return doorsLocation.get(doorID);
 	}
 }

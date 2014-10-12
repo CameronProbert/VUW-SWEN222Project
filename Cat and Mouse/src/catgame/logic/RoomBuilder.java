@@ -130,6 +130,10 @@ public class RoomBuilder {
 					case GameUtil.HEDGEW + "":
 						board[y][x] = objBuilder.addHedgeW(x, y, loadingRoom);
 						break;
+					case GameUtil.BOSSONE+"":
+						board[y][x] = objBuilder.addBossOne(x,y, loadingRoom, objStore);
+						break;
+					
 					}
 				}
 				y++;

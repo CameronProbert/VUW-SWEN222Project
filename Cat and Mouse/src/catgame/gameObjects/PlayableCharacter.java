@@ -38,9 +38,7 @@ public class PlayableCharacter implements Character {
 	 * @param health
 	 * @param items
 	 */
-	public PlayableCharacter(int ID, Room currentRoom,
-			Direction direction, int attackPower, int health,
-			List<GameItem> items) {
+	public PlayableCharacter(int ID, Room currentRoom, Direction direction, int attackPower, int health, List<GameItem> items) {
 		this.id = ID;
 		this.currentRoom = currentRoom;
 		this.facingDirection = direction;
@@ -67,11 +65,15 @@ public class PlayableCharacter implements Character {
 		return inventory;
 	}
 
-	public boolean addToInventory(GameItem item) {
-		if (inventory.size() == maxItems) {
-			return false;
+	public int addAllToInventory(List<GameItem> items) {
+		if(items == null || items.size() == 0){
+			return -1;
+		}else if (inventory.size() + items.size() >= maxItems) {
+			return -1;
 		}
-		return inventory.add(item);
+		System.out.println("ADDING ALL ITEMS");
+		 inventory.addAll(items);
+		 return 1;
 	}
 
 	/**
@@ -136,5 +138,11 @@ public class PlayableCharacter implements Character {
 	public void resetItems(List<GameItem> items) {
 		// TODO Auto-generated method stub
 
+	}
+
+	@Override
+	public boolean addToInventory(GameItem item) {
+		// TODO Auto-generated method stub
+		return false;
 	}
 }

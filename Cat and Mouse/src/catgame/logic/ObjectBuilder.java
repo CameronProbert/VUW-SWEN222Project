@@ -3,17 +3,7 @@ package catgame.logic;
 import java.util.ArrayList;
 import java.util.List;
 
-import catgame.gameObjects.Bush;
-import catgame.gameObjects.Chest;
-import catgame.gameObjects.Door;
-import catgame.gameObjects.Food;
-import catgame.gameObjects.GameItem;
-import catgame.gameObjects.Hedge;
-import catgame.gameObjects.Key;
-import catgame.gameObjects.Minion;
-import catgame.gameObjects.PlayableCharacter;
-import catgame.gameObjects.Rock;
-import catgame.gameObjects.Tree;
+import catgame.gameObjects.*;
 import catgame.logic.GameUtil.Direction;
 
 /**
@@ -121,7 +111,6 @@ public class ObjectBuilder {
 	 */
 	public BoardCell addPlayer(int x, int y, Room room, ObjectStorer objStore) {
 		int newPlayerId = genorateObjectId(GameUtil.PLAYABLECHARACTER, playerNum, playerNum++);
-		// TODO OwnerId
 		// Create starting items
 		List<GameItem> newInv = new ArrayList<GameItem>();
 		// 80 is food
@@ -136,7 +125,7 @@ public class ObjectBuilder {
 	public BoardCell addMinionOne(int x, int y, Room room, ObjectStorer objStore) {
 		int newMinionId = genorateObjectId(GameUtil.MINIONONE, genorateRandomObjectType(1), minoinNum++);
 		List<GameItem> newInv = new ArrayList<GameItem>();
-		newInv.add(new Food(808080, 10));
+		newInv.add(new Food(GameUtil.FOOD, 10));
 		Minion newMin = new Minion(newMinionId, room, 8, 60, newInv);
 		objStore.addNPC(newMinionId, newMin);
 		room.addToInventory(newMin);
@@ -249,6 +238,17 @@ public class ObjectBuilder {
 		Hedge newHedge = new Hedge(newHedgeId, Direction.WEST);
 		loadingRoom.addToInventory(newHedge);
 		return new BoardCell(new Position(x, y), newHedge, GROUNDTYPEGRASS);
+	}
+
+	public BoardCell addBossOne(int x, int y, Room loadingRoom, ObjectStorer objStore) {
+		int newBossID = genorateObjectId(GameUtil.BOSSONE, 10, bossNum++);
+		List<GameItem> bossInv = new ArrayList<GameItem>();
+		bossInv.add(new Food(GameUtil.FOOD, 40));
+		bossInv.add(new Key(GameUtil.KEY));
+		Boss newBoss = new Boss(newBossID, 20, 200, bossInv);
+		objStore.addNPC(newBossID, newBoss);
+		loadingRoom.addToInventory(newBoss);
+		return new BoardCell(new Position(x, y), newBoss, GROUNDTYPEGRASS);
 	}
 	
 }

@@ -19,14 +19,12 @@ public class Boss implements NonPlayableCharacter {
 
 	private final int id;
 	private final int maxItems = 6;
-	private Room currentRoom;
 	private int health;
 	private List<GameItem> inventory = new ArrayList<GameItem>();
 	private int attackPower;
 
-	public Boss(int ID, Room currentRoom , int attackPower, int health, List<GameItem> items) {
+	public Boss(int ID , int attackPower, int health, List<GameItem> items) {
 		this.id = ID;
-		this.currentRoom = currentRoom;
 		this.attackPower = attackPower;
 		this.health = health;
 		this.inventory.addAll(items);
@@ -77,10 +75,6 @@ public class Boss implements NonPlayableCharacter {
 		return health < 1;
 	}
 
-	public Room getCurrentRoom() {
-		return currentRoom;
-	}
-
 
 	public void reset(int attackPower, int health, int level) {
 		// TODO Auto-generated method stub
@@ -95,5 +89,11 @@ public class Boss implements NonPlayableCharacter {
 	public void move(Direction direction) {
 		// TODO Auto-generated method stub
 		
+	}
+
+	public List<GameItem> removeAllFromInv() {
+		List<GameItem> result = inventory;
+		inventory.removeAll(inventory);
+		return result;
 	}
 }

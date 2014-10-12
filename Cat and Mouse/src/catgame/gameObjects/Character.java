@@ -59,11 +59,6 @@ public interface Character extends Movable {
 	 * @return true if the character is dead
 	 */
 	public boolean isDead();
-	
-	/**
-	 * @return current Room
-	 */
-	public Room getCurrentRoom();
 
 	/**
 	 * completely reset the player according to server instructions
