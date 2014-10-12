@@ -90,15 +90,39 @@ public class Room {
 			return -1;
 		}
 		// Check that the next Position is empty then move the player
-		if (roomGrid[newPos.getY()][newPos.getX()].getGroundType() != null && roomGrid[newPos.getY()][newPos.getX()].getObjectOnCell() == null) {
-			BoardCell oldCell = playerLocationMap.get(playerID);
-			roomGrid[newPos.getY()][newPos.getX()].setObjectOnCell(oldCell.removeObjectOnCell());
-			playerLocationMap.put(playerID, roomGrid[newPos.getY()][newPos.getX()]);
-			return 1;
+		if (roomGrid[newPos.getY()][newPos.getX()].getGroundType() != null) {
+			if (roomGrid[newPos.getY()][newPos.getX()].getObjectOnCell() instanceof Door) {
+				System.out.println("DOOR AHEADS ID :"+roomGrid[newPos.getY()][newPos.getX()].getObjectOnCell().getObjectID());
+				useDoor(playerID, (Door) roomGrid[newPos.getY()][newPos.getX()].getObjectOnCell());
+				return -1;
+			}
+			if (roomGrid[newPos.getY()][newPos.getX()].getObjectOnCell() == null) {
+				BoardCell oldCell = playerLocationMap.get(playerID);
+				roomGrid[newPos.getY()][newPos.getX()].setObjectOnCell(oldCell.removeObjectOnCell());
+				playerLocationMap.put(playerID, roomGrid[newPos.getY()][newPos.getX()]);
+				return 1;
+			}
 		}
 		// the move wasn't successful;
 		System.out.println("Grid @ x:" + newPos.getX() + " y:" + newPos.getY() + " is not empty");
 		return -1;
+	}
+
+	private void useDoor(int playerID, Door door) {
+		if (door.getIsLocked()) {
+			if (((PlayableCharacter) playerLocationMap.get(playerID).getObjectOnCell()).hasKey()) {
+				System.out.println("Unlocked Door");
+				door.unlockDoor(((PlayableCharacter) playerLocationMap.get(playerID).getObjectOnCell()).useKey());
+			}
+		}
+		
+		System.out.println("HERE");
+		PlayableCharacter player = (PlayableCharacter) playerLocationMap.get(playerID).getObjectOnCell();
+		BoardCell delete = playerLocationMap.get(playerID);
+		playerLocationMap.remove(playerID);
+		roomInventory.remove(player);
+		delete.removeObjectOnCell();
+		door.enterDoor().exitDoor(player);
 	}
 
 	/**
@@ -127,11 +151,11 @@ public class Room {
 			// Check to see if a npc is there then we can attack it
 			if (roomGrid[attackPosition.getY()][attackPosition.getX()].getObjectOnCell() != null
 					&& roomGrid[attackPosition.getY()][attackPosition.getX()].getObjectOnCell() instanceof NonPlayableCharacter) {
-				//if the npc is dead
+				// if the npc is dead
 				if (((NonPlayableCharacter) roomGrid[attackPosition.getY()][attackPosition.getX()].getObjectOnCell()).isDead()) {
 					List<GameItem> npcInv = ((NonPlayableCharacter) roomGrid[attackPosition.getY()][attackPosition.getX()].getObjectOnCell()).getInventory();
-					
-					switch (player.addAllToInventory(npcInv)){
+
+					switch (player.addAllToInventory(npcInv)) {
 					case 1:
 						((NonPlayableCharacter) roomGrid[attackPosition.getY()][attackPosition.getX()].getObjectOnCell()).removeAllFromInv();
 						return 1;

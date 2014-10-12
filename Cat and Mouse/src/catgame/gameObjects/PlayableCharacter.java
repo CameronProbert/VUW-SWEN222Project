@@ -108,6 +108,24 @@ public class PlayableCharacter implements Character {
 		}
 	}
 
+	public boolean hasKey(){
+		for(int i = 0; i < inventory.size() ; i++){
+			if(inventory.get(i) instanceof Key){
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	public Key useKey(){
+		for(int i = 0; i < inventory.size() ; i++){
+			if(inventory.get(i) instanceof Key){
+				return (Key) inventory.remove(i);
+			}
+		}
+		return null;
+	}
+	
 	public Room getCurrentRoom() {
 		return currentRoom;
 	}

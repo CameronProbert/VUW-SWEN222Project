@@ -133,6 +133,18 @@ public class ObjectBuilder {
 
 	}
 
+	public BoardCell addBossOne(int x, int y, Room loadingRoom, ObjectStorer objStore) {
+		int newBossID = genorateObjectId(GameUtil.BOSSONE, 10, bossNum++);
+		List<GameItem> bossInv = new ArrayList<GameItem>();
+		bossInv.add(new Food(GameUtil.FOOD, 40));
+		bossInv.add(new Key(GameUtil.KEY));
+		Boss newBoss = new Boss(newBossID, 10, 180, bossInv);
+		objStore.addNPC(newBossID, newBoss);
+		loadingRoom.addToInventory(newBoss);
+		return new BoardCell(new Position(x, y), newBoss, GROUNDTYPEGRASS);
+	}
+	
+	
 	/**
 	 * Concatenates the IDs together and returns them as a integer
 	 * 
@@ -189,28 +201,28 @@ public class ObjectBuilder {
 
 	public BoardCell addDoorN(int x, int y, Room loadingRoom) {
 		int newDoorId = genorateObjectId(GameUtil.DOORN, genorateRandomObjectType(1), doorNum++);
-		Door newDoor = new Door(newDoorId, Direction.NORTH);
+		Door newDoor = new Door(newDoorId, Direction.NORTH, loadingRoom);
 		loadingRoom.addToInventory(newDoor);
 		return new BoardCell(new Position(x, y), newDoor, GROUNDTYPEGRASS);
 	}
 
 	public BoardCell addDoorE(int x, int y, Room loadingRoom) {
 		int newDoorId = genorateObjectId(GameUtil.DOORE, genorateRandomObjectType(1), doorNum++);
-		Door newDoor = new Door(newDoorId, Direction.EAST);
+		Door newDoor = new Door(newDoorId, Direction.EAST, loadingRoom);
 		loadingRoom.addToInventory(newDoor);
 		return new BoardCell(new Position(x, y), newDoor, GROUNDTYPEGRASS);
 	}
 
 	public BoardCell addDoorS(int x, int y, Room loadingRoom) {
 		int newDoorId = genorateObjectId(GameUtil.DOORS, genorateRandomObjectType(1), doorNum++);
-		Door newDoor = new Door(newDoorId, Direction.SOUTH);
+		Door newDoor = new Door(newDoorId, Direction.SOUTH , loadingRoom);
 		loadingRoom.addToInventory(newDoor);
 		return new BoardCell(new Position(x, y), newDoor, GROUNDTYPEGRASS);
 	}
 
 	public BoardCell addDoorW(int x, int y, Room loadingRoom) {
 		int newDoorId = genorateObjectId(GameUtil.DOORW, genorateRandomObjectType(1), doorNum++);
-		Door newDoor = new Door(newDoorId, Direction.WEST);
+		Door newDoor = new Door(newDoorId, Direction.WEST, loadingRoom);
 		loadingRoom.addToInventory(newDoor);
 		return new BoardCell(new Position(x, y), newDoor, GROUNDTYPEGRASS);
 	}
@@ -240,15 +252,6 @@ public class ObjectBuilder {
 		return new BoardCell(new Position(x, y), newHedge, GROUNDTYPEGRASS);
 	}
 
-	public BoardCell addBossOne(int x, int y, Room loadingRoom, ObjectStorer objStore) {
-		int newBossID = genorateObjectId(GameUtil.BOSSONE, 10, bossNum++);
-		List<GameItem> bossInv = new ArrayList<GameItem>();
-		bossInv.add(new Food(GameUtil.FOOD, 40));
-		bossInv.add(new Key(GameUtil.KEY));
-		Boss newBoss = new Boss(newBossID, 20, 200, bossInv);
-		objStore.addNPC(newBossID, newBoss);
-		loadingRoom.addToInventory(newBoss);
-		return new BoardCell(new Position(x, y), newBoss, GROUNDTYPEGRASS);
-	}
+	
 	
 }

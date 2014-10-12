@@ -8,33 +8,36 @@ import catgame.logic.Room;
 
 public class Door implements NonMovavble {
 	private final int ID;
-	private int entranceToDoor = 0;
+	private Door entranceToDoor;
 	private boolean isLocked = false;
-	private int keyID;  
+	private int keyID;
 	Direction wallEdge;
+	private Room room;
 
 	/**
 	 * The GameObject Door which can be locked and opened by keys. When created
-	 * if keyID != 0 then keys ID will be the only thing that will unlock the 
+	 * if keyID != 0 then keys ID will be the only thing that will unlock the
 	 * door
 	 * 
 	 * @param id
-	 * @param door ID to the other side of the door
+	 * @param door
+	 *            ID to the other side of the door
 	 * @param keyId
 	 *            (If keyID == 0 then there is no key for the door)
 	 */
-	public Door(int id, Direction direction) {
-		this.ID = id;	
+	public Door(int id, Direction direction, Room room) {
+		this.ID = id;
 		this.wallEdge = direction;
+		this.room = room;
 	}
 
 	public int getObjectID() {
 		return ID;
 	}
-	
-	public void addOtherSide(int entrance, int keyId){
-		this.entranceToDoor = entrance;
-		//this.wallEdge = wallEdge;
+
+	public void addOtherSide(Door entranceTo, int keyId) {
+		this.entranceToDoor = entranceTo;
+		// this.wallEdge = wallEdge;
 		if (keyId != 0) {
 			this.isLocked = true;
 			this.keyID = keyId;
@@ -46,11 +49,7 @@ public class Door implements NonMovavble {
 	 * 
 	 * @return The Other side of the door
 	 */
-	public int enterDoor() {
-		if (isLocked) {
-			System.out.println("TODO POP UP FOR UNLOCK DOOR");
-			return -1;
-		}
+	public Door enterDoor() {
 		return this.entranceToDoor;
 	}
 
@@ -61,23 +60,48 @@ public class Door implements NonMovavble {
 	 * @param int : keyId
 	 * @return boolean : current state of the door
 	 */
-	public boolean unlockDoor(int keyId) {
-		if (this.keyID == keyId) {
+	public boolean unlockDoor(Key key) {
+		if (this.keyID == key.getObjectID()) {
 			this.isLocked = false;
 		}
 		return this.isLocked;
 	}
-	
-	public int getOtherSide(){
-		if(entranceToDoor == 0){
-			return 0;
-		}
-		else {
-			return entranceToDoor;
-		}
+
+	public Boolean getIsLocked() {
+		return isLocked;
 	}
-	
-	public Direction getDoorsWallEdge(){
+
+	public Direction getDoorsWallEdge() {
 		return this.wallEdge;
+	}
+
+	public void exitDoor(PlayableCharacter player) {
+		System.out.println("EXIT DOOR");
+		BoardCell doorsCell = room.getDoorsLocation().get(ID);
+		BoardCell newPlayersCell = null;
+		
+		switch (wallEdge.getValue()) {
+		case 0:
+			newPlayersCell = room.getBoardGrid()[doorsCell.getPosition().getY()-1][doorsCell.getPosition().getX()];
+			break;
+		case 1:
+			newPlayersCell = room.getBoardGrid()[doorsCell.getPosition().getY()][doorsCell.getPosition().getX()-1];
+			break;
+		case 2:
+			newPlayersCell = room.getBoardGrid()[doorsCell.getPosition().getY()+1][doorsCell.getPosition().getX()];
+			break;
+		case 3:
+			newPlayersCell = room.getBoardGrid()[doorsCell.getPosition().getY()][doorsCell.getPosition().getX()+1];
+			break;
+
+		}
+		newPlayersCell.setObjectOnCell(player);
+		room.addToPlayerLocationMap(player.getObjectID(), newPlayersCell);
+		room.getRoomInventory().add(player);
+		
+	}
+
+	public Room getRoom() {
+		return room;
 	}
 }
