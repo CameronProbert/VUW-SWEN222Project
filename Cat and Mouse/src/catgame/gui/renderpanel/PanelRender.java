@@ -32,6 +32,9 @@ public class PanelRender extends JPanel {
 	private Image bush1;
 	private Image rock1;
 	private Image corpse1;
+	
+	private Image doorLeft1;
+	private Image doorRight1;
 
 	private int blockWidth = 124;
 	private int blockHeight = 70;
@@ -48,11 +51,17 @@ public class PanelRender extends JPanel {
 	private Image chestBackLeft1;
 	private Image chestBackRight1;
 	
-	// Minion image
+	// Minion images
 	private Image minionFrontLeft1;
 	private Image minionFrontRight1;
 	private Image minionBackLeft1;
 	private Image minionBackRight1;
+	
+	// Boss images
+	private Image bossFrontLeft1;
+	private Image bossFrontRight1;
+	private Image bossBackLeft1;
+	private Image bossBackRight1;
 
 	// Classes for creating a test board
 	private RoomBuilder buildBoard;
@@ -92,6 +101,9 @@ public class PanelRender extends JPanel {
 			rock1 = ImageIO.read(PanelRender.class.getResource("/images/Rock1.png"));
 			corpse1 = ImageIO.read(PanelRender.class.getResource("/images/Corpse1.png"));
 			
+			doorLeft1 = ImageIO.read(PanelRender.class.getResource("/images/ClosedGateLeft1.png"));
+			doorRight1 = ImageIO.read(PanelRender.class.getResource("/images/ClosedGateRight1.png"));
+			
 			// Load chest images
 			chestFrontLeft1 = ImageIO.read(PanelRender.class.getResource("/images/ChestFrontLeft1.png"));
 			chestFrontRight1 = ImageIO.read(PanelRender.class.getResource("/images/ChestFrontRight1.png"));
@@ -103,6 +115,12 @@ public class PanelRender extends JPanel {
 			minionFrontRight1 = ImageIO.read(PanelRender.class.getResource("/images/RatMinionFrontRight1.png"));
 			minionBackLeft1 = ImageIO.read(PanelRender.class.getResource("/images/RatMinionBackLeft1.png"));
 			minionBackRight1 = ImageIO.read(PanelRender.class.getResource("/images/RatMinionBackRight1.png"));
+			
+			// Load boss images
+			bossFrontLeft1 = ImageIO.read(PanelRender.class.getResource("/images/RatBossFrontLeft1.png"));
+			bossFrontRight1 = ImageIO.read(PanelRender.class.getResource("/images/RatBossFrontRight1.png"));
+			bossBackLeft1 = ImageIO.read(PanelRender.class.getResource("/images/RatBossBackLeft1.png"));
+			bossBackRight1 = ImageIO.read(PanelRender.class.getResource("/images/RatBossBackRight1.png"));
 			
 			// Load cat images
 			catFrontLeft1 = ImageIO.read(PanelRender.class.getResource("/images/CatFrontLeft1.png"));
@@ -195,32 +213,45 @@ public class PanelRender extends JPanel {
 				.getObjectOnCell().getObjectID()+"";
 		String objTypeID = objFullID.substring(0, 2);
 		String objImageID = objFullID.substring(2, 4);
-
-		int startX, startY;
-		switch (objTypeID) {
 		
-		case GameUtil.BUSH+"":
+		int startX, startY;
+		if (objTypeID.equals(GameUtil.BUSH+"")){
 			startX = panelWidth / 4 + 40;
 			startY = 85 + 300;
 			drawObject(g, bush1, sendY, sendX, y, x, startY, startX);
-			break;
-		case GameUtil.TREE+"":
+		}
+		else if (objTypeID.equals(GameUtil.TREE+"")){
 			drawTree(g, sendY, sendX, y, x, objImageID);
-			break;
-		case GameUtil.ROCK+"":
+		}
+		else if (objTypeID.equals(GameUtil.ROCK+"")){
 			startX = panelWidth / 4 + 60;
 			startY = 85 + 340;
 			drawObject(g, rock1, sendY, sendX, y, x, startY, startX);
-			break;
-		case GameUtil.CHESTONE+"":
-			drawChest(g, sendY, sendX, y, x);		
-			break;
-		case GameUtil.PLAYABLECHARACTER+"":
+		}
+		else if (objTypeID.equals(GameUtil.CHESTONE+"") || 
+				objTypeID.equals(GameUtil.CHESTTWO+"")){
+			drawChest(g, sendY, sendX, y, x);
+		}
+		else if (objTypeID.equals(GameUtil.DOORN+"") ||
+				objTypeID.equals(GameUtil.DOORS+"") ||
+				objTypeID.equals(GameUtil.DOORE+"") ||
+				objTypeID.equals(GameUtil.DOORW+"")){
+			drawDoor(g, sendY, sendX, y, x, objTypeID);			
+		}
+		else if (objTypeID.equals(GameUtil.HEDGEN+"") ||
+				objTypeID.equals(GameUtil.HEDGES+"") ||
+				objTypeID.equals(GameUtil.HEDGEE+"") ||
+				objTypeID.equals(GameUtil.HEDGEW+"")){
+			
+		}
+		else if (objTypeID.equals(GameUtil.PLAYABLECHARACTER+"")){
 			drawPlayableChar(g, sendY, sendX, y, x);
-			break;
-		case GameUtil.MINIONONE+"":
+		}
+		else if (objTypeID.equals(GameUtil.MINIONONE+"")){
 			drawMinion(g, sendY, sendX, y, x);
-			break;
+		}
+		else if (objTypeID.equals(GameUtil.BOSSONE+"")){
+			drawBoss(g, sendY, sendX, y, x);
 		}
 	}
 
@@ -299,7 +330,7 @@ public class PanelRender extends JPanel {
 			drawObject(g, chestBackRight1, sendY, sendX, y, x, startY, startX);
 			break;
 		default:
-			drawObject(g, catBackRight1, sendY, sendX, y, x, startY, startX);
+			System.out.println("There was a drawing error");
 			break;				
 		}
 	}
@@ -344,7 +375,103 @@ public class PanelRender extends JPanel {
 			drawObject(g, minionFrontRight1, sendY, sendX, y, x, startY, startX);
 			break;
 		default:
-			drawObject(g, minionFrontRight1, sendY, sendX, y, x, startY, startX);
+			System.out.println("There was a drawing error");
+			break;				
+		}
+	}
+	
+	public void drawBoss(Graphics g, int sendY, int sendX, int y, int x){
+		int startX = panelWidth / 4 + 50;
+		int startY = 60 + 340;
+		switch (gUtil.getViewDirection()) {
+		case NORTH:
+			drawObject(g, bossFrontLeft1, sendY, sendX, y, x, startY, startX);
+			break;
+		case EAST:
+			drawObject(g, bossBackLeft1, sendY, sendX, y, x, startY, startX);
+			break;
+		case SOUTH:
+			drawObject(g, bossBackRight1, sendY, sendX, y, x, startY, startX);
+			break;
+		case WEST:
+			drawObject(g, bossFrontRight1, sendY, sendX, y, x, startY, startX);
+			break;
+		default:
+			System.out.println("There was a drawing error");
+			break;				
+		}
+	}
+	
+	public void drawDoor(Graphics g, int sendY, int sendX, int y, int x, String objTypeID){
+		int startX = panelWidth / 4 + 50;
+		int startY = 50 + 340;
+		switch (gUtil.getViewDirection()) {
+		case NORTH:
+			switch (objTypeID) {
+				case "40":
+					drawObject(g, doorRight1, sendY, sendX, y, x, startY, startX);
+					break;
+				case "41":
+					drawObject(g, doorLeft1, sendY, sendX, y, x, startY, startX);
+					break;
+				case "42":
+					drawObject(g, doorRight1, sendY, sendX, y, x, startY, startX);
+					break;
+				case "43":
+					drawObject(g, doorLeft1, sendY, sendX, y, x, startY, startX);
+					break;
+			}			
+			break;
+		case EAST:
+			switch (objTypeID) {
+			case "40":
+				drawObject(g, doorLeft1, sendY, sendX, y, x, startY, startX);
+				break;
+			case "41":
+				drawObject(g, doorRight1, sendY, sendX, y, x, startY, startX);
+				break;
+			case "42":
+				drawObject(g, doorLeft1, sendY, sendX, y, x, startY, startX);
+				break;
+			case "43":
+				drawObject(g, doorRight1, sendY, sendX, y, x, startY, startX);
+				break;
+		}			
+		break;
+		case SOUTH:
+			switch (objTypeID) {
+			case "40":
+				drawObject(g, doorRight1, sendY, sendX, y, x, startY, startX);
+				break;
+			case "41":
+				drawObject(g, doorLeft1, sendY, sendX, y, x, startY, startX);
+				break;
+			case "42":
+				drawObject(g, doorRight1, sendY, sendX, y, x, startY, startX);
+				break;
+			case "43":
+				drawObject(g, doorLeft1, sendY, sendX, y, x, startY, startX);
+				break;
+		}			
+		break;
+		case WEST:
+			switch (objTypeID) {
+			case "40":
+				drawObject(g, doorLeft1, sendY, sendX, y, x, startY, startX);
+				break;
+			case "41":
+				drawObject(g, doorRight1, sendY, sendX, y, x, startY, startX);
+				break;
+			case "42":
+				drawObject(g, doorLeft1, sendY, sendX, y, x, startY, startX);
+				break;
+			case "43":
+				drawObject(g, doorRight1, sendY, sendX, y, x, startY, startX);
+				break;
+		}			
+		break;
+		default:
+			System.out.println("There was a drawing error");
 			break;				
 		}
 	}
