@@ -152,9 +152,10 @@ public class FrameLauncher extends FrameAbstract {
 	}
 
 	protected void waitForPlayers(SlaveReceiver slaveR) {
+		Dimension frameSize = new Dimension(200, 100);
 		JFrame frame = new JFrame("Loading");
-		frame.setPreferredSize(new Dimension(200, 100));
-		frame.setSize(200, 100);
+		frame.setPreferredSize(frameSize);
+		frame.setSize(frameSize);
 		frame.setLayout(null);
 		JPanel panel = new JPanel() {
 			@Override
@@ -165,8 +166,10 @@ public class FrameLauncher extends FrameAbstract {
 						10);
 			}
 		};
-		panel.setPreferredSize(new Dimension(200, 100));
-		panel.setSize(200, 100);
+		panel.setPreferredSize(frameSize);
+		panel.setSize(frameSize);
+		panel.setMinimumSize(frameSize);
+		panel.setMinimumSize(frameSize);
 		panel.setLocation(0, 0);
 		panel.setBackground(Color.black);
 
