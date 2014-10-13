@@ -21,7 +21,6 @@ public class PlayableCharacter implements Character {
 	private final int START_HEALTH_LEVEL = 10; // arbitrary number, can change
 	private final int id;
 	private final int maxItems = 6;
-	private Room currentRoom;
 	private Direction facingDirection;
 	private int health;
 	private List<GameItem> inventory = new ArrayList<GameItem>();
@@ -38,9 +37,8 @@ public class PlayableCharacter implements Character {
 	 * @param health
 	 * @param items
 	 */
-	public PlayableCharacter(int ID, Room currentRoom, Direction direction, int attackPower, int health, List<GameItem> items) {
+	public PlayableCharacter(int ID, Direction direction, int attackPower, int health, List<GameItem> items) {
 		this.id = ID;
-		this.currentRoom = currentRoom;
 		this.facingDirection = direction;
 		this.attackPower = attackPower;
 		this.health = health;
@@ -65,15 +63,21 @@ public class PlayableCharacter implements Character {
 		return inventory;
 	}
 
+	/**
+	 * Add a List of items to the inventory
+	 * 
+	 * @param items
+	 * @return 1 if successful -1 if unsuccessful
+	 */
 	public int addAllToInventory(List<GameItem> items) {
-		if(items == null || items.size() == 0){
+		if (items == null || items.size() == 0) {
 			return -1;
-		}else if (inventory.size() + items.size() >= maxItems) {
+		} else if (inventory.size() + items.size() >= maxItems) {
 			return -1;
 		}
 		System.out.println("ADDING ALL ITEMS");
-		 inventory.addAll(items);
-		 return 1;
+		inventory.addAll(items);
+		return 1;
 	}
 
 	/**
@@ -100,6 +104,13 @@ public class PlayableCharacter implements Character {
 		return health < 0;
 	}
 
+	// TODO Check if this is even needed i don't think it is used
+	/**
+	 * Use an item in the players inventory removes the GameItem if it has been
+	 * used
+	 * 
+	 * @param itemId
+	 */
 	public void useItem(int itemId) {
 		for (int i = 0; i < inventory.size(); i++) {
 			if (inventory.get(i).getObjectID() == itemId) {
@@ -108,26 +119,32 @@ public class PlayableCharacter implements Character {
 		}
 	}
 
-	public boolean hasKey(){
-		for(int i = 0; i < inventory.size() ; i++){
-			if(inventory.get(i) instanceof Key){
+	/**
+	 * 
+	 * @return true if the player has a key in its current inventory
+	 */
+	public boolean hasKey() {
+		for (int i = 0; i < inventory.size(); i++) {
+			if (inventory.get(i) instanceof Key) {
 				return true;
 			}
 		}
 		return false;
 	}
-	
-	public Key useKey(){
-		for(int i = 0; i < inventory.size() ; i++){
-			if(inventory.get(i) instanceof Key){
+
+	/**
+	 * Use a key in the players inventory. Its best to check hasKey() before
+	 * useKey() as it can return null if there is not key
+	 * 
+	 * @return
+	 */
+	public Key useKey() {
+		for (int i = 0; i < inventory.size(); i++) {
+			if (inventory.get(i) instanceof Key) {
 				return (Key) inventory.remove(i);
 			}
 		}
 		return null;
-	}
-	
-	public Room getCurrentRoom() {
-		return currentRoom;
 	}
 
 	public Direction getFacingDirection() {
@@ -158,9 +175,26 @@ public class PlayableCharacter implements Character {
 
 	}
 
-	@Override
 	public boolean addToInventory(GameItem item) {
 		// TODO Auto-generated method stub
 		return false;
 	}
+
+	/**
+	 * Eat food in the inv removing it in the process
+	 * 
+	 * @param food
+	 */
+	public void eat(Food food) {
+		Food toEat = null;
+		for (int i = 0; i < inventory.size(); i++) {
+			if (inventory.get(i).equals(food)) {
+				toEat = (Food) inventory.remove(i);
+			}
+		}
+		if (toEat != null) {
+			changeHealth(toEat.getHeal());
+		}
+	}
+
 }

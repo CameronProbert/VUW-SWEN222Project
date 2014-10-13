@@ -9,7 +9,7 @@ import catgame.logic.Room;
 public class Door implements NonMovavble {
 	private final int ID;
 	private Door entranceToDoor;
-	private boolean isLocked = true;
+	private boolean isLocked = false;
 	private int keyID;
 	Direction wallEdge;
 	private Room room;
@@ -39,7 +39,7 @@ public class Door implements NonMovavble {
 		this.entranceToDoor = entranceTo;
 		// this.wallEdge = wallEdge;
 		if (keyId != 0) {
-			System.out.println("LOCKING DOOR :"+ID);
+			System.out.println("LOCKING DOOR :" + ID);
 			this.isLocked = true;
 			this.keyID = keyId;
 		}
@@ -77,29 +77,59 @@ public class Door implements NonMovavble {
 	}
 
 	public void exitDoor(PlayableCharacter player) {
-		System.out.println("EXIT DOOR");
 		BoardCell doorsCell = room.getDoorsLocation().get(ID);
 		BoardCell newPlayersCell = null;
-		
+
 		switch (wallEdge.getValue()) {
 		case 0:
-			newPlayersCell = room.getBoardGrid()[doorsCell.getPosition().getY()-1][doorsCell.getPosition().getX()];
+			newPlayersCell = room.getBoardGrid()[doorsCell.getPosition().getY() + 1][doorsCell.getPosition().getX()];
 			break;
 		case 1:
-			newPlayersCell = room.getBoardGrid()[doorsCell.getPosition().getY()][doorsCell.getPosition().getX()-1];
+			newPlayersCell = room.getBoardGrid()[doorsCell.getPosition().getY()][doorsCell.getPosition().getX() - 1];
 			break;
 		case 2:
-			newPlayersCell = room.getBoardGrid()[doorsCell.getPosition().getY()+1][doorsCell.getPosition().getX()];
+			newPlayersCell = room.getBoardGrid()[doorsCell.getPosition().getY() - 1][doorsCell.getPosition().getX()];
 			break;
 		case 3:
-			newPlayersCell = room.getBoardGrid()[doorsCell.getPosition().getY()][doorsCell.getPosition().getX()+1];
+			newPlayersCell = room.getBoardGrid()[doorsCell.getPosition().getY()][doorsCell.getPosition().getX() + 1];
 			break;
 
 		}
 		newPlayersCell.setObjectOnCell(player);
 		room.addToPlayerLocationMap(player.getObjectID(), newPlayersCell);
 		room.getRoomInventory().add(player);
-		
+
+	}
+
+	public boolean checkExitDoor(){
+		BoardCell doorsCell = room.getDoorsLocation().get(ID);
+		switch (wallEdge.getValue()) {
+		case 0:
+			if(room.getBoardGrid()[doorsCell.getPosition().getY()+1][doorsCell.getPosition().getX()].getObjectOnCell() == null){ 
+				return true;
+			}else {
+				return false;
+				}
+		case 1:
+			if(room.getBoardGrid()[doorsCell.getPosition().getY()][doorsCell.getPosition().getX()-1].getObjectOnCell() == null){
+			return true;
+		}else {
+			return false;
+			}
+		case 2:
+			if(room.getBoardGrid()[doorsCell.getPosition().getY()-1][doorsCell.getPosition().getX()].getObjectOnCell() == null){
+				return true;
+			}else{
+				return false;
+			}
+		case 3:
+			if(room.getBoardGrid()[doorsCell.getPosition().getY()][doorsCell.getPosition().getX()+1].getObjectOnCell() == null){
+				return true;
+			}else {
+				return false;
+			}
+		}
+		return false;
 	}
 
 	public Room getRoom() {

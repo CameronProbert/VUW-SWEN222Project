@@ -34,5 +34,8 @@ public class Chest implements NonMovavble {
 	public void updateLoot(List<GameItem> items) {
 		this.inventory = items;
 	}
+	public void removeInv(){
+		this.inventory = new ArrayList<GameItem>();
+	}
 
 }

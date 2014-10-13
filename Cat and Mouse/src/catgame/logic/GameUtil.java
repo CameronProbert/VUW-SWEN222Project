@@ -160,9 +160,9 @@ public class GameUtil {
 	 * @return whether could attack or not, -1 for not an attack and if it could
 	 *         attack return the id of what was attacked
 	 */
-	public int attack(int playerID) {
+	public int action(int playerID) {
 		if (findPlayersRoom(playerID) != null) {
-			return findPlayersRoom(playerID).playerAttack(playerID, this.viewDirection);
+			return findPlayersRoom(playerID).playerAction(playerID, this.viewDirection);
 		}
 		return -1;
 	}

@@ -338,7 +338,7 @@ public class FrameClient extends FrameAbstract implements KeyListener {
 		case KeyEvent.VK_SPACE:
 			System.out.println("ATTACK PRESSED");
 			int attacked = runner.getBoardData().getGameUtil()
-					.attack(clientsUID);
+					.action(clientsUID);
 			if (attacked > 0) {
 				validAction = 1;
 				up = new Update(Update.Descriptor.ATTACK, clientsUID, attacked);

@@ -76,24 +76,33 @@ public class BoardData {
 	public void TESTattachDoors() {
 		List<Integer> doorsList = new ArrayList<Integer>();
 		doorsList.add(431010);
-		doorsList.add(411011);
-		for (int i = 0; i < doorsList.size(); i++) {
+		doorsList.add(0);
+		doorsList.add(411012);
+		doorsList.add(0);
+		
+		doorsList.add(431011);
+		doorsList.add(0);
+		doorsList.add(421013);
+		doorsList.add(GameUtil.KEY);
+		
+		
+		for (int i = 0; i < doorsList.size(); i+= 2) {
 			Room doorsRoom = getDoorsRoom(doorsList.get(i));
 			Room doorsExitRoom;
 			int direction;
-			if (i % 2 == 0) {
+			if (i % 4 == 0) {
 				// look Forward in the list
-				direction = 1;
+				direction = 2;
 				doorsExitRoom = getDoorsRoom(doorsList.get(i + direction));
 			} else {
 				// look backwards in the list
-				direction = -1;
+				direction = -2;
 				doorsExitRoom = getDoorsRoom(doorsList.get(i + direction));
 			}
 			// we now have both doors and their rooms
 			Door currentDoor = ((Door) doorsRoom.getDoorsLocation().get(doorsList.get(i)).getObjectOnCell());
 			Door exit = (Door) doorsExitRoom.getDoorsLocation().get(doorsList.get(i + direction)).getObjectOnCell();
-			currentDoor.addOtherSide(exit, 0);
+			currentDoor.addOtherSide(exit, doorsList.get(i+1));
 		}
 
 	}

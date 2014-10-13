@@ -76,7 +76,7 @@ public class Room {
 			throw new GameError("PlayerLocationMap isn't pointing to a player");
 		}
 		if (((PlayableCharacter) getCharactorCell(playerID).getObjectOnCell()).isDead()) {
-			throw new GameError("Player " + playerID + " is dead!");
+			System.out.println("PLAYER IS DEAD!");
 		}
 		if (((PlayableCharacter) getCharactorCell(playerID).getObjectOnCell()).getFacingDirection().getValue() != playerDirection.getValue()) {
 			((PlayableCharacter) getCharactorCell(playerID).getObjectOnCell()).changeDirection(getNewDirection(playerDirection));
@@ -92,7 +92,7 @@ public class Room {
 		// Check that the next Position is empty then move the player
 		if (roomGrid[newPos.getY()][newPos.getX()].getGroundType() != null) {
 			if (roomGrid[newPos.getY()][newPos.getX()].getObjectOnCell() instanceof Door) {
-				System.out.println("DOOR AHEADS ID :"+roomGrid[newPos.getY()][newPos.getX()].getObjectOnCell().getObjectID());
+				System.out.println("DOOR AHEADS ID :" + roomGrid[newPos.getY()][newPos.getX()].getObjectOnCell().getObjectID());
 				useDoor(playerID, (Door) roomGrid[newPos.getY()][newPos.getX()].getObjectOnCell());
 				return -1;
 			}
@@ -114,19 +114,21 @@ public class Room {
 			if (((PlayableCharacter) playerLocationMap.get(playerID).getObjectOnCell()).hasKey()) {
 				System.out.println("Unlocked Door");
 				door.unlockDoor(((PlayableCharacter) playerLocationMap.get(playerID).getObjectOnCell()).useKey());
-			}else {
+			} else {
 				System.out.println("Door is locked and requires a key");
 				return;
 			}
 		}
-		
-		System.out.println("HERE");
+		if(door.enterDoor().checkExitDoor()){
 		PlayableCharacter player = (PlayableCharacter) playerLocationMap.get(playerID).getObjectOnCell();
 		BoardCell delete = playerLocationMap.get(playerID);
 		playerLocationMap.remove(playerID);
 		roomInventory.remove(player);
 		delete.removeObjectOnCell();
 		door.enterDoor().exitDoor(player);
+		}else{
+			System.out.println("SOMETHING IS INFRONT OF THE DOOR");
+		}
 	}
 
 	/**
@@ -145,36 +147,45 @@ public class Room {
 	 * 
 	 * @param playerID
 	 * @param direction
-	 * @param attackPower
 	 */
-	public int playerAttack(int playerID, Direction boardDirection) {
+	public int playerAction(int playerID, Direction boardDirection) {
 		if (playerLocationMap.get(playerID).getObjectOnCell() instanceof PlayableCharacter) {
 			BoardCell playersCell = playerLocationMap.get(playerID);
 			PlayableCharacter player = (PlayableCharacter) playersCell.getObjectOnCell();
-			Position attackPosition = findPosition(playerID, boardDirection, player.getFacingDirection());
+			Position actionPosition = findPosition(playerID, boardDirection, player.getFacingDirection());
 			// Check to see if a npc is there then we can attack it
-			if (roomGrid[attackPosition.getY()][attackPosition.getX()].getObjectOnCell() != null
-					&& roomGrid[attackPosition.getY()][attackPosition.getX()].getObjectOnCell() instanceof NonPlayableCharacter) {
-				// if the npc is dead
-				if (((NonPlayableCharacter) roomGrid[attackPosition.getY()][attackPosition.getX()].getObjectOnCell()).isDead()) {
-					List<GameItem> npcInv = ((NonPlayableCharacter) roomGrid[attackPosition.getY()][attackPosition.getX()].getObjectOnCell()).getInventory();
-
+			if (roomGrid[actionPosition.getY()][actionPosition.getX()].getObjectOnCell() != null
+					&& roomGrid[actionPosition.getY()][actionPosition.getX()].getObjectOnCell() instanceof NonPlayableCharacter) {
+				
+				// if the npc is dead loot the body
+				if (((NonPlayableCharacter) roomGrid[actionPosition.getY()][actionPosition.getX()].getObjectOnCell()).isDead()) {
+					List<GameItem> npcInv = ((NonPlayableCharacter) roomGrid[actionPosition.getY()][actionPosition.getX()].getObjectOnCell()).getInventory();
 					switch (player.addAllToInventory(npcInv)) {
 					case 1:
-						((NonPlayableCharacter) roomGrid[attackPosition.getY()][attackPosition.getX()].getObjectOnCell()).removeAllFromInv();
+						((NonPlayableCharacter) roomGrid[actionPosition.getY()][actionPosition.getX()].getObjectOnCell()).removeAllFromInv();
 						return 1;
 					case -1:
 						return -1;
 					}
-				} else {
-					NonPlayableCharacter npc = (NonPlayableCharacter) roomGrid[attackPosition.getY()][attackPosition.getX()].getObjectOnCell();
+				} else {//attack the npc
+					NonPlayableCharacter npc = (NonPlayableCharacter) roomGrid[actionPosition.getY()][actionPosition.getX()].getObjectOnCell();
 					npc.changeHealth(-player.getAttackPower());
 					player.changeHealth(-npc.getAttackPower());
 					return 1;
 				}
+				//lootChest 
+			} else if (roomGrid[actionPosition.getY()][actionPosition.getX()].getObjectOnCell() != null && roomGrid[actionPosition.getY()][actionPosition.getX()].getObjectOnCell() instanceof Chest) {
+				List<GameItem> chestInv = ((Chest) roomGrid[actionPosition.getY()][actionPosition.getX()].getObjectOnCell()).getLoot();
+				switch (player.addAllToInventory(chestInv)) {
+				case 1:
+					System.out.println("LOOTING CHEST");
+					((Chest) roomGrid[actionPosition.getY()][actionPosition.getX()].getObjectOnCell()).removeInv();
+					return 1;
+				case -1:
+					return -1;
+				}
 			}
 		}
-
 		return -1;
 	}
 
