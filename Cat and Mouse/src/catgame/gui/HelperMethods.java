@@ -5,11 +5,13 @@ import java.awt.Dimension;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JRadioButton;
 import javax.swing.JSlider;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
@@ -70,6 +72,45 @@ public class HelperMethods {
 			}
 		}
 		return items;
+	}
+
+	/**
+	 * Creates a dialog box full of checkboxes that returns a List of the
+	 * checked items.
+	 * 
+	 * @param title
+	 * @param options
+	 * @return
+	 */
+	public static <T> T showRadioList(String title, List<T> options,
+			boolean useSimpleName) {
+		JPanel message = new JPanel();
+		ArrayList<JRadioButton> boxes = new ArrayList<JRadioButton>();
+		ButtonGroup bg = new ButtonGroup();
+		for (T item : options) {
+			JRadioButton box = null;
+			if (useSimpleName) {
+				box = new JRadioButton(item.getClass().getSimpleName());
+			}
+			else {
+				box = new JRadioButton(item.toString());
+			}
+			bg.add(box);
+			boxes.add(box);
+			message.add(box);
+		}
+		JRadioButton noRadio = new JRadioButton("None");
+		bg.add(noRadio);
+		message.add(noRadio);
+		boxes.add(noRadio);
+		JOptionPane.showMessageDialog(null, message, title,
+				JOptionPane.PLAIN_MESSAGE);
+		for (int i = 0; i < options.size(); i++) {
+			if (boxes.get(i).isSelected()) {
+				return options.get(i);
+			}
+		}
+		return null;
 	}
 
 	/**
