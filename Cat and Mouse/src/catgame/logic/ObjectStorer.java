@@ -35,6 +35,7 @@ public class ObjectStorer {
 	}
 	
 	public void addplayableChs(int objId, PlayableCharacter player) {
+		System.out.println("playable ch added \n\n\n");
 		playableChs.put(objId, player);
 	}
 
@@ -96,12 +97,7 @@ public class ObjectStorer {
 	}
 
 	public PlayableCharacter findCharacter(int objectID) {
-		// TODO Auto-generated method stub
-		// //////////////////////////////////////////////////
-		// For testing
-		// ///////////////////////////////////////////////////
-		// ACTUAL code
-		// ////////////////////////////////////////////////////
+		if(playableChs.size()==0) System.out.println("playableChs not populated\n\n");
 		 return playableChs.get(objectID);
 
 	}

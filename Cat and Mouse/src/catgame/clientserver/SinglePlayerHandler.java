@@ -2,7 +2,12 @@ package catgame.clientserver;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
+import org.jdom2.JDOMException;
+
+import catgame.datastorage.LoadNewGame;
+import catgame.datastorage.XMLException;
 import catgame.gameObjects.Food;
 import catgame.gameObjects.GameItem;
 import catgame.gameObjects.Key;
@@ -32,14 +37,15 @@ public class SinglePlayerHandler extends GameRunner {
 			// TODO this.setGameUtil(util);
 		}
 		else{
-			// TODO loadXML = new LoadNewGame(playerIds);
-			// TODO boardData = loadXML.getBoardData();
-			// TODO GameUtil util = boardData.getGame();
-			// TODO this.setGameUtil(util);
+			List<Integer> ids = new ArrayList<Integer>();
+			ids.add(101010);
+			try {
+				LoadNewGame loadXML = new LoadNewGame(ids);
+				boardData = loadXML.getBoardData();
+			} catch (JDOMException | XMLException e) {
+				e.printStackTrace();
+			}
 		}
-		
-		boardData = new BoardData();
-		boardData.loadTestData();
 		
 		FrameClient frame = new FrameClient(this, false, null, 101010);
 		try {

@@ -31,18 +31,19 @@ public class LoadNewGame {
 
 	public void loadCharacters() throws XMLException {
 		Room room = loaderMain.getRoomIDMap().get(0);
-		for (int i = 1; i < playerIDList.size(); i++) {
+		for (int i = 0; i < playerIDList.size(); i++) {
 			List<GameItem> newInv = new ArrayList<GameItem>();
 			newInv.add(new Food(808080, 20));
 			PlayableCharacter character = new PlayableCharacter(
-					playerIDList.get(i - 1), Direction.NORTH, 20, 100, newInv);
+					playerIDList.get(i), Direction.NORTH, 20, 100, newInv);
+			System.out.println("added the playable ch to obj storer inside loadCh\n\n");
 			loaderMain.getBoardData().getObjStorer()
-					.addplayableChs(playerIDList.get(i - 1), character);
+					.addplayableChs(playerIDList.get(i), character);
 			loaderMain.addPlayerToMap(character);
-			BoardCell cell = room.getBoardGrid()[room.getBoardGrid().length - 1][i];
+			BoardCell cell = room.getBoardGrid()[room.getBoardGrid().length - 1][i+1];
 			cell.setObjectOnCell(character);
 			room.addToInventory(character);
-			room.addToPlayerLocationMap(playerIDList.get(i - 1), cell);
+			room.addToPlayerLocationMap(playerIDList.get(i), cell);
 		}
 	}
 
