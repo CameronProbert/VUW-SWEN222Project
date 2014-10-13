@@ -9,7 +9,7 @@ import catgame.logic.Room;
 public class Door implements NonMovavble {
 	private final int ID;
 	private Door entranceToDoor;
-	private boolean isLocked = false;
+	private boolean isLocked = true;
 	private int keyID;
 	Direction wallEdge;
 	private Room room;

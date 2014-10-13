@@ -110,9 +110,13 @@ public class Room {
 
 	private void useDoor(int playerID, Door door) {
 		if (door.getIsLocked()) {
+			System.out.println("Unlocking Door");
 			if (((PlayableCharacter) playerLocationMap.get(playerID).getObjectOnCell()).hasKey()) {
 				System.out.println("Unlocked Door");
 				door.unlockDoor(((PlayableCharacter) playerLocationMap.get(playerID).getObjectOnCell()).useKey());
+			}else {
+				System.out.println("Door is locked and requires a key");
+				return;
 			}
 		}
 		
