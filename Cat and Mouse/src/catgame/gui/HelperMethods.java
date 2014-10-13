@@ -38,12 +38,27 @@ public class HelperMethods {
 		return button;
 	}
 
-	public static <T> List<T> showComboList(String title, List<T> options) {
+	/**
+	 * Creates a dialog box full of checkboxes that returns a List of the
+	 * checked items.
+	 * 
+	 * @param title
+	 * @param options
+	 * @return
+	 */
+	public static <T> List<T> showComboList(String title, List<T> options,
+			boolean useSimpleName) {
 		ArrayList<T> items = new ArrayList<T>();
 		JPanel message = new JPanel();
 		ArrayList<JCheckBox> boxes = new ArrayList<JCheckBox>();
 		for (T item : options) {
-			JCheckBox box = new JCheckBox(item.getClass().getSimpleName());
+			JCheckBox box = null;
+			if (useSimpleName) {
+				box = new JCheckBox(item.getClass().getSimpleName());
+			}
+			else {
+				box = new JCheckBox(item.toString());
+			}
 			boxes.add(box);
 			message.add(box);
 		}
