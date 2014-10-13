@@ -27,6 +27,10 @@ public class PanelRender extends JPanel {
 	private int panelHeight;
 	private int blockWidth = 124;
 	private int blockHeight = 70;
+	private int groundOffsetX;
+	private int groundOffsetY;
+	private int objOffsetX;
+	private int objOffsetY;
 	
 	private Image grassBlock;
 	private Image tree1;
@@ -36,38 +40,22 @@ public class PanelRender extends JPanel {
 	private Image corpse1;
 	
 	// Door images
-	private Image doorClosedLeft1;
-	private Image doorClosedRight1;
-	private Image doorOpenLeft1;
-	private Image doorOpenRight1;
+	private Image doorClosedLeft1, doorClosedRight1, doorOpenLeft1, doorOpenRight1;
 
 	// Hedge images
-	private Image hedgeLeft1;
-	private Image hedgeRight1;
+	private Image hedgeLeft1, hedgeRight1;
 
 	// Cat images
-	private Image catFrontLeft1;
-	private Image catFrontRight1;
-	private Image catBackLeft1;
-	private Image catBackRight1;
+	private Image catFrontLeft1, catFrontRight1, catBackLeft1, catBackRight1;
 	
 	// Chest images
-	private Image chestFrontLeft1;
-	private Image chestFrontRight1;
-	private Image chestBackLeft1;
-	private Image chestBackRight1;
+	private Image chestFrontLeft1, chestFrontRight1, chestBackLeft1, chestBackRight1;
 	
 	// Minion images
-	private Image minionFrontLeft1;
-	private Image minionFrontRight1;
-	private Image minionBackLeft1;
-	private Image minionBackRight1;
+	private Image minionFrontLeft1, minionFrontRight1, minionBackLeft1, minionBackRight1;
 	
 	// Boss images
-	private Image bossFrontLeft1;
-	private Image bossFrontRight1;
-	private Image bossBackLeft1;
-	private Image bossBackRight1;
+	private Image bossFrontLeft1, bossFrontRight1, bossBackLeft1, bossBackRight1;
 
 	// Classes for creating a test board
 	private Room currentRoom;
@@ -78,6 +66,7 @@ public class PanelRender extends JPanel {
 		this.playableCharID = playableCharID;
 		this.gUtil = gUtil;
 		this.currentRoom = room;
+		calculateXYOffset();
 
 		setLayout(null);
 		setSize((int)(windowSize.getWidth()), (int)(windowSize.getHeight()));
@@ -94,6 +83,22 @@ public class PanelRender extends JPanel {
 		g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
 				RenderingHints.VALUE_ANTIALIAS_ON);
 		redraw(g);
+	}
+	
+	public void calculateXYOffset(){
+		for (int y = 0; y < currentRoom.getBoardGrid().length; y++){
+			for (int x = 0; x < currentRoom.getBoardGrid()[0].length; x++){
+				if (currentRoom.getBoardGrid()[y][x].getObjectOnCell() instanceof PlayableCharacter){
+					PlayableCharacter currentChar = (PlayableCharacter) currentRoom.getBoardGrid()[y][x].getObjectOnCell();
+					if ((currentChar.getObjectID()+"").equals(playableCharID)){
+						groundOffsetX = ((blockWidth / 2) * x) - ((blockWidth / 2) * y);
+						groundOffsetY = ((blockHeight / 2) * y) + ((blockHeight / 2) * x);
+						objOffsetX = groundOffsetX - 175;
+						objOffsetY = groundOffsetY - 230;
+					}
+				}
+			}
+		}
 	}
 
 	public void setupImages() {
@@ -199,8 +204,10 @@ public class PanelRender extends JPanel {
 	 */
 	public void determineAndDrawGround(Graphics g, int sendY, int sendX, int y,
 			int x) {
-		int startX = 19 + panelWidth / 4;
-		int startY = 20 + 400;
+//		int startX = 19 + panelWidth / 4;
+//		int startY = 20 + 400;
+		int startX = (panelWidth / 3) - groundOffsetX;
+		int startY = (panelHeight / 2) - groundOffsetY;
 		if (currentRoom.getBoardGrid()[sendY][sendX].getGroundType() == "Grass") {
 			drawGround(g, grassBlock, sendY, sendX, y, x, startY, startX);
 		}
@@ -228,16 +235,16 @@ public class PanelRender extends JPanel {
 		
 		int startX, startY;
 		if (objTypeID.equals(GameUtil.BUSH+"")){
-			startX = panelWidth / 4 + 40;
-			startY = 85 + 300;
+			startX = panelWidth / 4 + 40 - objOffsetX;
+			startY = 85 + 300 - objOffsetY;
 			drawObject(g, bush1, sendY, sendX, y, x, startY, startX);
 		}
 		else if (objTypeID.equals(GameUtil.TREE+"")){
 			drawTree(g, sendY, sendX, y, x, objImageID);
 		}
 		else if (objTypeID.equals(GameUtil.ROCK+"")){
-			startX = panelWidth / 4 + 60;
-			startY = 85 + 340;
+			startX = panelWidth / 4 + 60 - objOffsetX;
+			startY = 85 + 340 - objOffsetY;
 			drawObject(g, rock1, sendY, sendX, y, x, startY, startX);
 		}
 		else if (objTypeID.equals(GameUtil.CHESTONE+"") || 
@@ -309,25 +316,36 @@ public class PanelRender extends JPanel {
 
 	public void redraw(Graphics g) {
 		g.fillRect(0, 0, panelWidth, panelHeight);
+		calculateXYOffset();
 		drawGroundAndObjects(g);
 	}
 	
+	
+	
+	
+	
+	
+	
+	
+	
+	//Helper methods for drawing various objects
+	
 	public void drawTree(Graphics g, int sendY, int sendX, int y, int x, String objImageID){
 		if (objImageID.equals("10")){
-			int startX = panelWidth / 4 - 30;
-			int startY = 45 + 200;
+			int startX = panelWidth / 4 - 30 - objOffsetX;
+			int startY = 45 + 200 - objOffsetY;
 			drawObject(g, tree1, sendY, sendX, y, x, startY, startX);
 		}
 		else if (objImageID.equals("11")){
-			int treeStartX = panelWidth / 4;
-			int treeStartY = 85 + 200;
+			int treeStartX = panelWidth / 4 - objOffsetX;
+			int treeStartY = 85 + 200 - objOffsetY;
 			drawObject(g, tree2, sendY, sendX, y, x, treeStartY, treeStartX);
 		}
 	}
 
 	public void drawChest(Graphics g, int sendY, int sendX, int y, int x){
-		int startX = panelWidth / 4 + 50;
-		int startY = 60 + 340;
+		int startX = panelWidth / 4 + 50 - objOffsetX;
+		int startY = 60 + 340 - objOffsetY;
 		switch (gUtil.getViewDirection()) {
 		case NORTH:
 			drawObject(g, chestFrontLeft1, sendY, sendX, y, x, startY, startX);
@@ -351,32 +369,107 @@ public class PanelRender extends JPanel {
 		PlayableCharacter character = (PlayableCharacter) currentRoom.getBoardGrid()[sendY][sendX]
 				.getObjectOnCell();
 		int drawDirection = currentRoom.directionTranslator(gUtil.getViewDirection(), character.getFacingDirection());
-		int startX = panelWidth / 4 + 37;
-		int startY = 85 + 305;
-		if (((PlayableCharacter)currentRoom.getBoardGrid()[sendY][sendX].getObjectOnCell()).isDead()){
-			drawObject(g, corpse1, sendY, sendX, y, x, startY+75, startX+35);
-			return;
-		}
 		
-		switch (drawDirection) {
-		case 0:
-			drawObject(g, catBackRight1, sendY, sendX, y, x, startY, startX);
-			break;
-		case 1:
-			drawObject(g, catFrontRight1, sendY, sendX, y, x, startY, startX);
-			break;
-		case 2:
-			drawObject(g, catFrontLeft1, sendY, sendX, y, x, startY, startX);
-			break;
-		case 3:
-			drawObject(g, catBackLeft1, sendY, sendX, y, x, startY, startX);
-			break;				
+		if ((character.getObjectID()+"").equals(playableCharID)){
+			
+			switch (gUtil.getViewDirection()) {
+			case NORTH:
+				switch (drawDirection) {
+				case 0:
+					g.drawImage(catBackRight1, panelWidth/2 - 70, panelHeight/2 - 200, null);
+					break;
+				case 1:
+					g.drawImage(catFrontRight1, panelWidth/2 - 70, panelHeight/2 - 200, null);
+					break;
+				case 2:
+					g.drawImage(catFrontLeft1, panelWidth/2 - 70, panelHeight/2 - 200, null);
+					break;
+				case 3:
+					g.drawImage(catBackLeft1, panelWidth/2 - 70, panelHeight/2 - 200, null);
+					break;				
+				}
+				break;
+			case EAST:
+				switch (drawDirection) {
+				case 0:
+					g.drawImage(catBackRight1, panelWidth/2, panelHeight/2 - 240, null);
+					break;
+				case 1:
+					g.drawImage(catFrontRight1, panelWidth/2, panelHeight/2 - 240, null);
+					break;
+				case 2:
+					g.drawImage(catFrontLeft1, panelWidth/2, panelHeight/2 - 240, null);
+					break;
+				case 3:
+					g.drawImage(catBackLeft1, panelWidth/2, panelHeight/2 - 240, null);
+					break;				
+				}
+				break;
+			case SOUTH:
+				switch (drawDirection) {
+				case 0:
+					g.drawImage(catBackRight1, panelWidth/2 + 70, panelHeight/2 - 200, null);
+					break;
+				case 1:
+					g.drawImage(catFrontRight1, panelWidth/2 + 70, panelHeight/2 - 200, null);
+					break;
+				case 2:
+					g.drawImage(catFrontLeft1, panelWidth/2 + 70, panelHeight/2 - 200, null);
+					break;
+				case 3:
+					g.drawImage(catBackLeft1, panelWidth/2 + 70, panelHeight/2 - 200, null);
+					break;				
+				}
+				break;
+			case WEST:
+				switch (drawDirection) {
+				case 0:
+					g.drawImage(catBackRight1, panelWidth/2, panelHeight/2 - 165, null);
+					break;
+				case 1:
+					g.drawImage(catFrontRight1, panelWidth/2, panelHeight/2 - 165, null);
+					break;
+				case 2:
+					g.drawImage(catFrontLeft1, panelWidth/2, panelHeight/2 - 165, null);
+					break;
+				case 3:
+					g.drawImage(catBackLeft1, panelWidth/2, panelHeight/2 - 165, null);
+					break;				
+				}
+				break;
+			default:
+				System.out.println("There was a drawing error");
+				break;				
+			}
 		}
+		else {
+			int startX = panelWidth / 4 + 37;
+			int startY = 85 + 305;
+			if (((PlayableCharacter)currentRoom.getBoardGrid()[sendY][sendX].getObjectOnCell()).isDead()){
+				drawObject(g, corpse1, sendY, sendX, y, x, startY+75, startX+35);
+				return;
+			}
+			
+			switch (drawDirection) {
+			case 0:
+				drawObject(g, catBackRight1, sendY, sendX, y, x, startY, startX);
+				break;
+			case 1:
+				drawObject(g, catFrontRight1, sendY, sendX, y, x, startY, startX);
+				break;
+			case 2:
+				drawObject(g, catFrontLeft1, sendY, sendX, y, x, startY, startX);
+				break;
+			case 3:
+				drawObject(g, catBackLeft1, sendY, sendX, y, x, startY, startX);
+				break;				
+			}
+		}		
 	}
 	
 	public void drawMinion(Graphics g, int sendY, int sendX, int y, int x){
-		int startX = panelWidth / 4 + 50;
-		int startY = 60 + 340;
+		int startX = panelWidth / 4 + 50 - objOffsetX;
+		int startY = 60 + 340 - objOffsetY;
 		if (((Minion)currentRoom.getBoardGrid()[sendY][sendX].getObjectOnCell()).isDead()){
 			drawObject(g, corpse1, sendY, sendX, y, x, startY+25, startX+10);
 			return;
@@ -401,8 +494,8 @@ public class PanelRender extends JPanel {
 	}
 	
 	public void drawBoss(Graphics g, int sendY, int sendX, int y, int x){
-		int startX = panelWidth / 4 + 25;
-		int startY = 60 + 290;
+		int startX = panelWidth / 4 + 25 - objOffsetX;
+		int startY = 60 + 290 - objOffsetY;
 		if (((Boss)currentRoom.getBoardGrid()[sendY][sendX].getObjectOnCell()).isDead()){
 			drawObject(g, corpse1, sendY, sendX, y, x, startY+75, startX+35);
 			return;
@@ -441,8 +534,8 @@ public class PanelRender extends JPanel {
 			leftDoor = doorOpenLeft1;
 			rightDoor = doorOpenRight1;
 		}			
-		int startX = panelWidth / 4 + 50;
-		int startY = 50 + 340;
+		int startX = panelWidth / 4 + 50 - objOffsetX;
+		int startY = 50 + 340 - objOffsetY;
 		switch (gUtil.getViewDirection()) {
 		case NORTH:
 			switch (objTypeID) {
