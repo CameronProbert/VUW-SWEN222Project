@@ -37,20 +37,20 @@ public class HelperMethods {
 		button.setText(text);
 		return button;
 	}
-	
-	public static <T> List<T> showComboList(String title, List<T> options){
+
+	public static <T> List<T> showComboList(String title, List<T> options) {
 		ArrayList<T> items = new ArrayList<T>();
 		JPanel message = new JPanel();
 		ArrayList<JCheckBox> boxes = new ArrayList<JCheckBox>();
-		for (T item : options){
+		for (T item : options) {
 			JCheckBox box = new JCheckBox(item.getClass().getSimpleName());
 			boxes.add(box);
 			message.add(box);
 		}
 		JOptionPane.showMessageDialog(null, message, title,
 				JOptionPane.PLAIN_MESSAGE);
-		for (int i = 0; i < options.size(); i++){
-			if (boxes.get(i).isSelected()){
+		for (int i = 0; i < options.size(); i++) {
+			if (boxes.get(i).isSelected()) {
 				items.add(options.get(i));
 			}
 		}
@@ -93,8 +93,8 @@ public class HelperMethods {
 	public static String stringInputDialog(String title, String message) {
 		String string = "";
 		do {
-			string = (String) JOptionPane.showInputDialog(null, message, title,
-					JOptionPane.PLAIN_MESSAGE, null, null, "");
+			string = (String) JOptionPane.showInputDialog(null, "", title,
+					JOptionPane.PLAIN_MESSAGE, null, null, message);
 		} while (string == null || string.equals(""));
 
 		return string;
@@ -129,20 +129,20 @@ public class HelperMethods {
 				JOptionPane.PLAIN_MESSAGE);
 	}
 
-	public static String openFile(String description, Component parent,
-			String... extension) {
+	public static String chooseCatgameFile(Component parent) {
 		JFileChooser chooser = new JFileChooser();
 		FileNameExtensionFilter filter = new FileNameExtensionFilter(
-				description, extension);
+				".catgame (Saved game)", "catgame");
 		chooser.setFileFilter(filter);
 		int returnVal = -1;
-		do {
-			returnVal = chooser.showOpenDialog(parent);
-			if (returnVal == JFileChooser.APPROVE_OPTION) {
-				System.out.println("You chose to open this file: "
-						+ chooser.getSelectedFile().getAbsolutePath());
-			}
-		} while (returnVal != JFileChooser.APPROVE_OPTION);
-		return chooser.getSelectedFile().getAbsolutePath();
+		returnVal = chooser.showOpenDialog(parent);
+		if (returnVal == JFileChooser.APPROVE_OPTION) {
+			System.out.println("You chose to open this file: "
+					+ chooser.getSelectedFile().getAbsolutePath());
+		}
+		if (chooser.getSelectedFile() != null) {
+			return chooser.getSelectedFile().getAbsolutePath();
+		}
+		return null;
 	}
 }
