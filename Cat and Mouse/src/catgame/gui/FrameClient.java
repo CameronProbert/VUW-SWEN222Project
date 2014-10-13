@@ -357,10 +357,19 @@ public class FrameClient extends FrameAbstract implements KeyListener {
 			Chest chest = runner.getBoardData().getObjStorer()
 					.findChest(clientsUID);
 			if (chest != null) {
-				List<GameItem> items = HelperMethods.showComboList(
-						"What items do you want to take?", chest.getLoot(), true);
+				GameItem item = HelperMethods
+						.showRadioList("What item do you want to take?",
+								chest.getLoot(), true);
 
-				validAction = 1;
+				if (item != null) {
+					runner.getBoardData()
+							.getGameUtil()
+							.addObjectToInventory(clientsUID,
+									item.getObjectID());
+					up = new Update(Update.Descriptor.PICKUP, clientsUID,
+							item.getObjectID());
+					validAction = 1;
+				}
 				// TODO open dialog box to choose items out of chest (using the
 				// chest object)
 				// int objectID = openChest(chest); // return the id of the item
@@ -373,8 +382,9 @@ public class FrameClient extends FrameAbstract implements KeyListener {
 			statPanel.modifyChar();
 			break;
 		case KeyEvent.VK_L:
-			System.out.println(HelperMethods.showComboList(
-					"What items do you want to take?", character.getInventory(), true));
+			System.out.println(HelperMethods.showRadioList(
+					"What items do you want to take?",
+					character.getInventory(), true));
 			break;
 		}
 		if (validAction > 0 && isClient) {
