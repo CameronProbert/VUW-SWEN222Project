@@ -93,8 +93,10 @@ public class PanelRender extends JPanel {
 					if ((currentChar.getObjectID()+"").equals(playableCharID)){
 						groundOffsetX = ((blockWidth / 2) * x) - ((blockWidth / 2) * y);
 						groundOffsetY = ((blockHeight / 2) * y) + ((blockHeight / 2) * x);
-						objOffsetX = groundOffsetX - 175;
-						objOffsetY = groundOffsetY - 230;
+//						objOffsetX = groundOffsetX - 175;
+//						objOffsetY = groundOffsetY - 230;
+						objOffsetX = groundOffsetX - 130;
+						objOffsetY = groundOffsetY - 65;
 					}
 				}
 			}
