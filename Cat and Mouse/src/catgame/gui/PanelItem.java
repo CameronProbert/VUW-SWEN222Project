@@ -12,11 +12,11 @@ import catgame.gameObjects.GameItem;
 public class PanelItem extends PanelAbstract implements MouseListener {
 
 	private GameItem item;
-	private FrameClient frame;
+	private PanelInventory panel;
 
-	public PanelItem(Point origin, Dimension dim, FrameClient frame) {
+	public PanelItem(Point origin, Dimension dim, PanelInventory panel) {
 		super();
-		this.frame = frame;
+		this.panel = panel;
 		this.addMouseListener(this);
 		this.setSize(dim);
 		this.setPreferredSize(dim);
@@ -25,7 +25,6 @@ public class PanelItem extends PanelAbstract implements MouseListener {
 	}
 
 	public void setItem(GameItem item) {
-		System.out.println("Setting item to " + item.toString());
 		this.item = item;
 	}
 
@@ -49,28 +48,32 @@ public class PanelItem extends PanelAbstract implements MouseListener {
 				System.out.println(item.getClass().getSimpleName());
 				useItem();
 			} else {
-				HelperMethods.textDialog(item.getClass().getSimpleName(), "Take this to the right door to use it");
+				HelperMethods.textDialog(item.getClass().getSimpleName(),
+						"Take this to the right door to use it");
 			}
 		}
+		repaint();
 	}
 
 	/**
 	 * Uses the item contained in the itemPanel
 	 */
 	private void useItem() {
-		frame.itemUsed(this.item);
+		if (HelperMethods.confirmationDialog("", "Do you want to use the "
+				+ item.getClass().getSimpleName() + "?")) {
+			panel.itemUsed(this.item);
+		}
 	}
 
 	@Override
 	public void mouseEntered(MouseEvent e) {
-		// TODO Auto-generated method stub
-
+		this.setBackground(new Color(150, 100, 200, 100));
 	}
 
 	@Override
 	public void mouseExited(MouseEvent e) {
-		// TODO Auto-generated method stub
-
+		this.setBackground(new Color(0, 0, 0, 0));
+		this.getParent().getParent().repaint();
 	}
 
 	@Override

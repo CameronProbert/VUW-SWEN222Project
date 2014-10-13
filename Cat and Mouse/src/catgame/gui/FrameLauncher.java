@@ -104,7 +104,7 @@ public class FrameLauncher extends FrameAbstract {
 			public void actionPerformed(ActionEvent e) {
 				setVisible(false);
 				// TODO make a chooser, choose new game or load game
-				// TODO if (new game) ----> pass file to SinglPlayerHandler
+				// TODO if (new game) ----> pass no file to SinglPlayerHandler
 				// TODO else if (load game) ----> make them choose a file, pass the string of that file to SinglPlayerHandler
 				
 				String file = "no file";

@@ -52,6 +52,7 @@ public class FrameClient extends FrameAbstract implements KeyListener {
 	private LoadingGameMain loadMain;
 	private PlayableCharacter character;
 	private BoardData data;
+	private PanelInventory invPanel;
 
 	/**
 	 * Creates a new Client frame.
@@ -70,7 +71,8 @@ public class FrameClient extends FrameAbstract implements KeyListener {
 		this.runner = network;
 		this.isClient = isClient;
 		this.clientsUID = ID;
-		character = runner.getBoardData().getObjStorer().findCharacter(clientsUID);
+		character = runner.getBoardData().getObjStorer()
+				.findCharacter(clientsUID);
 		this.addPanels(character);
 		this.setVisible(true);
 	}
@@ -246,7 +248,8 @@ public class FrameClient extends FrameAbstract implements KeyListener {
 		if (renderPanel != null) {
 			this.remove(renderPanel);
 		}
-		Room currentRoom = runner.getBoardData().getGameUtil().findPlayersRoom(clientsUID);
+		Room currentRoom = runner.getBoardData().getGameUtil()
+				.findPlayersRoom(clientsUID);
 		renderPanel = new PanelRender(windowSize, Integer.toString(character
 				.getObjectID()), runner.getBoardData().getGameUtil(),
 				currentRoom);
@@ -277,8 +280,7 @@ public class FrameClient extends FrameAbstract implements KeyListener {
 		int statPanelLocationY = (int) (windowSize.getHeight()
 				- statPanelHeight - margin * 2);
 
-		PanelInventory invPanel = new PanelInventory(character, invPanelDim,
-				this);
+		invPanel = new PanelInventory(character, invPanelDim, this);
 		invPanel.setLocation(invLocationX, invPanelLocationY);
 		invPanel.setSize(invPanelDim);
 		invPanel.setPreferredSize(invPanelDim);
@@ -352,9 +354,12 @@ public class FrameClient extends FrameAbstract implements KeyListener {
 			break;
 		case KeyEvent.VK_E: // open a chest
 			System.out.println("OPEN CHEST PRESSED");
-			Chest chest = runner.getBoardData().getGameUtil()
-					.getChest(clientsUID);
+			Chest chest = runner.getBoardData().getObjStorer()
+					.findChest(clientsUID);
 			if (chest != null) {
+				List<GameItem> items = HelperMethods.showComboList(
+						"What items do you want to take?", chest.getLoot());
+
 				validAction = 1;
 				// TODO open dialog box to choose items out of chest (using the
 				// chest object)
@@ -367,6 +372,10 @@ public class FrameClient extends FrameAbstract implements KeyListener {
 		case KeyEvent.VK_M:
 			statPanel.modifyChar();
 			break;
+		case KeyEvent.VK_L:
+			System.out.println(HelperMethods.showComboList(
+					"What items do you want to take?", character.getInventory()));
+			break;
 		}
 		if (validAction > 0 && isClient) {
 			slave.sendUpdate(up);
@@ -376,6 +385,7 @@ public class FrameClient extends FrameAbstract implements KeyListener {
 	}
 
 	public void itemUsed(GameItem item) {
+		System.out.println("Inside frameClient itemUsed");
 		int validAction = 0;
 		Update up = new Update(0);
 		validAction = runner.getBoardData().getGameUtil()
@@ -384,6 +394,10 @@ public class FrameClient extends FrameAbstract implements KeyListener {
 				item.getObjectID());
 		if (validAction > 0 && isClient) {
 			slave.sendUpdate(up);
+		}
+		System.out.println("Valid Action = " + validAction);
+		if (validAction > 0) {
+			invPanel.resetInvItems();
 		}
 	}
 
