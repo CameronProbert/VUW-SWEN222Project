@@ -2,13 +2,18 @@ package catgame.gui;
 
 import java.awt.Component;
 import java.awt.Dimension;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JSlider;
 import javax.swing.filechooser.FileNameExtensionFilter;
+
+import catgame.gameObjects.GameObject;
 
 public class HelperMethods {
 
@@ -31,6 +36,25 @@ public class HelperMethods {
 		button.setPreferredSize(size);
 		button.setText(text);
 		return button;
+	}
+	
+	public static <T> List<T> showComboList(String title, List<T> options){
+		ArrayList<T> items = new ArrayList<T>();
+		JPanel message = new JPanel();
+		ArrayList<JCheckBox> boxes = new ArrayList<JCheckBox>();
+		for (T item : options){
+			JCheckBox box = new JCheckBox(item.getClass().getSimpleName());
+			boxes.add(box);
+			message.add(box);
+		}
+		JOptionPane.showMessageDialog(null, message, title,
+				JOptionPane.PLAIN_MESSAGE);
+		for (int i = 0; i < options.size(); i++){
+			if (boxes.get(i).isSelected()){
+				items.add(options.get(i));
+			}
+		}
+		return items;
 	}
 
 	/**
