@@ -378,64 +378,64 @@ public class PanelRender extends JPanel {
 			case NORTH:
 				switch (drawDirection) {
 				case 0:
-					g.drawImage(catBackRight1, panelWidth/2 - 70, panelHeight/2 - 200, null);
+					g.drawImage(catBackRight1, panelWidth/2 + 30, panelHeight/2 - 200, null);
 					break;
 				case 1:
-					g.drawImage(catFrontRight1, panelWidth/2 - 70, panelHeight/2 - 200, null);
+					g.drawImage(catFrontRight1, panelWidth/2 + 30, panelHeight/2 - 200, null);
 					break;
 				case 2:
-					g.drawImage(catFrontLeft1, panelWidth/2 - 70, panelHeight/2 - 200, null);
+					g.drawImage(catFrontLeft1, panelWidth/2 + 30, panelHeight/2 - 200, null);
 					break;
 				case 3:
-					g.drawImage(catBackLeft1, panelWidth/2 - 70, panelHeight/2 - 200, null);
+					g.drawImage(catBackLeft1, panelWidth/2 + 30, panelHeight/2 - 200, null);
 					break;				
 				}
 				break;
 			case EAST:
 				switch (drawDirection) {
 				case 0:
-					g.drawImage(catBackRight1, panelWidth/2, panelHeight/2 - 240, null);
+					g.drawImage(catBackRight1, panelWidth/2+ 100, panelHeight/2 - 240, null);
 					break;
 				case 1:
-					g.drawImage(catFrontRight1, panelWidth/2, panelHeight/2 - 240, null);
+					g.drawImage(catFrontRight1, panelWidth/2+ 100, panelHeight/2 - 240, null);
 					break;
 				case 2:
-					g.drawImage(catFrontLeft1, panelWidth/2, panelHeight/2 - 240, null);
+					g.drawImage(catFrontLeft1, panelWidth/2+ 100, panelHeight/2 - 240, null);
 					break;
 				case 3:
-					g.drawImage(catBackLeft1, panelWidth/2, panelHeight/2 - 240, null);
+					g.drawImage(catBackLeft1, panelWidth/2+ 100, panelHeight/2 - 240, null);
 					break;				
 				}
 				break;
 			case SOUTH:
 				switch (drawDirection) {
 				case 0:
-					g.drawImage(catBackRight1, panelWidth/2 + 70, panelHeight/2 - 200, null);
+					g.drawImage(catBackRight1, panelWidth/2 + 100, panelHeight/2 - 240, null);
 					break;
 				case 1:
-					g.drawImage(catFrontRight1, panelWidth/2 + 70, panelHeight/2 - 200, null);
+					g.drawImage(catFrontRight1, panelWidth/2 + 100, panelHeight/2 - 240, null);
 					break;
 				case 2:
-					g.drawImage(catFrontLeft1, panelWidth/2 + 70, panelHeight/2 - 200, null);
+					g.drawImage(catFrontLeft1, panelWidth/2 + 100, panelHeight/2 - 240, null);
 					break;
 				case 3:
-					g.drawImage(catBackLeft1, panelWidth/2 + 70, panelHeight/2 - 200, null);
+					g.drawImage(catBackLeft1, panelWidth/2 + 100, panelHeight/2 - 240, null);
 					break;				
 				}
 				break;
 			case WEST:
 				switch (drawDirection) {
 				case 0:
-					g.drawImage(catBackRight1, panelWidth/2, panelHeight/2 - 165, null);
+					g.drawImage(catBackRight1, panelWidth/2 + 100, panelHeight/2 - 165, null);
 					break;
 				case 1:
-					g.drawImage(catFrontRight1, panelWidth/2, panelHeight/2 - 165, null);
+					g.drawImage(catFrontRight1, panelWidth/2 + 100, panelHeight/2 - 165, null);
 					break;
 				case 2:
-					g.drawImage(catFrontLeft1, panelWidth/2, panelHeight/2 - 165, null);
+					g.drawImage(catFrontLeft1, panelWidth/2 + 100, panelHeight/2 - 165, null);
 					break;
 				case 3:
-					g.drawImage(catBackLeft1, panelWidth/2, panelHeight/2 - 165, null);
+					g.drawImage(catBackLeft1, panelWidth/2 + 100, panelHeight/2 - 165, null);
 					break;				
 				}
 				break;
