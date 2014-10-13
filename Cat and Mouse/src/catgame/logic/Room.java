@@ -226,7 +226,7 @@ public class Room {
 				System.out.println("MOVE SOUTH");
 				return new Position(playerPos.getX(), playerPos.getY() - 1);
 			case 3:
-				return new Position(playerPos.getX() +ww 1, playerPos.getY());
+				return new Position(playerPos.getX() + 1, playerPos.getY());
 			}
 		}
 		// should be dead Code just in case its not
