@@ -14,30 +14,33 @@ public class LoadingGameMain {
 	private Map<Integer, MasterObject> objectIDMap = new HashMap<Integer, MasterObject>();
 	private Map<Integer, Room> roomIDMap = new HashMap<Integer, Room>();
 	private Map<Integer, PlayableCharacter> playerIDMap = new HashMap<Integer, PlayableCharacter>();
-
+	private boolean isLoadOldGame;
 	private LoadMasterObjects masterObjectLoader;
 	private LoadingHelper helper;
 	private BoardData boardData;
+	private File xmlFile;
 
-	public LoadingGameMain(List<Integer> playerIDList) throws JDOMException,
-			XMLException {
+	public LoadingGameMain(boolean isLoadOldGame, File xmlFile)
+			throws JDOMException, XMLException {
 		// make obj loader
 		this.masterObjectLoader = new LoadMasterObjects(this);
 		// make loader helper
 		this.helper = new LoadingHelper(this);
-		for (Integer id : playerIDList) {
-			// save ID list
-			playerIDMap.put(id, null);
-		}
+		this.isLoadOldGame = isLoadOldGame;
+		this.xmlFile = xmlFile;
 		boardData = startLoading();
 		if (boardData != null) {
 			System.out.println("Done");
-		} 
+		}
 	}
 
 	public BoardData startLoading() throws XMLException, JDOMException {
 		SAXBuilder builder = new SAXBuilder(); // make SAXBuilder
-		File xmlFile = new File("test.xml");
+		// if xmlFile != null, we are loading old game
+		if (xmlFile == null) {
+			// xmlFile is null meaning we are loading a standard new game
+			xmlFile = new File("test.xml");
+		}
 		try {
 			// make document and read root
 			Document document = (Document) builder.build(xmlFile);
@@ -49,7 +52,6 @@ public class LoadingGameMain {
 			return loadBoardData(root);
 
 		} catch (IOException e) {
-
 			e.printStackTrace();
 		}
 		return null;
@@ -98,7 +100,11 @@ public class LoadingGameMain {
 				}
 			}
 			// TODO Check casting!!!!
-			else if (objElement.getName().equals("playerableInventory")) {
+			// isLoadOldGame is a check if we are loading an old game or new
+			// game. if we are then we load and create players from xml
+			// if not then we create standard players ready for a new game
+			else if (isLoadOldGame
+					&& objElement.getName().equals("playerableInventory")) {
 				for (Element playerableObj : objElement.getChildren()) {
 					MasterObject inventoryObj = masterObjectLoader
 							.verifyElement(playerableObj);
@@ -190,10 +196,10 @@ public class LoadingGameMain {
 	}
 
 	public static void main(String[] args) throws JDOMException, XMLException {
-		List<Integer> temp = new ArrayList<Integer>();
-		temp.add(23);
-		temp.add(2345);
-		new LoadingGameMain(temp);
+//		List<Integer> temp = new ArrayList<Integer>();
+//		temp.add(23);
+//		temp.add(2345);
+//		new LoadingGameMain();
 
 	}
 

@@ -43,6 +43,8 @@ public class LoadingHelper {
 
 		return new BoardCell(position, ObjectID, groundType);
 	}
+	
+	//public void addPlayerToRoom(Room room, )
 
 	/**
 	 * Main just for quick testing for parsing strings. This will be removed in

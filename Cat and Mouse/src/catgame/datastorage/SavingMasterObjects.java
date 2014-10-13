@@ -122,8 +122,8 @@ public class SavingMasterObjects {
 				+ character.getObjectID()));
 
 		// -------------- Room_ID --------------
-		characterElement.addContent(new Element("RoomID").setText(""
-				+ character.getCurrentRoom().getRoomID()));
+		// characterElement.addContent(new Element("RoomID").setText(""
+		// + character.getCurrentRoom().getRoomID()));
 		// ------------------------------------------------
 		// ------------------- Direction ------------------
 		characterElement.addContent(new Element("Direction").setText(character
