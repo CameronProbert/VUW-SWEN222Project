@@ -56,10 +56,10 @@ public class SavingMasterObjects {
 		Door door = (Door) obj;
 		Element doorElement = new Element("Door");
 		doorElement.setAttribute(new Attribute("id", "" + door.getObjectID()));
-
-		// TODO Door entrance's room!!!!
-		// doorElement.addContent(new Element("DoorEntrance").setAttribute(new
-		// Attribute("Room", "" + door.)))
+		doorElement.addContent(new Element("EntranceDoor")); // TODO finish this element
+		doorElement.addContent(new Element("isLocked").setText("" + door.getIsLocked()));
+		doorElement.addContent(new Element("Direction").setText(door.getDoorsWallEdge().name()));
+		doorElement.addContent(new Element("RoomID").setText("" + door.getRoom().getRoomID()));
 		return doorElement;
 	}
 
@@ -90,12 +90,16 @@ public class SavingMasterObjects {
 	public Element writeMinion(MasterObject obj) throws XMLException {
 		Minion minion = (Minion) obj;
 		Element minionElement = new Element("Minion");
-		minionElement.setAttribute(new Attribute("id", "" + minion.getObjectID()));
-		minionElement.addContent(new Element("RoomID").setText("" + minion.getCurrentRoom().getRoomID()));
-		minionElement.addContent(new Element("AttackPower").setText("" + minion.getAttackPower()));
-		minionElement.addContent(new Element("Health").setText("" + minion.getHealth()));
+		minionElement.setAttribute(new Attribute("id", ""
+				+ minion.getObjectID()));
+		minionElement.addContent(new Element("RoomID").setText(""
+				+ minion.getCurrentRoom().getRoomID()));
+		minionElement.addContent(new Element("AttackPower").setText(""
+				+ minion.getAttackPower()));
+		minionElement.addContent(new Element("Health").setText(""
+				+ minion.getHealth()));
 		minionElement.addContent(helper.makeInventory(minion.getInventory()));
-		 
+
 		return minionElement;
 	}
 
