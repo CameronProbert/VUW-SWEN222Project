@@ -20,14 +20,15 @@ public class SavingMain {
 	private Document document;
 	private Element root;
 	private BoardData boardData;
+	private File xmlFile;
 
 	public SavingMain(BoardData boardData) throws IOException {
-		masterObj = new SavingMasterObjects(this);
+		this.masterObj = new SavingMasterObjects(this);
 		this.helper = new SavingHelper(this, masterObj);
 
 		this.boardData = boardData;
-		document = new Document();
-		root = new Element("CatGame");
+		this.document = new Document();
+		this.root = new Element("CatGame");
 		document.setRootElement(root);
 		write();
 	}
@@ -43,8 +44,8 @@ public class SavingMain {
 		// Outputting xml file
 		XMLOutputter xmlOutputter = new XMLOutputter(
 				org.jdom2.output.Format.getPrettyFormat());
-		xmlOutputter.output(document,
-				new FileOutputStream(new File("test.xml")));
+		xmlFile = new File("test.xml");
+		xmlOutputter.output(document, new FileOutputStream(xmlFile));
 	}
 
 	/**
@@ -169,6 +170,10 @@ public class SavingMain {
 
 	public SavingHelper getHelper() {
 		return helper;
+	}
+
+	public File getXMLFile() {
+		return xmlFile;
 	}
 
 	/**
