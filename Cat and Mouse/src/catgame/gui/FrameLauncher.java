@@ -62,7 +62,8 @@ public class FrameLauncher extends FrameAbstract {
 		Dimension buttonSize = new Dimension(200, 100);
 
 		// Create the buttons
-		JButton buttonServer = HelperMethods.createButton("Multiplayer Host", buttonSize);
+		JButton buttonServer = HelperMethods.createButton("Multiplayer Host",
+				buttonSize);
 		buttonServer.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				setVisible(false);
@@ -71,23 +72,22 @@ public class FrameLauncher extends FrameAbstract {
 		});
 		buttonServer.setAlignmentX(CENTER_ALIGNMENT);
 
-		JButton buttonClient = HelperMethods.createButton("Multiplayer Client", buttonSize);
+		JButton buttonClient = HelperMethods.createButton("Multiplayer Client",
+				buttonSize);
 		buttonClient.addActionListener(new ActionListener() {
 			// Action performed on clicking button
 			public void actionPerformed(ActionEvent e) {
 				setVisible(false);
-				String url = HelperMethods.stringInputDialog("Enter URL", "");
+				String url = HelperMethods.stringInputDialog("Enter URL",
+						"localhost");
 				try {
-					Socket s = new Socket(url, port );
+					Socket s = new Socket(url, port);
 					Slave slave = new Slave(s);
-					NetworkHandler net = new NetworkHandler(NetworkHandler.Type.CLIENT);
+					NetworkHandler net = new NetworkHandler(
+							NetworkHandler.Type.CLIENT);
 					SlaveReceiver slaveR = new SlaveReceiver(slave, net);
 					slaveR.run();
-					// TODO draw a frame saying loading!
-					while(!slaveR.isReady()){
-						// TODO nothing here
-					}
-					// TODO get rid of loading frame
+					waitForPlayers(slaveR);
 					int id = slaveR.getUID();
 					FrameClient frame = new FrameClient(net, true, slave, id);
 					slaveR.addFrame(frame);
@@ -99,16 +99,38 @@ public class FrameLauncher extends FrameAbstract {
 		});
 		buttonClient.setAlignmentX(CENTER_ALIGNMENT);
 
-		JButton buttonSinglePlayer = HelperMethods.createButton("Single Player", buttonSize);
+		JButton buttonSinglePlayer = HelperMethods.createButton(
+				"Single Player", buttonSize);
 		buttonSinglePlayer.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				setVisible(false);
-				// TODO make a chooser, choose new game or load game
-				// TODO if (new game) ----> pass no file to SinglPlayerHandler
-				// TODO else if (load game) ----> make them choose a file, pass the string of that file to SinglPlayerHandler
-				
-				String file = "no file";
-				new SinglePlayerHandler(file);
+				Dimension frameSize = new Dimension(200, 200);
+				Dimension buttonSize = new Dimension(200, 100);
+				JFrame frame = new JFrame("New Game or Load Game?");
+				frame.setLayout(null);
+				frame.setPreferredSize(frameSize);
+				frame.setSize(frameSize);
+				JButton newButton = HelperMethods.createButton("New Game",
+						buttonSize);
+				JButton loadButton = HelperMethods.createButton("Load Game",
+						buttonSize);
+				newButton.addActionListener(new ActionListener() {
+					@Override
+					public void actionPerformed(ActionEvent arg0) {
+						startGame(false);
+					}
+				});
+				loadButton.addActionListener(new ActionListener() {
+					@Override
+					public void actionPerformed(ActionEvent arg0) {
+						startGame(true);
+					}
+				});
+				newButton.setLocation(0, 0);
+				loadButton.setLocation(0, 100);
+				frame.add(newButton);
+				frame.add(loadButton);
+				frame.setVisible(true);
 			}
 		});
 		buttonSinglePlayer.setAlignmentX(CENTER_ALIGNMENT);
@@ -127,6 +149,48 @@ public class FrameLauncher extends FrameAbstract {
 		box.add(buttonSinglePlayer);
 		box.add(buttonQuit);
 		// this.pack();
+	}
+
+	protected void waitForPlayers(SlaveReceiver slaveR) {
+		JFrame frame = new JFrame("Loading");
+		frame.setPreferredSize(new Dimension(200, 100));
+		frame.setSize(200, 100);
+		frame.setLayout(null);
+		JPanel panel = new JPanel() {
+			@Override
+			public void paintComponent(Graphics g) {
+				super.paintComponent(g);
+				g.setColor(Color.red);
+				g.drawString("Waiting for other players,  please wait...", 10,
+						10);
+			}
+		};
+		panel.setPreferredSize(new Dimension(200, 100));
+		panel.setSize(200, 100);
+		panel.setLocation(0, 0);
+		panel.setBackground(Color.black);
+
+		frame.add(panel);
+		frame.pack();
+		panel.setVisible(true);
+		frame.setVisible(true);
+		frame.repaint();
+		while (!slaveR.isReady()) {
+			System.out.println("Slaver not ready");
+		}
+		// TODO get rid of loading frame
+		frame.setVisible(false);
+	}
+
+	protected void startGame(boolean loadPlayer) {
+		String filename = "no file";
+		if (loadPlayer) {
+			filename = HelperMethods.chooseCatgameFile(this);
+			if (filename == null){
+				System.exit(0);
+			}
+		}
+		new SinglePlayerHandler(filename);
 	}
 
 	// ================== Main Method ======================
