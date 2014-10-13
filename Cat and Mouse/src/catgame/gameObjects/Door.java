@@ -39,6 +39,7 @@ public class Door implements NonMovavble {
 		this.entranceToDoor = entranceTo;
 		// this.wallEdge = wallEdge;
 		if (keyId != 0) {
+			System.out.println("LOCKING DOOR :"+ID);
 			this.isLocked = true;
 			this.keyID = keyId;
 		}

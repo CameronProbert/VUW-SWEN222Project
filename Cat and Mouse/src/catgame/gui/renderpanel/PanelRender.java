@@ -33,8 +33,10 @@ public class PanelRender extends JPanel {
 	private Image rock1;
 	private Image corpse1;
 	
-	private Image doorLeft1;
-	private Image doorRight1;
+	private Image doorClosedLeft1;
+	private Image doorClosedRight1;
+	private Image doorOpenLeft1;
+	private Image doorOpenRight1;
 
 	private int blockWidth = 124;
 	private int blockHeight = 70;
@@ -101,8 +103,11 @@ public class PanelRender extends JPanel {
 			rock1 = ImageIO.read(PanelRender.class.getResource("/images/Rock1.png"));
 			corpse1 = ImageIO.read(PanelRender.class.getResource("/images/Corpse1.png"));
 			
-			doorLeft1 = ImageIO.read(PanelRender.class.getResource("/images/ClosedGateLeft1.png"));
-			doorRight1 = ImageIO.read(PanelRender.class.getResource("/images/ClosedGateRight1.png"));
+			// Load door images
+			doorClosedLeft1 = ImageIO.read(PanelRender.class.getResource("/images/ClosedGateLeft1.png"));
+			doorClosedRight1 = ImageIO.read(PanelRender.class.getResource("/images/ClosedGateRight1.png"));
+			doorOpenLeft1 = ImageIO.read(PanelRender.class.getResource("/images/OpenGateLeft1.png"));
+			doorOpenRight1 = ImageIO.read(PanelRender.class.getResource("/images/OpenGateRight1.png"));			
 			
 			// Load chest images
 			chestFrontLeft1 = ImageIO.read(PanelRender.class.getResource("/images/ChestFrontLeft1.png"));
@@ -381,17 +386,17 @@ public class PanelRender extends JPanel {
 	}
 	
 	public void drawBoss(Graphics g, int sendY, int sendX, int y, int x){
-		int startX = panelWidth / 4 + 50;
-		int startY = 60 + 340;
+		int startX = panelWidth / 4 + 25;
+		int startY = 60 + 290;
 		switch (gUtil.getViewDirection()) {
 		case NORTH:
 			drawObject(g, bossFrontLeft1, sendY, sendX, y, x, startY, startX);
 			break;
 		case EAST:
-			drawObject(g, bossBackLeft1, sendY, sendX, y, x, startY, startX);
+			drawObject(g, bossBackLeft1, sendY, sendX, y, x, startY, startX+20);
 			break;
 		case SOUTH:
-			drawObject(g, bossBackRight1, sendY, sendX, y, x, startY, startX);
+			drawObject(g, bossBackRight1, sendY, sendX, y, x, startY, startX-20);
 			break;
 		case WEST:
 			drawObject(g, bossFrontRight1, sendY, sendX, y, x, startY, startX);
@@ -403,70 +408,80 @@ public class PanelRender extends JPanel {
 	}
 	
 	public void drawDoor(Graphics g, int sendY, int sendX, int y, int x, String objTypeID){
+		Image leftDoor;
+		Image rightDoor;
+		if (((Door) currentRoom.getBoardGrid()[sendY][sendX].getObjectOnCell()).getIsLocked() == true){
+			leftDoor = doorClosedLeft1;
+			rightDoor = doorClosedRight1;
+		}
+		else {
+			leftDoor = doorOpenLeft1;
+			rightDoor = doorOpenRight1;
+		}			
 		int startX = panelWidth / 4 + 50;
 		int startY = 50 + 340;
 		switch (gUtil.getViewDirection()) {
 		case NORTH:
 			switch (objTypeID) {
 				case "40":
-					drawObject(g, doorRight1, sendY, sendX, y, x, startY, startX);
+					drawObject(g, rightDoor, sendY, sendX, y, x, startY, startX);
 					break;
 				case "41":
-					drawObject(g, doorLeft1, sendY, sendX, y, x, startY, startX);
+					drawObject(g, leftDoor, sendY, sendX, y, x, startY, startX);
 					break;
 				case "42":
-					drawObject(g, doorRight1, sendY, sendX, y, x, startY, startX);
+					drawObject(g, rightDoor, sendY, sendX, y, x, startY, startX);
 					break;
 				case "43":
-					drawObject(g, doorLeft1, sendY, sendX, y, x, startY, startX);
+					drawObject(g, leftDoor, sendY, sendX, y, x, startY, startX);
 					break;
 			}			
 			break;
 		case EAST:
 			switch (objTypeID) {
 			case "40":
-				drawObject(g, doorLeft1, sendY, sendX, y, x, startY, startX);
+				drawObject(g, leftDoor, sendY, sendX, y, x, startY, startX);
 				break;
 			case "41":
-				drawObject(g, doorRight1, sendY, sendX, y, x, startY, startX);
+				drawObject(g, rightDoor, sendY, sendX, y, x, startY, startX);
 				break;
 			case "42":
-				drawObject(g, doorLeft1, sendY, sendX, y, x, startY, startX);
+				drawObject(g, leftDoor, sendY, sendX, y, x, startY, startX);
 				break;
 			case "43":
-				drawObject(g, doorRight1, sendY, sendX, y, x, startY, startX);
+				drawObject(g, rightDoor, sendY, sendX, y, x, startY, startX);
 				break;
 		}			
 		break;
 		case SOUTH:
 			switch (objTypeID) {
 			case "40":
-				drawObject(g, doorRight1, sendY, sendX, y, x, startY, startX);
+				drawObject(g, rightDoor, sendY, sendX, y, x, startY, startX);
 				break;
 			case "41":
-				drawObject(g, doorLeft1, sendY, sendX, y, x, startY, startX);
+				drawObject(g, leftDoor, sendY, sendX, y, x, startY, startX);
 				break;
 			case "42":
-				drawObject(g, doorRight1, sendY, sendX, y, x, startY, startX);
+				drawObject(g, rightDoor, sendY, sendX, y, x, startY, startX);
 				break;
 			case "43":
-				drawObject(g, doorLeft1, sendY, sendX, y, x, startY, startX);
+				drawObject(g, leftDoor, sendY, sendX, y, x, startY, startX);
 				break;
 		}			
 		break;
 		case WEST:
 			switch (objTypeID) {
 			case "40":
-				drawObject(g, doorLeft1, sendY, sendX, y, x, startY, startX);
+				drawObject(g, leftDoor, sendY, sendX, y, x, startY, startX);
 				break;
 			case "41":
-				drawObject(g, doorRight1, sendY, sendX, y, x, startY, startX);
+				drawObject(g, rightDoor, sendY, sendX, y, x, startY, startX);
 				break;
 			case "42":
-				drawObject(g, doorLeft1, sendY, sendX, y, x, startY, startX);
+				drawObject(g, leftDoor, sendY, sendX, y, x, startY, startX);
 				break;
 			case "43":
-				drawObject(g, doorRight1, sendY, sendX, y, x, startY, startX);
+				drawObject(g, rightDoor, sendY, sendX, y, x, startY, startX);
 				break;
 		}			
 		break;
