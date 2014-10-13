@@ -358,7 +358,7 @@ public class FrameClient extends FrameAbstract implements KeyListener {
 					.findChest(clientsUID);
 			if (chest != null) {
 				List<GameItem> items = HelperMethods.showComboList(
-						"What items do you want to take?", chest.getLoot());
+						"What items do you want to take?", chest.getLoot(), true);
 
 				validAction = 1;
 				// TODO open dialog box to choose items out of chest (using the
@@ -374,7 +374,7 @@ public class FrameClient extends FrameAbstract implements KeyListener {
 			break;
 		case KeyEvent.VK_L:
 			System.out.println(HelperMethods.showComboList(
-					"What items do you want to take?", character.getInventory()));
+					"What items do you want to take?", character.getInventory(), true));
 			break;
 		}
 		if (validAction > 0 && isClient) {
