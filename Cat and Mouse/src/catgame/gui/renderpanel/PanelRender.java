@@ -25,6 +25,8 @@ public class PanelRender extends JPanel {
 	private GameUtil gUtil;
 	private int panelWidth;
 	private int panelHeight;
+	private int blockWidth = 124;
+	private int blockHeight = 70;
 	
 	private Image grassBlock;
 	private Image tree1;
@@ -33,13 +35,15 @@ public class PanelRender extends JPanel {
 	private Image rock1;
 	private Image corpse1;
 	
+	// Door images
 	private Image doorClosedLeft1;
 	private Image doorClosedRight1;
 	private Image doorOpenLeft1;
 	private Image doorOpenRight1;
 
-	private int blockWidth = 124;
-	private int blockHeight = 70;
+	// Hedge images
+	private Image hedgeLeft1;
+	private Image hedgeRight1;
 
 	// Cat images
 	private Image catFrontLeft1;
@@ -66,7 +70,6 @@ public class PanelRender extends JPanel {
 	private Image bossBackRight1;
 
 	// Classes for creating a test board
-	private RoomBuilder buildBoard;
 	private Room currentRoom;
 
 	public PanelRender(Dimension windowSize, String playableCharID, GameUtil gUtil, Room room) {
@@ -108,6 +111,10 @@ public class PanelRender extends JPanel {
 			doorClosedRight1 = ImageIO.read(PanelRender.class.getResource("/images/ClosedGateRight1.png"));
 			doorOpenLeft1 = ImageIO.read(PanelRender.class.getResource("/images/OpenGateLeft1.png"));
 			doorOpenRight1 = ImageIO.read(PanelRender.class.getResource("/images/OpenGateRight1.png"));			
+			
+			// Load hedge images
+			hedgeLeft1 = ImageIO.read(PanelRender.class.getResource("/images/HedgeLeft1.png"));
+			hedgeRight1 = ImageIO.read(PanelRender.class.getResource("/images/HedgeRight1.png"));
 			
 			// Load chest images
 			chestFrontLeft1 = ImageIO.read(PanelRender.class.getResource("/images/ChestFrontLeft1.png"));
@@ -247,7 +254,7 @@ public class PanelRender extends JPanel {
 				objTypeID.equals(GameUtil.HEDGES+"") ||
 				objTypeID.equals(GameUtil.HEDGEE+"") ||
 				objTypeID.equals(GameUtil.HEDGEW+"")){
-			
+			drawHedge(g, sendY, sendX, y, x);
 		}
 		else if (objTypeID.equals(GameUtil.PLAYABLECHARACTER+"")){
 			drawPlayableChar(g, sendY, sendX, y, x);
@@ -346,6 +353,10 @@ public class PanelRender extends JPanel {
 		int drawDirection = currentRoom.directionTranslator(gUtil.getViewDirection(), character.getFacingDirection());
 		int startX = panelWidth / 4 + 37;
 		int startY = 85 + 305;
+		if (((PlayableCharacter)currentRoom.getBoardGrid()[sendY][sendX].getObjectOnCell()).isDead()){
+			drawObject(g, corpse1, sendY, sendX, y, x, startY+75, startX+35);
+			return;
+		}
 		
 		switch (drawDirection) {
 		case 0:
@@ -366,6 +377,10 @@ public class PanelRender extends JPanel {
 	public void drawMinion(Graphics g, int sendY, int sendX, int y, int x){
 		int startX = panelWidth / 4 + 50;
 		int startY = 60 + 340;
+		if (((Minion)currentRoom.getBoardGrid()[sendY][sendX].getObjectOnCell()).isDead()){
+			drawObject(g, corpse1, sendY, sendX, y, x, startY+25, startX+10);
+			return;
+		}
 		switch (gUtil.getViewDirection()) {
 		case NORTH:
 			drawObject(g, minionFrontLeft1, sendY, sendX, y, x, startY, startX);
@@ -388,6 +403,10 @@ public class PanelRender extends JPanel {
 	public void drawBoss(Graphics g, int sendY, int sendX, int y, int x){
 		int startX = panelWidth / 4 + 25;
 		int startY = 60 + 290;
+		if (((Boss)currentRoom.getBoardGrid()[sendY][sendX].getObjectOnCell()).isDead()){
+			drawObject(g, corpse1, sendY, sendX, y, x, startY+75, startX+35);
+			return;
+		}
 		switch (gUtil.getViewDirection()) {
 		case NORTH:
 			drawObject(g, bossFrontLeft1, sendY, sendX, y, x, startY, startX);
@@ -404,7 +423,11 @@ public class PanelRender extends JPanel {
 		default:
 			System.out.println("There was a drawing error");
 			break;				
-		}
+		}		
+	}
+	
+	public void drawHedge(Graphics g, int sendY, int sendX, int y, int x){
+		// Draw hedges
 	}
 	
 	public void drawDoor(Graphics g, int sendY, int sendX, int y, int x, String objTypeID){
