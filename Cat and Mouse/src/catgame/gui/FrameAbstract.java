@@ -20,5 +20,13 @@ public abstract class FrameAbstract extends JFrame {
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		this.setResizable(false);
 	}
+	
+	protected void setPreferredSize(int x, int y){
+		this.setPreferredSize(new Dimension(x, y));
+	}
+	
+	protected void hideFrame(){
+		this.setVisible(false);
+	}
 
 }
