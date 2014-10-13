@@ -39,7 +39,7 @@ public class LoadNewGame {
 			loaderMain.getBoardData().getObjStorer()
 					.addplayableChs(playerIDList.get(i - 1), character);
 			loaderMain.addPlayerToMap(character);
-			BoardCell cell = room.getBoardGrid()[room.getBoardGrid().length][i];
+			BoardCell cell = room.getBoardGrid()[room.getBoardGrid().length - 1][i];
 			cell.setObjectOnCell(character);
 			room.addToInventory(character);
 			room.addToPlayerLocationMap(playerIDList.get(i - 1), cell);
