@@ -33,7 +33,7 @@ public class FrameHost extends FrameAbstract {
 		super("Catgame Server");
 		try {
 			backGround = ImageIO.read(PanelRender.class
-					.getResource("/images/Tree1.png")); // TODO Cat background
+					.getResource("/images/CatBG.png")); // TODO Cat background
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
