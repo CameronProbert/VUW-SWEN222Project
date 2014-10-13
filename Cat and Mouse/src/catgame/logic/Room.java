@@ -108,6 +108,13 @@ public class Room {
 		return -1;
 	}
 
+	/**
+	 * Removes the player from the current Room and moves the player to the
+	 * exitingSides Room and puts the player in front of the exiting sides door
+	 * 
+	 * @param playerID
+	 * @param door
+	 */
 	private void useDoor(int playerID, Door door) {
 		if (door.getIsLocked()) {
 			System.out.println("Unlocking Door");
@@ -119,14 +126,14 @@ public class Room {
 				return;
 			}
 		}
-		if(door.enterDoor().checkExitDoor()){
-		PlayableCharacter player = (PlayableCharacter) playerLocationMap.get(playerID).getObjectOnCell();
-		BoardCell delete = playerLocationMap.get(playerID);
-		playerLocationMap.remove(playerID);
-		roomInventory.remove(player);
-		delete.removeObjectOnCell();
-		door.enterDoor().exitDoor(player);
-		}else{
+		if (door.enterDoor().checkExitDoor()) {
+			PlayableCharacter player = (PlayableCharacter) playerLocationMap.get(playerID).getObjectOnCell();
+			BoardCell delete = playerLocationMap.get(playerID);
+			playerLocationMap.remove(playerID);
+			roomInventory.remove(player);
+			delete.removeObjectOnCell();
+			door.enterDoor().exitDoor(player);
+		} else {
 			System.out.println("SOMETHING IS INFRONT OF THE DOOR");
 		}
 	}
@@ -156,7 +163,7 @@ public class Room {
 			// Check to see if a npc is there then we can attack it
 			if (roomGrid[actionPosition.getY()][actionPosition.getX()].getObjectOnCell() != null
 					&& roomGrid[actionPosition.getY()][actionPosition.getX()].getObjectOnCell() instanceof NonPlayableCharacter) {
-				
+
 				// if the npc is dead loot the body
 				if (((NonPlayableCharacter) roomGrid[actionPosition.getY()][actionPosition.getX()].getObjectOnCell()).isDead()) {
 					List<GameItem> npcInv = ((NonPlayableCharacter) roomGrid[actionPosition.getY()][actionPosition.getX()].getObjectOnCell()).getInventory();
@@ -167,13 +174,13 @@ public class Room {
 					case -1:
 						return -1;
 					}
-				} else {//attack the npc
+				} else {// attack the npc
 					NonPlayableCharacter npc = (NonPlayableCharacter) roomGrid[actionPosition.getY()][actionPosition.getX()].getObjectOnCell();
 					npc.changeHealth(-player.getAttackPower());
 					player.changeHealth(-npc.getAttackPower());
 					return 1;
 				}
-				//lootChest 
+				// lootChest
 			} else if (roomGrid[actionPosition.getY()][actionPosition.getX()].getObjectOnCell() != null && roomGrid[actionPosition.getY()][actionPosition.getX()].getObjectOnCell() instanceof Chest) {
 				List<GameItem> chestInv = ((Chest) roomGrid[actionPosition.getY()][actionPosition.getX()].getObjectOnCell()).getLoot();
 				switch (player.addAllToInventory(chestInv)) {
@@ -197,15 +204,30 @@ public class Room {
 	private Position findPosition(int playerID, Direction boardOrientation, Direction playerDirection) {
 		int direction = directionTranslator(boardOrientation, playerDirection);
 		Position playerPos = playerLocationMap.get(playerID).getPosition();
-		switch (direction) {
-		case 0:
-			return new Position(playerPos.getX(), playerPos.getY() - 1);
-		case 1:
-			return new Position(playerPos.getX() + 1, playerPos.getY());
-		case 2:
-			return new Position(playerPos.getX(), playerPos.getY() + 1);
-		case 3:
-			return new Position(playerPos.getX() - 1, playerPos.getY());
+		if (boardOrientation == Direction.NORTH || boardOrientation == Direction.SOUTH) {
+			switch (direction) {
+			case 0:
+				return new Position(playerPos.getX(), playerPos.getY() - 1);
+			case 1:
+				return new Position(playerPos.getX() + 1, playerPos.getY());
+			case 2:
+				return new Position(playerPos.getX(), playerPos.getY() + 1);
+			case 3:
+				return new Position(playerPos.getX() - 1, playerPos.getY());
+			}
+		} else {
+			switch (direction) {
+			case 0:
+				System.out.println("MOVE NORTH");
+				return new Position(playerPos.getX(), playerPos.getY() + 1);
+			case 1:
+				return new Position(playerPos.getX() - 1, playerPos.getY());
+			case 2:
+				System.out.println("MOVE SOUTH");
+				return new Position(playerPos.getX(), playerPos.getY() - 1);
+			case 3:
+				return new Position(playerPos.getX() +ww 1, playerPos.getY());
+			}
 		}
 		// should be dead Code just in case its not
 		throw new GameError("Find Position Couldn't find a new Position for :" + direction);

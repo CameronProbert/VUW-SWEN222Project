@@ -122,10 +122,20 @@ public class ObjectBuilder {
 		return new BoardCell(new Position(x, y), newPlayableCharacter, GROUNDTYPEGRASS);
 	}
 
+	/**
+	 * Creates a minion with food in its inv, the minion has an attackPower of 8
+	 * and a health pool of 60
+	 * 
+	 * @param x
+	 * @param y
+	 * @param room
+	 * @param objStore
+	 * @return the boardCell with a minion on it
+	 */
 	public BoardCell addMinionOne(int x, int y, Room room, ObjectStorer objStore) {
 		int newMinionId = genorateObjectId(GameUtil.MINIONONE, genorateRandomObjectType(1), minoinNum++);
 		List<GameItem> newInv = new ArrayList<GameItem>();
-		newInv.add(new Food(GameUtil.FOOD, 10));
+		newInv.add(new Food(GameUtil.FOOD, 15));
 		Minion newMin = new Minion(newMinionId, room, 8, 60, newInv);
 		objStore.addNPC(newMinionId, newMin);
 		room.addToInventory(newMin);
@@ -133,6 +143,16 @@ public class ObjectBuilder {
 
 	}
 
+	/**
+	 * Create a Boss with food and a key in its inventory the boss has an
+	 * attackpower of 10 and a health pool of 180
+	 * 
+	 * @param x
+	 * @param y
+	 * @param loadingRoom
+	 * @param objStore
+	 * @return BoardCell with a boss on it
+	 */
 	public BoardCell addBossOne(int x, int y, Room loadingRoom, ObjectStorer objStore) {
 		int newBossID = genorateObjectId(GameUtil.BOSSONE, 10, bossNum++);
 		List<GameItem> bossInv = new ArrayList<GameItem>();
@@ -143,8 +163,7 @@ public class ObjectBuilder {
 		loadingRoom.addToInventory(newBoss);
 		return new BoardCell(new Position(x, y), newBoss, GROUNDTYPEGRASS);
 	}
-	
-	
+
 	/**
 	 * Concatenates the IDs together and returns them as a integer
 	 * 
@@ -178,6 +197,15 @@ public class ObjectBuilder {
 		return (int) ((Math.random() * numOfType) + 10);
 	}
 
+	/**
+	 * Create a chest with food in it
+	 * 
+	 * @param x
+	 * @param y
+	 * @param loadingRoom
+	 * @param objStore
+	 * @return BoardCell with a chest on it
+	 */
 	public BoardCell addChestOne(int x, int y, Room loadingRoom, ObjectStorer objStore) {
 		int newChestId = genorateObjectId(GameUtil.CHESTONE, genorateRandomObjectType(1), chestNum++);
 		List<GameItem> chestinv = new ArrayList<GameItem>();
@@ -188,6 +216,15 @@ public class ObjectBuilder {
 		return new BoardCell(new Position(x, y), newChest, GROUNDTYPEGRASS);
 	}
 
+	/**
+	 * Create a chest with food and a key inside it
+	 * 
+	 * @param x
+	 * @param y
+	 * @param loadingRoom
+	 * @param objStore
+	 * @return BoardCell with a chest on it
+	 */
 	public BoardCell addChestTwo(int x, int y, Room loadingRoom, ObjectStorer objStore) {
 		int newChestId = genorateObjectId(GameUtil.CHESTONE, genorateRandomObjectType(1), chestNum++);
 		List<GameItem> chestinv = new ArrayList<GameItem>();
@@ -199,6 +236,14 @@ public class ObjectBuilder {
 		return new BoardCell(new Position(x, y), newChest, GROUNDTYPEGRASS);
 	}
 
+	/**
+	 * Create a Northen Door
+	 * 
+	 * @param x
+	 * @param y
+	 * @param loadingRoom
+	 * @return boardCell with a northern Door
+	 */
 	public BoardCell addDoorN(int x, int y, Room loadingRoom) {
 		int newDoorId = genorateObjectId(GameUtil.DOORN, genorateRandomObjectType(1), doorNum++);
 		Door newDoor = new Door(newDoorId, Direction.NORTH, loadingRoom);
@@ -206,6 +251,14 @@ public class ObjectBuilder {
 		return new BoardCell(new Position(x, y), newDoor, GROUNDTYPEGRASS);
 	}
 
+	/**
+	 * Create a Eastern Door
+	 * 
+	 * @param x
+	 * @param y
+	 * @param loadingRoom
+	 * @return boardCell with a Eastern Door
+	 */
 	public BoardCell addDoorE(int x, int y, Room loadingRoom) {
 		int newDoorId = genorateObjectId(GameUtil.DOORE, genorateRandomObjectType(1), doorNum++);
 		Door newDoor = new Door(newDoorId, Direction.EAST, loadingRoom);
@@ -213,13 +266,29 @@ public class ObjectBuilder {
 		return new BoardCell(new Position(x, y), newDoor, GROUNDTYPEGRASS);
 	}
 
+	/**
+	 * Create a Southern Door
+	 * 
+	 * @param x
+	 * @param y
+	 * @param loadingRoom
+	 * @return boardCell with a Southern Door
+	 */
 	public BoardCell addDoorS(int x, int y, Room loadingRoom) {
 		int newDoorId = genorateObjectId(GameUtil.DOORS, genorateRandomObjectType(1), doorNum++);
-		Door newDoor = new Door(newDoorId, Direction.SOUTH , loadingRoom);
+		Door newDoor = new Door(newDoorId, Direction.SOUTH, loadingRoom);
 		loadingRoom.addToInventory(newDoor);
 		return new BoardCell(new Position(x, y), newDoor, GROUNDTYPEGRASS);
 	}
 
+	/**
+	 * Create a Western Door
+	 * 
+	 * @param x
+	 * @param y
+	 * @param loadingRoom
+	 * @return boardCell with a Western Door
+	 */
 	public BoardCell addDoorW(int x, int y, Room loadingRoom) {
 		int newDoorId = genorateObjectId(GameUtil.DOORW, genorateRandomObjectType(1), doorNum++);
 		Door newDoor = new Door(newDoorId, Direction.WEST, loadingRoom);
@@ -227,31 +296,63 @@ public class ObjectBuilder {
 		return new BoardCell(new Position(x, y), newDoor, GROUNDTYPEGRASS);
 	}
 
+	/**
+	 * Create a Northern Hedge
+	 * 
+	 * @param x
+	 * @param y
+	 * @param loadingRoom
+	 * @return boardCell with a Northern Hedge
+	 */
 	public BoardCell addHedgeN(int x, int y, Room loadingRoom) {
 		int newHedgeId = genorateObjectId(GameUtil.HEDGEN, genorateRandomObjectType(1), hedgeNum++);
 		Hedge newHedge = new Hedge(newHedgeId, Direction.NORTH);
 		loadingRoom.addToInventory(newHedge);
 		return new BoardCell(new Position(x, y), newHedge, GROUNDTYPEGRASS);
 	}
+
+	/**
+	 * Create a Eastern Hedge
+	 * 
+	 * @param x
+	 * @param y
+	 * @param loadingRoom
+	 * @return boardCell with a Eastern Hedge
+	 */
 	public BoardCell addHedgeE(int x, int y, Room loadingRoom) {
 		int newHedgeId = genorateObjectId(GameUtil.HEDGEN, genorateRandomObjectType(1), hedgeNum++);
 		Hedge newHedge = new Hedge(newHedgeId, Direction.EAST);
 		loadingRoom.addToInventory(newHedge);
 		return new BoardCell(new Position(x, y), newHedge, GROUNDTYPEGRASS);
 	}
+
+	/**
+	 * Create a southern Hedge
+	 * 
+	 * @param x
+	 * @param y
+	 * @param loadingRoom
+	 * @return boardCell with a southern Hedge
+	 */
 	public BoardCell addHedgeS(int x, int y, Room loadingRoom) {
 		int newHedgeId = genorateObjectId(GameUtil.HEDGEN, genorateRandomObjectType(1), hedgeNum++);
 		Hedge newHedge = new Hedge(newHedgeId, Direction.SOUTH);
 		loadingRoom.addToInventory(newHedge);
 		return new BoardCell(new Position(x, y), newHedge, GROUNDTYPEGRASS);
 	}
+
+	/**
+	 * Create a Western Hedge
+	 * 
+	 * @param x
+	 * @param y
+	 * @param loadingRoom
+	 * @return boardCell with a Western Hedge
+	 */
 	public BoardCell addHedgeW(int x, int y, Room loadingRoom) {
 		int newHedgeId = genorateObjectId(GameUtil.HEDGEN, genorateRandomObjectType(1), hedgeNum++);
 		Hedge newHedge = new Hedge(newHedgeId, Direction.WEST);
 		loadingRoom.addToInventory(newHedge);
 		return new BoardCell(new Position(x, y), newHedge, GROUNDTYPEGRASS);
 	}
-
-	
-	
 }
