@@ -82,6 +82,9 @@ public class FrameHost extends FrameAbstract {
 		loadServerButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				String fileName = getFileName();
+				if (fileName == null){
+					System.exit(0);
+				}
 				ServerOldGame host = new ServerOldGame();
 				host.setServer(fileName);
 				hideButtons();
@@ -99,7 +102,7 @@ public class FrameHost extends FrameAbstract {
 	}
 
 	protected String getFileName() {
-		return HelperMethods.openFile(".catgame (Saved game)", this, "catgame");
+		return HelperMethods.chooseCatgameFile(this);
 	}
 
 	public static void main(String[] args) {
