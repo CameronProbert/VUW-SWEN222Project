@@ -28,7 +28,8 @@ public class PanelInventory extends PanelAbstract {
 	private ArrayList<PanelItem> panels = new ArrayList<PanelItem>();
 	private Dimension invSize;
 	private BufferedImage backGround;
-	private FrameClient frame;
+
+	// private FrameClient frame;
 
 	/**
 	 * Needs to get linked to the player's inventory so it can draw it.
@@ -36,14 +37,17 @@ public class PanelInventory extends PanelAbstract {
 	 * @param windowSize
 	 * @param windowSize
 	 */
-	public PanelInventory(PlayableCharacter character, Dimension invSize, FrameClient frame) {
+	public PanelInventory(PlayableCharacter character, Dimension invSize,
+			FrameClient frame) {
 		super();
 		this.invSize = invSize;
-		this.frame = frame;
+		// this.frame = frame;
 		this.character = character;
 		try {
 			backGround = ImageIO.read(PanelRender.class
-					.getResource("/images/InventoryPanel.png")); //TODO Inventory BG
+					.getResource("/images/InventoryPanel.png")); // TODO
+																	// Inventory
+																	// BG
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -64,18 +68,22 @@ public class PanelInventory extends PanelAbstract {
 			int rowNum = i / NUMCOLUMNS;
 			int x = columnNum * itemWidth;
 			int y = rowNum * itemHeight;
-			PanelItem panel = new PanelItem(new Point(x, y), panelSize, frame);
+			PanelItem panel = new PanelItem(new Point(x, y), panelSize, this);
 			panels.add(panel);
 			this.add(panel);
 		}
-		setInvItems();
+		resetInvItems();
 	}
 
-	public void setInvItems() {
+	public void resetInvItems() {
 		List<GameItem> items = character.getInventory();
 		if (items != null) {
-			for (int i = 0; i < items.size() && i < TOTALSLOTS; i++) {
-				panels.get(i).setItem(items.get(i));
+			for (int i = 0; i < TOTALSLOTS; i++) {
+				if (i < items.size()) {
+					panels.get(i).setItem(items.get(i));
+				} else {
+					panels.get(i).setItem(null);
+				}
 			}
 		}
 	}
@@ -84,8 +92,14 @@ public class PanelInventory extends PanelAbstract {
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		if (backGround != null) {
-			g.drawImage(backGround, 0, 0, this.getWidth(), this.getHeight(), null);
+			g.drawImage(backGround, 2, 1, this.getWidth(), this.getHeight(),
+					null);
 		}
 	}
 
+	public void itemUsed(GameItem item) {
+		character.removeFromInventory(item);
+		resetInvItems();
+		repaint();
+	}
 }
