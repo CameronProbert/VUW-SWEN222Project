@@ -17,13 +17,13 @@ public class LoadingGameMain {
 	private boolean isLoadOldGame;
 	private LoadMasterObjects masterObjectLoader;
 	private LoadingHelper helper;
-	private BoardData boardData;
+	private BoardData boardData = new BoardData();
 	private File xmlFile;
 
 	public LoadingGameMain(boolean isLoadOldGame, File xmlFile)
 			throws JDOMException, XMLException {
 		// make obj loader
-		this.masterObjectLoader = new LoadMasterObjects(this);
+		this.masterObjectLoader = new LoadMasterObjects(this, boardData);
 		// make loader helper
 		this.helper = new LoadingHelper(this);
 		this.isLoadOldGame = isLoadOldGame;
@@ -58,19 +58,19 @@ public class LoadingGameMain {
 	}
 
 	private BoardData loadBoardData(Element root) throws XMLException {
-		Element boardData = root.getChildren().get(0);
-		if (boardData == null || !boardData.getName().equals("BoardData")) {
+		Element boardDataElement = root.getChildren().get(0);
+		if (boardDataElement == null
+				|| !boardDataElement.getName().equals("BoardData")) {
 			throw new XMLException("XML file is empty at boardData");
 		}
 		// create rooms
 		List<Room> allRooms = new ArrayList<Room>();
-		for (Element roomElement : boardData.getChildren()) {
+		for (Element roomElement : boardDataElement.getChildren()) {
 			allRooms.add(loadRooms(roomElement));
 		}
-		// create BoardData class
-		BoardData board = new BoardData();
-		board.populateRooms(allRooms);
-		return board;
+		// update BoardData class
+		boardData.populateRooms(allRooms);
+		return boardData;
 	}
 
 	private Room loadRooms(Element roomElement) throws XMLException {
@@ -84,7 +84,7 @@ public class LoadingGameMain {
 		return room;
 	}
 
-	private GameObject createRoomInventory(Element childrenElement, Room room)
+	private void createRoomInventory(Element childrenElement, Room room)
 			throws XMLException {
 		List<Element> gameObjList = childrenElement.getChildren();
 		for (Element objElement : gameObjList) {
@@ -119,7 +119,6 @@ public class LoadingGameMain {
 			}
 
 		}
-		return null;
 	}
 
 	private BoardCell[][] loadRoomGrid(Element childrenElement)
@@ -196,10 +195,10 @@ public class LoadingGameMain {
 	}
 
 	public static void main(String[] args) throws JDOMException, XMLException {
-//		List<Integer> temp = new ArrayList<Integer>();
-//		temp.add(23);
-//		temp.add(2345);
-//		new LoadingGameMain();
+		// List<Integer> temp = new ArrayList<Integer>();
+		// temp.add(23);
+		// temp.add(2345);
+		// new LoadingGameMain();
 
 	}
 

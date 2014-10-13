@@ -30,19 +30,19 @@ public class LoadNewGame {
 	}
 
 	public void loadCharacters() throws XMLException {
+		Room room = loaderMain.getRoomIDMap().get(0);
 		for (int i = 1; i < playerIDList.size(); i++) {
-			Room room = loaderMain.getRoomIDMap().get(0);
 			List<GameItem> newInv = new ArrayList<GameItem>();
 			newInv.add(new Food(808080, 20));
-			PlayableCharacter character = new PlayableCharacter(playerIDList.get(i+1),
-					Direction.NORTH, 20, 100, newInv);
+			PlayableCharacter character = new PlayableCharacter(
+					playerIDList.get(i - 1), Direction.NORTH, 20, 100, newInv);
 			loaderMain.getBoardData().getObjStorer()
-					.addplayableChs(playerIDList.get(i+1), character);
+					.addplayableChs(playerIDList.get(i - 1), character);
 			loaderMain.addPlayerToMap(character);
 			BoardCell cell = room.getBoardGrid()[room.getBoardGrid().length][i];
 			cell.setObjectOnCell(character);
 			room.addToInventory(character);
-			room.addToPlayerLocationMap(playerIDList.get(i+1), cell);
+			room.addToPlayerLocationMap(playerIDList.get(i - 1), cell);
 		}
 	}
 
@@ -52,5 +52,12 @@ public class LoadNewGame {
 
 	public BoardData getBoardData() {
 		return boardData;
+	}
+
+	public static void main(String[] args) throws JDOMException, XMLException {
+		List<Integer> temp = new ArrayList<Integer>();
+		temp.add(23);
+		temp.add(2345);
+		new LoadNewGame(temp);
 	}
 }
