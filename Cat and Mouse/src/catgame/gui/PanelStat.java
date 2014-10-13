@@ -71,8 +71,6 @@ public class PanelStat extends PanelAbstract {
 		if (backGround != null) {
 			g.drawImage(backGround, 0, 0, this.getWidth(), this.getHeight(), null);
 		}
-		g.setColor(Color.red);
-		g.drawRect(0, 0, getWidth()-1, getHeight()-1);
 		drawHPBar(g);
 	}
 	
