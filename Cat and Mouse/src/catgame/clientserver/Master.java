@@ -48,7 +48,7 @@ public final class Master extends Thread {
 
 	public Master(Socket socket, int broadcastClock, NetworkHandler game) {
 		this.game = game;	
-		this.broadcastClock = broadcastClock + 1000;
+		this.broadcastClock = 20;
 		this.socket = socket;
 	}
 
@@ -67,7 +67,7 @@ public final class Master extends Thread {
 					if(timer==TIMESUP){
 						timer=0;
 						output.writeDouble(MASSUPDATE);
-						broadcastGameState(output);
+						//broadcastGameState(output);
 					}
 					else{
 

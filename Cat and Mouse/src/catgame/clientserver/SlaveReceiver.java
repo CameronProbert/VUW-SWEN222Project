@@ -97,7 +97,7 @@ public class SlaveReceiver {
 				while(locked){
 					workOutUpdate(input);
 					try {
-						Thread.sleep(2000);
+						Thread.sleep(20);
 					} catch (InterruptedException e) {
 						e.printStackTrace();
 					}
@@ -124,7 +124,7 @@ public class SlaveReceiver {
 			}
 			else if (todo==MASSUPDATE){
 				System.out.println("received 35");
-				recieveMassUpdate(input);
+				//recieveMassUpdate(input);
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
