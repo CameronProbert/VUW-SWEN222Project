@@ -203,7 +203,7 @@ public class GameUtil {
 	}
 	
 	/**
-	 * Return the chest object that the player is standing infront of, return
+	 * Return the chest object that the player is standing in front of, return
 	 * null if none
 	 * 
 	 * @param clientsUID
