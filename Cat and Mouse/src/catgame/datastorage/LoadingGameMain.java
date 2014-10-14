@@ -94,6 +94,7 @@ public class LoadingGameMain {
 		return room;
 	}
 
+	// 192.168.20.107
 	private void linkAllDoors(Element element) throws XMLException {
 		// <DoorLinks>(431010,null) (431011,null) (421013,null)
 		// (411012,null)</DoorLinks>

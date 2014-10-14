@@ -48,7 +48,7 @@ public final class Master extends Thread {
 
 	public Master(Socket socket, int broadcastClock, NetworkHandler game) {
 		this.game = game;	
-		this.broadcastClock = 20;
+		this.broadcastClock = 1000;
 		this.socket = socket;
 	}
 
