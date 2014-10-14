@@ -209,9 +209,8 @@ public class GameUtil {
 	 * @param clientsUID
 	 * @return
 	 */
-	public Chest getChest(int clientsUID) {
-		// TODO if ID not found throw IDNotFoundError
-		// TODO Auto-generated method stub
+	public Chest getChest() {
+		// TODO Find the chest in front of yourself
 		return null;
 	}
 
