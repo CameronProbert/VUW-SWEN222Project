@@ -69,17 +69,18 @@ public class SlaveReceiver {
 				String FILE_TO_RECEIVED = "Load_From.xml";
 				File file = new File(FILE_TO_RECEIVED);
 
-				int FILE_SIZE = input.readInt() + 100;
+				int FILE_SIZE = input.readInt();
 				if(FILE_SIZE!=0){
 					// receive file
 					System.out.println("received file size : " + FILE_SIZE);
-					byte [] mybytearray  = new byte [FILE_SIZE];
-					FileOutputStream fos = new FileOutputStream(file);
-					BufferedOutputStream bos = new BufferedOutputStream(fos);
-					int bytesRead = input.read(mybytearray, 0, mybytearray.length);
-				    bos.write(mybytearray, 0, bytesRead);
-				    bos.close();
-				    System.out.println("finished reading");
+					byte[] data = new byte[FILE_SIZE];
+					input.readFully(data);	
+	
+					 //convert array of bytes into file
+				    FileOutputStream fileOuputStream = 
+			                  new FileOutputStream(FILE_TO_RECEIVED); 
+				    fileOuputStream.write(data);
+				    fileOuputStream.close();
 					try {
 						LoadOldGame loadXML = new LoadOldGame(file);
 						net.setBoardData(loadXML.getBoardData());
@@ -97,7 +98,7 @@ public class SlaveReceiver {
 				while(locked){
 					workOutUpdate(input);
 					try {
-						Thread.sleep(20);
+						Thread.sleep(1000);
 					} catch (InterruptedException e) {
 						e.printStackTrace();
 					}
