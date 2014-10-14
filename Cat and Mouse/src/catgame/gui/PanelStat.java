@@ -56,16 +56,12 @@ public class PanelStat extends PanelAbstract {
 	/**
 	 * For testing purposes
 	 */
-	public void modifyChar() {
-		if (character.getHealth() < 20) {
-			character.changeHealth((int) (Math.random() * 20));
-		} else if (character.getHealth() > 80) {
-			character.changeHealth((int) (Math.random() * -20));
+	public void increaseHP() {
+		if (character.getHealth()<91){
+			character.changeHealth(10);
 		} else {
-			character.changeHealth((int) (Math.random() * 40) - 20);
+			character.changeHealth(100-character.getHealth());
 		}
-		
-		//character.addXp((int) (Math.random()*29)+1);
 		repaint();
 	}
 	
