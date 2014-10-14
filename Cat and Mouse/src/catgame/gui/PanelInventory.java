@@ -28,11 +28,11 @@ public class PanelInventory extends PanelAbstract {
 	private ArrayList<PanelItem> panels = new ArrayList<PanelItem>();
 	private Dimension invSize;
 	private BufferedImage backGround;
-
-	// private FrameClient frame;
+	private FrameClient frame;
 
 	/**
-	 * Needs to get linked to the player's inventory so it can draw it.
+	 * Creates a new Inventory panel. This holds 6 item panels which each
+	 * display an item in the inventory
 	 * 
 	 * @param windowSize
 	 * @param windowSize
@@ -41,13 +41,11 @@ public class PanelInventory extends PanelAbstract {
 			FrameClient frame) {
 		super();
 		this.invSize = invSize;
-		// this.frame = frame;
+		this.frame = frame;
 		this.character = character;
 		try {
 			backGround = ImageIO.read(PanelRender.class
-					.getResource("/images/InventoryPanel.png")); // TODO
-																	// Inventory
-																	// BG
+					.getResource("/images/InventoryPanel.png"));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -98,13 +96,13 @@ public class PanelInventory extends PanelAbstract {
 	}
 
 	public void itemUsed(GameItem item) {
-		character.removeFromInventory(item);
+		frame.itemUsed(item);
 		resetInvItems();
 		repaint();
 	}
 
 	public void setPanelsState(String state) {
-		for(PanelItem p: panels){
+		for (PanelItem p : panels) {
 			p.setState(state);
 		}
 	}

@@ -27,6 +27,8 @@ public class ObjectBuilder {
 	private int bushNum = 10;
 	private int rockNum = 10;
 	private int hedgeNum = 10;
+	private int food = 10;
+	private int key = 10;
 
 	public ObjectBuilder() {
 
@@ -114,9 +116,10 @@ public class ObjectBuilder {
 		// Create starting items
 		List<GameItem> newInv = new ArrayList<GameItem>();
 		// 80 is food
-		newInv.add(new Food(808080, 20));
+		newInv.add(new Food(genorateObjectId(GameUtil.FOOD, 10, food++), 20));
 		// Create new Player
 		PlayableCharacter newPlayableCharacter = new PlayableCharacter(newPlayerId, Direction.NORTH, 20, 100, newInv);
+		objStore.addItems(newInv.get(0).getObjectID(), newInv.get(0));
 		objStore.addplayableChs(newPlayerId, newPlayableCharacter);
 		room.addToInventory(newPlayableCharacter);
 		return new BoardCell(new Position(x, y), newPlayableCharacter, GROUNDTYPEGRASS);
@@ -135,8 +138,9 @@ public class ObjectBuilder {
 	public BoardCell addMinionOne(int x, int y, Room room, ObjectStorer objStore) {
 		int newMinionId = genorateObjectId(GameUtil.MINIONONE, genorateRandomObjectType(1), minoinNum++);
 		List<GameItem> newInv = new ArrayList<GameItem>();
-		newInv.add(new Food(GameUtil.FOOD, 15));
+		newInv.add(new Food(genorateObjectId(GameUtil.FOOD, 10, food++), 20));
 		Minion newMin = new Minion(newMinionId, room, 8, 60, newInv);
+		objStore.addItems(newInv.get(0).getObjectID(), newInv.get(0));
 		objStore.addNPC(newMinionId, newMin);
 		room.addToInventory(newMin);
 		return new BoardCell(new Position(x, y), newMin, GROUNDTYPEGRASS);
@@ -156,9 +160,11 @@ public class ObjectBuilder {
 	public BoardCell addBossOne(int x, int y, Room loadingRoom, ObjectStorer objStore) {
 		int newBossID = genorateObjectId(GameUtil.BOSSONE, 10, bossNum++);
 		List<GameItem> bossInv = new ArrayList<GameItem>();
-		bossInv.add(new Food(GameUtil.FOOD, 40));
-		bossInv.add(new Key(GameUtil.KEY));
+		bossInv.add(new Food(genorateObjectId(GameUtil.FOOD, 10, food++), 40));
+		bossInv.add(new Key(genorateObjectId(GameUtil.KEY, 10, key++)));
 		Boss newBoss = new Boss(newBossID, 10, 180, bossInv);
+		objStore.addItems(bossInv.get(0).getObjectID(), bossInv.get(0));
+		objStore.addItems(bossInv.get(1).getObjectID(), bossInv.get(1));
 		objStore.addNPC(newBossID, newBoss);
 		loadingRoom.addToInventory(newBoss);
 		return new BoardCell(new Position(x, y), newBoss, GROUNDTYPEGRASS);
@@ -209,8 +215,9 @@ public class ObjectBuilder {
 	public BoardCell addChestOne(int x, int y, Room loadingRoom, ObjectStorer objStore) {
 		int newChestId = genorateObjectId(GameUtil.CHESTONE, genorateRandomObjectType(1), chestNum++);
 		List<GameItem> chestinv = new ArrayList<GameItem>();
-		chestinv.add(new Food(80, 20));
+		chestinv.add(new Food(genorateObjectId(GameUtil.FOOD, 10, food++), 20));
 		Chest newChest = new Chest(newChestId, chestinv);
+		objStore.addItems(chestinv.get(0).getObjectID(), chestinv.get(0));
 		objStore.addChest(newChestId, newChest);
 		loadingRoom.addToInventory(newChest);
 		return new BoardCell(new Position(x, y), newChest, GROUNDTYPEGRASS);
@@ -228,9 +235,11 @@ public class ObjectBuilder {
 	public BoardCell addChestTwo(int x, int y, Room loadingRoom, ObjectStorer objStore) {
 		int newChestId = genorateObjectId(GameUtil.CHESTONE, genorateRandomObjectType(1), chestNum++);
 		List<GameItem> chestinv = new ArrayList<GameItem>();
-		chestinv.add(new Food(GameUtil.FOOD, 20));
-		chestinv.add(new Key(GameUtil.KEY));
+		chestinv.add(new Food(genorateObjectId(GameUtil.FOOD, 10, food++), 20));
+		chestinv.add(new Key(genorateObjectId(GameUtil.KEY, 10, key++)));
 		Chest newChest = new Chest(newChestId, chestinv);
+		objStore.addItems(chestinv.get(0).getObjectID(),chestinv.get(0));
+		objStore.addItems(chestinv.get(1).getObjectID(),chestinv.get(1));
 		objStore.addChest(newChestId, newChest);
 		loadingRoom.addToInventory(newChest);
 		return new BoardCell(new Position(x, y), newChest, GROUNDTYPEGRASS);

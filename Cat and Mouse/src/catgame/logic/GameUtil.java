@@ -151,8 +151,6 @@ public class GameUtil {
 		return null;
 	}
 
-	// TODO CHECK WHICH ONE IS NEEDED
-	// //////////////////////////////////////////////////////////////////////////////////////
 	/**
 	 * Call to the logic to attack in the facing direction of a character
 	 * 
@@ -166,23 +164,17 @@ public class GameUtil {
 		}
 		return -1;
 	}
-
 	/**
-	 * Call to the logic to attack in the facing direction of a character
-	 * 
+	 * Call to the logic loot in the facing direction of a character
 	 * @param playerID
-	 * @return whether could attack or not, -1 for not an attack and if it could
-	 *         attack return the id of what was attacked
+	 * @return
 	 */
-	public int attack(int playerID, int attackedID) {
-		// TODO if either ID not found throw IDNotFoundError
-		// TODO attack the target
-		return attackedID; // should return the attackerID (though it is
-							// obsolete for this method, so it is acceptable
-							// to return -1)
+	public int playerloot(int playerID){
+		if (findPlayersRoom(playerID) != null) {
+			return findPlayersRoom(playerID).PlayerLoot(playerID, this.viewDirection);
+		}
+		return -1;
 	}
-
-	// //////////////////////////////////////////////////////////////////////////////////////
 
 	/**
 	 * Add an Gameobject to a players inventory using an objects Id.
@@ -191,22 +183,12 @@ public class GameUtil {
 	 * @param ObjectID
 	 * @return
 	 */
-	public boolean addObjectToInventory(int playerID, int ObjectID) {
-		// TODO if either ID not found throw IDNotFoundError
-		return false; // TODO gameMap.get(playerID).addToInventory(GameITem);
-	}
-
-	/**
-	 * Remove an GameObject from an players inventory using the objects id
-	 * 
-	 * @param playerID
-	 * @param ObjectID
-	 * @return
-	 */
-	public boolean removeItem(int playerID, int ObjectID) {
-		// TODO if either ID not found throw IDNotFoundError
-		return false; // TODO
-						// gameMap.get(playerID).removeFromInventory(GameITem);
+	public boolean addObjectToInventory(int playerID, int objectID) {
+		if(findPlayersRoom(playerID).getPlayerInRoom(playerID).canAddItem()){
+			
+		return findPlayersRoom(playerID).getPlayerInRoom(playerID).addToInventory(storer.findItem(objectID));
+		}
+		return false;
 	}
 
 	/**
@@ -217,32 +199,21 @@ public class GameUtil {
 	 * @return
 	 */
 	public int useItem(int playerID, int objectID) {
-		// TODO if either ID not found throw IDNotFoundError
-		return -1; // TODO gameMap.get(playerID).useItem(GameITem)
+		return findPlayersRoom(playerID).getPlayerInRoom(playerID).eat(objectID);
 	}
-
+	
 	/**
-	 * Call to the logic to move the player to the other side of a door
-	 * 
-	 * @param playerID
-	 * @param roomID
-	 * @return
-	 */
-	public boolean moveToNextRoom(int playerID, int roomID) {
-		// TODO if either ID not found throw IDNotFoundError
-		return false;
-	}
-
-	/**
-	 * Return the chest object that the player is standing infront of, return
+	 * Return the chest object that the player is standing in front of, return
 	 * null if none
 	 * 
 	 * @param clientsUID
 	 * @return
 	 */
-	public Chest getChest(int clientsUID) {
-		// TODO if ID not found throw IDNotFoundError
-		// TODO Auto-generated method stub
+	public GameObject getObjectAhead(int playerID){
+		// TODO Find the chest in front of yourself
+		if (findPlayersRoom(playerID) != null) {
+			return findPlayersRoom(playerID).getObjectAheadOfCharactor(playerID, this.viewDirection);
+		}
 		return null;
 	}
 
