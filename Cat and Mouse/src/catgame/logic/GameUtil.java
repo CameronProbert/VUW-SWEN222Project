@@ -166,6 +166,13 @@ public class GameUtil {
 		}
 		return -1;
 	}
+	
+	public int playerloot(int playerID){
+		if (findPlayersRoom(playerID) != null) {
+			return findPlayersRoom(playerID).PlayerLoot(playerID, this.viewDirection);
+		}
+		return -1;
+	}
 
 	/**
 	 * Call to the logic to attack in the facing direction of a character

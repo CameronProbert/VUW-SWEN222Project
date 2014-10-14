@@ -185,13 +185,17 @@ public class PlayableCharacter implements Character {
 			}
 		}
 		if (toEat != null) {
-			changeHealth(toEat.getHeal());
-			return 1;
+			if (health + toEat.getHeal() < 100) {
+				changeHealth(toEat.getHeal());
+				return 1;
+			} else {
+				health = 100;
+			}
 		}
 		return -1;
 	}
-	
-	public boolean canAddItem(){
+
+	public boolean canAddItem() {
 		return (inventory.size() <= 5);
 	}
 }
