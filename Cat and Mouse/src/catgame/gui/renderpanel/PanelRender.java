@@ -91,6 +91,7 @@ public class PanelRender extends JPanel {
 				if (currentRoom.getBoardGrid()[y][x].getObjectOnCell() instanceof PlayableCharacter){
 					PlayableCharacter currentChar = (PlayableCharacter) currentRoom.getBoardGrid()[y][x].getObjectOnCell();
 					if ((currentChar.getObjectID()+"").equals(playableCharID)){
+						System.out.println("X: " + x + " Y: " + y);
 						groundOffsetX = ((blockWidth / 2) * x) - ((blockWidth / 2) * y);
 						groundOffsetY = ((blockHeight / 2) * y) + ((blockHeight / 2) * x);
 //						objOffsetX = groundOffsetX - 175;
@@ -178,7 +179,7 @@ public class PanelRender extends JPanel {
 					sendY = currentRoom.getBoardGrid()[0].length - x - 1;
 					determineAndDrawGround(g, sendY, sendX, y, x);
 					determineAndDrawObject(g, sendY, sendX, y, x);
-				} else if (gUtil.getViewDirection() == Direction.WEST) {
+				} else if (gUtil.getViewDirection() == Direction.EAST) {
 					sendX = x;
 					sendY = y;
 					determineAndDrawGround(g, sendY, sendX, y, x);
@@ -188,7 +189,7 @@ public class PanelRender extends JPanel {
 					sendY = x;
 					determineAndDrawGround(g, sendY, sendX, y, x);
 					determineAndDrawObject(g, sendY, sendX, y, x);
-				} else if (gUtil.getViewDirection() == Direction.EAST) {
+				} else if (gUtil.getViewDirection() == Direction.WEST) {
 					sendX = currentRoom.getBoardGrid()[0].length - x - 1;
 					sendY = currentRoom.getBoardGrid().length - y - 1;
 					determineAndDrawGround(g, sendY, sendX, y, x);
@@ -213,8 +214,8 @@ public class PanelRender extends JPanel {
 //		int startY = 20 + 400;
 		int startX = (panelWidth / 3) - groundOffsetX;
 		int startY = (panelHeight / 2) - groundOffsetY;
-		System.out.println("GroundType");
-		System.out.println(currentRoom.getBoardGrid()[sendY][sendX].getGroundType());
+//		System.out.println("GroundType");
+//		System.out.println(currentRoom.getBoardGrid()[sendY][sendX].getGroundType());
 		if (currentRoom.getBoardGrid()[sendY][sendX].getGroundType() == "Grass") {
 			drawGround(g, grassBlock, sendY, sendX, y, x, startY, startX);
 		}
@@ -239,10 +240,10 @@ public class PanelRender extends JPanel {
 				.getObjectOnCell().getObjectID()+"";
 		String objTypeID = objFullID.substring(0, 2);
 		String objImageID = objFullID.substring(2, 4);
-		System.out.println("FullID: " + objFullID);
-		System.out.println("TypeID: " + objTypeID);
-		System.out.println("ImageID: " + objImageID);
-		System.out.println("---------------------");
+//		System.out.println("FullID: " + objFullID);
+//		System.out.println("TypeID: " + objTypeID);
+//		System.out.println("ImageID: " + objImageID);
+//		System.out.println("---------------------");
 		
 		int startX, startY;
 		if (objTypeID.equals(GameUtil.BUSH+"")){
@@ -331,7 +332,49 @@ public class PanelRender extends JPanel {
 		drawGroundAndObjects(g);
 	}
 	
-	
+	public Direction directionTranslator(Direction viewDirection, Direction charDirection){
+		switch (viewDirection){
+		case NORTH:
+			switch (charDirection){
+			case NORTH: return Direction.NORTH;
+			case EAST: return Direction.EAST;
+			case SOUTH: return Direction.SOUTH;
+			case WEST: return Direction.WEST;
+			default: System.out.println("Error");
+			break;
+			}
+		case EAST:
+			switch (charDirection){
+			case EAST: return Direction.NORTH;
+			case SOUTH: return Direction.EAST;
+			case WEST: return Direction.SOUTH;
+			case NORTH: return Direction.WEST;
+			default: System.out.println("Error");
+			break;
+			}
+		case SOUTH:
+			switch (charDirection){	
+			case SOUTH: return Direction.NORTH;
+			case WEST: return Direction.EAST;
+			case NORTH: return Direction.SOUTH;
+			case EAST: return Direction.WEST;
+			default: System.out.println("Error");
+			break;
+			}
+		case WEST:
+			switch (charDirection){	
+			case WEST: return Direction.NORTH;
+			case NORTH: return Direction.EAST;
+			case EAST: return Direction.SOUTH;
+			case SOUTH: return Direction.WEST;
+			default: System.out.println("Error");
+			break;
+			}
+		default: System.out.println("Error");
+		break;
+		}
+		return null;
+	}
 	
 	
 	
@@ -361,13 +404,13 @@ public class PanelRender extends JPanel {
 		case NORTH:
 			drawObject(g, chestFrontLeft1, sendY, sendX, y, x, startY, startX);
 			break;
-		case EAST:
+		case WEST:
 			drawObject(g, chestFrontRight1, sendY, sendX, y, x, startY, startX);
 			break;
 		case SOUTH:
 			drawObject(g, chestBackLeft1, sendY, sendX, y, x, startY, startX);
 			break;
-		case WEST:
+		case EAST:
 			drawObject(g, chestBackRight1, sendY, sendX, y, x, startY, startX);
 			break;
 		default:
@@ -379,72 +422,73 @@ public class PanelRender extends JPanel {
 	public void drawPlayableChar(Graphics g, int sendY, int sendX, int y, int x){
 		PlayableCharacter character = (PlayableCharacter) currentRoom.getBoardGrid()[sendY][sendX]
 				.getObjectOnCell();
-		int drawDirection = currentRoom.directionTranslator(gUtil.getViewDirection(), character.getFacingDirection());
+//		int drawDirection = currentRoom.directionTranslator(gUtil.getViewDirection(), character.getFacingDirection());
+		Direction drawDirection = directionTranslator(gUtil.getViewDirection(), character.getFacingDirection());
 		
 		if ((character.getObjectID()+"").equals(playableCharID)){
 			
 			switch (gUtil.getViewDirection()) {
 			case NORTH:
 				switch (drawDirection) {
-				case 0:
+				case NORTH:
 					g.drawImage(catBackRight1, panelWidth/2 + 100, panelHeight/2 - 200, null);
 					break;
-				case 1:
+				case EAST:
 					g.drawImage(catFrontRight1, panelWidth/2 + 100, panelHeight/2 - 200, null);
 					break;
-				case 2:
+				case SOUTH:
 					g.drawImage(catFrontLeft1, panelWidth/2 + 100, panelHeight/2 - 200, null);
 					break;
-				case 3:
+				case WEST:
 					g.drawImage(catBackLeft1, panelWidth/2 + 100, panelHeight/2 - 200, null);
 					break;				
 				}
 				break;
 			case EAST:
 				switch (drawDirection) {
-				case 0:
-					g.drawImage(catBackRight1, panelWidth/2+ 170, panelHeight/2 - 240, null);
+				case NORTH:
+					g.drawImage(catFrontRight1, panelWidth/2 + 170, panelHeight/2 - 170, null);
 					break;
-				case 1:
-					g.drawImage(catFrontRight1, panelWidth/2+ 170, panelHeight/2 - 240, null);
+				case EAST:
+					g.drawImage(catFrontLeft1, panelWidth/2 + 170, panelHeight/2 - 170, null);
 					break;
-				case 2:
-					g.drawImage(catFrontLeft1, panelWidth/2+ 170, panelHeight/2 - 240, null);
+				case SOUTH:
+					g.drawImage(catBackLeft1, panelWidth/2 + 170, panelHeight/2 - 170, null);
 					break;
-				case 3:
-					g.drawImage(catBackLeft1, panelWidth/2+ 170, panelHeight/2 - 240, null);
+				case WEST:
+					g.drawImage(catBackRight1, panelWidth/2 + 170, panelHeight/2 - 170, null);
 					break;				
 				}
 				break;
 			case SOUTH:
 				switch (drawDirection) {
-				case 0:
-					g.drawImage(catBackRight1, panelWidth/2 + 230, panelHeight/2 - 200, null);
-					break;
-				case 1:
-					g.drawImage(catFrontRight1, panelWidth/2 + 230, panelHeight/2 - 200, null);
-					break;
-				case 2:
+				case NORTH:
 					g.drawImage(catFrontLeft1, panelWidth/2 + 230, panelHeight/2 - 200, null);
 					break;
-				case 3:
+				case EAST:
 					g.drawImage(catBackLeft1, panelWidth/2 + 230, panelHeight/2 - 200, null);
-					break;				
+					break;
+				case SOUTH:
+					g.drawImage(catBackRight1, panelWidth/2 + 230, panelHeight/2 - 200, null);
+					break;
+				case WEST:
+					g.drawImage(catFrontRight1, panelWidth/2 + 230, panelHeight/2 - 200, null);
+					break;
 				}
 				break;
 			case WEST:
 				switch (drawDirection) {
-				case 0:
-					g.drawImage(catBackRight1, panelWidth/2 + 180, panelHeight/2 - 165, null);
+				case NORTH:
+					g.drawImage(catBackLeft1, panelWidth/2 + 180, panelHeight/2 - 235, null);
 					break;
-				case 1:
-					g.drawImage(catFrontRight1, panelWidth/2 + 180, panelHeight/2 - 165, null);
+				case EAST:
+					g.drawImage(catBackRight1, panelWidth/2 + 180, panelHeight/2 - 235, null);
 					break;
-				case 2:
-					g.drawImage(catFrontLeft1, panelWidth/2 + 180, panelHeight/2 - 165, null);
+				case SOUTH:
+					g.drawImage(catFrontRight1, panelWidth/2 + 180, panelHeight/2 - 235, null);
 					break;
-				case 3:
-					g.drawImage(catBackLeft1, panelWidth/2 + 180, panelHeight/2 - 165, null);
+				case WEST:
+					g.drawImage(catFrontLeft1, panelWidth/2 + 180, panelHeight/2 - 235, null);
 					break;				
 				}
 				break;
@@ -462,16 +506,16 @@ public class PanelRender extends JPanel {
 			}
 			
 			switch (drawDirection) {
-			case 0:
+			case NORTH:
 				drawObject(g, catBackRight1, sendY, sendX, y, x, startY, startX);
 				break;
-			case 1:
+			case EAST:
 				drawObject(g, catFrontRight1, sendY, sendX, y, x, startY, startX);
 				break;
-			case 2:
+			case SOUTH:
 				drawObject(g, catFrontLeft1, sendY, sendX, y, x, startY, startX);
 				break;
-			case 3:
+			case WEST:
 				drawObject(g, catBackLeft1, sendY, sendX, y, x, startY, startX);
 				break;				
 			}
@@ -489,13 +533,13 @@ public class PanelRender extends JPanel {
 		case NORTH:
 			drawObject(g, minionFrontLeft1, sendY, sendX, y, x, startY, startX);
 			break;
-		case EAST:
+		case WEST:
 			drawObject(g, minionBackLeft1, sendY, sendX, y, x, startY, startX);
 			break;
 		case SOUTH:
 			drawObject(g, minionBackRight1, sendY, sendX, y, x, startY, startX);
 			break;
-		case WEST:
+		case EAST:
 			drawObject(g, minionFrontRight1, sendY, sendX, y, x, startY, startX);
 			break;
 		default:
@@ -515,13 +559,13 @@ public class PanelRender extends JPanel {
 		case NORTH:
 			drawObject(g, bossFrontLeft1, sendY, sendX, y, x, startY, startX);
 			break;
-		case EAST:
+		case WEST:
 			drawObject(g, bossBackLeft1, sendY, sendX, y, x, startY, startX+20);
 			break;
 		case SOUTH:
 			drawObject(g, bossBackRight1, sendY, sendX, y, x, startY, startX-20);
 			break;
-		case WEST:
+		case EAST:
 			drawObject(g, bossFrontRight1, sendY, sendX, y, x, startY, startX);
 			break;
 		default:
@@ -564,7 +608,7 @@ public class PanelRender extends JPanel {
 					break;
 			}			
 			break;
-		case EAST:
+		case WEST:
 			switch (objTypeID) {
 			case "40":
 				drawObject(g, leftDoor, sendY, sendX, y, x, startY, startX);
@@ -596,7 +640,7 @@ public class PanelRender extends JPanel {
 				break;
 		}			
 		break;
-		case WEST:
+		case EAST:
 			switch (objTypeID) {
 			case "40":
 				drawObject(g, leftDoor, sendY, sendX, y, x, startY, startX);
