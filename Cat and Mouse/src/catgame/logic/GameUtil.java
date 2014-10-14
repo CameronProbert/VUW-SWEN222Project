@@ -151,8 +151,6 @@ public class GameUtil {
 		return null;
 	}
 
-	// TODO CHECK WHICH ONE IS NEEDED
-	// //////////////////////////////////////////////////////////////////////////////////////
 	/**
 	 * Call to the logic to attack in the facing direction of a character
 	 * 
@@ -166,30 +164,17 @@ public class GameUtil {
 		}
 		return -1;
 	}
-	
+	/**
+	 * Call to the logic loot in the facing direction of a character
+	 * @param playerID
+	 * @return
+	 */
 	public int playerloot(int playerID){
 		if (findPlayersRoom(playerID) != null) {
 			return findPlayersRoom(playerID).PlayerLoot(playerID, this.viewDirection);
 		}
 		return -1;
 	}
-
-	/**
-	 * Call to the logic to attack in the facing direction of a character
-	 * 
-	 * @param playerID
-	 * @return whether could attack or not, -1 for not an attack and if it could
-	 *         attack return the id of what was attacked
-	 */
-	public int attack(int playerID, int attackedID) {
-		// TODO if either ID not found throw IDNotFoundError
-		// TODO attack the target
-		return attackedID; // should return the attackerID (though it is
-							// obsolete for this method, so it is acceptable
-							// to return -1)
-	}
-
-	// //////////////////////////////////////////////////////////////////////////////////////
 
 	/**
 	 * Add an Gameobject to a players inventory using an objects Id.
