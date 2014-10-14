@@ -31,6 +31,8 @@ public class PanelRender extends JPanel {
 	private int groundOffsetY;
 	private int objOffsetX;
 	private int objOffsetY;
+	private int charX;
+	private int charY;
 	
 	private Image grassBlock;
 	private Image tree1;
@@ -70,6 +72,7 @@ public class PanelRender extends JPanel {
 		this.gUtil = gUtil;
 		this.currentRoom = room;
 		calculateXYOffset();
+		
 
 		setLayout(null);
 		setSize((int)(windowSize.getWidth()), (int)(windowSize.getHeight()));
@@ -94,17 +97,43 @@ public class PanelRender extends JPanel {
 				if (currentRoom.getBoardGrid()[y][x].getObjectOnCell() instanceof PlayableCharacter){
 					PlayableCharacter currentChar = (PlayableCharacter) currentRoom.getBoardGrid()[y][x].getObjectOnCell();
 					if ((currentChar.getObjectID()+"").equals(playableCharID)){
+						System.out.println();
+						System.out.println("-----------------------------------");
 						System.out.println("X: " + x + " Y: " + y);
-						groundOffsetX = ((blockWidth / 2) * x) - ((blockWidth / 2) * y) + 200;
-						groundOffsetY = ((blockHeight / 2) * y) + ((blockHeight / 2) * x) - 100;
-//						objOffsetX = groundOffsetX - 175;
-//						objOffsetY = groundOffsetY - 230;
-						
-						objOffsetX = groundOffsetX - 90;
-						objOffsetY = groundOffsetY + 70;
-						
-//						objOffsetX = groundOffsetX - (panelWidth/14);
-//						objOffsetY = groundOffsetY - (panelHeight/14);
+						System.out.println("-----------------------------------");
+//						switch (gUtil.getViewDirection()){
+//						case NORTH:
+//							groundOffsetX = ((blockWidth / 2) * x) - ((blockWidth / 2) * y) + 200;
+//							groundOffsetY = ((blockHeight / 2) * y) + ((blockHeight / 2) * x) - 100;
+//							objOffsetX = groundOffsetX - 90;
+//							objOffsetY = groundOffsetY + 70;
+//							break;
+//						case EAST:
+//							System.out.println("---------------jshfkjdkjfkjdshkjfhdskjhfkjhdskjfsd------");
+//							groundOffsetX = ((blockWidth / 2) * x) - ((blockWidth / 2) * y) + 200;
+//							groundOffsetY = ((blockHeight / 2) * y) + ((blockHeight / 2) * x) - 100;
+//							objOffsetX = groundOffsetX - 90;
+//							objOffsetY = groundOffsetY + 70;
+//							break;
+//						case SOUTH:
+//							groundOffsetX = ((blockWidth / 2) * x) - ((blockWidth / 2) * y) + 200;
+//							groundOffsetY = ((blockHeight / 2) * y) + ((blockHeight / 2) * x) - 100;
+//							objOffsetX = groundOffsetX - 90;
+//							objOffsetY = groundOffsetY + 70;
+//							break;
+//						case WEST:
+//							groundOffsetX = ((blockWidth / 2) * x) - ((blockWidth / 2) * y) + 200;
+//							groundOffsetY = ((blockHeight / 2) * y) + ((blockHeight / 2) * x) - 100;
+//							objOffsetX = groundOffsetX - 90;
+//							objOffsetY = groundOffsetY + 70;
+//							break;
+//						}
+						charX = x;
+						charY = y;
+						groundOffsetX = ((blockWidth/2) * x) - ((blockWidth/2) * y);
+						groundOffsetY = ((blockHeight/2) * y) + ((blockHeight/2) * x);
+						objOffsetX = groundOffsetX;
+						objOffsetY = groundOffsetY;
 					}
 				}
 			}
@@ -185,21 +214,38 @@ public class PanelRender extends JPanel {
 					sendX = y;
 					sendY = currentRoom.getBoardGrid()[0].length - x - 1;
 					determineAndDrawGround(g, sendY, sendX, y, x);
-					determineAndDrawObject(g, sendY, sendX, y, x);
 				} else if (gUtil.getViewDirection() == Direction.EAST) {
 					sendX = x;
 					sendY = y;
 					determineAndDrawGround(g, sendY, sendX, y, x);
-					determineAndDrawObject(g, sendY, sendX, y, x);
 				} else if (gUtil.getViewDirection() == Direction.SOUTH) {
 					sendX = currentRoom.getBoardGrid().length - y - 1;
 					sendY = x;
 					determineAndDrawGround(g, sendY, sendX, y, x);
-					determineAndDrawObject(g, sendY, sendX, y, x);
 				} else if (gUtil.getViewDirection() == Direction.WEST) {
 					sendX = currentRoom.getBoardGrid()[0].length - x - 1;
 					sendY = currentRoom.getBoardGrid().length - y - 1;
 					determineAndDrawGround(g, sendY, sendX, y, x);
+				}
+			}
+		}
+		for (int y = 0; y < currentRoom.getBoardGrid().length; y++) {
+			for (int x = currentRoom.getBoardGrid()[0].length - 1; x >= 0; x--) {
+				if (gUtil.getViewDirection() == Direction.NORTH) {
+					sendX = y;
+					sendY = currentRoom.getBoardGrid()[0].length - x - 1;
+					determineAndDrawObject(g, sendY, sendX, y, x);
+				} else if (gUtil.getViewDirection() == Direction.EAST) {
+					sendX = x;
+					sendY = y;
+					determineAndDrawObject(g, sendY, sendX, y, x);
+				} else if (gUtil.getViewDirection() == Direction.SOUTH) {
+					sendX = currentRoom.getBoardGrid().length - y - 1;
+					sendY = x;
+					determineAndDrawObject(g, sendY, sendX, y, x);
+				} else if (gUtil.getViewDirection() == Direction.WEST) {
+					sendX = currentRoom.getBoardGrid()[0].length - x - 1;
+					sendY = currentRoom.getBoardGrid().length - y - 1;
 					determineAndDrawObject(g, sendY, sendX, y, x);
 				}
 			}
@@ -219,8 +265,8 @@ public class PanelRender extends JPanel {
 	public void determineAndDrawGround(Graphics g, int sendY, int sendX, int y,	int x) {
 //		int startX = 19 + panelWidth / 4;
 //		int startY = 20 + 400;
-		int startX = (panelWidth / 3) - groundOffsetX;
-		int startY = (panelHeight / 2) - groundOffsetY;
+		int startX = (panelWidth / 2) + groundOffsetX - ((blockWidth/2)*charX);
+		int startY = (panelHeight / 2) + groundOffsetY - ((blockHeight/2)*charY);
 //		System.out.println("GroundType");
 //		System.out.println(currentRoom.getBoardGrid()[sendY][sendX].getGroundType());
 		if (currentRoom.getBoardGrid()[sendY][sendX].getGroundType() == null) {
@@ -313,6 +359,9 @@ public class PanelRender extends JPanel {
 	 */
 	public void drawGround(Graphics g, Image image, int sendY, int sendX,
 			int y, int x, int startY, int startX) {
+//		g.drawImage(image,
+//				startX + (x * blockWidth / 2) + (y * blockWidth / 2), startY
+//						+ (y * blockHeight / 2) - (x * blockHeight / 2), null);
 		g.drawImage(image,
 				startX + (x * blockWidth / 2) + (y * blockWidth / 2), startY
 						+ (y * blockHeight / 2) - (x * blockHeight / 2), null);
@@ -334,8 +383,9 @@ public class PanelRender extends JPanel {
 	public void drawObject(Graphics g, Image image, int sendY, int sendX,
 			int y, int x, int startY, int startX) {
 		g.drawImage(image,
-				startX + (x * blockWidth / 2) + (y * blockWidth / 2), startY
-						+ (y * blockHeight / 2) - (x * blockHeight / 2), null);
+				startX + (x * blockWidth / 2) + (y * blockWidth / 2), 
+				startY + (y * blockHeight / 2) - (x * blockHeight / 2), 
+				null);
 	}
 
 	public void redraw(Graphics g) {
@@ -386,12 +436,7 @@ public class PanelRender extends JPanel {
 		break;
 		}
 		return null;
-	}
-	
-	
-	
-	
-	
+	}	
 	
 	
 	//Helper methods for drawing various objects
@@ -443,64 +488,64 @@ public class PanelRender extends JPanel {
 			case NORTH:
 				switch (drawDirection) {
 				case NORTH:
-					g.drawImage(catBackRight1, panelWidth/2 + 100 - 200, panelHeight/2 - 200 + 100, null);
+					g.drawImage(catBackRight1, panelWidth/2 - 50, panelHeight/2 - 39, null);
 					break;
 				case EAST:
-					g.drawImage(catFrontRight1, panelWidth/2 + 100 - 200, panelHeight/2 - 200 + 100, null);
+					g.drawImage(catFrontRight1, panelWidth/2 - 50, panelHeight/2 - 39, null);
 					break;
 				case SOUTH:
-					g.drawImage(catFrontLeft1, panelWidth/2 + 100 - 200, panelHeight/2 - 200 + 100, null);
+					g.drawImage(catFrontLeft1, panelWidth/2 - 50, panelHeight/2 - 39, null);
 					break;
 				case WEST:
-					g.drawImage(catBackLeft1, panelWidth/2 + 100 - 200, panelHeight/2 - 200 + 100, null);
+					g.drawImage(catBackLeft1, panelWidth/2 - 50, panelHeight/2 - 39, null);
 					break;				
 				}
 				break;
 			case EAST:
 				switch (drawDirection) {
 				case NORTH:
-					g.drawImage(catFrontRight1, panelWidth/2 + 170 - 200, panelHeight/2 - 170 + 100, null);
+					g.drawImage(catFrontRight1, panelWidth/2 - 50, panelHeight/2 - 39, null);
 					break;
 				case EAST:
-					g.drawImage(catFrontLeft1, panelWidth/2 + 170 - 200, panelHeight/2 - 170 + 100, null);
+					g.drawImage(catFrontLeft1, panelWidth/2 - 50, panelHeight/2 - 39, null);
 					break;
 				case SOUTH:
-					g.drawImage(catBackLeft1, panelWidth/2 + 170 - 200, panelHeight/2 - 170 + 100, null);
+					g.drawImage(catBackLeft1, panelWidth/2 - 50, panelHeight/2 - 39, null);
 					break;
 				case WEST:
-					g.drawImage(catBackRight1, panelWidth/2 + 170 - 200, panelHeight/2 - 170 + 100, null);
+					g.drawImage(catBackRight1, panelWidth/2 - 50, panelHeight/2 - 39, null);
 					break;				
 				}
 				break;
 			case SOUTH:
 				switch (drawDirection) {
 				case NORTH:
-					g.drawImage(catFrontLeft1, panelWidth/2 + 230 - 200, panelHeight/2 - 200 + 100, null);
+					g.drawImage(catFrontLeft1, panelWidth/2 - 50, panelHeight/2 - 39, null);
 					break;
 				case EAST:
-					g.drawImage(catBackLeft1, panelWidth/2 + 230 - 200, panelHeight/2 - 200 + 100, null);
+					g.drawImage(catBackLeft1, panelWidth/2 - 50, panelHeight/2 - 39, null);
 					break;
 				case SOUTH:
-					g.drawImage(catBackRight1, panelWidth/2 + 230 - 200, panelHeight/2 - 200 + 100, null);
+					g.drawImage(catBackRight1, panelWidth/2 - 50, panelHeight/2 - 39, null);
 					break;
 				case WEST:
-					g.drawImage(catFrontRight1, panelWidth/2 + 230 - 200, panelHeight/2 - 200 + 100, null);
+					g.drawImage(catFrontRight1, panelWidth/2 - 50, panelHeight/2 - 39, null);
 					break;
 				}
 				break;
 			case WEST:
 				switch (drawDirection) {
 				case NORTH:
-					g.drawImage(catBackLeft1, panelWidth/2 + 180 - 200, panelHeight/2 - 235 + 100, null);
+					g.drawImage(catBackLeft1, panelWidth/2 - 50, panelHeight/2 - 39, null);
 					break;
 				case EAST:
-					g.drawImage(catBackRight1, panelWidth/2 + 180 - 200, panelHeight/2 - 235 + 100, null);
+					g.drawImage(catBackRight1, panelWidth/2 - 50, panelHeight/2 - 39, null);
 					break;
 				case SOUTH:
-					g.drawImage(catFrontRight1, panelWidth/2 + 180 - 200, panelHeight/2 - 235 + 100, null);
+					g.drawImage(catFrontRight1, panelWidth/2 - 50, panelHeight/2 - 39, null);
 					break;
 				case WEST:
-					g.drawImage(catFrontLeft1, panelWidth/2 + 180 - 200, panelHeight/2 - 235 + 100, null);
+					g.drawImage(catFrontLeft1, panelWidth/2 - 50, panelHeight/2 - 39, null);
 					break;				
 				}
 				break;
