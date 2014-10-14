@@ -229,7 +229,7 @@ public class Room {
 	private Position findPosition(int playerID, Direction boardOrientation, Direction playerDirection) {
 		int direction = directionTranslator(boardOrientation, playerDirection);
 		Position playerPos = playerLocationMap.get(playerID).getPosition();
-		if (boardOrientation == Direction.NORTH || boardOrientation == Direction.SOUTH) {
+		if (boardOrientation == Direction.NORTH) {
 			switch (direction) {
 			case 0:
 				return new Position(playerPos.getX(), playerPos.getY() - 1);
@@ -240,18 +240,38 @@ public class Room {
 			case 3:
 				return new Position(playerPos.getX() - 1, playerPos.getY());
 			}
-		} else {
+		} else if (boardOrientation == Direction.EAST) {
 			switch (direction) {
 			case 0:
-				System.out.println("MOVE NORTH");
+				return new Position(playerPos.getX()-1, playerPos.getY());
+			case 1:
+				return new Position(playerPos.getX(), playerPos.getY()-1);
+			case 2:
+				return new Position(playerPos.getX()+1, playerPos.getY());
+			case 3:
+				return new Position(playerPos.getX(), playerPos.getY()+1);
+			}
+		} else if (boardOrientation == Direction.SOUTH) {
+			switch (direction) {
+			case 0:
 				return new Position(playerPos.getX(), playerPos.getY() + 1);
 			case 1:
 				return new Position(playerPos.getX() - 1, playerPos.getY());
 			case 2:
-				System.out.println("MOVE SOUTH");
 				return new Position(playerPos.getX(), playerPos.getY() - 1);
 			case 3:
 				return new Position(playerPos.getX() + 1, playerPos.getY());
+			}
+		} else if (boardOrientation == Direction.WEST) {
+			switch (direction) {
+			case 0:
+				return new Position(playerPos.getX()+1, playerPos.getY());
+			case 1:
+				return new Position(playerPos.getX(), playerPos.getY()+1);
+			case 2:
+				return new Position(playerPos.getX()-1, playerPos.getY());
+			case 3:
+				return new Position(playerPos.getX(), playerPos.getY()-1);
 			}
 		}
 		// should be dead Code just in case its not
@@ -349,7 +369,7 @@ public class Room {
 			BoardCell playersCell = playerLocationMap.get(playerID);
 			PlayableCharacter player = (PlayableCharacter) playersCell.getObjectOnCell();
 			Position actionPosition = findPosition(playerID, boardDirection, player.getFacingDirection());
-			
+
 			if (actionPosition.getX() < 0 || actionPosition.getY() < 0 || actionPosition.getX() >= roomGrid.length || actionPosition.getY() >= roomGrid[0].length) {
 				return null;
 			}
