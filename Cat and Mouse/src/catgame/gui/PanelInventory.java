@@ -96,7 +96,7 @@ public class PanelInventory extends PanelAbstract {
 	}
 
 	public void itemUsed(GameItem item) {
-		frame.useItems(item);
+		frame.itemUsed(item);
 		resetInvItems();
 		repaint();
 	}
