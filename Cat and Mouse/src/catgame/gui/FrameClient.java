@@ -8,12 +8,14 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.JFileChooser;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
@@ -22,6 +24,7 @@ import org.jdom2.JDOMException;
 
 import catgame.clientserver.*;
 import catgame.datastorage.LoadingGameMain;
+import catgame.datastorage.SavingMain;
 import catgame.datastorage.XMLException;
 import catgame.gameObjects.*;
 import catgame.gamestarting.GameRunner;
@@ -41,6 +44,8 @@ public class FrameClient extends FrameAbstract implements KeyListener {
 
 	private static final double FRAMEHEIGHTMODIFIER = .9;
 	private static final double ASPECTRATIO = 1.8;
+	private static final int FRAMEWIDTH = 1300;
+	private static final int FRAMEHEIGHT = 700;
 
 	private GameRunner runner;
 	private int clientsUID;
@@ -148,14 +153,24 @@ public class FrameClient extends FrameAbstract implements KeyListener {
 	
 	private void save(){
 		// TODO open a dialogue box or something so they can choose the name of the file
-		// File file = new File(the file name they choose)
-		setState("paused");
-		this.invPanel.setPanelsState("paused");
-		if(slave!=null)		slave.sendUpdate(new Update(Update.PAUSE_STATE));
-		// new SavingMain(file);
-		if(slave!=null)		slave.sendUpdate(new Update(Update.UN_PAUSE_STATE));
-		setState("running");
-		this.invPanel.setPanelsState("running");
+		JFileChooser chooser = new JFileChooser();
+		int state = chooser.showSaveDialog(null);
+		if (state == JFileChooser.APPROVE_OPTION){
+			String filename = chooser.getSelectedFile().getAbsolutePath();
+			File file = new File(filename);
+			setState("paused");
+			this.invPanel.setPanelsState("paused");
+			if(slave!=null)		slave.sendUpdate(new Update(Update.PAUSE_STATE));
+			try {
+				new SavingMain(runner.getBoardData(), file);
+				if(slave!=null)		slave.sendUpdate(new Update(Update.UN_PAUSE_STATE));
+				setState("running");
+				this.invPanel.setPanelsState("running");
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 	}
 
 	public void setState(String state) {
@@ -207,15 +222,16 @@ public class FrameClient extends FrameAbstract implements KeyListener {
 	 * Sets the frame to this size.
 	 */
 	private void setDimensions() {
-		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-		if (screenSize == null) {
-			System.out.println("screenSize is null");
-		}
-		System.out.println(screenSize.getHeight());
-		int windowHeight = (int) (screenSize.getHeight() * FRAMEHEIGHTMODIFIER);
-		int windowWidth = (int) (windowHeight * ASPECTRATIO);
-		System.out.printf("Width: %d | Height: %d", windowWidth, windowHeight);
-		windowSize = new Dimension(windowWidth, windowHeight);
+//		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+//		if (screenSize == null) {
+//			System.out.println("screenSize is null");
+//		}
+//		System.out.println(screenSize.getHeight());
+//		int windowHeight = (int) (screenSize.getHeight() * FRAMEHEIGHTMODIFIER);
+//		int windowWidth = (int) (windowHeight * ASPECTRATIO);
+//		System.out.printf("Width: %d | Height: %d", windowWidth, windowHeight);
+//		windowSize = new Dimension(windowWidth, windowHeight);
+		windowSize = new Dimension(FRAMEWIDTH, FRAMEHEIGHT);
 		this.setSize(windowSize);
 		this.setPreferredSize(windowSize);
 	}
