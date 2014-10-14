@@ -74,6 +74,7 @@ public class PanelInventory extends PanelAbstract {
 	}
 
 	public void resetInvItems() {
+		if(character==null){System.out.println("character is null");}
 		List<GameItem> items = character.getInventory();
 		if (items != null) {
 			for (int i = 0; i < TOTALSLOTS; i++) {

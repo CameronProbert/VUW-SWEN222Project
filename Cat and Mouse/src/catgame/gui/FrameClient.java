@@ -82,6 +82,7 @@ public class FrameClient extends FrameAbstract implements KeyListener {
 		this.runner = network;
 		this.isClient = isClient;
 		this.clientsUID = ID;
+		this.slave = slave;
 		if (!isClient) {
 			character = runner.getBoardData().getObjStorer()
 					.findCharacter(clientsUID);
@@ -109,9 +110,12 @@ public class FrameClient extends FrameAbstract implements KeyListener {
 		this.setVisible(true);
 	}
 
-	public void startMyClient() {
+	public void startMyClient(int uid) {
+		clientsUID = uid;
 		character = runner.getBoardData().getObjStorer()
 				.findCharacter(clientsUID);
+		System.out.println("my uid is : " +clientsUID);
+		if(character==null)		System.out.println("Charcter is null when in client frame");
 		this.addPanels(character);
 		if (panelBG != null) {
 			panelBG.setVisible(false);
@@ -322,8 +326,8 @@ public class FrameClient extends FrameAbstract implements KeyListener {
 		if (renderPanel != null) {
 			this.remove(renderPanel);
 		}
-		Room currentRoom = runner.getBoardData().getGameUtil()
-				.findPlayersRoom(clientsUID);
+		Room currentRoom = runner.getBoardData().getGameUtil().findPlayersRoom(clientsUID);
+		if(currentRoom==null)System.out.println("currentRoom is null");
 		renderPanel = new PanelRender(windowSize, Integer.toString(character
 				.getObjectID()), runner.getBoardData().getGameUtil(),
 				currentRoom);

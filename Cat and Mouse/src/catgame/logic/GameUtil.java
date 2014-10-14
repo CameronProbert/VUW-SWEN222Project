@@ -141,6 +141,9 @@ public class GameUtil {
 	}
 
 	public Room findPlayersRoom(int playerID) {
+		if(boardData.getAllRooms().size()==0){
+			System.out.println("no rooms");
+		}
 		for (Room room : boardData.getAllRooms()) {
 			if (room.getCharactorCell(playerID) != null && room.getCharactorCell(playerID).getObjectOnCell().getObjectID() == playerID) {
 				// move the player in the room
