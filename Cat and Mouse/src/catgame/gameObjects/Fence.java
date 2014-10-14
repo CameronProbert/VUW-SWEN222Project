@@ -14,5 +14,9 @@ public class Fence implements NonMovavble{
 	public int getObjectID() {
 		return id;
 	}
+	
+	public Direction getDirection(){
+		return direction;
+	}
 
 }

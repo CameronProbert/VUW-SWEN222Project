@@ -13,15 +13,16 @@ import java.util.*;
 
 public class LoadingHelper {
 	LoadingGameMain main;
-
 	public LoadingHelper(LoadingGameMain main) {
 		this.main = main;
 	}
 
 	public BoardCell loadBoardCell(String boardString) throws XMLException {
-		// get (x,y,ID,groundType)
+		// boardString format: (x,y,ID,groundType)
+		// remove the brackets
 		String newBoardString = boardString.substring(1,
 				boardString.length() - 1);
+		// parse the string into comma separated values
 		String[] boardInfoArray = newBoardString.split(",");
 		int x = Integer.parseInt(boardInfoArray[0]);
 		int y = Integer.parseInt(boardInfoArray[1]);
@@ -31,10 +32,14 @@ public class LoadingHelper {
 			int ID = Integer.parseInt(boardInfoArray[2]);
 			if (main.getObjectIDMap().containsKey(ID)) {
 				ObjectID = (GameObject) main.getObjectIDMap().get(ID);
+				System.out.println("Found object ID: " + ID);
 			} else {
-				throw new XMLException(
-						"Cannot find GameObject that is supposed to be already made in the room. Cannot make BoardCell without this!");
+				// throw new XMLException(
+				// "Cannot find GameObject that is supposed to be already made in the room. Cannot make BoardCell without this!");
+				System.out.println("***********   Cannot find GameObject ID = " + ID + "   ***********");
 			}
+		} else {
+			// System.out.println("Object ID is null");
 		}
 		String groundType = null;
 		if (!boardInfoArray[3].equals("null")) {
@@ -44,7 +49,14 @@ public class LoadingHelper {
 		return new BoardCell(position, ObjectID, groundType);
 	}
 	
-	//public void addPlayerToRoom(Room room, )
+	public Integer checkPlayerID(String loadingString){
+		// input: "101010"
+		String temp = loadingString.substring(0, 2);
+		int id = Integer.parseInt(temp);
+		return id;
+	}
+
+	// public void addPlayerToRoom(Room room, )
 
 	/**
 	 * Main just for quick testing for parsing strings. This will be removed in
@@ -53,19 +65,9 @@ public class LoadingHelper {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		// LoadingHelper helper = new LoadingHelper();
-		// String temp = "12,13,55342,235";
-		// String temp2 = "12, 13, 55342, 235";
-		// String[] array = helper.loadBoardCell(temp);
-		// System.out.println("First array");
-		// for (int i = 0; i < array.length; i++) {
-		// System.out.println(array[i]);
-		// }
-		// System.out.println("Second array");
-		// String[] array2 = helper.loadBoardCell(temp2);
-		// for (int i = 0; i < array.length; i++) {
-		// System.out.println(array2[i]);
-		// }
-
+		String loadingString = "101010";
+		String temp = loadingString.substring(0, 2);
+		int id = Integer.parseInt(temp);
+		System.out.println(id);
 	}
 }
