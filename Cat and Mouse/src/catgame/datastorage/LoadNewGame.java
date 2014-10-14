@@ -26,7 +26,7 @@ public class LoadNewGame {
 		// loading a new game here!
 		loaderMain = new LoadingGameMain(false, null);
 		boardData = loaderMain.getBoardData();
-		loadCharacters();
+		
 	}
 
 	public void loadCharacters() throws XMLException {
@@ -40,6 +40,7 @@ public class LoadNewGame {
 			loaderMain.getBoardData().getObjStorer()
 					.addplayableChs(playerIDList.get(i), character);
 			loaderMain.addPlayerToMap(character);
+			loaderMain.addObjectToMap(character);
 			BoardCell cell = room.getBoardGrid()[room.getBoardGrid().length - 1][i+1];
 			cell.setObjectOnCell(character);
 			room.addToInventory(character);

@@ -66,19 +66,20 @@ public class LoadMasterObjects {
 	}
 
 	public Chest loadChest(Element element) throws XMLException {
+		System.out.println("IN chest");
 		int ID = Integer.parseInt(element.getAttribute("id").getValue());
 		List<GameItem> inventory = new ArrayList<GameItem>();
 		for (Element inventoryElement : element.getChild("Inventory")
 				.getChildren()) {
 			inventory.add((GameItem) verifyElement(inventoryElement));
-			// TODO Check casting!!
 		}
 		return new Chest(ID, inventory);
 	}
 
-	public Door loadDoor(Element element) {
-		// TODO CREATING JUST TEMP DOOR
-		return new Door(12, Direction.NORTH, new Room(12));
+	public Tree loadDoor(Element element) {
+		// TODO CREATING JUST TEMP Tree
+
+		return new Tree(Integer.parseInt(element.getAttribute("id").getValue()));
 	}
 
 	public Food loadFood(Element element) {
@@ -145,7 +146,7 @@ public class LoadMasterObjects {
 		} else if (directionEnum.equals("SOUTH")) {
 			dir = Direction.SOUTH;
 		} else {
-			dir = Direction.WEST; 
+			dir = Direction.WEST;
 		}
 		int attackPower = Integer.parseInt(element.getChildText("attackPower"));
 		int health = Integer.parseInt(element.getChildText("health"));
@@ -158,8 +159,8 @@ public class LoadMasterObjects {
 		// int roomID = Integer
 		// .parseInt(element.getChildText("RoomID"));
 		// Room currentRoom = main.getRoomIDMap().get(roomID);
-		PlayableCharacter character = new PlayableCharacter(ID, dir, attackPower, health,
-				inventoryList);
+		PlayableCharacter character = new PlayableCharacter(ID, dir,
+				attackPower, health, inventoryList);
 		
 		return character;
 	}

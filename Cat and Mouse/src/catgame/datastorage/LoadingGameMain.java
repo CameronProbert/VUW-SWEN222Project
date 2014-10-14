@@ -20,8 +20,10 @@ public class LoadingGameMain {
 	private BoardData boardData = new BoardData();
 	private File xmlFile;
 
+
 	public LoadingGameMain(boolean isLoadOldGame, File xmlFile)
 			throws JDOMException, XMLException {
+
 		// make obj loader
 		this.masterObjectLoader = new LoadMasterObjects(this);
 		// make loader helper
@@ -106,9 +108,10 @@ public class LoadingGameMain {
 			else if (isLoadOldGame
 					&& objElement.getName().equals("playerableInventory")) {
 				for (Element playerableObj : objElement.getChildren()) {
-					MasterObject inventoryObj = masterObjectLoader
+					PlayableCharacter inventoryObj = (PlayableCharacter) masterObjectLoader
 							.verifyElement(playerableObj);
 					if (inventoryObj instanceof PlayableCharacter) {
+						System.out.println("Adding a PlayableCharacter");
 						addPlayerToMap((PlayableCharacter) inventoryObj);
 					}
 
@@ -117,19 +120,27 @@ public class LoadingGameMain {
 
 				}
 			}
-
 		}
 	}
 
 	private BoardCell[][] loadRoomGrid(Element childrenElement)
 			throws XMLException {
+
 		// get the dimensions of the boardCell array
 		int firstArrayLength = Integer.parseInt(childrenElement.getChild(
 				"FirstArray.length").getText());
 		int secondArrayLength = Integer.parseInt(childrenElement.getChild(
 				"SecondArray.length").getText());
+		System.out.println("IN LOAD ROOM GRID. FirstArray.length = "
+				+ firstArrayLength + " SecondArray.length = "
+				+ secondArrayLength);
 		// make new boardCell array using dimensions
 		BoardCell[][] boardCell = new BoardCell[firstArrayLength][secondArrayLength];
+		// ----------------------------Test----------------------------------------
+		for (Integer id : objectIDMap.keySet()) {
+			System.out.println("ID: " + id + " Object: "
+					+ objectIDMap.get(id).toString());
+		}
 		// ------------------------------------------------------------------------
 		// Start dealing with boardCell info stored in elements
 		// Get the element's text containing all the info and split
@@ -137,9 +148,11 @@ public class LoadingGameMain {
 		// in this array is in format (x,y,ID,groundType) representing info
 		// to make each BoardCell. Once each BoardCell is created,
 		// it is saved in the new boardCell[][] which is then returned
-		for (int y = 0; y < boardCell.length; y++) {
+		for (int y = 0; y < firstArrayLength; y++) {
 			String row = "Row" + y;
 			String wholeElementText = childrenElement.getChild(row).getText();
+			System.out.println("Row: " + row + " wholeElementText = "
+					+ wholeElementText);
 			String[] wholeElementArray = wholeElementText.split(" ");
 			if (wholeElementArray.length != boardCell[y].length) {
 				throw new XMLException(
@@ -148,10 +161,12 @@ public class LoadingGameMain {
 								+ " , boardCell[y].length: "
 								+ boardCell[y].length);
 			}
-			for (int x = 0; x < boardCell[y].length; x++) {
+			for (int x = 0; x < secondArrayLength; x++) {
 				// use helper method to parse string of (x,y,ID,groundType)
 				// and make new BoardCells
-				boardCell[y][x] = helper.loadBoardCell(wholeElementArray[y]);
+				System.out.println("Calling helper method on string: "
+						+ wholeElementArray[x]);
+				boardCell[y][x] = helper.loadBoardCell(wholeElementArray[x]);
 			}
 		}
 		return boardCell;

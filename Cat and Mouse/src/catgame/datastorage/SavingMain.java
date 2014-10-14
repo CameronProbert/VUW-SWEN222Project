@@ -44,7 +44,7 @@ public class SavingMain {
 		// Outputting xml file
 		XMLOutputter xmlOutputter = new XMLOutputter(
 				org.jdom2.output.Format.getPrettyFormat());
-
+		//File temp = new File("RoomBuilder_01");
 		xmlOutputter.output(document, new FileOutputStream(xmlFile));
 	}
 
@@ -154,9 +154,6 @@ public class SavingMain {
 			for (int x = 0; x < roomGrid[y].length; x++) {
 				String boardCellValues = "(";
 				boardCellValues += helper.makeBoardCell(roomGrid[y][x]) + ") ";
-				// if (x == roomGrid[y].length - 1) {
-				// boardCellValues += ",";
-				// }
 				cellValuesOfRow += boardCellValues;
 			}
 			rowBoardCellElement.setText(cellValuesOfRow);
