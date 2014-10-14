@@ -11,8 +11,10 @@ import catgame.logic.GameUtil;
 public class Update {
 
 	private double code;
-	private double TRILLION = 1000000000000.0;
-	private double MILLION =  1000000;
+	private final double TRILLION = 1000000000000.0;
+	private final double MILLION =  1000000;
+	public final static int PAUSE_STATE = 555555;
+	public final static int UN_PAUSE_STATE = 666666;
 	
 	public enum Descriptor{
 		NORTH,
@@ -133,6 +135,7 @@ public class Update {
 	public double getCode(){
 		return code;
 	}
+	
 
 	/**
 	 * if the two codes are equal, same update

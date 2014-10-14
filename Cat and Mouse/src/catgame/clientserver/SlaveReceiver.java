@@ -177,7 +177,13 @@ public class SlaveReceiver {
 		System.out.println("still running");
 		try {
 			double updateFromMaster = input.readDouble();
-			if(updateFromMaster!=0){
+			if(updateFromMaster == Update.UN_PAUSE_STATE){
+				frame.setState("running");
+			}
+			else if(updateFromMaster == Update.PAUSE_STATE){
+				frame.setState("paused");
+			}
+			else if(updateFromMaster!=0){
 				net.update(new Update(updateFromMaster), false);// will not record last update
 				System.out.println("update recieved to actually use");
 			}

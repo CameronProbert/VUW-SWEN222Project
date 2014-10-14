@@ -50,10 +50,9 @@ public class FrameClient extends FrameAbstract implements KeyListener {
 	private Dimension windowSize;
 	private SlaveReceiver slaveR;
 	private Slave slave;
-	private LoadingGameMain loadMain;
 	private PlayableCharacter character;
-	private BoardData data;
 	private PanelInventory invPanel;
+	private String state = "running";
 
 	/**
 	 * Creates a new Client frame.
@@ -131,7 +130,7 @@ public class FrameClient extends FrameAbstract implements KeyListener {
 		JMenuItem optionSave = new JMenuItem("Save");
 		optionSave.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				// TODO save();
+				save();
 			}
 		});
 
@@ -145,6 +144,22 @@ public class FrameClient extends FrameAbstract implements KeyListener {
 
 		menu.add(optionSave);
 		menu.add(optionQuit);
+	}
+	
+	private void save(){
+		// TODO open a dialogue box or something so they can choose the name of the file
+		// File file = new File(the file name they choose)
+		setState("paused");
+		this.invPanel.setPanelsState("paused");
+		if(slave!=null)		slave.sendUpdate(new Update(Update.PAUSE_STATE));
+		// new SavingMain(file);
+		if(slave!=null)		slave.sendUpdate(new Update(Update.UN_PAUSE_STATE));
+		setState("running");
+		this.invPanel.setPanelsState("running");
+	}
+
+	public void setState(String state) {
+		this.state = state;
 	}
 
 	/**
@@ -307,9 +322,9 @@ public class FrameClient extends FrameAbstract implements KeyListener {
 	@Override
 	public void keyPressed(KeyEvent key) {
 		System.out.printf("Client ID: %d", clientsUID);
-		if (slaveR != null && !slaveR.isReady()) {
-			return;
-		}
+		if (slaveR != null && !slaveR.isReady()) return;
+		if (this.state.equals("paused")) return;
+		
 		int keyID = key.getKeyCode();
 		int validAction = 0;
 		Update up = new Update(0);

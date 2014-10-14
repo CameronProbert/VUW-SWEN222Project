@@ -102,4 +102,10 @@ public class PanelInventory extends PanelAbstract {
 		resetInvItems();
 		repaint();
 	}
+
+	public void setPanelsState(String state) {
+		for(PanelItem p: panels){
+			p.setState(state);
+		}
+	}
 }

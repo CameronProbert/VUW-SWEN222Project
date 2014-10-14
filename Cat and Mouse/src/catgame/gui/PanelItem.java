@@ -13,6 +13,7 @@ public class PanelItem extends PanelAbstract implements MouseListener {
 
 	private GameItem item;
 	private PanelInventory panel;
+	private String state = "running";
 
 	public PanelItem(Point origin, Dimension dim, PanelInventory panel) {
 		super();
@@ -42,6 +43,8 @@ public class PanelItem extends PanelAbstract implements MouseListener {
 	@Override
 	public void mouseClicked(MouseEvent e) {
 		System.out.println("Item clicked");
+		if(state.equals("paused")) return;
+		
 		if (item != null) {
 			if (item.isUsable()) {
 				System.out.println("Usable item");
@@ -86,6 +89,10 @@ public class PanelItem extends PanelAbstract implements MouseListener {
 	public void mouseReleased(MouseEvent e) {
 		// TODO Auto-generated method stub
 
+	}
+	
+	public void setState(String state){
+		this.state = state;
 	}
 
 }
