@@ -26,7 +26,7 @@ public class LoadNewGame {
 		// loading a new game here!
 		loaderMain = new LoadingGameMain(false, null);
 		boardData = loaderMain.getBoardData();
-		
+		loadCharacters();
 	}
 
 	public void loadCharacters() throws XMLException {

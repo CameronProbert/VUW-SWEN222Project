@@ -66,7 +66,6 @@ public class LoadMasterObjects {
 	}
 
 	public Chest loadChest(Element element) throws XMLException {
-		System.out.println("IN chest");
 		int ID = Integer.parseInt(element.getAttribute("id").getValue());
 		List<GameItem> inventory = new ArrayList<GameItem>();
 		for (Element inventoryElement : element.getChild("Inventory")
@@ -76,10 +75,26 @@ public class LoadMasterObjects {
 		return new Chest(ID, inventory);
 	}
 
-	public Tree loadDoor(Element element) {
-		// TODO CREATING JUST TEMP Tree
-
-		return new Tree(Integer.parseInt(element.getAttribute("id").getValue()));
+	public Door loadDoor(Element element) {
+		int ID = Integer.parseInt(element.getAttribute("id").getValue());
+		String directionEnum = element.getChild("Direction").getText();
+		Direction dir = null;
+		if (directionEnum.equals("NORTH")) {
+			dir = Direction.NORTH;
+		} else if (directionEnum.equals("EAST")) {
+			dir = Direction.EAST;
+		} else if (directionEnum.equals("SOUTH")) {
+			dir = Direction.SOUTH;
+		} else {
+			dir = Direction.WEST;
+		}
+		int roomID = Integer.parseInt(element.getChildText("RoomID"));
+		Room currentRoom = main.getRoomIDMap().get(roomID);
+		
+		Door door = new Door(ID, dir, currentRoom);
+		main.getDoorIDMap().put(ID, door);
+		
+		return door;
 	}
 
 	public Food loadFood(Element element) {

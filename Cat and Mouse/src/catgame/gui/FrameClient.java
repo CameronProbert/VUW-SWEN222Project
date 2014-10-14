@@ -189,9 +189,10 @@ public class FrameClient extends FrameAbstract implements KeyListener {
 		menu.add(optionQuit);
 	}
 
+	/**
+	 * Saves the current game
+	 */
 	private void save() {
-		// TODO open a dialogue box or something so they can choose the name of
-		// the file
 		JFileChooser chooser = new JFileChooser();
 		int state = chooser.showSaveDialog(null);
 		if (state == JFileChooser.APPROVE_OPTION) {
@@ -208,7 +209,6 @@ public class FrameClient extends FrameAbstract implements KeyListener {
 				setState("running");
 				this.invPanel.setPanelsState("running");
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
@@ -405,18 +405,43 @@ public class FrameClient extends FrameAbstract implements KeyListener {
 					}
 				} else if (object instanceof Character) {
 					Character ch = (Character) object;
-					GameItem item = HelperMethods.showRadioList(
-							"What item do you want to take?", ch.getInventory(),
-							true);
-					if (item != null) {
-						runner.getBoardData()
-								.getGameUtil()
-								.addObjectToInventory(clientsUID,
-										item.getObjectID());
-						up = new Update(Update.Descriptor.PICKUP, clientsUID,
-								item.getObjectID());
-						validAction = 1;
+					if (ch.isDead()) {
+						GameItem item = HelperMethods.showRadioList(
+								"What item do you want to take?",
+								ch.getInventory(), true);
+						if (item != null) {
+							runner.getBoardData()
+									.getGameUtil()
+									.addObjectToInventory(clientsUID,
+											item.getObjectID());
+							up = new Update(Update.Descriptor.PICKUP,
+									clientsUID, item.getObjectID());
+							validAction = 1;
+						}
+					} else {
+						HelperMethods.textDialog("", "The rat is still alive! (Space bar to attack)");
 					}
+				}
+				else if (object instanceof Rock){
+					HelperMethods.textDialog("", "It is a rock");
+				}
+				else if (object instanceof Tree){
+					HelperMethods.textDialog("", "It is a tree");
+				}
+				else if (object instanceof Fence){
+					HelperMethods.textDialog("", "It is a fence");
+				}
+				else if (object instanceof Door){
+					HelperMethods.textDialog("", "It is a door");
+				}
+				else if (object instanceof Bush){
+					HelperMethods.textDialog("", "It is a bush");
+				}
+				else if (object instanceof Hedge){
+					HelperMethods.textDialog("", "It is a hedge");
+				}
+				else {
+					HelperMethods.textDialog("", "There is nothing ahead of you");
 				}
 			}
 			break;

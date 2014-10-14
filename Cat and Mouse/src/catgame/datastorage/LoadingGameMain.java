@@ -14,6 +14,7 @@ public class LoadingGameMain {
 	private Map<Integer, MasterObject> objectIDMap = new HashMap<Integer, MasterObject>();
 	private Map<Integer, Room> roomIDMap = new HashMap<Integer, Room>();
 	private Map<Integer, PlayableCharacter> playerIDMap = new HashMap<Integer, PlayableCharacter>();
+	private Map<Integer, Door> doorIDMap = new HashMap<Integer, Door>();
 	private boolean isLoadOldGame;
 	private LoadMasterObjects masterObjectLoader;
 	private LoadingHelper helper;
@@ -34,6 +35,7 @@ public class LoadingGameMain {
 		if (boardData != null) {
 			System.out.println("Done");
 		}
+		boardData.TESTattachDoors();
 	}
 
 	public BoardData startLoading() throws XMLException, JDOMException {
@@ -82,8 +84,40 @@ public class LoadingGameMain {
 		int id = Integer.parseInt(roomElement.getAttribute("id").getValue());
 		Room room = addRoomToMap(id);
 		createRoomInventory(roomElement.getChildren().get(0), room);
-		room.loadBoardCellToRoom(loadRoomGrid(roomElement.getChildren().get(1)));
+		linkAllDoors(roomElement.getChildren().get(1));
+		room.loadBoardCellToRoom(loadRoomGrid(roomElement.getChildren().get(2)));
 		return room;
+	}
+
+	private void linkAllDoors(Element element) throws XMLException {
+		// <DoorLinks>(431010,null) (431011,null) (421013,null) (411012,null)</DoorLinks>
+//		String doorLinksWholeSting = element.getText();
+//		System.out.println("Link all doors, whole string: " + doorLinksWholeSting);
+//		String[] doorLinksWholeArray = doorLinksWholeSting.split(" ");
+//		// now format is (431010,null)
+//		for(String link : doorLinksWholeArray){
+//			link = link.substring(1, link.length()-1);
+//			String[] singleDoorLink = link.split(",");
+//			int firstDoorID = Integer.parseInt(singleDoorLink[0]);
+//			if(!doorIDMap.containsKey(firstDoorID)){
+//				throw new XMLException("First Door" + firstDoorID + " is missing from the DoorIDMap");
+//			}
+//			Door firstDoor = doorIDMap.get(firstDoorID);
+//			if(!singleDoorLink[1].equals("null")){
+//				int secondDoorID = Integer.parseInt(singleDoorLink[1]);
+//				if(!doorIDMap.containsKey(secondDoorID)){
+//					throw new XMLException("Second Door" + secondDoorID + " is missing from the DoorIDMap");
+//				}
+//				Door secondDoor = doorIDMap.get(secondDoorID);
+//				
+//			}
+//			else{
+//				firstDoor.addOtherSide(null, 0);
+//			}
+//			
+//		}
+		
+		
 	}
 
 	private void createRoomInventory(Element childrenElement, Room room)
@@ -101,6 +135,7 @@ public class LoadingGameMain {
 
 				}
 			}
+			
 			// TODO Check casting!!!!
 			// isLoadOldGame is a check if we are loading an old game or new
 			// game. if we are then we load and create players from xml
@@ -169,6 +204,13 @@ public class LoadingGameMain {
 				boardCell[y][x] = helper.loadBoardCell(wholeElementArray[x]);
 			}
 		}
+		
+		for (int y = 0; y < firstArrayLength; y++) {
+			for (int x = 0; x < secondArrayLength; x++) {
+				System.out.print("(y = " + y + " x = " + x  + " " + boardCell[y][x].getGroundType() + ") ");
+			}
+			System.out.println();
+		}
 		return boardCell;
 	}
 
@@ -200,6 +242,10 @@ public class LoadingGameMain {
 
 	public Map<Integer, MasterObject> getObjectIDMap() {
 		return objectIDMap;
+	}
+	
+	public Map<Integer, Door> getDoorIDMap(){
+		return doorIDMap;
 	}
 
 	public BoardData getBoardData() throws XMLException {
