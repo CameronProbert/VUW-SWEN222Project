@@ -279,13 +279,13 @@ public class PanelRender extends JPanel {
 				objTypeID.equals(GameUtil.DOORW+"")){
 			drawDoor(g, sendY, sendX, y, x, objTypeID);			
 		}
-		else if (objTypeID.equals(GameUtil.HEDGEN+"") ||
-				objTypeID.equals(GameUtil.HEDGES+"")){
-			drawHedge(g, sendY, sendX, y, x);
+		else if (objTypeID.equals(GameUtil.HEDGEL+"") ||
+				objTypeID.equals(GameUtil.HEDGER+"")){
+			drawHedge(g, sendY, sendX, y, x, objTypeID);
 		}
 		else if (objTypeID.equals(GameUtil.FENCEL+"") ||
 				objTypeID.equals(GameUtil.FENCER+"")){
-			drawFence(g, sendY, sendX, y, x);
+			drawFence(g, sendY, sendX, y, x, objTypeID);
 		}
 		else if (objTypeID.equals(GameUtil.PLAYABLECHARACTER+"")){
 			drawPlayableChar(g, sendY, sendX, y, x);
@@ -586,33 +586,90 @@ public class PanelRender extends JPanel {
 		}		
 	}
 	
-	public void drawHedge(Graphics g, int sendY, int sendX, int y, int x, int fenceType){
+	public void drawHedge(Graphics g, int sendY, int sendX, int y, int x, String hedgeType){		
 		int startX = panelWidth / 4 + 50 - objOffsetX;
 		int startY = 50 + 340 - objOffsetY;
 		Image img = fenceLeft1;
 		switch (gUtil.getViewDirection()) {
 		case NORTH:
-			if (fenceType == 34){
-				
-			} else {
-				
+			if (hedgeType == "30"){
+				img = hedgeLeft1;
+			} else if (hedgeType == "31"){
+				img = hedgeRight1;
 			}
 			drawObject(g, img, sendY, sendX, y, x, startY, startX);
 			break;
 		case EAST:
+			if (hedgeType == "30"){
+				img = hedgeRight1;
+			} else if (hedgeType == "31"){
+				img = hedgeLeft1;
+			}
 			drawObject(g, img, sendY, sendX, y, x, startY, startX);
 			break;
 		case SOUTH:
+			if (hedgeType == "30"){
+				img = hedgeLeft1;
+			} else if (hedgeType == "31"){
+				img = hedgeRight1;
+			}
 			drawObject(g, img, sendY, sendX, y, x, startY, startX);
 			break;
 		case WEST:
+			if (hedgeType == "30"){
+				img = hedgeRight1;
+			} else if (hedgeType == "31"){
+				img = hedgeLeft1;
+			}
 			drawObject(g, img, sendY, sendX, y, x, startY, startX);
+			break;
+		default:
+			System.out.println("Something went wrong");
 			break;
 		}
 	}
 	
-	public void drawFence(Graphics g, int sendY, int sendX, int y, int x){
-		// Draw fences
+	public void drawFence(Graphics g, int sendY, int sendX, int y, int x, String fenceType){
+		int startX = panelWidth / 4 + 50 - objOffsetX;
+		int startY = 50 + 340 - objOffsetY;
+		Image img = fenceLeft1;
+		switch (gUtil.getViewDirection()) {
+		case NORTH:
+			if (fenceType == "34"){
+				img = fenceLeft1;
+			} else if (fenceType == "35"){
+				img = fenceRight1;
+			}
+			drawObject(g, img, sendY, sendX, y, x, startY, startX);
+			break;
+		case EAST:
+			if (fenceType == "34"){
+				img = fenceRight1;
+			} else if (fenceType == "35"){
+				img = fenceLeft1;
+			}
+			drawObject(g, img, sendY, sendX, y, x, startY, startX);
+			break;
+		case SOUTH:
+			if (fenceType == "34"){
+				img = fenceLeft1;
+			} else if (fenceType == "35"){
+				img = fenceRight1;
+			}
+			drawObject(g, img, sendY, sendX, y, x, startY, startX);
+			break;
+		case WEST:
+			if (fenceType == "34"){
+				img = fenceRight1;
+			} else if (fenceType == "35"){
+				img = fenceLeft1;
+			}
+			drawObject(g, img, sendY, sendX, y, x, startY, startX);
+			break;
+		default:
+			System.out.println("Something went wrong");
+			break;
+		}
 	}
 	
 	public void drawDoor(Graphics g, int sendY, int sendX, int y, int x, String objTypeID){
