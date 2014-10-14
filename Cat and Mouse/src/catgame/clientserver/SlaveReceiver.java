@@ -93,6 +93,9 @@ public class SlaveReceiver {
 				}
 
 				readyToStart=true; // now the players can start trying to do things
+				if(frame == null){
+					System.out.println("Frame is null");
+				}
 				frame.startMyClient(uid);
 
 				while(locked){
@@ -215,6 +218,9 @@ public class SlaveReceiver {
 	}
 
 	public void addFrame(FrameClient frame) {
+		if(frame == null){
+			System.out.println("In AddFrame. Frame is null");
+		}
 		this.frame=frame;
 	}
 
