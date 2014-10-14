@@ -204,12 +204,13 @@ public class PanelRender extends JPanel {
 	 * @param y
 	 * @param x
 	 */
-	public void determineAndDrawGround(Graphics g, int sendY, int sendX, int y,
-			int x) {
+	public void determineAndDrawGround(Graphics g, int sendY, int sendX, int y,	int x) {
 //		int startX = 19 + panelWidth / 4;
 //		int startY = 20 + 400;
 		int startX = (panelWidth / 3) - groundOffsetX;
 		int startY = (panelHeight / 2) - groundOffsetY;
+		System.out.println("GroundType");
+		System.out.println(currentRoom.getBoardGrid()[sendY][sendX].getGroundType());
 		if (currentRoom.getBoardGrid()[sendY][sendX].getGroundType() == "Grass") {
 			drawGround(g, grassBlock, sendY, sendX, y, x, startY, startX);
 		}
@@ -234,6 +235,10 @@ public class PanelRender extends JPanel {
 				.getObjectOnCell().getObjectID()+"";
 		String objTypeID = objFullID.substring(0, 2);
 		String objImageID = objFullID.substring(2, 4);
+		System.out.println("FullID: " + objFullID);
+		System.out.println("TypeID: " + objTypeID);
+		System.out.println("ImageID: " + objImageID);
+		System.out.println("------------------------");
 		
 		int startX, startY;
 		if (objTypeID.equals(GameUtil.BUSH+"")){
