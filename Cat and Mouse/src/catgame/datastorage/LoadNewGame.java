@@ -45,7 +45,9 @@ public class LoadNewGame {
 			cell.setObjectOnCell(character);
 			room.addToInventory(character);
 			room.addToPlayerLocationMap(playerIDList.get(i), cell);
+			boardData.getObjStorer().addplayableChs(character.getObjectID(), character);
 		}
+		loaderMain.getHelper().populateDoorLocationMap(room);
 	}
 
 	public List<Integer> getPlayerIDList() {

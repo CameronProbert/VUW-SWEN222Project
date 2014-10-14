@@ -200,9 +200,10 @@ public class LoadMasterObjects {
 		// int roomID = Integer
 		// .parseInt(element.getChildText("RoomID"));
 		// Room currentRoom = main.getRoomIDMap().get(roomID);
+		
 		PlayableCharacter character = new PlayableCharacter(ID, dir,
 				attackPower, health, inventoryList);
-		boardData.getObjStorer().addplayableChs(character.getObjectID(), character);
+		boardData.getObjStorer().addplayableChs(character.getObjectID(), character); 
 		return character;
 	}
 

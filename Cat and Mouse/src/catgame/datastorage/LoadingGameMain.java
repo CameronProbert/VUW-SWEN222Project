@@ -21,15 +21,14 @@ public class LoadingGameMain {
 	private BoardData boardData = new BoardData();
 	private File xmlFile;
 
-
 	public LoadingGameMain(boolean isLoadOldGame, File xmlFile)
 			throws JDOMException, XMLException {
-
+		this.isLoadOldGame = isLoadOldGame;
 		// make obj loader
 		this.masterObjectLoader = new LoadMasterObjects(this, boardData);
 		// make loader helper
-		this.helper = new LoadingHelper(this);
-		this.isLoadOldGame = isLoadOldGame;
+		this.helper = new LoadingHelper(this, isLoadOldGame);
+
 		this.xmlFile = xmlFile;
 		boardData = startLoading();
 		if (boardData != null) {
@@ -86,39 +85,47 @@ public class LoadingGameMain {
 		createRoomInventory(roomElement.getChildren().get(0), room);
 		linkAllDoors(roomElement.getChildren().get(1));
 		room.loadBoardCellToRoom(loadRoomGrid(roomElement.getChildren().get(2)));
-		helper.populateDoorLocationMap(room);
+		// helper.populateDoorLocationMap(room); 
+		// TODO fix door links on dans side
+		if (isLoadOldGame) {
+			helper.populatePlayerLocationMap(room);
+		}
+
 		return room;
 	}
 
 	private void linkAllDoors(Element element) throws XMLException {
-		// <DoorLinks>(431010,null) (431011,null) (421013,null) (411012,null)</DoorLinks>
-//		String doorLinksWholeSting = element.getText();
-//		System.out.println("Link all doors, whole string: " + doorLinksWholeSting);
-//		String[] doorLinksWholeArray = doorLinksWholeSting.split(" ");
-//		// now format is (431010,null)
-//		for(String link : doorLinksWholeArray){
-//			link = link.substring(1, link.length()-1);
-//			String[] singleDoorLink = link.split(",");
-//			int firstDoorID = Integer.parseInt(singleDoorLink[0]);
-//			if(!doorIDMap.containsKey(firstDoorID)){
-//				throw new XMLException("First Door" + firstDoorID + " is missing from the DoorIDMap");
-//			}
-//			Door firstDoor = doorIDMap.get(firstDoorID);
-//			if(!singleDoorLink[1].equals("null")){
-//				int secondDoorID = Integer.parseInt(singleDoorLink[1]);
-//				if(!doorIDMap.containsKey(secondDoorID)){
-//					throw new XMLException("Second Door" + secondDoorID + " is missing from the DoorIDMap");
-//				}
-//				Door secondDoor = doorIDMap.get(secondDoorID);
-//				
-//			}
-//			else{
-//				firstDoor.addOtherSide(null, 0);
-//			}
-//			
-//		}
-		
-		
+		// <DoorLinks>(431010,null) (431011,null) (421013,null)
+		// (411012,null)</DoorLinks>
+		// String doorLinksWholeSting = element.getText();
+		// System.out.println("Link all doors, whole string: " +
+		// doorLinksWholeSting);
+		// String[] doorLinksWholeArray = doorLinksWholeSting.split(" ");
+		// // now format is (431010,null)
+		// for(String link : doorLinksWholeArray){
+		// link = link.substring(1, link.length()-1);
+		// String[] singleDoorLink = link.split(",");
+		// int firstDoorID = Integer.parseInt(singleDoorLink[0]);
+		// if(!doorIDMap.containsKey(firstDoorID)){
+		// throw new XMLException("First Door" + firstDoorID +
+		// " is missing from the DoorIDMap");
+		// }
+		// Door firstDoor = doorIDMap.get(firstDoorID);
+		// if(!singleDoorLink[1].equals("null")){
+		// int secondDoorID = Integer.parseInt(singleDoorLink[1]);
+		// if(!doorIDMap.containsKey(secondDoorID)){
+		// throw new XMLException("Second Door" + secondDoorID +
+		// " is missing from the DoorIDMap");
+		// }
+		// Door secondDoor = doorIDMap.get(secondDoorID);
+		//
+		// }
+		// else{
+		// firstDoor.addOtherSide(null, 0);
+		// }
+		//
+		// }
+
 	}
 
 	private void createRoomInventory(Element childrenElement, Room room)
@@ -136,7 +143,7 @@ public class LoadingGameMain {
 
 				}
 			}
-			
+
 			// TODO Check casting!!!!
 			// isLoadOldGame is a check if we are loading an old game or new
 			// game. if we are then we load and create players from xml
@@ -147,13 +154,12 @@ public class LoadingGameMain {
 					PlayableCharacter inventoryObj = (PlayableCharacter) masterObjectLoader
 							.verifyElement(playerableObj);
 					if (inventoryObj instanceof PlayableCharacter) {
-						System.out.println("Adding a PlayableCharacter");
+						// System.out.println("Adding a PlayableCharacter");
 						addPlayerToMap((PlayableCharacter) inventoryObj);
 					}
 
 					addObjectToMap(inventoryObj);
 					room.addToInventory((GameObject) inventoryObj);
-
 				}
 			}
 		}
@@ -167,16 +173,16 @@ public class LoadingGameMain {
 				"FirstArray.length").getText());
 		int secondArrayLength = Integer.parseInt(childrenElement.getChild(
 				"SecondArray.length").getText());
-		System.out.println("IN LOAD ROOM GRID. FirstArray.length = "
-				+ firstArrayLength + " SecondArray.length = "
-				+ secondArrayLength);
+		// System.out.println("IN LOAD ROOM GRID. FirstArray.length = "
+		// + firstArrayLength + " SecondArray.length = "
+		// + secondArrayLength);
 		// make new boardCell array using dimensions
 		BoardCell[][] boardCell = new BoardCell[firstArrayLength][secondArrayLength];
 		// ----------------------------Test----------------------------------------
-		for (Integer id : objectIDMap.keySet()) {
-			System.out.println("ID: " + id + " Object: "
-					+ objectIDMap.get(id).toString());
-		}
+		// for (Integer id : objectIDMap.keySet()) {
+		// System.out.println("ID: " + id + " Object: "
+		// + objectIDMap.get(id).toString());
+		// }
 		// ------------------------------------------------------------------------
 		// Start dealing with boardCell info stored in elements
 		// Get the element's text containing all the info and split
@@ -187,8 +193,8 @@ public class LoadingGameMain {
 		for (int y = 0; y < firstArrayLength; y++) {
 			String row = "Row" + y;
 			String wholeElementText = childrenElement.getChild(row).getText();
-			System.out.println("Row: " + row + " wholeElementText = "
-					+ wholeElementText);
+			// System.out.println("Row: " + row + " wholeElementText = "
+			// + wholeElementText);
 			String[] wholeElementArray = wholeElementText.split(" ");
 			if (wholeElementArray.length != boardCell[y].length) {
 				throw new XMLException(
@@ -200,18 +206,19 @@ public class LoadingGameMain {
 			for (int x = 0; x < secondArrayLength; x++) {
 				// use helper method to parse string of (x,y,ID,groundType)
 				// and make new BoardCells
-				System.out.println("Calling helper method on string: "
-						+ wholeElementArray[x]);
+				// System.out.println("Calling helper method on string: "
+				// + wholeElementArray[x]);
 				boardCell[y][x] = helper.loadBoardCell(wholeElementArray[x]);
 			}
 		}
-		
-		for (int y = 0; y < firstArrayLength; y++) {
-			for (int x = 0; x < secondArrayLength; x++) {
-				System.out.print("(y = " + y + " x = " + x  + " " + boardCell[y][x].getGroundType() + ") ");
-			}
-			System.out.println();
-		}
+
+		// for (int y = 0; y < firstArrayLength; y++) {
+		// for (int x = 0; x < secondArrayLength; x++) {
+		// System.out.print("(y = " + y + " x = " + x + " " +
+		// boardCell[y][x].getGroundType() + ") ");
+		// }
+		// System.out.println();
+		// }
 		return boardCell;
 	}
 
@@ -244,8 +251,8 @@ public class LoadingGameMain {
 	public Map<Integer, MasterObject> getObjectIDMap() {
 		return objectIDMap;
 	}
-	
-	public Map<Integer, Door> getDoorIDMap(){
+
+	public Map<Integer, Door> getDoorIDMap() {
 		return doorIDMap;
 	}
 
@@ -256,6 +263,10 @@ public class LoadingGameMain {
 		return boardData;
 	}
 
+	
+	public LoadingHelper getHelper(){
+		return helper;
+	}
 	public static void main(String[] args) throws JDOMException, XMLException {
 		// List<Integer> temp = new ArrayList<Integer>();
 		// temp.add(23);

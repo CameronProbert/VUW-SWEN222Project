@@ -13,8 +13,11 @@ import java.util.*;
 
 public class LoadingHelper {
 	LoadingGameMain main;
-	public LoadingHelper(LoadingGameMain main) {
+	boolean isOldGame;
+
+	public LoadingHelper(LoadingGameMain main, boolean isOldGame) {
 		this.main = main;
+		this.isOldGame = isOldGame;
 	}
 
 	public BoardCell loadBoardCell(String boardString) throws XMLException {
@@ -32,22 +35,26 @@ public class LoadingHelper {
 			int ID = Integer.parseInt(boardInfoArray[2]);
 			if (main.getObjectIDMap().containsKey(ID)) {
 				ObjectID = (GameObject) main.getObjectIDMap().get(ID);
-				System.out.println("Found object ID: " + ID);
+				// System.out.println("Found object ID: " + ID);
 			} else {
-				 throw new XMLException(
-				 "Cannot find GameObject_" + ID + " that is supposed to be already made in the room. Cannot make BoardCell without this!");
-				//System.out.println("***********   Cannot find GameObject ID = " + ID + "   ***********");
-			}
-		} 
+				throw new XMLException(
+						"Cannot find GameObject_"
+								+ ID
+								+ " that is supposed to be already made in the room. Cannot make BoardCell without this!");
+				// System.out.println("***********   Cannot find GameObject ID = "
+				// + ID + "   ***********");
+			} 
+
+		}
 		String groundType = null;
 		if (!boardInfoArray[3].equals("null")) {
 			groundType = boardInfoArray[3];
 		}
-		System.out.println("GroundType is: " + groundType);
+		// System.out.println("GroundType is: " + groundType);
 		return new BoardCell(position, ObjectID, groundType);
 	}
-	
-	public Integer checkPlayerID(String loadingString){
+
+	public Integer checkPlayerID(String loadingString) {
 		// input: "101010"
 		String temp = loadingString.substring(0, 2);
 		int id = Integer.parseInt(temp);
@@ -73,14 +80,29 @@ public class LoadingHelper {
 		BoardCell[][] roomGrid = room.getBoardGrid();
 		for (int y = 0; y < roomGrid.length; y++) {
 			for (int x = 0; x < roomGrid[y].length; x++) {
-				if(roomGrid[y][x].getObjectOnCell() instanceof Door){
-					System.out.println("Adding Door_" + roomGrid[y][x].getObjectOnCell().getObjectID());
-					room.addToDoorsLocation(roomGrid[y][x].getObjectOnCell().getObjectID(), roomGrid[y][x]);
+				if (roomGrid[y][x].getObjectOnCell() instanceof Door) {
+					System.out.println("Adding Door_"
+							+ roomGrid[y][x].getObjectOnCell().getObjectID());
+					room.addToDoorsLocation(roomGrid[y][x].getObjectOnCell()
+							.getObjectID(), roomGrid[y][x]);
 				}
 			}
 			System.out.println();
 		}
-		
-		
+
+	}
+	
+	public void populatePlayerLocationMap(Room room){
+		BoardCell[][] roomGrid = room.getBoardGrid();
+		for (int y = 0; y < roomGrid.length; y++) {
+			for (int x = 0; x < roomGrid[y].length; x++) {
+				if (roomGrid[y][x].getObjectOnCell() instanceof PlayableCharacter) {
+					System.out.println("Adding Player_"
+							+ roomGrid[y][x].getObjectOnCell().getObjectID());
+					room.addToPlayerLocationMap(roomGrid[y][x].getObjectOnCell()
+							.getObjectID(), roomGrid[y][x]);
+				}
+			}
+		}
 	}
 }
