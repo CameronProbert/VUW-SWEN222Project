@@ -6,6 +6,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import org.jdom2.*;
@@ -16,6 +17,7 @@ import catgame.gameObjects.*;
 public class SavingMasterObjects {
 	private SavingMain main;
 	private SavingHelper helper;
+	
 
 	public SavingMasterObjects(SavingMain main) {
 		this.main = main;
@@ -56,10 +58,20 @@ public class SavingMasterObjects {
 		Door door = (Door) obj;
 		Element doorElement = new Element("Door");
 		doorElement.setAttribute(new Attribute("id", "" + door.getObjectID()));
-		doorElement.addContent(new Element("EntranceDoor")); // TODO finish this element
-		doorElement.addContent(new Element("isLocked").setText("" + door.getIsLocked()));
 		doorElement.addContent(new Element("Direction").setText(door.getDoorsWallEdge().name()));
 		doorElement.addContent(new Element("RoomID").setText("" + door.getRoom().getRoomID()));
+		Element doorEntranceElement = new Element("EntranceDoor");
+		if(door.enterDoor() == null){
+			doorEntranceElement.setText("null");
+			main.getDoorLinksMap().put(door.getObjectID(), null);
+		}
+		else{
+			doorEntranceElement.setText("" + door.enterDoor().getObjectID());
+			main.getDoorLinksMap().put(door.getObjectID(), door.enterDoor().getObjectID());
+		}
+		doorElement.addContent(doorEntranceElement);
+		doorElement.addContent(new Element("isLocked").setText("" + door.getIsLocked()));
+		
 		return doorElement;
 	}
 

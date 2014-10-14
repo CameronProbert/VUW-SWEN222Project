@@ -45,7 +45,7 @@ public class LoadingHelper {
 		if (!boardInfoArray[3].equals("null")) {
 			groundType = boardInfoArray[3];
 		}
-
+		System.out.println("GroundType is: " + groundType);
 		return new BoardCell(position, ObjectID, groundType);
 	}
 	
