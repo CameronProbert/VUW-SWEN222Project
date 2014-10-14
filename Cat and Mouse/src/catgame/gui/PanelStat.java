@@ -19,35 +19,40 @@ public class PanelStat extends PanelAbstract {
 
 	private PlayableCharacter character;
 	private BufferedImage backGround;
+	private int margin;
 
 	public PanelStat(PlayableCharacter character) {
 		super();
 		try {
 			backGround = ImageIO.read(PanelRender.class
-					.getResource("/images/StatPanel.png")); //TODO StatBG
+					.getResource("/images/StatPanel.png"));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 		this.character = character;
 		this.addMinimap();
 	}
-
+	
+	/**
+	 * Adds the minimap panel
+	 */
 	private void addMinimap() {
 		PanelMinimap map = new PanelMinimap();
 		
 		// Set the size of the mini-map
-		Dimension mapSize = new Dimension(this.getWidth(), (int) (this.getHeight()*0.7));
-		map.setSize(mapSize);
-		map.setPreferredSize(mapSize);
+		int mapSize = this.getWidth()-margin*2;
+		Dimension mapDim = new Dimension(mapSize, mapSize);
+		map.setSize(mapDim);
+		map.setPreferredSize(mapDim);
 		
 		// Set the placement of the mini-map
-		int mapX = this.getX();
-		int mapY = (int) (this.getY()+this.getHeight()*0.3);
+		int mapX = margin;
+		int mapY = this.getHeight()-mapSize-margin;
 		map.setLocation(mapX, mapY);
 		
 		this.add(map);
 	}
-
+	
 	/**
 	 * For testing purposes
 	 */
@@ -63,26 +68,29 @@ public class PanelStat extends PanelAbstract {
 		//character.addXp((int) (Math.random()*29)+1);
 		repaint();
 	}
-
-	// TODO SCALE
+	
 	@Override
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
+		margin = (int) (this.getWidth()*0.1);
 		if (backGround != null) {
 			g.drawImage(backGround, 0, 0, this.getWidth(), this.getHeight(), null);
 		}
 		drawHPBar(g);
 	}
 	
+	/**
+	 * Draws the HP Bar
+	 * @param g
+	 */
 	public void drawHPBar(Graphics g){
-		int margin = (int) (this.getWidth()*0.1);
 		int HPWidth = this.getWidth()-2*margin;
 		int HPHeight = this.getHeight()/15;
 		int HPX = margin;
-		int HPY = this.getHeight()/15;
+		int HPY = margin+10;
 		
 		g.setColor(Color.black);
-		g.drawString("Health:", 10, 15);
+		g.drawString("Health:", margin, margin+7);
 		g.setColor(Color.DARK_GRAY);
 		g.fillRect(HPX, HPY, HPWidth, HPHeight);
 		if (character != null) {
