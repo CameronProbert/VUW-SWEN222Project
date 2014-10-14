@@ -80,8 +80,9 @@ public class FrameClient extends FrameAbstract implements KeyListener {
 			character = runner.getBoardData().getObjStorer()
 					.findCharacter(clientsUID);
 			this.addPanels(character);
-			this.setVisible(true);
 		}
+
+		this.setVisible(true);
 	}
 	
 	public void startMyClient(){
