@@ -223,6 +223,9 @@ public class PanelRender extends JPanel {
 		int startY = (panelHeight / 2) - groundOffsetY;
 //		System.out.println("GroundType");
 //		System.out.println(currentRoom.getBoardGrid()[sendY][sendX].getGroundType());
+		if (currentRoom.getBoardGrid()[sendY][sendX].getGroundType() == null) {
+			return;
+		}
 		if (currentRoom.getBoardGrid()[sendY][sendX].getGroundType().equals("Grass")) {
 			drawGround(g, grassBlock, sendY, sendX, y, x, startY, startX);
 		}
@@ -589,6 +592,11 @@ public class PanelRender extends JPanel {
 		Image img = fenceLeft1;
 		switch (gUtil.getViewDirection()) {
 		case NORTH:
+			if (fenceType == 34){
+				
+			} else {
+				
+			}
 			drawObject(g, img, sendY, sendX, y, x, startY, startX);
 			break;
 		case EAST:
