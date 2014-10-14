@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
 
+import catgame.gameObjects.Boss;
 import catgame.gameObjects.Character;
 import catgame.gameObjects.Chest;
 import catgame.gameObjects.Food;
@@ -12,6 +13,7 @@ import catgame.gameObjects.GameItem;
 import catgame.gameObjects.GameObject;
 import catgame.gameObjects.Key;
 import catgame.gameObjects.MasterObject;
+import catgame.gameObjects.Minion;
 import catgame.gameObjects.NonPlayableCharacter;
 import catgame.gameObjects.PlayableCharacter;
 
@@ -315,7 +317,16 @@ public class GameUtil {
 	}
 
 	public void attackUpdate(int playerID, int minionID) {
-		
+		PlayableCharacter pC = this.storer.findCharacter(playerID);
+		Character ch = this.storer.findNCP(minionID);
+		if(ch instanceof Boss){
+			pC.changeHealth(10);
+			ch.changeHealth(20);
+		}
+		else if(ch instanceof Minion){
+			pC.changeHealth(8);
+			pC.changeHealth(20);
+		}
 	}
 
 }
