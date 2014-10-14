@@ -191,22 +191,12 @@ public class GameUtil {
 	 * @param ObjectID
 	 * @return
 	 */
-	public boolean addObjectToInventory(int playerID, int ObjectID) {
-		// TODO if either ID not found throw IDNotFoundError
-		return false; // TODO gameMap.get(playerID).addToInventory(GameITem);
-	}
-
-	/**
-	 * Remove an GameObject from an players inventory using the objects id
-	 * 
-	 * @param playerID
-	 * @param ObjectID
-	 * @return
-	 */
-	public boolean removeItem(int playerID, int ObjectID) {
-		// TODO if either ID not found throw IDNotFoundError
-		return false; // TODO
-						// gameMap.get(playerID).removeFromInventory(GameITem);
+	public boolean addObjectToInventory(int playerID, int objectID) {
+		if(findPlayersRoom(playerID).getPlayerInRoom(playerID).canAddItem()){
+			
+		return findPlayersRoom(playerID).getPlayerInRoom(playerID).addToInventory(storer.findItem(objectID));
+		}
+		return false;
 	}
 
 	/**
@@ -217,22 +207,9 @@ public class GameUtil {
 	 * @return
 	 */
 	public int useItem(int playerID, int objectID) {
-		// TODO if either ID not found throw IDNotFoundError
-		return -1; // TODO gameMap.get(playerID).useItem(GameITem)
+		return findPlayersRoom(playerID).getPlayerInRoom(playerID).eat(objectID);
 	}
-
-	/**
-	 * Call to the logic to move the player to the other side of a door
-	 * 
-	 * @param playerID
-	 * @param roomID
-	 * @return
-	 */
-	public boolean moveToNextRoom(int playerID, int roomID) {
-		// TODO if either ID not found throw IDNotFoundError
-		return false;
-	}
-
+	
 	/**
 	 * Return the chest object that the player is standing infront of, return
 	 * null if none

@@ -155,16 +155,6 @@ public class PlayableCharacter implements Character {
 		this.facingDirection = direction;
 	}
 
-	public void attack() {
-		// this.currentRoom.playerAttack(id, facingDirection ,
-		// this.attackPower);
-	}
-
-	public int getLevel() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
 	public void reset(int attackPower, int health, int level) {
 		// TODO Auto-generated method stub
 
@@ -176,25 +166,32 @@ public class PlayableCharacter implements Character {
 	}
 
 	public boolean addToInventory(GameItem item) {
-		// TODO Auto-generated method stub
-		return false;
+		if (item == null) {
+			return false;
+		}
+		return inventory.add(item);
 	}
 
 	/**
 	 * Eat food in the inv removing it in the process
 	 * 
-	 * @param food
+	 * @param objectID
 	 */
-	public void eat(Food food) {
+	public int eat(int objectID) {
 		Food toEat = null;
 		for (int i = 0; i < inventory.size(); i++) {
-			if (inventory.get(i).equals(food)) {
+			if (inventory.get(i).getObjectID() == objectID) {
 				toEat = (Food) inventory.remove(i);
 			}
 		}
 		if (toEat != null) {
 			changeHealth(toEat.getHeal());
+			return 1;
 		}
+		return -1;
 	}
-
+	
+	public boolean canAddItem(){
+		return (inventory.size() <= 5);
+	}
 }

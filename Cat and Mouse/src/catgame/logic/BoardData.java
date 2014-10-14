@@ -70,7 +70,7 @@ public class BoardData {
 	public void loadTestData() {
 		RoomBuilder testRoom = new RoomBuilder();
 		addRoom(testRoom.loadRoom(objStorer));
-		TESTattachDoors();
+	//TESTattachDoors();
 	}
 
 	public void TESTattachDoors() {

@@ -1,5 +1,6 @@
 package catgame.logic;
 
+import java.security.KeyStore.Entry;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -31,10 +32,10 @@ public class ObjectStorer {
 	private HashMap<Integer, Chest> chests = new HashMap<Integer, Chest>();
 	private HashMap<Integer, GameItem> items = new HashMap<Integer, GameItem>();
 
-	public ObjectStorer(){
-		
+	public ObjectStorer() {
+
 	}
-	
+
 	public void addplayableChs(int objId, PlayableCharacter player) {
 		System.out.println("playable ch added \n\n\n");
 		playableChs.put(objId, player);
@@ -47,8 +48,8 @@ public class ObjectStorer {
 	public void addChest(int objId, Chest chest) {
 		chests.put(objId, chest);
 	}
-	
-	public void addItems(int objId, GameItem item){
+
+	public void addItems(int objId, GameItem item) {
 		items.put(objId, item);
 	}
 
@@ -98,8 +99,9 @@ public class ObjectStorer {
 	}
 
 	public PlayableCharacter findCharacter(int objectID) {
-		if(playableChs.size()==0) System.out.println("playableChs not populated\n\n");
-		 return playableChs.get(objectID);
+		if (playableChs.size() == 0)
+			System.out.println("playableChs not populated\n\n");
+		return playableChs.get(objectID);
 
 	}
 
@@ -133,10 +135,44 @@ public class ObjectStorer {
 
 	public List<Integer> getPlayerIDs() {
 		List<Integer> ids = new ArrayList<Integer>();
-		for(PlayableCharacter ch: this.playableChs.values()){
+		for (PlayableCharacter ch : this.playableChs.values()) {
 			ids.add(ch.getObjectID());
 		}
 		return ids;
 	}
 
+	public GameItem findItemInGame(int itemID) {
+		GameObject itemHolder = null;
+		for (NonPlayableCharacter npc : nonPlayableChs.values()) {
+			for (GameItem item : ((NonPlayableCharacter) npc).getInventory()) {
+				if (item.getObjectID() == itemID) {
+					itemHolder = (GameObject) npc;
+				}
+			}
+		}
+		// IF WE HAVENT FOUND THE HOLDER YET GO THROUGH THE CHESTS
+		if (itemHolder == null) {
+			for (Chest chest : chests.values()) {
+				for (GameItem item : chest.getLoot()) {
+					itemHolder = (GameObject) chest;
+				}
+			}
+		}
+		if (itemHolder != null) {
+			if (itemHolder instanceof NonPlayableCharacter) {
+				for (int i = 0; i < ((NonPlayableCharacter) itemHolder).getInventory().size(); i++) {
+					if (((NonPlayableCharacter) itemHolder).getInventory().get(i).getObjectID() == itemID) {
+						return ((NonPlayableCharacter) itemHolder).getInventory().remove(i);
+					}
+				}
+			} else {
+				for (int i = 0; i < ((Chest) itemHolder).getLoot().size(); i++) {
+					if (((Chest) itemHolder).getLoot().get(i).getObjectID() == itemID) {
+						return ((Chest) itemHolder).getLoot().remove(i);
+					}
+				}
+			}
+		}
+		return null;
+	}
 }
