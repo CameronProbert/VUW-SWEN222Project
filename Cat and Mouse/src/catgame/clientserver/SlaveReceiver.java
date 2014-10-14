@@ -18,6 +18,8 @@ import catgame.gameObjects.Chest;
 import catgame.gameObjects.GameItem;
 import catgame.gameObjects.NonPlayableCharacter;
 import catgame.gameObjects.PlayableCharacter;
+import catgame.gamestarting.GameRunner;
+import catgame.gamestarting.NetworkHandler;
 import catgame.gui.FrameClient;
 
 /**
@@ -134,7 +136,7 @@ public class SlaveReceiver {
 	 */
 	private void recieveMassUpdate(DataInputStream input) {
 		try {
-			ReceiveMessage receiver = new ReceiveMessage(input, net.getBoardData().getGameUtil());
+			ReceiveMassUpdate receiver = new ReceiveMassUpdate(input, net.getBoardData().getGameUtil());
 
 			double noChars = input.readDouble();
 

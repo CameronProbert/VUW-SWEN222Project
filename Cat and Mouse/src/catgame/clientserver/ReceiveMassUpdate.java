@@ -22,12 +22,12 @@ import catgame.logic.ObjectStorer;
  *
  */
 
-public class ReceiveMessage {
+public class ReceiveMassUpdate {
 
 	private DataInputStream in ;
 	private GameUtil game;
 
-	public ReceiveMessage(DataInputStream input, GameUtil game){
+	public ReceiveMassUpdate(DataInputStream input, GameUtil game){
 		this.in = input;
 		this.game = game;
 	}

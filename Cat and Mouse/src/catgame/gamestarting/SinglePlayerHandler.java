@@ -1,4 +1,4 @@
-package catgame.clientserver;
+package catgame.gamestarting;
 
 import java.io.File;
 import java.io.IOException;

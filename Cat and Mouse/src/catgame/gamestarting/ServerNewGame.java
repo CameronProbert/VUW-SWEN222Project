@@ -1,5 +1,4 @@
-package catgame.clientserver;
-
+package catgame.gamestarting;
 
 import java.io.File;
 import java.io.IOException;
@@ -10,38 +9,38 @@ import java.util.List;
 
 import org.jdom2.JDOMException;
 
-import catgame.datastorage.LoadOldGame;
+import catgame.clientserver.Master;
+import catgame.datastorage.LoadNewGame;
+import catgame.datastorage.SavingMain;
 import catgame.datastorage.XMLException;
 import catgame.logic.BoardData;
 
+public class ServerNewGame extends StartServer {
 
-/**
- * handles the setup of the server and singleplayer
- * handles sockets and also manages whether the game is over or not
- * @author Francine
- *
- */
-public class ServerOldGame extends StartGame {
-
+	private static final int DEFAULT_CLK_PERIOD = 20;
+	private static final int DEFAULT_BROADCAST_CLK_PERIOD = 5;
 	private int broadcastClock;
+	private int gameClock;
 	private int port = 32768; // default
+	private static boolean readyToStart = false;
 	private NetworkHandler handler;
 	private static int maxPlayers;
-	private String fileName;
-	private List<Integer> playerIDs;
+	private List<Integer> playerIDs = new ArrayList<Integer>();
 	private BoardData boardData;
 
 	private String url = null;	
+
+	public ServerNewGame(){
+		broadcastClock = DEFAULT_BROADCAST_CLK_PERIOD;
+		gameClock = DEFAULT_CLK_PERIOD;
+	}
 
 	/**
 	 * sets up the server given a number of players
 	 * @param numPlayers
 	 */
-	public void setServer(String fileName){
-		if(fileName==null){
-			return; // cannot load from null file
-		}
-		this.fileName = fileName;
+	public void setServer(int numPlayers){
+		maxPlayers = numPlayers;
 		if(url != null) {
 			System.out.println("Cannot be a server and connect to another server!");
 			System.exit(1);
@@ -55,11 +54,11 @@ public class ServerOldGame extends StartGame {
 	 */
 	public void run() {
 
-		setUpGame();
 		// Listen for connections
 		System.out.println("SERVER LISTENING ON PORT " + port);
 		System.out.println("SERVER AWAITING CLIENTS");
 		try {
+			handler = new NetworkHandler(NetworkHandler.Type.SERVER);
 			List<Master> connections = new ArrayList<Master>();
 			// Now, we await connections.
 			ServerSocket ss = new ServerSocket(port);
@@ -81,7 +80,9 @@ public class ServerOldGame extends StartGame {
 					}
 					System.out.println("ALL CLIENTS ACCEPTED --- GAME BEGINS");
 					setMasterIDs(connections);
+					setUpGame(connections);
 					allowMastersStart(connections);
+
 					multiUserGame(handler,connections);
 					System.out.println("ALL CLIENTS DISCONNECTED --- GAME OVER");
 					return; // done
@@ -92,26 +93,26 @@ public class ServerOldGame extends StartGame {
 		} 
 	}
 
-	protected void setMasterIDs(List<Master> connections) {
-		if(playerIDs!=null){
-			int i=0;
-			for(Master m: connections){
-				m.setUID(playerIDs.get(i));
-				i++;
-			}
-		}
-
-	}
-
-	private void setUpGame() {
+	private void setUpGame(List<Master> connections) {
 		try {
-			LoadOldGame loadXML = new LoadOldGame(new File(fileName));
+			LoadNewGame loadXML = new LoadNewGame(playerIDs);
 			boardData = loadXML.getBoardData();
 			handler.setBoardData(boardData);
-			playerIDs = boardData.getObjStorer().getPlayerIDs();
-			maxPlayers = playerIDs.size();
-		} catch (JDOMException | XMLException e) {
+			SavingMain save = new SavingMain(boardData);
+			File file = save.getXMLFile();
+			for(Master m: connections){
+				m.setFile(file);
+			}
+		} catch (JDOMException | XMLException | IOException e) {
 			e.printStackTrace();
+		}
+	}
+
+	protected void setMasterIDs(List<Master> connections) {
+		for(Master m: connections){
+			int id = handler.registerPlayer();
+			m.setUID(id);
+			playerIDs.add(id);
 		}
 	}
 

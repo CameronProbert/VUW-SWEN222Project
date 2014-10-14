@@ -13,8 +13,8 @@ import javax.swing.JFileChooser;
 import javax.swing.JPanel;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
-import catgame.clientserver.ServerNewGame;
-import catgame.clientserver.ServerOldGame;
+import catgame.gamestarting.ServerNewGame;
+import catgame.gamestarting.ServerOldGame;
 import catgame.gui.renderpanel.PanelRender;
 
 public class FrameHost extends FrameAbstract {

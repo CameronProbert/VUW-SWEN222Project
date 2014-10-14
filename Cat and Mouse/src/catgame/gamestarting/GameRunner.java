@@ -1,4 +1,4 @@
-package catgame.clientserver;
+package catgame.gamestarting;
 
 import catgame.logic.BoardData;
 import catgame.logic.GameUtil;

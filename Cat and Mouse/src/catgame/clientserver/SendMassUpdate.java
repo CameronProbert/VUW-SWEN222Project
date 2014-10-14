@@ -13,11 +13,11 @@ import catgame.gameObjects.Character;
  * @author Francine
  *
  */
-public class BroadcastMessage {
+public class SendMassUpdate {
 
 	private DataOutputStream out;
 
-	public BroadcastMessage(DataOutputStream out){
+	public SendMassUpdate(DataOutputStream out){
 		this.out = out;
 	}
 

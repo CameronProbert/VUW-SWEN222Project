@@ -1,9 +1,11 @@
-package catgame.clientserver;
+package catgame.gamestarting;
 
 import java.io.IOException;
 import java.util.List;
 
-public abstract class StartGame extends Thread {
+import catgame.clientserver.Master;
+
+public abstract class StartServer extends Thread {
 
 
 	public abstract void run();

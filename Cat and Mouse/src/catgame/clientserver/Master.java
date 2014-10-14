@@ -12,6 +12,7 @@ import catgame.gameObjects.Chest;
 import catgame.gameObjects.GameItem;
 import catgame.gameObjects.NonPlayableCharacter;
 import catgame.gameObjects.PlayableCharacter;
+import catgame.gamestarting.NetworkHandler;
 import catgame.logic.ObjectStorer;
 
 /**
@@ -129,7 +130,7 @@ public final class Master extends Thread {
 		//for each non playable character send update
 		//for each chest
 		//for each item
-		BroadcastMessage broadcast = new BroadcastMessage(output);
+		SendMassUpdate broadcast = new SendMassUpdate(output);
 		try {
 			ObjectStorer storer = game.getBoardData().getObjStorer();
 

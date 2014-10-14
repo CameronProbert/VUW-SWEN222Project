@@ -24,6 +24,7 @@ import catgame.clientserver.*;
 import catgame.datastorage.LoadingGameMain;
 import catgame.datastorage.XMLException;
 import catgame.gameObjects.*;
+import catgame.gamestarting.GameRunner;
 import catgame.gui.renderpanel.*;
 import catgame.logic.*;
 import catgame.logic.GameUtil.Direction;

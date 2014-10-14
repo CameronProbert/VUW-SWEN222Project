@@ -1,10 +1,10 @@
-package catgame.clientserver;
+package catgame.gamestarting;
 
 import java.net.Socket;
-
 import java.util.ArrayList;
 import java.util.List;
 
+import catgame.clientserver.Update;
 import catgame.logic.GameUtil;
 
 /**

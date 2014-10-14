@@ -15,11 +15,11 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JSlider;
 
-import catgame.clientserver.NetworkHandler;
-import catgame.clientserver.SinglePlayerHandler;
 import catgame.clientserver.Slave;
 import catgame.clientserver.SlaveReceiver;
 import catgame.gameObjects.PlayableCharacter;
+import catgame.gamestarting.NetworkHandler;
+import catgame.gamestarting.SinglePlayerHandler;
 
 /**
  * The LauncherFrame will be the first instance of the program that the users
