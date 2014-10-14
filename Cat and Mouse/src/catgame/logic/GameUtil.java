@@ -203,14 +203,17 @@ public class GameUtil {
 	}
 	
 	/**
-	 * Return the chest object that the player is standing infront of, return
+	 * Return the chest object that the player is standing in front of, return
 	 * null if none
 	 * 
 	 * @param clientsUID
 	 * @return
 	 */
-	public Chest getChest() {
+	public GameObject getObjectAhead(int playerID){
 		// TODO Find the chest in front of yourself
+		if (findPlayersRoom(playerID) != null) {
+			return findPlayersRoom(playerID).getObjectAheadOfCharactor(playerID, this.viewDirection);
+		}
 		return null;
 	}
 

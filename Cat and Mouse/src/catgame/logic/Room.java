@@ -333,5 +333,21 @@ public class Room {
 		return (PlayableCharacter) playerLocationMap.get(playerID).getObjectOnCell();
 	}
 
-	
+	/**
+	 * Return the GameObject ahead of a character if there is no object it will return null
+	 * 
+	 * @param playerID
+	 * @param boardDirection
+	 * @return
+	 */
+	public GameObject getObjectAheadOfCharactor(int playerID, Direction boardDirection){
+		GameObject returnObj = null;
+		if (playerLocationMap.get(playerID).getObjectOnCell() instanceof PlayableCharacter) {
+			BoardCell playersCell = playerLocationMap.get(playerID);
+			PlayableCharacter player = (PlayableCharacter) playersCell.getObjectOnCell();
+			Position actionPosition = findPosition(playerID, boardDirection, player.getFacingDirection());
+			returnObj = roomGrid[actionPosition.getY()][actionPosition.getX()].getObjectOnCell();
+		}
+		return returnObj;
+	}
 }
