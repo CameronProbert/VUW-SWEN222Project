@@ -105,7 +105,7 @@ public class FrameClient extends FrameAbstract implements KeyListener {
 				e.printStackTrace();
 			}
 		}
-
+		this.pack();
 		this.setVisible(true);
 	}
 
@@ -116,6 +116,7 @@ public class FrameClient extends FrameAbstract implements KeyListener {
 		if (panelBG != null) {
 			panelBG.setVisible(false);
 		}
+		this.pack();
 		this.setVisible(true);
 	}
 

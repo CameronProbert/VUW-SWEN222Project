@@ -121,7 +121,7 @@ public class FrameLauncher extends FrameAbstract {
 		box.add(buttonClient);
 		box.add(buttonSinglePlayer);
 		box.add(buttonQuit);
-		// this.pack();
+		this.pack();
 	}
 
 	/**
@@ -156,6 +156,7 @@ public class FrameLauncher extends FrameAbstract {
 		loadButton.setLocation(0, 100);
 		frame.add(newButton);
 		frame.add(loadButton);
+		frame.pack();
 		frame.setVisible(true);
 	}
 //
