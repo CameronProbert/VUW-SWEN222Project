@@ -110,16 +110,16 @@ public class Update {
 			game.moveDown(playerID);
 			
 		case 5: // attack
-			game.attack(playerID, lastID);
+			game.attackUpdate(playerID, lastID);
 			
 		case 6: // add object to inventory
 			game.addObjectToInventory(playerID, lastID);
 			
 		case 7: // remove object from inventory
-			game.removeItem(playerID, lastID);
+			//game.removeItem(playerID, lastID);
 			
 		case 8: // moved room
-			game.moveToNextRoom(playerID, lastID); 
+			//game.moveToNextRoom(playerID, lastID); 
 			
 		case 9: // object eaten
 			game.useItem(playerID, lastID);

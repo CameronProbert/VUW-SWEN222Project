@@ -77,12 +77,13 @@ public class Boss implements NonPlayableCharacter {
 
 
 	public void reset(int attackPower, int health, int level) {
-		// TODO Auto-generated method stub
+		this.health = health;
+		this.attackPower = attackPower;
 		
 	}
 
 	public void resetItems(List<GameItem> items) {
-		// TODO Auto-generated method stub
+		this.inventory = items;
 		
 	}
 
