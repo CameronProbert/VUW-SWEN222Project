@@ -114,8 +114,9 @@ public class FrameClient extends FrameAbstract implements KeyListener {
 		clientsUID = uid;
 		character = runner.getBoardData().getObjStorer()
 				.findCharacter(clientsUID);
-		System.out.println("my uid is : " +clientsUID);
-		if(character==null)		System.out.println("Charcter is null when in client frame");
+		System.out.println("my uid is : " + clientsUID);
+		if (character == null)
+			System.out.println("Charcter is null when in client frame");
 		this.addPanels(character);
 		if (panelBG != null) {
 			panelBG.setVisible(false);
@@ -316,6 +317,7 @@ public class FrameClient extends FrameAbstract implements KeyListener {
 		statPanel.setLocation(statLocationX, statPanelLocationY);
 		statPanel.setSize(statPanelDim);
 		statPanel.setPreferredSize(statPanelDim);
+		statPanel.addMinimap(runner);
 
 		this.add(invPanel);
 		this.add(statPanel);
@@ -326,8 +328,10 @@ public class FrameClient extends FrameAbstract implements KeyListener {
 		if (renderPanel != null) {
 			this.remove(renderPanel);
 		}
-		Room currentRoom = runner.getBoardData().getGameUtil().findPlayersRoom(clientsUID);
-		if(currentRoom==null)System.out.println("currentRoom is null");
+		Room currentRoom = runner.getBoardData().getGameUtil()
+				.findPlayersRoom(clientsUID);
+		if (currentRoom == null)
+			System.out.println("currentRoom is null");
 		renderPanel = new PanelRender(windowSize, Integer.toString(character
 				.getObjectID()), runner.getBoardData().getGameUtil(),
 				currentRoom);
@@ -407,8 +411,8 @@ public class FrameClient extends FrameAbstract implements KeyListener {
 								item.getObjectID());
 						validAction = 1;
 					}
-				} else if (object instanceof Character) {
-					Character ch = (Character) object;
+				} else if (object instanceof NonPlayableCharacter) {
+					NonPlayableCharacter ch = (NonPlayableCharacter) object;
 					if (ch.isDead()) {
 						GameItem item = HelperMethods.showRadioList(
 								"What item do you want to take?",
@@ -423,34 +427,34 @@ public class FrameClient extends FrameAbstract implements KeyListener {
 							validAction = 1;
 						}
 					} else {
-						HelperMethods.textDialog("", "The rat is still alive! (Space bar to attack)");
+						HelperMethods
+								.textDialog("",
+										"The rat is still alive! (Space bar to attack)");
 					}
-				}
-				else if (object instanceof Rock){
+				} else if (object instanceof PlayableCharacter) {
+					HelperMethods.textDialog("",
+							"Another cat to help you find your kitten!");
+				} else if (object instanceof Rock) {
 					HelperMethods.textDialog("", "It is a rock");
-				}
-				else if (object instanceof Tree){
+				} else if (object instanceof Tree) {
 					HelperMethods.textDialog("", "It is a tree");
-				}
-				else if (object instanceof Fence){
+				} else if (object instanceof Fence) {
 					HelperMethods.textDialog("", "It is a fence");
-				}
-				else if (object instanceof Door){
+				} else if (object instanceof Door) {
 					Door d = (Door) object;
-					if (d.getIsLocked()){
-						HelperMethods.textDialog("", "It is a locked door, walk through it with a key to unlock it!");
+					if (d.getIsLocked()) {
+						HelperMethods
+								.textDialog("",
+										"It is a locked door, walk through it with a key to unlock it!");
 					} else {
 						HelperMethods.textDialog("", "It is an open door");
 					}
-				}
-				else if (object instanceof Bush){
+				} else if (object instanceof Bush) {
 					HelperMethods.textDialog("", "It is a bush");
-				}
-				else if (object instanceof Hedge){
+				} else if (object instanceof Hedge) {
 					HelperMethods.textDialog("", "It is a hedge");
 				}
-			}
-			else {
+			} else {
 				HelperMethods.textDialog("", "There is nothing ahead of you");
 			}
 			break;

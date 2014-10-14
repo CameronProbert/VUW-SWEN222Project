@@ -13,13 +13,17 @@ import javax.imageio.ImageIO;
 import javax.swing.JButton;
 
 import catgame.gameObjects.PlayableCharacter;
+import catgame.gamestarting.GameRunner;
 import catgame.gui.renderpanel.PanelRender;
 
 public class PanelStat extends PanelAbstract {
 
+	private static final double MARGINPERCENT = 0.1;
+	
 	private PlayableCharacter character;
 	private BufferedImage backGround;
 	private int margin;
+	private PanelMinimap map;
 
 	public PanelStat(PlayableCharacter character) {
 		super();
@@ -30,24 +34,28 @@ public class PanelStat extends PanelAbstract {
 			e.printStackTrace();
 		}
 		this.character = character;
-		this.addMinimap();
 	}
 	
 	/**
 	 * Adds the minimap panel
+	 * @param runner 
 	 */
-	private void addMinimap() {
-		PanelMinimap map = new PanelMinimap();
+	public void addMinimap(GameRunner runner) {
+		margin = (int) (this.getWidth()*MARGINPERCENT);
+		System.out.println("Adding minimap");
+		map = new PanelMinimap(character, runner);
 		
 		// Set the size of the mini-map
 		int mapSize = this.getWidth()-margin*2;
+		System.out.println(mapSize);
 		Dimension mapDim = new Dimension(mapSize, mapSize);
 		map.setSize(mapDim);
 		map.setPreferredSize(mapDim);
 		
 		// Set the placement of the mini-map
 		int mapX = margin;
-		int mapY = this.getHeight()-mapSize-margin;
+		int mapY = this.getHeight()-mapSize-margin*2;
+		System.out.println(mapX + ":" + mapY);
 		map.setLocation(mapX, mapY);
 		
 		this.add(map);
@@ -68,7 +76,6 @@ public class PanelStat extends PanelAbstract {
 	@Override
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
-		margin = (int) (this.getWidth()*0.1);
 		if (backGround != null) {
 			g.drawImage(backGround, 0, 0, this.getWidth(), this.getHeight(), null);
 		}
