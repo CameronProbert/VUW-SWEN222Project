@@ -2,6 +2,7 @@ package catgame.logic;
 
 import java.security.KeyStore.Entry;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
@@ -142,10 +143,14 @@ public class ObjectStorer {
 	}
 
 	public GameItem findItemInGame(int itemID) {
+		System.err.println(itemID);
 		GameObject itemHolder = null;
+		Collection<E>
 		for (NonPlayableCharacter npc : nonPlayableChs.values()) {
 			for (GameItem item : ((NonPlayableCharacter) npc).getInventory()) {
+				System.out.println(item.getObjectID());
 				if (item.getObjectID() == itemID) {
+					System.err.println("FOUND ITEM");
 					itemHolder = (GameObject) npc;
 				}
 			}
@@ -154,7 +159,11 @@ public class ObjectStorer {
 		if (itemHolder == null) {
 			for (Chest chest : chests.values()) {
 				for (GameItem item : chest.getLoot()) {
-					itemHolder = (GameObject) chest;
+					System.out.println(item.getObjectID());
+					if (item.getObjectID() == itemID) {
+						System.err.println("FOUND ITEM");
+						itemHolder = (GameObject) chest;
+					}
 				}
 			}
 		}
@@ -168,11 +177,13 @@ public class ObjectStorer {
 			} else {
 				for (int i = 0; i < ((Chest) itemHolder).getLoot().size(); i++) {
 					if (((Chest) itemHolder).getLoot().get(i).getObjectID() == itemID) {
+						System.err.println("RETURNING A GAMEITEM");
 						return ((Chest) itemHolder).getLoot().remove(i);
 					}
 				}
 			}
 		}
+		System.err.println("RETURNING NULL");
 		return null;
 	}
 }

@@ -62,13 +62,13 @@ public class Door implements NonMovavble {
 	 * @return boolean : current state of the door
 	 */
 	public boolean unlockDoor(Key key) {
-		if (this.keyID == key.getObjectID()) {
+		if(key != null){
 			this.isLocked = false;
 		}
 		return this.isLocked;
 	}
 
-	public Boolean getIsLocked() {
+	public boolean getIsLocked() {
 		return isLocked;
 	}
 
@@ -134,5 +134,13 @@ public class Door implements NonMovavble {
 
 	public Room getRoom() {
 		return room;
+	}
+	
+	public void setIsLocked(boolean b){
+		this.isLocked = b;
+	}
+	
+	public void setKeyId(int id){
+		this.keyID = id;
 	}
 }

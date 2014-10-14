@@ -78,7 +78,7 @@ public class GameUtil {
 	private Direction viewDirection = Direction.NORTH;
 
 	private final BoardData boardData;
-	
+
 	public GameUtil(BoardData boardData) {
 		this.boardData = boardData;
 	}
@@ -164,12 +164,14 @@ public class GameUtil {
 		}
 		return -1;
 	}
+
 	/**
 	 * Call to the logic loot in the facing direction of a character
+	 * 
 	 * @param playerID
 	 * @return
 	 */
-	public int playerloot(int playerID){
+	public int playerloot(int playerID) {
 		if (findPlayersRoom(playerID) != null) {
 			return findPlayersRoom(playerID).PlayerLoot(playerID, this.viewDirection);
 		}
@@ -184,9 +186,8 @@ public class GameUtil {
 	 * @return
 	 */
 	public boolean addObjectToInventory(int playerID, int objectID) {
-		if(findPlayersRoom(playerID).getPlayerInRoom(playerID).canAddItem()){
-			System.out.println("HERE");
-		return findPlayersRoom(playerID).getPlayerInRoom(playerID).addToInventory(storer.findItemInGame(objectID));
+		if (findPlayersRoom(playerID).getPlayerInRoom(playerID).canAddItem()) {
+			return findPlayersRoom(playerID).getPlayerInRoom(playerID).addToInventory(storer.findItemInGame(objectID));
 		}
 		return false;
 	}
@@ -201,7 +202,7 @@ public class GameUtil {
 	public int useItem(int playerID, int objectID) {
 		return findPlayersRoom(playerID).getPlayerInRoom(playerID).eat(objectID);
 	}
-	
+
 	/**
 	 * Return the chest object that the player is standing in front of, return
 	 * null if none
@@ -209,7 +210,7 @@ public class GameUtil {
 	 * @param clientsUID
 	 * @return
 	 */
-	public GameObject getObjectAhead(int playerID){
+	public GameObject getObjectAhead(int playerID) {
 		// TODO Find the chest in front of yourself
 		if (findPlayersRoom(playerID) != null) {
 			return findPlayersRoom(playerID).getObjectAheadOfCharactor(playerID, this.viewDirection);
@@ -315,9 +316,9 @@ public class GameUtil {
 	public void lookRight() {
 		viewDirection = Direction.leftDir(viewDirection);
 	}
-	
-	public void attackUpdate(int playerID, int minionID){
-		
+
+	public void attackUpdate(int playerID, int minionID) {
+
 	}
-	
+
 }
