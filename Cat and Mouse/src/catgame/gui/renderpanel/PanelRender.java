@@ -95,8 +95,15 @@ public class PanelRender extends JPanel {
 						groundOffsetY = ((blockHeight / 2) * y) + ((blockHeight / 2) * x);
 //						objOffsetX = groundOffsetX - 175;
 //						objOffsetY = groundOffsetY - 230;
-						objOffsetX = groundOffsetX - 130;
-						objOffsetY = groundOffsetY - 65;
+						
+//						objOffsetX = groundOffsetX - 130;
+//						objOffsetY = groundOffsetY - 65;
+						
+						objOffsetX = groundOffsetX - (panelWidth/7);
+						objOffsetY = groundOffsetY - (panelHeight/4);
+						
+						objOffsetX = groundOffsetX;
+						objOffsetY = groundOffsetY;
 					}
 				}
 			}
