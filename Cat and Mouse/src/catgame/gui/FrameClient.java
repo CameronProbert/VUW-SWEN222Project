@@ -301,8 +301,7 @@ public class FrameClient extends FrameAbstract implements KeyListener {
 		int statPanelLocationY = (int) (windowSize.getHeight()
 				- statPanelHeight - margin * 2);
 
-		invPanel = new PanelInventory(character, invPanelDim,
-				this);
+		invPanel = new PanelInventory(character, invPanelDim, this);
 		invPanel.setLocation(invLocationX, invPanelLocationY);
 		invPanel.setSize(invPanelDim);
 		invPanel.setPreferredSize(invPanelDim);
@@ -391,7 +390,6 @@ public class FrameClient extends FrameAbstract implements KeyListener {
 				GameItem item = HelperMethods
 						.showRadioList("What item do you want to take?",
 								chest.getLoot(), true);
-
 				if (item != null) {
 					runner.getBoardData()
 							.getGameUtil()
@@ -410,7 +408,7 @@ public class FrameClient extends FrameAbstract implements KeyListener {
 			}
 			break;
 		case KeyEvent.VK_M:
-			statPanel.modifyChar();
+			statPanel.increaseHP();
 			break;
 		case KeyEvent.VK_L:
 			System.out.println(HelperMethods.showRadioList(
@@ -451,26 +449,11 @@ public class FrameClient extends FrameAbstract implements KeyListener {
 	 * Unneeded for the game
 	 */
 	@Override
-	public void keyReleased(KeyEvent arg0) {
-	}
+	public void keyReleased(KeyEvent arg0) {}
 
 	/**
 	 * Unneeded for the game
 	 */
 	@Override
-	public void keyTyped(KeyEvent arg0) {
-	}
-
-	/**
-	 * Testing main method
-	 * 
-	 * @param args
-	 */
-	public static void main(String[] args) {
-		// ??
-	}
-
-	public void useItems(GameItem item) {
-		runner.getBoardData().getGameUtil().useItem(clientsUID, item.getObjectID());
-	}
+	public void keyTyped(KeyEvent arg0) {}
 }
