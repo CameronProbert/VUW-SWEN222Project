@@ -1,6 +1,8 @@
 package catgame.datastorage;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.jdom2.JDOMException;
 
@@ -20,5 +22,9 @@ public class LoadOldGame {
 
 	public BoardData getBoardData() {
 		return boardData;
+	}
+	
+	public static void main(String[] args) throws JDOMException, XMLException {
+		
 	}
 }

@@ -22,10 +22,10 @@ public class SavingMain {
 	private BoardData boardData;
 	private File xmlFile;
 
-	public SavingMain(BoardData boardData) throws IOException {
+	public SavingMain(BoardData boardData, File xmlFile) throws IOException {
 		this.masterObj = new SavingMasterObjects(this);
 		this.helper = new SavingHelper(this, masterObj);
-
+		this.xmlFile = xmlFile;
 		this.boardData = boardData;
 		this.document = new Document();
 		this.root = new Element("CatGame");
@@ -44,7 +44,7 @@ public class SavingMain {
 		// Outputting xml file
 		XMLOutputter xmlOutputter = new XMLOutputter(
 				org.jdom2.output.Format.getPrettyFormat());
-		xmlFile = new File("test.xml");
+
 		xmlOutputter.output(document, new FileOutputStream(xmlFile));
 	}
 
@@ -195,7 +195,7 @@ public class SavingMain {
 		} else if (board.getAllRooms().get(0).getRoomInventory().isEmpty()) {
 			System.out.println("room's inventory is empty");
 		} else {
-			new SavingMain(board);
+			new SavingMain(board, null);
 		}
 
 	}

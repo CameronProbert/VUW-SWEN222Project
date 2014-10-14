@@ -39,7 +39,7 @@ public class LoadingGameMain {
 		// if xmlFile != null, we are loading old game
 		if (xmlFile == null) {
 			// xmlFile is null meaning we are loading a standard new game
-			xmlFile = new File("test.xml");
+			xmlFile = new File("RoomBuilder_01.xml");
 		}
 		try {
 			// make document and read root
