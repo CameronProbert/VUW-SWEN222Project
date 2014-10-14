@@ -185,8 +185,8 @@ public class GameUtil {
 	 */
 	public boolean addObjectToInventory(int playerID, int objectID) {
 		if(findPlayersRoom(playerID).getPlayerInRoom(playerID).canAddItem()){
-			
-		return findPlayersRoom(playerID).getPlayerInRoom(playerID).addToInventory(storer.findItem(objectID));
+			System.out.println("HERE");
+		return findPlayersRoom(playerID).getPlayerInRoom(playerID).addToInventory(storer.findItemInGame(objectID));
 		}
 		return false;
 	}
@@ -315,5 +315,9 @@ public class GameUtil {
 	public void lookRight() {
 		viewDirection = Direction.leftDir(viewDirection);
 	}
-
+	
+	public void attackUpdate(int playerID, int minionID){
+		
+	}
+	
 }
