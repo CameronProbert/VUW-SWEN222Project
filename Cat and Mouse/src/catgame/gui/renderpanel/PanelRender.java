@@ -238,7 +238,7 @@ public class PanelRender extends JPanel {
 		System.out.println("FullID: " + objFullID);
 		System.out.println("TypeID: " + objTypeID);
 		System.out.println("ImageID: " + objImageID);
-		System.out.println("------------------------");
+		System.out.println("---------------------");
 		
 		int startX, startY;
 		if (objTypeID.equals(GameUtil.BUSH+"")){
