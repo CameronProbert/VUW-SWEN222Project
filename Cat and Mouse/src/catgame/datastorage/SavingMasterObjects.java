@@ -165,7 +165,6 @@ public class SavingMasterObjects {
 		Fence fence = (Fence) obj;
 		Element fenceElement = new Element("Fence");
 		fenceElement.setAttribute(new Attribute("id", "" + fence.getObjectID()));
-		fenceElement.addContent(new Element("Direction").setText(fence.getDirection().name()));
 		return fenceElement;
 	}
 

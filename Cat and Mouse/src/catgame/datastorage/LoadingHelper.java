@@ -34,13 +34,11 @@ public class LoadingHelper {
 				ObjectID = (GameObject) main.getObjectIDMap().get(ID);
 				System.out.println("Found object ID: " + ID);
 			} else {
-				// throw new XMLException(
-				// "Cannot find GameObject that is supposed to be already made in the room. Cannot make BoardCell without this!");
-				System.out.println("***********   Cannot find GameObject ID = " + ID + "   ***********");
+				 throw new XMLException(
+				 "Cannot find GameObject_" + ID + " that is supposed to be already made in the room. Cannot make BoardCell without this!");
+				//System.out.println("***********   Cannot find GameObject ID = " + ID + "   ***********");
 			}
-		} else {
-			// System.out.println("Object ID is null");
-		}
+		} 
 		String groundType = null;
 		if (!boardInfoArray[3].equals("null")) {
 			groundType = boardInfoArray[3];
@@ -69,5 +67,20 @@ public class LoadingHelper {
 		String temp = loadingString.substring(0, 2);
 		int id = Integer.parseInt(temp);
 		System.out.println(id);
+	}
+
+	public void populateDoorLocationMap(Room room) {
+		BoardCell[][] roomGrid = room.getBoardGrid();
+		for (int y = 0; y < roomGrid.length; y++) {
+			for (int x = 0; x < roomGrid[y].length; x++) {
+				if(roomGrid[y][x].getObjectOnCell() instanceof Door){
+					System.out.println("Adding Door_" + roomGrid[y][x].getObjectOnCell().getObjectID());
+					room.addToDoorsLocation(roomGrid[y][x].getObjectOnCell().getObjectID(), roomGrid[y][x]);
+				}
+			}
+			System.out.println();
+		}
+		
+		
 	}
 }

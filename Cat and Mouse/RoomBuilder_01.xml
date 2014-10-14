@@ -73,16 +73,6 @@
           </Door>
         </non-playerableInventory>
         <playerableInventory>
-          <PlayableCharacter id="101010">
-            <Direction>NORTH</Direction>
-            <attackPower>20</attackPower>
-            <health>100</health>
-            <Inventory>
-              <Food id="801014">
-                <heal>20</heal>
-              </Food>
-            </Inventory>
-          </PlayableCharacter>
         </playerableInventory>
       </Inventory>
       <DoorLinks>(431010,null) (431011,null) (421013,null) (411012,null)</DoorLinks>
@@ -92,7 +82,7 @@
         <Row0>(0,0,null,null) (1,0,201010,Grass) (2,0,211010,Grass) (3,0,221010,Grass) (4,0,111010,Grass) (5,0,141010,Grass)</Row0>
         <Row1>(0,1,251010,Grass) (1,1,251011,Grass) (2,1,null,Grass) (3,1,null,Grass) (4,1,null,Grass) (5,1,null,Grass)</Row1>
         <Row2>(0,2,null,Grass) (1,2,null,Grass) (2,2,null,Grass) (3,2,null,Grass) (4,2,null,Grass) (5,2,null,Grass)</Row2>
-        <Row3>(0,3,431010,Grass) (1,3,null,Grass) (2,3,101010,Grass) (3,3,null,Grass) (4,3,null,Grass) (5,3,null,Grass)</Row3>
+        <Row3>(0,3,431010,Grass) (1,3,null,Grass) (2,3,null,Grass) (3,3,null,Grass) (4,3,null,Grass) (5,3,null,Grass)</Row3>
         <Row4>(0,4,431011,Grass) (1,4,null,Grass) (2,4,null,Grass) (3,4,null,Grass) (4,4,null,Grass) (5,4,411012,Grass)</Row4>
         <Row5>(0,5,null,Grass) (1,5,null,Grass) (2,5,null,Grass) (3,5,421013,Grass) (4,5,null,Grass) (5,5,null,Grass)</Row5>
       </boardGrid>

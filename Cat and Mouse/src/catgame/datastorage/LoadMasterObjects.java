@@ -45,7 +45,23 @@ public class LoadMasterObjects {
 		} else if (element.getName().equals("Minion")) {
 			return loadMinion(element);
 		}
+		else if (element.getName().equals("Fence")) {
+			return loadFence(element);
+		}
+		else if (element.getName().equals("Hedge")) {
+			return loadHedge(element);
+		}
 		throw new XMLException("Cannot determine GameObject element!");
+	}
+
+	private Fence loadHedge(Element element) {
+		
+		return new Fence(Integer.parseInt(element.getAttribute("id").getValue()));
+	}
+
+	private Hedge loadFence(Element element) {
+		
+		return new Hedge(Integer.parseInt(element.getAttribute("id").getValue()));
 	}
 
 	public Boss loadBoss(Element element) {
