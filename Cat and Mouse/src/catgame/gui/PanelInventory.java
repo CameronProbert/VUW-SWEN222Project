@@ -28,6 +28,7 @@ public class PanelInventory extends PanelAbstract {
 	private ArrayList<PanelItem> panels = new ArrayList<PanelItem>();
 	private Dimension invSize;
 	private BufferedImage backGround;
+	private FrameClient frame;
 
 	/**
 	 * Creates a new Inventory panel. This holds 6 item panels which each
@@ -40,7 +41,7 @@ public class PanelInventory extends PanelAbstract {
 			FrameClient frame) {
 		super();
 		this.invSize = invSize;
-		// this.frame = frame;
+		this.frame = frame;
 		this.character = character;
 		try {
 			backGround = ImageIO.read(PanelRender.class
@@ -95,7 +96,7 @@ public class PanelInventory extends PanelAbstract {
 	}
 
 	public void itemUsed(GameItem item) {
-		character.removeFromInventory(item);
+		frame.useItems(item);
 		resetInvItems();
 		repaint();
 	}

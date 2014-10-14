@@ -469,4 +469,8 @@ public class FrameClient extends FrameAbstract implements KeyListener {
 	public static void main(String[] args) {
 		// ??
 	}
+
+	public void useItems(GameItem item) {
+		runner.getBoardData().getGameUtil().useItem(clientsUID, item.getObjectID());
+	}
 }
