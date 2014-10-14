@@ -30,6 +30,7 @@ import catgame.datastorage.LoadingGameMain;
 import catgame.datastorage.SavingMain;
 import catgame.datastorage.XMLException;
 import catgame.gameObjects.*;
+import catgame.gameObjects.Character;
 import catgame.gamestarting.GameRunner;
 import catgame.gui.renderpanel.*;
 import catgame.logic.*;
@@ -384,27 +385,38 @@ public class FrameClient extends FrameAbstract implements KeyListener {
 			break;
 		case KeyEvent.VK_E: // open a chest
 			System.out.println("OPEN CHEST PRESSED");
-			Chest chest = runner.getBoardData().getObjStorer()
-					.findChest(clientsUID);
-			if (chest != null) {
-				GameItem item = HelperMethods
-						.showRadioList("What item do you want to take?",
-								chest.getLoot(), true);
-				if (item != null) {
-					runner.getBoardData()
-							.getGameUtil()
-							.addObjectToInventory(clientsUID,
-									item.getObjectID());
-					up = new Update(Update.Descriptor.PICKUP, clientsUID,
-							item.getObjectID());
-					validAction = 1;
+			GameObject object = runner.getBoardData().getGameUtil()
+					.getObjectAhead(clientsUID);
+			if (object != null) {
+				if (object instanceof Chest) {
+					Chest chest = (Chest) object;
+					GameItem item = HelperMethods.showRadioList(
+							"What item do you want to take?", chest.getLoot(),
+							true);
+					if (item != null) {
+						runner.getBoardData()
+								.getGameUtil()
+								.addObjectToInventory(clientsUID,
+										item.getObjectID());
+						up = new Update(Update.Descriptor.PICKUP, clientsUID,
+								item.getObjectID());
+						validAction = 1;
+					}
+				} else if (object instanceof Character) {
+					Character ch = (Character) object;
+					GameItem item = HelperMethods.showRadioList(
+							"What item do you want to take?", ch.getInventory(),
+							true);
+					if (item != null) {
+						runner.getBoardData()
+								.getGameUtil()
+								.addObjectToInventory(clientsUID,
+										item.getObjectID());
+						up = new Update(Update.Descriptor.PICKUP, clientsUID,
+								item.getObjectID());
+						validAction = 1;
+					}
 				}
-				// TODO open dialog box to choose items out of chest (using the
-				// chest object)
-				// int objectID = openChest(chest); // return the id of the item
-				// the character selected
-				// up = new Update(Update.Descriptor.PICKUP, clientsUID,
-				// objectID);
 			}
 			break;
 		case KeyEvent.VK_M:
@@ -449,11 +461,13 @@ public class FrameClient extends FrameAbstract implements KeyListener {
 	 * Unneeded for the game
 	 */
 	@Override
-	public void keyReleased(KeyEvent arg0) {}
+	public void keyReleased(KeyEvent arg0) {
+	}
 
 	/**
 	 * Unneeded for the game
 	 */
 	@Override
-	public void keyTyped(KeyEvent arg0) {}
+	public void keyTyped(KeyEvent arg0) {
+	}
 }
