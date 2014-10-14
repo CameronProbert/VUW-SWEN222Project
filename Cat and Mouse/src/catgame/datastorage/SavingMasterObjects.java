@@ -150,13 +150,19 @@ public class SavingMasterObjects {
 	}
 
 	public Element writeFence(MasterObject obj) {
-		// TODO Auto-generated method stub
-		return null;
+		Fence fence = (Fence) obj;
+		Element fenceElement = new Element("Fence");
+		fenceElement.setAttribute(new Attribute("id", "" + fence.getObjectID()));
+		fenceElement.addContent(new Element("Direction").setText(fence.getDirection().name()));
+		return fenceElement;
 	}
 
 	public Element writeHedge(MasterObject obj) {
-		// TODO Auto-generated method stub
-		return null;
+		Hedge hedge = (Hedge) obj;
+		Element hedgeElement = new Element("Hedge");
+		hedgeElement.setAttribute(new Attribute("id", "" + hedge.getObjectID()));
+		hedgeElement.addContent(new Element("Direction").setText(hedge.getDirection().name()));
+		return hedgeElement;
 	}
 
 }
