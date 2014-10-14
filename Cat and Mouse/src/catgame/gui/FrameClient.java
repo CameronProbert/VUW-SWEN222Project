@@ -432,7 +432,12 @@ public class FrameClient extends FrameAbstract implements KeyListener {
 					HelperMethods.textDialog("", "It is a fence");
 				}
 				else if (object instanceof Door){
-					HelperMethods.textDialog("", "It is a door");
+					Door d = (Door) object;
+					if (d.getIsLocked()){
+						HelperMethods.textDialog("", "It is a locked door, walk through it with a key to unlock it!");
+					} else {
+						HelperMethods.textDialog("", "It is an open door");
+					}
 				}
 				else if (object instanceof Bush){
 					HelperMethods.textDialog("", "It is a bush");
@@ -440,9 +445,9 @@ public class FrameClient extends FrameAbstract implements KeyListener {
 				else if (object instanceof Hedge){
 					HelperMethods.textDialog("", "It is a hedge");
 				}
-				else {
-					HelperMethods.textDialog("", "There is nothing ahead of you");
-				}
+			}
+			else {
+				HelperMethods.textDialog("", "There is nothing ahead of you");
 			}
 			break;
 		case KeyEvent.VK_M:
