@@ -179,7 +179,7 @@ public class FrameLauncher extends FrameAbstract {
 		frame.setVisible(true);
 		frame.repaint();
 		while (!slaveR.isReady()) {
-			System.out.println("Slaver not ready");
+			System.out.printf("");
 		}
 		// TODO get rid of loading frame
 		frame.setVisible(false);

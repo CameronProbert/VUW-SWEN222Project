@@ -56,6 +56,7 @@ public final class Master extends Thread {
 			DataInputStream input = new DataInputStream(socket.getInputStream());
 			DataOutputStream output = new DataOutputStream(socket.getOutputStream());
 
+			System.out.println("about to write start");
 			writeStart(input, output);
 
 			boolean exit=false;
@@ -65,7 +66,7 @@ public final class Master extends Thread {
 					if(timer==TIMESUP){
 						timer=0;
 						output.writeDouble(MASSUPDATE);
-						//broadcastGameState(output);
+						broadcastGameState(output);
 					}
 					else{
 
@@ -180,8 +181,11 @@ public final class Master extends Thread {
 				if(canStart){
 					output.writeDouble(uid);
 					
+					System.out.println("got uid : " + uid);
+					
 					if(file==null){
 						output.writeInt(0);
+						System.out.println("File was null");
 						return;
 					}
 					

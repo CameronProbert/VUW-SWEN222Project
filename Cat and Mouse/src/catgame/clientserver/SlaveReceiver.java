@@ -3,13 +3,17 @@ package catgame.clientserver;
 import java.io.BufferedOutputStream;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
+import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.jdom2.JDOMException;
+
 import catgame.datastorage.LoadOldGame;
+import catgame.datastorage.XMLException;
 import catgame.gameObjects.Chest;
 import catgame.gameObjects.GameItem;
 import catgame.gameObjects.NonPlayableCharacter;
@@ -34,7 +38,7 @@ public class SlaveReceiver {
 	private FrameClient frame;
 
 	public final static String
-	FILE_TO_RECEIVED = "/Cat And Mouse/Load_From";
+	FILE_TO_RECEIVED = "Load_From.xml";
 
 
 	public SlaveReceiver(Slave slave, GameRunner net){
@@ -59,6 +63,7 @@ public class SlaveReceiver {
 
 				// First job, is to read the period so we can create the clock				
 				uid = (int)input.readDouble();	
+				System.out.println("read in my uid : " + uid);
 				/////////////////////////////////////////////////////////////////
 				// LOAD the game
 				////////////////////////////////////////////////////////////////
@@ -66,35 +71,28 @@ public class SlaveReceiver {
 				int FILE_SIZE = input.readInt() + 100;
 				if(FILE_SIZE!=0){
 					// receive file
+					System.out.println("received file size : " + FILE_SIZE);
 					byte [] mybytearray  = new byte [FILE_SIZE];
 					FileOutputStream fos = new FileOutputStream(FILE_TO_RECEIVED);
 					BufferedOutputStream bos = new BufferedOutputStream(fos);
-					int bytesRead = input.read(mybytearray,0,mybytearray.length);
-					int current = bytesRead;
-
-					do {
-						bytesRead =	input.read(mybytearray, current, (mybytearray.length-current));
-						if(bytesRead >= 0) current += bytesRead;
-					} while(bytesRead > -1);
-
-					bos.write(mybytearray, 0 , current);
-					bos.flush();
-					System.out.println("File " + FILE_TO_RECEIVED
-							+ " downloaded (" + current + " bytes read)");
-					// TODO LoadOldGame loadXML = new LoadOldGame(FILE_TO_RECEIVED);
-					// TODO boardData = loadXML.getBoardData();
-					// TODO GameUtil game = boardData.getGame();
-					// TODO net.setGameUtil(game);
+					int bytesRead = input.read(mybytearray, 0, mybytearray.length);
+				    bos.write(mybytearray, 0, bytesRead);
+				    bos.close();
+					try {
+						LoadOldGame loadXML = new LoadOldGame(new File(FILE_TO_RECEIVED));
+						net.setBoardData(loadXML.getBoardData());
+					} catch (JDOMException | XMLException e) {
+						e.printStackTrace();
+					}
 				}
 				else{
-					// return; // TODO throw an error
+					throw new FileNotSentError();
 				}
 
 				readyToStart=true; // now the players can start trying to do things
 
 				while(locked){
 					workOutUpdate(input);
-					frame.repaint();
 					try {
 						Thread.sleep(2000);
 					} catch (InterruptedException e) {
@@ -123,7 +121,7 @@ public class SlaveReceiver {
 			}
 			else if (todo==MASSUPDATE){
 				System.out.println("received 35");
-				//recieveMassUpdate(input);
+				recieveMassUpdate(input);
 			}
 		} catch (IOException e) {
 			e.printStackTrace();

@@ -1,5 +1,6 @@
 package catgame.clientserver;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -7,6 +8,7 @@ import java.util.List;
 import org.jdom2.JDOMException;
 
 import catgame.datastorage.LoadNewGame;
+import catgame.datastorage.LoadOldGame;
 import catgame.datastorage.XMLException;
 import catgame.gameObjects.Food;
 import catgame.gameObjects.GameItem;
@@ -31,10 +33,12 @@ public class SinglePlayerHandler extends GameRunner {
 	 */
 	public SinglePlayerHandler (String fileName){
 		if(!fileName.equals("no file")){
-			// TODO loadXML = new LoadOldGame(fileName)
-			// TODO boardData = loadXML.getBoardData();
-			// TODO GameUtil util = boardData.getGame();
-			// TODO this.setGameUtil(util);
+			try {
+				LoadOldGame loadXML = new LoadOldGame(new File(fileName));
+				boardData = loadXML.getBoardData();
+			} catch (JDOMException | XMLException e) {
+				e.printStackTrace();
+			}
 		}
 		else{
 			List<Integer> ids = new ArrayList<Integer>();

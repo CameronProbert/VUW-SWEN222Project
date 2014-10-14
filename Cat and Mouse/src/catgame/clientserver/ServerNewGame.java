@@ -1,14 +1,20 @@
 package catgame.clientserver;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.jdom2.JDOMException;
+
+import catgame.datastorage.LoadNewGame;
+import catgame.datastorage.SavingMain;
+import catgame.datastorage.XMLException;
 import catgame.logic.BoardData;
 
-public class ServerNewGame extends Thread {
+public class ServerNewGame extends StartGame {
 
 	private static final int DEFAULT_CLK_PERIOD = 20;
 	private static final int DEFAULT_BROADCAST_CLK_PERIOD = 5;
@@ -18,7 +24,7 @@ public class ServerNewGame extends Thread {
 	private static boolean readyToStart = false;
 	private NetworkHandler handler;
 	private static int maxPlayers;
-	private List<Integer> playerIDs;
+	private List<Integer> playerIDs = new ArrayList<Integer>();
 	private BoardData boardData;
 
 	private String url = null;	
@@ -51,6 +57,7 @@ public class ServerNewGame extends Thread {
 		System.out.println("SERVER LISTENING ON PORT " + port);
 		System.out.println("SERVER AWAITING CLIENTS");
 		try {
+			handler = new NetworkHandler(NetworkHandler.Type.SERVER);
 			List<Master> connections = new ArrayList<Master>();
 			// Now, we await connections.
 			ServerSocket ss = new ServerSocket(port);
@@ -71,8 +78,6 @@ public class ServerNewGame extends Thread {
 						return;
 					}
 					System.out.println("ALL CLIENTS ACCEPTED --- GAME BEGINS");
-
-					handler = new NetworkHandler(NetworkHandler.Type.SERVER);
 					setMasterIDs(connections);
 					setUpGame(connections);
 					allowMastersStart(connections);
@@ -88,103 +93,27 @@ public class ServerNewGame extends Thread {
 	}
 
 	private void setUpGame(List<Master> connections) {
-		// TODO loadXML = new LoadNewGame(playerIds);
-		// TODO boardData = loadXML.getBoardData();
-		// TODO GameUtil util = boardData.getGame();
-		// TODO handler.setGameUtil(util);
-		for(Master m: connections){
-			//m.setFile(loadXML.getFile());
+		try {
+			LoadNewGame loadXML = new LoadNewGame(playerIDs);
+			boardData = loadXML.getBoardData();
+			handler.setBoardData(boardData);
+			SavingMain save = new SavingMain(boardData);
+			File file = save.getXMLFile();
+			for(Master m: connections){
+				m.setFile(file);
+			}
+		} catch (JDOMException | XMLException | IOException e) {
+			e.printStackTrace();
 		}
 	}
 
-	private void setMasterIDs(List<Master> connections) {
+	protected void setMasterIDs(List<Master> connections) {
 		for(Master m: connections){
 			int id = handler.registerPlayer();
 			m.setUID(id);
+			playerIDs.add(id);
 		}
 	}
 
-
-	private void allowMastersStart(List<Master> connections) {
-		for(Master m : connections){
-			m.setStart(true);
-		}
-	}
-
-	/**
-	 * The following method controls a multi-user game. When a given game is
-	 * over, it will simply restart the game with whatever players are
-	 * remaining. However, if all players have disconnected then it will stop.
-	 * 
-	 * @param clk
-	 * @param game
-	 * @param connections
-	 * @throws IOException
-	 */
-	private static void multiUserGame(NetworkHandler game,
-			List<Master> connections) throws IOException {						
-
-
-		// loop forever
-		while(atleastOneConnection(connections)) {
-			game.setState(GameRunner.GameState.READY);
-			pause(3000);
-			game.setState(GameRunner.GameState.PLAYING);
-			// now, wait for the game to finish
-			while(game.state() == GameRunner.GameState.PLAYING) {
-				Thread.yield();
-			}
-			// If we get here, then we're in game over mode
-			pause(3000);
-			// Reset board state
-			game.setState(GameRunner.GameState.WAITING);
-			//game.fromByteArray(state);			
-		}
-	}
-
-	/**
-	 * Check whether or not there is at least one connection alive.
-	 * 
-	 * @param connections
-	 * @return
-	 */
-	private static boolean atleastOneConnection(List<Master> connections) {
-		for (Master m : connections) {
-			if (m.isAlive()) {
-				return true;
-			}			
-		}
-		return false;
-	}
-
-	
-
-	/**
-	 * activate by a button press may be obsolete
-	 */
-	public void readyToStart(){
-		this.readyToStart = true;
-	}
-
-	private static void pause(int delay) {
-		try {
-			Thread.sleep(delay);
-		} catch(InterruptedException e){			
-		}
-	}
-
-
-	// The following two bits of code are a bit sneaky, but they help make the
-	// problems more visible.
-	static {
-		System.setProperty("sun.awt.exception.handler", "servermain.Main");
-	}
-
-	public void handle(Throwable ex) {
-		try {
-			ex.printStackTrace();
-			System.exit(1); } 
-		catch(Throwable t) {}
-	}
 
 }

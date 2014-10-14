@@ -2,6 +2,7 @@ package catgame.logic;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Set;
 
 import catgame.clientserver.IDNotFoundError;
@@ -128,6 +129,14 @@ public class ObjectStorer {
 		if (nch != null)
 			return nch;
 		throw new IDNotFoundError();
+	}
+
+	public List<Integer> getPlayerIDs() {
+		List<Integer> ids = new ArrayList<Integer>();
+		for(PlayableCharacter ch: this.playableChs.values()){
+			ids.add(ch.getObjectID());
+		}
+		return ids;
 	}
 
 }
