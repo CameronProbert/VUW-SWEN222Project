@@ -126,7 +126,8 @@ public class Room {
 				return;
 			}
 		}
-		if (door.enterDoor().checkExitDoor()) {
+		if (door.enterDoor().
+				checkExitDoor()) {
 			PlayableCharacter player = (PlayableCharacter) playerLocationMap.get(playerID).getObjectOnCell();
 			BoardCell delete = playerLocationMap.get(playerID);
 			playerLocationMap.remove(playerID);
@@ -350,4 +351,8 @@ public class Room {
 		}
 		return returnObj;
 	}
+	
+//	public void attackUpdate(){
+//		for(int i = 0; i < roomInventory.ge)
+//	}
 }

@@ -32,7 +32,7 @@ public class BoardData {
 	 */
 	public List<Room> loadLevel() {
 		ArrayList toLoad = new ArrayList<Room>();
-		
+
 		return toLoad;
 	}
 
@@ -70,7 +70,7 @@ public class BoardData {
 	public void loadTestData() {
 		RoomBuilder testRoom = new RoomBuilder();
 		addRoom(testRoom.loadRoom(objStorer));
-	//TESTattachDoors();
+		TESTattachDoors();
 	}
 
 	public void TESTattachDoors() {
@@ -79,14 +79,13 @@ public class BoardData {
 		doorsList.add(0);
 		doorsList.add(411012);
 		doorsList.add(0);
-		
+
 		doorsList.add(431011);
 		doorsList.add(0);
 		doorsList.add(421013);
 		doorsList.add(GameUtil.KEY);
-		
-		
-		for (int i = 0; i < doorsList.size(); i+= 2) {
+
+		for (int i = 0; i < doorsList.size(); i += 2) {
 			Room doorsRoom = getDoorsRoom(doorsList.get(i));
 			Room doorsExitRoom;
 			int direction;
@@ -102,7 +101,7 @@ public class BoardData {
 			// we now have both doors and their rooms
 			Door currentDoor = ((Door) doorsRoom.getDoorsLocation().get(doorsList.get(i)).getObjectOnCell());
 			Door exit = (Door) doorsExitRoom.getDoorsLocation().get(doorsList.get(i + direction)).getObjectOnCell();
-			currentDoor.addOtherSide(exit, doorsList.get(i+1));
+			currentDoor.addOtherSide(exit, doorsList.get(i + 1));
 		}
 
 	}
