@@ -17,6 +17,7 @@ import catgame.gameObjects.PlayableCharacter;
 import catgame.gui.FrameClient;
 import catgame.logic.BoardData;
 import catgame.logic.GameUtil;
+import catgame.logic.RoomBuilder;
 
 /**
  * simple handler for singleplayer games, has a main method for easier testing
@@ -32,7 +33,7 @@ public class SinglePlayerHandler extends GameRunner {
 	 * @param playerID
 	 */
 	public SinglePlayerHandler (String fileName){
-		if(!fileName.equals("no file")){
+		/*if(!fileName.equals("no file")){
 			try {
 				LoadOldGame loadXML = new LoadOldGame(new File(fileName));
 				boardData = loadXML.getBoardData();
@@ -49,7 +50,10 @@ public class SinglePlayerHandler extends GameRunner {
 			} catch (JDOMException | XMLException e) {
 				e.printStackTrace();
 			}
-		}
+		}*/
+		
+		boardData = new BoardData();
+		boardData.loadTestData();
 		
 		FrameClient frame = new FrameClient(this, false, null, 101010);
 		try {
