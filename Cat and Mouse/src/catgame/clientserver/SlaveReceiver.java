@@ -39,9 +39,6 @@ public class SlaveReceiver {
 	private boolean readyToStart = false;
 	private FrameClient frame;
 
-	public final static String
-	FILE_TO_RECEIVED = "Load_From.xml";
-
 
 	public SlaveReceiver(Slave slave, GameRunner net){
 		this.slave = slave;
@@ -69,19 +66,22 @@ public class SlaveReceiver {
 				/////////////////////////////////////////////////////////////////
 				// LOAD the game
 				////////////////////////////////////////////////////////////////
+				String FILE_TO_RECEIVED = "Load_From.xml";
+				File file = new File(FILE_TO_RECEIVED);
 
 				int FILE_SIZE = input.readInt() + 100;
 				if(FILE_SIZE!=0){
 					// receive file
 					System.out.println("received file size : " + FILE_SIZE);
 					byte [] mybytearray  = new byte [FILE_SIZE];
-					FileOutputStream fos = new FileOutputStream(FILE_TO_RECEIVED);
+					FileOutputStream fos = new FileOutputStream(file);
 					BufferedOutputStream bos = new BufferedOutputStream(fos);
 					int bytesRead = input.read(mybytearray, 0, mybytearray.length);
 				    bos.write(mybytearray, 0, bytesRead);
 				    bos.close();
+				    System.out.println("finished reading");
 					try {
-						LoadOldGame loadXML = new LoadOldGame(new File(FILE_TO_RECEIVED));
+						LoadOldGame loadXML = new LoadOldGame(file);
 						net.setBoardData(loadXML.getBoardData());
 					} catch (JDOMException | XMLException e) {
 						e.printStackTrace();
