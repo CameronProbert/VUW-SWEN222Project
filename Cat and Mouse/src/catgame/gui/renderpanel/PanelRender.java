@@ -44,6 +44,9 @@ public class PanelRender extends JPanel {
 
 	// Hedge images
 	private Image hedgeLeft1, hedgeRight1;
+	
+	// Fence images
+	private Image fenceLeft1, fenceRight1;
 
 	// Cat images
 	private Image catFrontLeft1, catFrontRight1, catBackLeft1, catBackRight1;
@@ -127,6 +130,10 @@ public class PanelRender extends JPanel {
 			// Load hedge images
 			hedgeLeft1 = ImageIO.read(PanelRender.class.getResource("/images/HedgeLeft1.png"));
 			hedgeRight1 = ImageIO.read(PanelRender.class.getResource("/images/HedgeRight1.png"));
+			
+			// Load hedge images
+			hedgeLeft1 = ImageIO.read(PanelRender.class.getResource("/images/FenceLeft1.png"));
+			hedgeRight1 = ImageIO.read(PanelRender.class.getResource("/images/FenceRight1.png"));
 			
 			// Load chest images
 			chestFrontLeft1 = ImageIO.read(PanelRender.class.getResource("/images/ChestFrontLeft1.png"));
@@ -216,7 +223,10 @@ public class PanelRender extends JPanel {
 		int startY = (panelHeight / 2) - groundOffsetY;
 //		System.out.println("GroundType");
 //		System.out.println(currentRoom.getBoardGrid()[sendY][sendX].getGroundType());
-		if (currentRoom.getBoardGrid()[sendY][sendX].getGroundType() == "Grass") {
+		if (currentRoom.getBoardGrid()[sendY][sendX].getGroundType() == null) {
+			return;
+		}
+		if (currentRoom.getBoardGrid()[sendY][sendX].getGroundType().equals("Grass")) {
 			drawGround(g, grassBlock, sendY, sendX, y, x, startY, startX);
 		}
 	}
@@ -270,10 +280,12 @@ public class PanelRender extends JPanel {
 			drawDoor(g, sendY, sendX, y, x, objTypeID);			
 		}
 		else if (objTypeID.equals(GameUtil.HEDGEN+"") ||
-				objTypeID.equals(GameUtil.HEDGES+"") ||
-				objTypeID.equals(GameUtil.HEDGEE+"") ||
-				objTypeID.equals(GameUtil.HEDGEW+"")){
+				objTypeID.equals(GameUtil.HEDGES+"")){
 			drawHedge(g, sendY, sendX, y, x);
+		}
+		else if (objTypeID.equals(GameUtil.FENCEL+"") ||
+				objTypeID.equals(GameUtil.FENCER+"")){
+			drawFence(g, sendY, sendX, y, x);
 		}
 		else if (objTypeID.equals(GameUtil.PLAYABLECHARACTER+"")){
 			drawPlayableChar(g, sendY, sendX, y, x);
@@ -574,8 +586,33 @@ public class PanelRender extends JPanel {
 		}		
 	}
 	
-	public void drawHedge(Graphics g, int sendY, int sendX, int y, int x){
-		// Draw hedges
+	public void drawHedge(Graphics g, int sendY, int sendX, int y, int x, int fenceType){
+		int startX = panelWidth / 4 + 50 - objOffsetX;
+		int startY = 50 + 340 - objOffsetY;
+		Image img = fenceLeft1;
+		switch (gUtil.getViewDirection()) {
+		case NORTH:
+			if (fenceType == 34){
+				
+			} else {
+				
+			}
+			drawObject(g, img, sendY, sendX, y, x, startY, startX);
+			break;
+		case EAST:
+			drawObject(g, img, sendY, sendX, y, x, startY, startX);
+			break;
+		case SOUTH:
+			drawObject(g, img, sendY, sendX, y, x, startY, startX);
+			break;
+		case WEST:
+			drawObject(g, img, sendY, sendX, y, x, startY, startX);
+			break;
+		}
+	}
+	
+	public void drawFence(Graphics g, int sendY, int sendX, int y, int x){
+		// Draw fences
 	}
 	
 	public void drawDoor(Graphics g, int sendY, int sendX, int y, int x, String objTypeID){
