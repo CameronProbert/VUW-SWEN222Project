@@ -50,32 +50,32 @@
           <Door id="431010">
             <Direction>WEST</Direction>
             <RoomID>0</RoomID>
-            <EntranceDoor>null</EntranceDoor>
+            <EntranceDoor>411012</EntranceDoor>
             <isLocked>false</isLocked>
           </Door>
           <Door id="431011">
             <Direction>WEST</Direction>
             <RoomID>0</RoomID>
-            <EntranceDoor>null</EntranceDoor>
+            <EntranceDoor>421013</EntranceDoor>
             <isLocked>false</isLocked>
           </Door>
           <Door id="411012">
             <Direction>EAST</Direction>
             <RoomID>0</RoomID>
-            <EntranceDoor>null</EntranceDoor>
+            <EntranceDoor>431010</EntranceDoor>
             <isLocked>false</isLocked>
           </Door>
           <Door id="421013">
             <Direction>SOUTH</Direction>
             <RoomID>0</RoomID>
-            <EntranceDoor>null</EntranceDoor>
-            <isLocked>false</isLocked>
+            <EntranceDoor>431011</EntranceDoor>
+            <isLocked>true</isLocked>
           </Door>
         </non-playerableInventory>
         <playerableInventory>
         </playerableInventory>
       </Inventory>
-      <DoorLinks>(431010,null) (431011,null) (421013,null) (411012,null)</DoorLinks>
+      <DoorLinks>(431010,411012) (431011,421013) (421013,431011) (411012,431010)</DoorLinks>
       <boardGrid>
         <FirstArray.length>6</FirstArray.length>
         <SecondArray.length>6</SecondArray.length>

@@ -46,8 +46,8 @@ public class SavingMain {
 		// Outputting xml file
 		XMLOutputter xmlOutputter = new XMLOutputter(
 				org.jdom2.output.Format.getPrettyFormat());
-		//File temp = new File("RoomBuilder_01.xml");
-		xmlOutputter.output(document, new FileOutputStream(xmlFile));
+		File temp = new File("RoomBuilder_01.xml");
+		xmlOutputter.output(document, new FileOutputStream(temp));
 	}
 
 	/**
@@ -213,17 +213,15 @@ public class SavingMain {
 	 */
 	public static void main(String[] args) throws FileNotFoundException,
 			IOException {
-		ObjectStorer storer = new ObjectStorer();
-		RoomBuilder roomBuilder = new RoomBuilder(storer);
-		BoardData board = new BoardData();
-
-		board.addRoom(roomBuilder.loadRoom());
-		if (board.getAllRooms().isEmpty()) {
+		BoardData gameData = new BoardData();
+		gameData.loadTestData();
+		
+		if(gameData.getAllRooms().isEmpty()) {
 			System.out.println("room list is empty");
-		} else if (board.getAllRooms().get(0).getRoomInventory().isEmpty()) {
+		} else if (gameData.getAllRooms().get(0).getRoomInventory().isEmpty()) {
 			System.out.println("room's inventory is empty");
 		} else {
-			new SavingMain(board, null);
+			new SavingMain(gameData, null);
 		}
 
 	}
