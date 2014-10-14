@@ -143,12 +143,13 @@ public class ObjectStorer {
 	}
 
 	public GameItem findItemInGame(int itemID) {
-		System.err.println(itemID);
 		GameObject itemHolder = null;
-		Collection<E>
-		for (NonPlayableCharacter npc : nonPlayableChs.values()) {
-			for (GameItem item : ((NonPlayableCharacter) npc).getInventory()) {
-				System.out.println(item.getObjectID());
+		Collection<NonPlayableCharacter> npcs = nonPlayableChs.values(); 
+		Collection<Chest> chestsCol = chests.values(); 
+		
+		for (NonPlayableCharacter npc : npcs) {
+			List<GameItem> npcInv = npc.getInventory();
+			for (GameItem item : npcInv) {
 				if (item.getObjectID() == itemID) {
 					System.err.println("FOUND ITEM");
 					itemHolder = (GameObject) npc;
@@ -157,11 +158,10 @@ public class ObjectStorer {
 		}
 		// IF WE HAVENT FOUND THE HOLDER YET GO THROUGH THE CHESTS
 		if (itemHolder == null) {
-			for (Chest chest : chests.values()) {
-				for (GameItem item : chest.getLoot()) {
-					System.out.println(item.getObjectID());
+			for (Chest chest : chestsCol) {
+				List<GameItem> chestloot = chest.getLoot();
+				for (GameItem item : chestloot) {
 					if (item.getObjectID() == itemID) {
-						System.err.println("FOUND ITEM");
 						itemHolder = (GameObject) chest;
 					}
 				}
@@ -177,13 +177,12 @@ public class ObjectStorer {
 			} else {
 				for (int i = 0; i < ((Chest) itemHolder).getLoot().size(); i++) {
 					if (((Chest) itemHolder).getLoot().get(i).getObjectID() == itemID) {
-						System.err.println("RETURNING A GAMEITEM");
 						return ((Chest) itemHolder).getLoot().remove(i);
 					}
 				}
 			}
 		}
-		System.err.println("RETURNING NULL");
+		System.err.println("findItemInGame RETURNING NULL");
 		return null;
 	}
 }

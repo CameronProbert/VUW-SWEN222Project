@@ -73,14 +73,15 @@ public class GameUtil {
 	public static final int KEY = 60;
 	public static final int FOOD = 80;
 
-	private ObjectStorer storer = new ObjectStorer();
+	private ObjectStorer storer;
 
 	private Direction viewDirection = Direction.NORTH;
 
 	private final BoardData boardData;
 
-	public GameUtil(BoardData boardData) {
+	public GameUtil(BoardData boardData, ObjectStorer objStore) {
 		this.boardData = boardData;
+		this.storer = objStore;
 	}
 
 	/**

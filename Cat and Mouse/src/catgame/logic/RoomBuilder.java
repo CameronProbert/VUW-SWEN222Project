@@ -30,12 +30,15 @@ public class RoomBuilder {
 
 	private int roomNum = 0;
 
-	private final int food = 80; // Don't chnage
+	private final int food = 80; // Don't Change
 
 	private ObjectBuilder objBuilder;
+	private ObjectStorer objStore;
 
-	public RoomBuilder() {
+	public RoomBuilder(ObjectStorer objStore) {
 		objBuilder = new ObjectBuilder();
+		this.objStore = objStore;
+		
 	}
 
 	/**
@@ -45,7 +48,7 @@ public class RoomBuilder {
 	 * @param fileName
 	 * @return
 	 */
-	public Room loadRoom(ObjectStorer objStore) {
+	public Room loadRoom() {
 		// Make the new Room
 		Room loadingRoom = new Room(roomNum++);
 		// this will need to be added in at the end

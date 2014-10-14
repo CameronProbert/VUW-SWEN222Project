@@ -21,8 +21,9 @@ public class BoardData {
 	private ObjectStorer objStorer;
 
 	public BoardData() {
-		this.gameUtil = new GameUtil(this);
 		this.objStorer = new ObjectStorer();
+		this.gameUtil = new GameUtil(this, objStorer);
+		
 	}
 
 	/**
@@ -68,8 +69,8 @@ public class BoardData {
 	}
 
 	public void loadTestData() {
-		RoomBuilder testRoom = new RoomBuilder();
-		addRoom(testRoom.loadRoom(objStorer));
+		RoomBuilder testRoom = new RoomBuilder(objStorer);
+		addRoom(testRoom.loadRoom());
 		TESTattachDoors();
 	}
 
@@ -103,7 +104,6 @@ public class BoardData {
 			Door exit = (Door) doorsExitRoom.getDoorsLocation().get(doorsList.get(i + direction)).getObjectOnCell();
 			currentDoor.addOtherSide(exit, doorsList.get(i + 1));
 		}
-
 	}
 
 	public Room getDoorsRoom(int DoorID) {
