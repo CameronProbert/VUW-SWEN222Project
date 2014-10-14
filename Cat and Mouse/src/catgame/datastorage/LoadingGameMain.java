@@ -26,7 +26,7 @@ public class LoadingGameMain {
 			throws JDOMException, XMLException {
 
 		// make obj loader
-		this.masterObjectLoader = new LoadMasterObjects(this);
+		this.masterObjectLoader = new LoadMasterObjects(this, boardData);
 		// make loader helper
 		this.helper = new LoadingHelper(this);
 		this.isLoadOldGame = isLoadOldGame;

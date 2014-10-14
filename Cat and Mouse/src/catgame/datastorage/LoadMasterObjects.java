@@ -3,6 +3,7 @@ package catgame.datastorage;
 import java.util.*;
 
 import catgame.gameObjects.*;
+import catgame.logic.BoardData;
 import catgame.logic.Room;
 import catgame.logic.GameUtil.Direction;
 
@@ -10,9 +11,11 @@ import org.jdom2.*;
 
 public class LoadMasterObjects {
 	private LoadingGameMain main;
+	private BoardData boardData;
 
-	public LoadMasterObjects(LoadingGameMain main) {
+	public LoadMasterObjects(LoadingGameMain main, BoardData boardData) {
 		this.main = main;
+		this.boardData = boardData;
 	}
 
 	public MasterObject verifyElement(Element element) throws XMLException {
@@ -74,7 +77,9 @@ public class LoadMasterObjects {
 
 		int attackPower = Integer.parseInt(element.getChild("attackPower")
 				.getText());
-		return new Boss(id, attackPower, health, inventory);
+		Boss boss = new Boss(id, attackPower, health, inventory);
+		boardData.getObjStorer().addNPC(id, boss);
+		return boss;
 	}
 
 	public Bush loadBush(Element element) {
@@ -88,7 +93,9 @@ public class LoadMasterObjects {
 				.getChildren()) {
 			inventory.add((GameItem) verifyElement(inventoryElement));
 		}
-		return new Chest(ID, inventory);
+		Chest chest = new Chest(ID, inventory);
+		boardData.getObjStorer().addChest(ID, chest);
+		return chest;
 	}
 
 	public Door loadDoor(Element element) {
@@ -116,8 +123,9 @@ public class LoadMasterObjects {
 	public Food loadFood(Element element) {
 		int heal = Integer.parseInt(element.getChild("heal").getText());
 		// TODO check that the casting below is okay to use!!
-		return new Food(
-				Integer.parseInt(element.getAttribute("id").getValue()), heal);
+		Food food = new Food(Integer.parseInt(element.getAttribute("id").getValue()), heal);
+		boardData.getObjStorer().addItems(food.getObjectID(), food);
+		return food;
 	}
 
 	public Key loadKey(Element element) {
@@ -138,7 +146,7 @@ public class LoadMasterObjects {
 		} else {
 			key.setOwner(null);
 		}
-
+		boardData.getObjStorer().addItems(key.getObjectID(), key);
 		return key;
 	}
 
@@ -154,7 +162,9 @@ public class LoadMasterObjects {
 		for (Element inventoryElement : inventoryElementsList) {
 			inventoryList.add((GameItem) verifyElement(inventoryElement));
 		}
-		return new Minion(id, currentRoom, attackPower, health, inventoryList);
+		Minion minion = new Minion(id, currentRoom, attackPower, health, inventoryList);
+		boardData.getObjStorer().addNPC(id, minion);
+		return minion;
 	}
 
 	/**
@@ -192,7 +202,7 @@ public class LoadMasterObjects {
 		// Room currentRoom = main.getRoomIDMap().get(roomID);
 		PlayableCharacter character = new PlayableCharacter(ID, dir,
 				attackPower, health, inventoryList);
-		
+		boardData.getObjStorer().addplayableChs(character.getObjectID(), character);
 		return character;
 	}
 
