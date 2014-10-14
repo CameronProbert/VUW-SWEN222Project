@@ -85,7 +85,7 @@ public class LoadingGameMain {
 		createRoomInventory(roomElement.getChildren().get(0), room);
 		linkAllDoors(roomElement.getChildren().get(1));
 		room.loadBoardCellToRoom(loadRoomGrid(roomElement.getChildren().get(2)));
-		// helper.populateDoorLocationMap(room); 
+		helper.populateDoorLocationMap(room); 
 		// TODO fix door links on dans side
 		if (isLoadOldGame) {
 			helper.populatePlayerLocationMap(room);

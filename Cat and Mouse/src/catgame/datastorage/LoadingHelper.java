@@ -43,7 +43,7 @@ public class LoadingHelper {
 								+ " that is supposed to be already made in the room. Cannot make BoardCell without this!");
 				// System.out.println("***********   Cannot find GameObject ID = "
 				// + ID + "   ***********");
-			} 
+			}
 
 		}
 		String groundType = null;
@@ -91,16 +91,16 @@ public class LoadingHelper {
 		}
 
 	}
-	
-	public void populatePlayerLocationMap(Room room){
+
+	public void populatePlayerLocationMap(Room room) {
 		BoardCell[][] roomGrid = room.getBoardGrid();
 		for (int y = 0; y < roomGrid.length; y++) {
 			for (int x = 0; x < roomGrid[y].length; x++) {
 				if (roomGrid[y][x].getObjectOnCell() instanceof PlayableCharacter) {
 					System.out.println("Adding Player_"
 							+ roomGrid[y][x].getObjectOnCell().getObjectID());
-					room.addToPlayerLocationMap(roomGrid[y][x].getObjectOnCell()
-							.getObjectID(), roomGrid[y][x]);
+					room.addToPlayerLocationMap(roomGrid[y][x]
+							.getObjectOnCell().getObjectID(), roomGrid[y][x]);
 				}
 			}
 		}
