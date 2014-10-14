@@ -55,15 +55,11 @@ public class GameUtil {
 	public static final int CHESTTHREE = 27;
 	public static final int CHESTFOUR = 28;
 
-	public static final int HEDGEN = 30;
-	public static final int HEDGEE = 31;
-	public static final int HEDGES = 32;
-	public static final int HEDGEW = 33;
+	public static final int HEDGEL = 30;
+	public static final int HEDGER = 31;
 
-	public static final int FENCEN = 34;
-	public static final int FENCEE = 35;
-	public static final int FENCES = 36;
-	public static final int FENCEW = 37;
+	public static final int FENCEL = 34;
+	public static final int FENCER = 35;
 
 	public static final int DOORN = 40;
 	public static final int DOORE = 41;
@@ -319,7 +315,7 @@ public class GameUtil {
 	}
 
 	public void attackUpdate(int playerID, int minionID) {
-
+		
 	}
 
 }

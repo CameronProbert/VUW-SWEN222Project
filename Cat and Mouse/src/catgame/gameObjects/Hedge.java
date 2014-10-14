@@ -7,11 +7,11 @@ public class Hedge implements NonMovavble {
 	private final int id;
 	private Direction direction;
 	
-	public Hedge(int id, Direction direction){
+	public Hedge(int id){
 		this.id = id;
 		this.direction = direction;
 	}
-	
+
 	public Direction getDirection(){
 		return direction;
 	}

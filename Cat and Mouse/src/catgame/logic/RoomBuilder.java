@@ -121,23 +121,23 @@ public class RoomBuilder {
 						board[y][x] = objBuilder.addDoorW(x, y, loadingRoom);
 						loadingRoom.addToDoorsLocation(board[y][x].getObjectOnCell().getObjectID(), board[y][x]);
 						break;
-					case GameUtil.HEDGEN + "":
-						board[y][x] = objBuilder.addHedgeN(x, y, loadingRoom);
+					case GameUtil.HEDGEL + "":
+						board[y][x] = objBuilder.addHedgeL(x, y, loadingRoom);
 						break;
-					case GameUtil.HEDGEE + "":
-						board[y][x] = objBuilder.addHedgeE(x, y, loadingRoom);
-						break;
-					case GameUtil.HEDGES + "":
-						board[y][x] = objBuilder.addHedgeS(x, y, loadingRoom);
-						break;
-					case GameUtil.HEDGEW + "":
-						board[y][x] = objBuilder.addHedgeW(x, y, loadingRoom);
+					case GameUtil.HEDGER + "":
+						board[y][x] = objBuilder.addHedgeR(x, y, loadingRoom);
 						break;
 					case GameUtil.BOSSONE+"":
 						board[y][x] = objBuilder.addBossOne(x,y, loadingRoom, objStore);
 						break;
-					
+					case GameUtil.FENCEL+"":
+						board[y][x] = objBuilder.addFenceL(x,y, loadingRoom);
+						break;
+					case GameUtil.FENCER+"":
+						board[y][x] = objBuilder.addFenceR(x,y, loadingRoom);
+						break;
 					}
+					
 				}
 				y++;
 			}

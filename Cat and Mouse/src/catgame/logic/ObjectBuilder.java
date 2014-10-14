@@ -29,6 +29,7 @@ public class ObjectBuilder {
 	private int hedgeNum = 10;
 	private int food = 10;
 	private int key = 10;
+	private int fence = 10;
 
 	public ObjectBuilder() {
 
@@ -238,8 +239,8 @@ public class ObjectBuilder {
 		chestinv.add(new Food(genorateObjectId(GameUtil.FOOD, 10, food++), 20));
 		chestinv.add(new Key(genorateObjectId(GameUtil.KEY, 10, key++)));
 		Chest newChest = new Chest(newChestId, chestinv);
-		objStore.addItems(chestinv.get(0).getObjectID(),chestinv.get(0));
-		objStore.addItems(chestinv.get(1).getObjectID(),chestinv.get(1));
+		objStore.addItems(chestinv.get(0).getObjectID(), chestinv.get(0));
+		objStore.addItems(chestinv.get(1).getObjectID(), chestinv.get(1));
 		objStore.addChest(newChestId, newChest);
 		loadingRoom.addToInventory(newChest);
 		return new BoardCell(new Position(x, y), newChest, GROUNDTYPEGRASS);
@@ -313,9 +314,9 @@ public class ObjectBuilder {
 	 * @param loadingRoom
 	 * @return boardCell with a Northern Hedge
 	 */
-	public BoardCell addHedgeN(int x, int y, Room loadingRoom) {
-		int newHedgeId = genorateObjectId(GameUtil.HEDGEN, genorateRandomObjectType(1), hedgeNum++);
-		Hedge newHedge = new Hedge(newHedgeId, Direction.NORTH);
+	public BoardCell addHedgeL(int x, int y, Room loadingRoom) {
+		int newHedgeId = genorateObjectId(GameUtil.HEDGEL, genorateRandomObjectType(1), hedgeNum++);
+		Hedge newHedge = new Hedge(newHedgeId);
 		loadingRoom.addToInventory(newHedge);
 		return new BoardCell(new Position(x, y), newHedge, GROUNDTYPEGRASS);
 	}
@@ -328,40 +329,25 @@ public class ObjectBuilder {
 	 * @param loadingRoom
 	 * @return boardCell with a Eastern Hedge
 	 */
-	public BoardCell addHedgeE(int x, int y, Room loadingRoom) {
-		int newHedgeId = genorateObjectId(GameUtil.HEDGEN, genorateRandomObjectType(1), hedgeNum++);
-		Hedge newHedge = new Hedge(newHedgeId, Direction.EAST);
+	public BoardCell addHedgeR(int x, int y, Room loadingRoom) {
+		int newHedgeId = genorateObjectId(GameUtil.HEDGEL, genorateRandomObjectType(1), hedgeNum++);
+		Hedge newHedge = new Hedge(newHedgeId);
 		loadingRoom.addToInventory(newHedge);
 		return new BoardCell(new Position(x, y), newHedge, GROUNDTYPEGRASS);
 	}
 
-	/**
-	 * Create a southern Hedge
-	 * 
-	 * @param x
-	 * @param y
-	 * @param loadingRoom
-	 * @return boardCell with a southern Hedge
-	 */
-	public BoardCell addHedgeS(int x, int y, Room loadingRoom) {
-		int newHedgeId = genorateObjectId(GameUtil.HEDGEN, genorateRandomObjectType(1), hedgeNum++);
-		Hedge newHedge = new Hedge(newHedgeId, Direction.SOUTH);
-		loadingRoom.addToInventory(newHedge);
-		return new BoardCell(new Position(x, y), newHedge, GROUNDTYPEGRASS);
+	public BoardCell addFenceL(int x, int y, Room loadingRoom) {
+		int newFenceId = genorateObjectId(GameUtil.FENCEL, 10, fence++);
+		Fence newFence = new Fence(newFenceId);
+		loadingRoom.addToInventory(newFence);
+		return new BoardCell(new Position(x, y), newFence, GROUNDTYPEGRASS);
 	}
 
-	/**
-	 * Create a Western Hedge
-	 * 
-	 * @param x
-	 * @param y
-	 * @param loadingRoom
-	 * @return boardCell with a Western Hedge
-	 */
-	public BoardCell addHedgeW(int x, int y, Room loadingRoom) {
-		int newHedgeId = genorateObjectId(GameUtil.HEDGEN, genorateRandomObjectType(1), hedgeNum++);
-		Hedge newHedge = new Hedge(newHedgeId, Direction.WEST);
-		loadingRoom.addToInventory(newHedge);
-		return new BoardCell(new Position(x, y), newHedge, GROUNDTYPEGRASS);
+	public BoardCell addFenceR(int x, int y, Room loadingRoom) {
+		int newFenceId = genorateObjectId(GameUtil.FENCEL, 10, fence++);
+		Fence newFence = new Fence(newFenceId);
+		loadingRoom.addToInventory(newFence);
+		return new BoardCell(new Position(x, y), newFence, GROUNDTYPEGRASS);
 	}
+
 }

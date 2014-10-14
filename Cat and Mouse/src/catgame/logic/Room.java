@@ -85,10 +85,11 @@ public class Room {
 
 		Position newPos = findPosition(playerID, boardDirection, playerDirection);
 		// Check if the move is on the board
-		if (newPos.getX() < 0 || newPos.getY() < 0 || newPos.getX() > roomGrid.length || newPos.getY() > roomGrid[0].length) {
+		if (newPos.getX() < 0 || newPos.getY() < 0 || newPos.getX() >= roomGrid.length || newPos.getY() >= roomGrid[0].length) {
 			System.out.println("New Move Position to x:" + newPos.getX() + " y:" + newPos.getY() + " is not valid");
 			return -1;
 		}
+
 		// Check that the next Position is empty then move the player
 		if (roomGrid[newPos.getY()][newPos.getX()].getGroundType() != null) {
 			if (roomGrid[newPos.getY()][newPos.getX()].getObjectOnCell() instanceof Door) {
@@ -126,8 +127,7 @@ public class Room {
 				return;
 			}
 		}
-		if (door.enterDoor().
-				checkExitDoor()) {
+		if (door.enterDoor().checkExitDoor()) {
 			PlayableCharacter player = (PlayableCharacter) playerLocationMap.get(playerID).getObjectOnCell();
 			BoardCell delete = playerLocationMap.get(playerID);
 			playerLocationMap.remove(playerID);
@@ -171,14 +171,15 @@ public class Room {
 					player.changeHealth(-npc.getAttackPower());
 					return 1;
 				}
-
 			}
 		}
 		return -1;
 	}
+
 	/**
 	 * 
-	 * Check to see if the there is a chest of a dead npc infront of the char if there is we can then loot the items from it 
+	 * Check to see if the there is a chest of a dead npc infront of the char if
+	 * there is we can then loot the items from it
 	 * 
 	 * @param playerID
 	 * @param boardDirection
@@ -335,24 +336,29 @@ public class Room {
 	}
 
 	/**
-	 * Return the GameObject ahead of a character if there is no object it will return null
+	 * Return the GameObject ahead of a character if there is no object it will
+	 * return null
 	 * 
 	 * @param playerID
 	 * @param boardDirection
 	 * @return
 	 */
-	public GameObject getObjectAheadOfCharactor(int playerID, Direction boardDirection){
+	public GameObject getObjectAheadOfCharactor(int playerID, Direction boardDirection) {
 		GameObject returnObj = null;
 		if (playerLocationMap.get(playerID).getObjectOnCell() instanceof PlayableCharacter) {
 			BoardCell playersCell = playerLocationMap.get(playerID);
 			PlayableCharacter player = (PlayableCharacter) playersCell.getObjectOnCell();
 			Position actionPosition = findPosition(playerID, boardDirection, player.getFacingDirection());
+			
+			if (actionPosition.getX() < 0 || actionPosition.getY() < 0 || actionPosition.getX() >= roomGrid.length || actionPosition.getY() >= roomGrid[0].length) {
+				return null;
+			}
 			returnObj = roomGrid[actionPosition.getY()][actionPosition.getX()].getObjectOnCell();
 		}
 		return returnObj;
 	}
-	
-//	public void attackUpdate(){
-//		for(int i = 0; i < roomInventory.ge)
-//	}
+
+	// public void attackUpdate(){
+	// for(int i = 0; i < roomInventory.ge)
+	// }
 }
