@@ -98,7 +98,8 @@ public class ServerNewGame extends StartServer {
 			LoadNewGame loadXML = new LoadNewGame(playerIDs);
 			boardData = loadXML.getBoardData();
 			handler.setBoardData(boardData);
-			SavingMain save = new SavingMain(boardData);
+			File saveInitial = null;
+			SavingMain save = new SavingMain(boardData, saveInitial);
 			File file = save.getXMLFile();
 			for(Master m: connections){
 				m.setFile(file);

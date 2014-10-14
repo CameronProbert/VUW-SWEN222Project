@@ -33,7 +33,7 @@ public class SinglePlayerHandler extends GameRunner {
 	 * @param playerID
 	 */
 	public SinglePlayerHandler (String fileName){
-		/*if(!fileName.equals("no file")){
+		if(!fileName.equals("no file")){
 			try {
 				LoadOldGame loadXML = new LoadOldGame(new File(fileName));
 				boardData = loadXML.getBoardData();
@@ -50,10 +50,10 @@ public class SinglePlayerHandler extends GameRunner {
 			} catch (JDOMException | XMLException e) {
 				e.printStackTrace();
 			}
-		}*/
+		}
 		
-		boardData = new BoardData();
-		boardData.loadTestData();
+		// boardData = new BoardData();
+		// boardData.loadTestData();
 		
 		FrameClient frame = new FrameClient(this, false, null, 101010);
 		try {

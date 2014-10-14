@@ -87,7 +87,6 @@ public class FrameLauncher extends FrameAbstract {
 							NetworkHandler.Type.CLIENT);
 					SlaveReceiver slaveR = new SlaveReceiver(slave, net);
 					slaveR.run();
-					waitForPlayers(slaveR);
 					int id = slaveR.getUID();
 					FrameClient frame = new FrameClient(net, true, slave, id);
 					slaveR.addFrame(frame);
@@ -151,39 +150,6 @@ public class FrameLauncher extends FrameAbstract {
 		// this.pack();
 	}
 
-	protected void waitForPlayers(SlaveReceiver slaveR) {
-		Dimension frameSize = new Dimension(200, 100);
-		JFrame frame = new JFrame("Loading");
-		frame.setPreferredSize(frameSize);
-		frame.setSize(frameSize);
-		frame.setLayout(null);
-		JPanel panel = new JPanel() {
-			@Override
-			public void paintComponent(Graphics g) {
-				super.paintComponent(g);
-				g.setColor(Color.red);
-				g.drawString("Waiting for other players,  please wait...", 10,
-						10);
-			}
-		};
-		panel.setPreferredSize(frameSize);
-		panel.setSize(frameSize);
-		panel.setMinimumSize(frameSize);
-		panel.setMinimumSize(frameSize);
-		panel.setLocation(0, 0);
-		panel.setBackground(Color.black);
-
-		frame.add(panel);
-		frame.pack();
-		panel.setVisible(true);
-		frame.setVisible(true);
-		frame.repaint();
-		while (!slaveR.isReady()) {
-			System.out.printf("");
-		}
-		// TODO get rid of loading frame
-		frame.setVisible(false);
-	}
 
 	protected void startGame(boolean loadPlayer) {
 		String filename = "no file";

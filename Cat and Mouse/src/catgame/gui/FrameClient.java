@@ -76,6 +76,15 @@ public class FrameClient extends FrameAbstract implements KeyListener {
 		this.runner = network;
 		this.isClient = isClient;
 		this.clientsUID = ID;
+		if(!isClient){
+			character = runner.getBoardData().getObjStorer()
+					.findCharacter(clientsUID);
+			this.addPanels(character);
+			this.setVisible(true);
+		}
+	}
+	
+	public void startMyClient(){
 		character = runner.getBoardData().getObjStorer()
 				.findCharacter(clientsUID);
 		this.addPanels(character);
@@ -150,7 +159,7 @@ public class FrameClient extends FrameAbstract implements KeyListener {
 		menu.add(optionSave);
 		menu.add(optionQuit);
 	}
-	
+
 	private void save(){
 		// TODO open a dialogue box or something so they can choose the name of the file
 		JFileChooser chooser = new JFileChooser();
@@ -222,15 +231,15 @@ public class FrameClient extends FrameAbstract implements KeyListener {
 	 * Sets the frame to this size.
 	 */
 	private void setDimensions() {
-//		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-//		if (screenSize == null) {
-//			System.out.println("screenSize is null");
-//		}
-//		System.out.println(screenSize.getHeight());
-//		int windowHeight = (int) (screenSize.getHeight() * FRAMEHEIGHTMODIFIER);
-//		int windowWidth = (int) (windowHeight * ASPECTRATIO);
-//		System.out.printf("Width: %d | Height: %d", windowWidth, windowHeight);
-//		windowSize = new Dimension(windowWidth, windowHeight);
+		//		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+		//		if (screenSize == null) {
+		//			System.out.println("screenSize is null");
+		//		}
+		//		System.out.println(screenSize.getHeight());
+		//		int windowHeight = (int) (screenSize.getHeight() * FRAMEHEIGHTMODIFIER);
+		//		int windowWidth = (int) (windowHeight * ASPECTRATIO);
+		//		System.out.printf("Width: %d | Height: %d", windowWidth, windowHeight);
+		//		windowSize = new Dimension(windowWidth, windowHeight);
 		windowSize = new Dimension(FRAMEWIDTH, FRAMEHEIGHT);
 		this.setSize(windowSize);
 		this.setPreferredSize(windowSize);
@@ -340,7 +349,7 @@ public class FrameClient extends FrameAbstract implements KeyListener {
 		System.out.printf("Client ID: %d", clientsUID);
 		if (slaveR != null && !slaveR.isReady()) return;
 		if (this.state.equals("paused")) return;
-		
+
 		int keyID = key.getKeyCode();
 		int validAction = 0;
 		Update up = new Update(0);
@@ -395,9 +404,9 @@ public class FrameClient extends FrameAbstract implements KeyListener {
 
 				if (item != null) {
 					runner.getBoardData()
-							.getGameUtil()
-							.addObjectToInventory(clientsUID,
-									item.getObjectID());
+					.getGameUtil()
+					.addObjectToInventory(clientsUID,
+							item.getObjectID());
 					up = new Update(Update.Descriptor.PICKUP, clientsUID,
 							item.getObjectID());
 					validAction = 1;

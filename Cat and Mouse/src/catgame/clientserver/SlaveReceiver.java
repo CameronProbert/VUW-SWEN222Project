@@ -92,6 +92,7 @@ public class SlaveReceiver {
 				}
 
 				readyToStart=true; // now the players can start trying to do things
+				frame.startMyClient();
 
 				while(locked){
 					workOutUpdate(input);
