@@ -268,6 +268,10 @@ public class LoadingGameMain {
 	public LoadingHelper getHelper(){
 		return helper;
 	}
+	
+	public LoadMasterObjects getLoadMasterObj(){
+		return masterObjectLoader;
+	}
 	public static void main(String[] args) throws JDOMException, XMLException {
 		// List<Integer> temp = new ArrayList<Integer>();
 		// temp.add(23);

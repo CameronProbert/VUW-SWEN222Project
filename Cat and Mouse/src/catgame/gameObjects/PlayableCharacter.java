@@ -177,8 +177,10 @@ public class PlayableCharacter implements Character {
 	 * @param objectID
 	 */
 	public int eat(int objectID) {
+		System.err.println(objectID);
 		Food toEat = null;
 		for (int i = 0; i < inventory.size(); i++) {
+			System.err.println(inventory.get(i).getObjectID());
 			if (inventory.get(i).getObjectID() == objectID) {
 				toEat = (Food) inventory.remove(i);
 			}
@@ -189,6 +191,7 @@ public class PlayableCharacter implements Character {
 				return 1;
 			} else {
 				health = 100;
+				return 1;
 			}
 		}
 		return -1;

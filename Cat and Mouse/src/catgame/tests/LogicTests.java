@@ -6,9 +6,13 @@ import java.time.DayOfWeek;
 
 import org.junit.Test;
 
+import catgame.gameObjects.Boss;
+import catgame.gameObjects.Chest;
 import catgame.gameObjects.Door;
+import catgame.gameObjects.Minion;
 import catgame.gameObjects.NonPlayableCharacter;
 import catgame.gameObjects.PlayableCharacter;
+import catgame.gamestarting.GameRunner.GameState;
 import catgame.logic.BoardData;
 import catgame.logic.GameUtil.Direction;
 import catgame.logic.GameError;
@@ -20,6 +24,9 @@ import catgame.logic.Room;
 import catgame.logic.RoomBuilder;
 
 public class LogicTests {
+	
+	private String testRoomFile = "SwenProjectRoomTestOne.csv";
+	private int playerOne = 101010;
 
 	/**
 	 * Test that the games public enum Direction is working correctly, and all
@@ -95,11 +102,11 @@ public class LogicTests {
 	 * be 6 digits long if they aren't there will be a gameError Thrown
 	 */
 	@Test
-	public void TestGenorateId() {
+	public void testGenorateId() {
 		ObjectBuilder ObjBuilder = new ObjectBuilder();
 		String lenghtTest = ObjBuilder.genorateObjectId(10, 10, 10) + "";
 		assertEquals(6, lenghtTest.length());
-		assertEquals(101010, ObjBuilder.genorateObjectId(10, 10, 10));
+		assertEquals(playerOne, ObjBuilder.genorateObjectId(10, 10, 10));
 		try {
 			assertFalse(ObjBuilder.genorateObjectId(01, 01, 01) + "".length() == 6);
 		} catch (GameError e) {
@@ -109,7 +116,7 @@ public class LogicTests {
 	}
 
 	@Test
-	public void TestGenorateRandomObjectType() {
+	public void testGenorateRandomObjectType() {
 		ObjectBuilder ObjBuilder = new ObjectBuilder();
 		assertEquals(10, ObjBuilder.genorateRandomObjectType(100));
 		assertTrue(ObjBuilder.genorateRandomObjectType(5) > 9 && ObjBuilder.genorateRandomObjectType(5) <= 15);
@@ -118,122 +125,303 @@ public class LogicTests {
 	}
 
 	@Test
-	public void TestGetPlayersGrid() {
+	public void testGetPlayersGrid() {
 		ObjectStorer objStore = new ObjectStorer();
-		RoomBuilder testBuilder = new RoomBuilder();
-		Room testRoom = testBuilder.loadRoom(objStore);
-		assertEquals(101010, testRoom.getCharactorCell(101010).getObjectOnCell().getObjectID());
+		RoomBuilder testBuilder = new RoomBuilder(objStore);
+		Room testRoom = testBuilder.loadRoom();
+		assertEquals(playerOne, testRoom.getCharactorCell(playerOne).getObjectOnCell().getObjectID());
 	}
 
 	@Test
-	public void TestPlayerAttempedMoveChangeDirection() {
+	public void testPlayerAttempedMoveChangeDirection() {
 		BoardData gameData = new BoardData();
 		gameData.loadTestData();
 		gameData.getGameUtil().TESTsetViewDirection(Direction.NORTH);
 		Room testRoom = gameData.getAllRooms().get(0);
 		// testRoom.
-		((PlayableCharacter) testRoom.getCharactorCell(101010).getObjectOnCell()).changeDirection(Direction.NORTH);
-		Position preMovePos = testRoom.getCharactorCell(101010).getPosition();
+		((PlayableCharacter) testRoom.getCharactorCell(playerOne).getObjectOnCell()).changeDirection(Direction.NORTH);
+		Position preMovePos = testRoom.getCharactorCell(playerOne).getPosition();
 		// we know that the character isn't moving because it is returning -1
-		assertEquals(-1, testRoom.movePlayer(101010, Direction.RIGHT, gameData.getGameUtil().getViewDirection()));
-		assertEquals(Direction.EAST, ((PlayableCharacter) testRoom.getCharactorCell(101010).getObjectOnCell()).getFacingDirection());
-		assertEquals(-1, testRoom.movePlayer(101010, Direction.DOWN, gameData.getGameUtil().getViewDirection()));
-		assertEquals(Direction.SOUTH, ((PlayableCharacter) testRoom.getCharactorCell(101010).getObjectOnCell()).getFacingDirection());
-		assertEquals(-1, testRoom.movePlayer(101010, Direction.LEFT, gameData.getGameUtil().getViewDirection()));
-		assertEquals(Direction.WEST, ((PlayableCharacter) testRoom.getCharactorCell(101010).getObjectOnCell()).getFacingDirection());
-		assertEquals(-1, testRoom.movePlayer(101010, Direction.UP, gameData.getGameUtil().getViewDirection()));
-		assertEquals(Direction.NORTH, ((PlayableCharacter) testRoom.getCharactorCell(101010).getObjectOnCell()).getFacingDirection());
+		assertEquals(-1, testRoom.movePlayer(playerOne, Direction.RIGHT, gameData.getGameUtil().getViewDirection()));
+		assertEquals(Direction.EAST, ((PlayableCharacter) testRoom.getCharactorCell(playerOne).getObjectOnCell()).getFacingDirection());
+		assertEquals(-1, testRoom.movePlayer(playerOne, Direction.DOWN, gameData.getGameUtil().getViewDirection()));
+		assertEquals(Direction.SOUTH, ((PlayableCharacter) testRoom.getCharactorCell(playerOne).getObjectOnCell()).getFacingDirection());
+		assertEquals(-1, testRoom.movePlayer(playerOne, Direction.LEFT, gameData.getGameUtil().getViewDirection()));
+		assertEquals(Direction.WEST, ((PlayableCharacter) testRoom.getCharactorCell(playerOne).getObjectOnCell()).getFacingDirection());
+		assertEquals(-1, testRoom.movePlayer(playerOne, Direction.UP, gameData.getGameUtil().getViewDirection()));
+		assertEquals(Direction.NORTH, ((PlayableCharacter) testRoom.getCharactorCell(playerOne).getObjectOnCell()).getFacingDirection());
 
 	}
 
+	// Test the movement for the game
+	// if testTranslateForGid() passes then all movements will work correctly on
+	// the board at any view angle
 	@Test
-	public void TestPlayerMoveNorth() {
+	public void testPlayerMoveUp() {
 		BoardData gameData = new BoardData();
 		gameData.loadTestData();
 		gameData.getGameUtil().TESTsetViewDirection(Direction.NORTH);
 		Room testRoom = gameData.getAllRooms().get(0);
 		// testRoom.
-		((PlayableCharacter) testRoom.getCharactorCell(101010).getObjectOnCell()).changeDirection(Direction.NORTH);
-		Position preMovePos = testRoom.getCharactorCell(101010).getPosition();
-		assertEquals(101010, testRoom.getBoardGrid()[preMovePos.getY()][preMovePos.getX()].getObjectOnCell().getObjectID());
-		assertEquals(1, gameData.getGameUtil().moveUp(101010));
+		((PlayableCharacter) testRoom.getCharactorCell(playerOne).getObjectOnCell()).changeDirection(Direction.NORTH);
+		Position preMovePos = testRoom.getCharactorCell(playerOne).getPosition();
+		assertEquals(playerOne, testRoom.getBoardGrid()[preMovePos.getY()][preMovePos.getX()].getObjectOnCell().getObjectID());
+		assertEquals(1, gameData.getGameUtil().moveUp(playerOne));
 		assertEquals(null, testRoom.getBoardGrid()[preMovePos.getY()][preMovePos.getX()].getObjectOnCell());
-		assertEquals(101010, testRoom.getBoardGrid()[preMovePos.getY() - 1][preMovePos.getX()].getObjectOnCell().getObjectID());
+		assertEquals(playerOne, testRoom.getBoardGrid()[preMovePos.getY() - 1][preMovePos.getX()].getObjectOnCell().getObjectID());
 	}
 
 	@Test
-	public void TestPlayerMoveRight() {
+	public void testPlayerMoveRight() {
 		BoardData gameData = new BoardData();
 		gameData.loadTestData();
 		gameData.getGameUtil().TESTsetViewDirection(Direction.NORTH);
 		Room testRoom = gameData.getAllRooms().get(0);
 		// testRoom.
-		((PlayableCharacter) testRoom.getCharactorCell(101010).getObjectOnCell()).changeDirection(Direction.EAST);
-		Position preMovePos = testRoom.getCharactorCell(101010).getPosition();
-		assertEquals(101010, testRoom.getBoardGrid()[preMovePos.getY()][preMovePos.getX()].getObjectOnCell().getObjectID());
-		assertEquals(1, gameData.getGameUtil().moveRight(101010));
+		((PlayableCharacter) testRoom.getCharactorCell(playerOne).getObjectOnCell()).changeDirection(Direction.EAST);
+		Position preMovePos = testRoom.getCharactorCell(playerOne).getPosition();
+		assertEquals(playerOne, testRoom.getBoardGrid()[preMovePos.getY()][preMovePos.getX()].getObjectOnCell().getObjectID());
+		assertEquals(1, gameData.getGameUtil().moveRight(playerOne));
 		assertEquals(null, testRoom.getBoardGrid()[preMovePos.getY()][preMovePos.getX()].getObjectOnCell());
-		assertEquals(101010, testRoom.getBoardGrid()[preMovePos.getY()][preMovePos.getX() + 1].getObjectOnCell().getObjectID());
+		assertEquals(playerOne, testRoom.getBoardGrid()[preMovePos.getY()][preMovePos.getX() + 1].getObjectOnCell().getObjectID());
 	}
 
 	@Test
-	public void TestPlayerMoveDown() {
+	public void testPlayerMoveDown() {
 		BoardData gameData = new BoardData();
 		gameData.loadTestData();
 		gameData.getGameUtil().TESTsetViewDirection(Direction.NORTH);
 		Room testRoom = gameData.getAllRooms().get(0);
 		// testRoom.
-		((PlayableCharacter) testRoom.getCharactorCell(101010).getObjectOnCell()).changeDirection(Direction.SOUTH);
-		Position preMovePos = testRoom.getCharactorCell(101010).getPosition();
-		assertEquals(101010, testRoom.getBoardGrid()[preMovePos.getY()][preMovePos.getX()].getObjectOnCell().getObjectID());
-		assertEquals(1, gameData.getGameUtil().moveDown(101010));
+		((PlayableCharacter) testRoom.getCharactorCell(playerOne).getObjectOnCell()).changeDirection(Direction.SOUTH);
+		Position preMovePos = testRoom.getCharactorCell(playerOne).getPosition();
+		assertEquals(playerOne, testRoom.getBoardGrid()[preMovePos.getY()][preMovePos.getX()].getObjectOnCell().getObjectID());
+		assertEquals(1, gameData.getGameUtil().moveDown(playerOne));
 		assertEquals(null, testRoom.getBoardGrid()[preMovePos.getY()][preMovePos.getX()].getObjectOnCell());
-		assertEquals(101010, testRoom.getBoardGrid()[preMovePos.getY() + 1][preMovePos.getX()].getObjectOnCell().getObjectID());
+		assertEquals(playerOne, testRoom.getBoardGrid()[preMovePos.getY() + 1][preMovePos.getX()].getObjectOnCell().getObjectID());
 	}
 
 	@Test
-	public void TestPlayerMoveLeft() {
+	public void testPlayerMoveLeft() {
 		BoardData gameData = new BoardData();
 		gameData.loadTestData();
 		gameData.getGameUtil().TESTsetViewDirection(Direction.NORTH);
 		Room testRoom = gameData.getAllRooms().get(0);
 		// testRoom.
-		((PlayableCharacter) testRoom.getCharactorCell(101010).getObjectOnCell()).changeDirection(Direction.WEST);
-		Position preMovePos = testRoom.getCharactorCell(101010).getPosition();
-		assertEquals(101010, testRoom.getBoardGrid()[preMovePos.getY()][preMovePos.getX()].getObjectOnCell().getObjectID());
-		assertEquals(1, gameData.getGameUtil().moveLeft(101010));
+		((PlayableCharacter) testRoom.getCharactorCell(playerOne).getObjectOnCell()).changeDirection(Direction.WEST);
+		Position preMovePos = testRoom.getCharactorCell(playerOne).getPosition();
+		assertEquals(playerOne, testRoom.getBoardGrid()[preMovePos.getY()][preMovePos.getX()].getObjectOnCell().getObjectID());
+		assertEquals(1, gameData.getGameUtil().moveLeft(playerOne));
 		assertEquals(null, testRoom.getBoardGrid()[preMovePos.getY()][preMovePos.getX()].getObjectOnCell());
-		assertEquals(101010, testRoom.getBoardGrid()[preMovePos.getY()][preMovePos.getX() - 1].getObjectOnCell().getObjectID());
+		assertEquals(playerOne, testRoom.getBoardGrid()[preMovePos.getY()][preMovePos.getX() - 1].getObjectOnCell().getObjectID());
 	}
 
 	@Test
-	public void TestAttackMinion() {
+	public void testAttackMinion() {
 		BoardData gameData = new BoardData();
 		gameData.loadTestData();
 		gameData.getGameUtil().TESTsetViewDirection(Direction.NORTH);
 		Room testRoom = gameData.getAllRooms().get(0);
-		assertEquals(-1, testRoom.movePlayer(101010, Direction.RIGHT, gameData.getGameUtil().getViewDirection()));
-		assertEquals(1, testRoom.movePlayer(101010, Direction.RIGHT,gameData.getGameUtil().getViewDirection()));
-		assertEquals(1, testRoom.movePlayer(101010, Direction.RIGHT,gameData.getGameUtil().getViewDirection()));
-		assertEquals(1, testRoom.movePlayer(101010, Direction.RIGHT,gameData.getGameUtil().getViewDirection()));
-		assertEquals(-1, testRoom.movePlayer(101010, Direction.UP,gameData.getGameUtil().getViewDirection()));
-		assertEquals(1, testRoom.movePlayer(101010, Direction.UP,gameData.getGameUtil().getViewDirection()));
-		assertEquals(1, testRoom.movePlayer(101010, Direction.UP,gameData.getGameUtil().getViewDirection()));
+		assertEquals(-1, testRoom.movePlayer(playerOne, Direction.RIGHT, gameData.getGameUtil().getViewDirection()));
+		assertEquals(1, testRoom.movePlayer(playerOne, Direction.RIGHT, gameData.getGameUtil().getViewDirection()));
+		assertEquals(1, testRoom.movePlayer(playerOne, Direction.RIGHT, gameData.getGameUtil().getViewDirection()));
+		assertEquals(1, testRoom.movePlayer(playerOne, Direction.RIGHT, gameData.getGameUtil().getViewDirection()));
+		assertEquals(-1, testRoom.movePlayer(playerOne, Direction.UP, gameData.getGameUtil().getViewDirection()));
+		assertEquals(1, testRoom.movePlayer(playerOne, Direction.UP, gameData.getGameUtil().getViewDirection()));
+		assertEquals(1, testRoom.movePlayer(playerOne, Direction.UP, gameData.getGameUtil().getViewDirection()));
 		// We know that the player successfully attacked because of the return 1
-		assertEquals(1, testRoom.playerAction(101010,gameData.getGameUtil().getViewDirection()));
+		assertEquals(1, testRoom.playerAction(playerOne, gameData.getGameUtil().getViewDirection()));
 		// checking that he attacked and was attacked back
-		assertTrue(((PlayableCharacter) testRoom.getCharactorCell(101010).getObjectOnCell()).getHealth() < 100);
+		assertTrue(((PlayableCharacter) testRoom.getCharactorCell(playerOne).getObjectOnCell()).getHealth() < 100);
 	}
 	
-//	@Test
-//	public void TestDoor(){
-//		BoardData gameData = new BoardData();
-//		gameData.loadTestData();
-//		gameData.getGameUtil().TESTsetViewDirection(Direction.NORTH);
-//		Room testRoom = gameData.getAllRooms().get(0);
-//		assertTrue(testRoom.getBoardGrid()[4][0].getObjectOnCell() instanceof Door);
-//		assertTrue(testRoom.getBoardGrid()[4][5].getObjectOnCell() instanceof Door);
-//		((Door)testRoom.getBoardGrid()[4][0].getObjectOnCell()).addOtherSide(testRoom.getBoardGrid()[4][5].getObjectOnCell().getObjectID(),0);
-//		assertEquals(411011,((Door) testRoom.getBoardGrid()[4][0].getObjectOnCell()).getOtherSide());
-//	}
+	@Test
+	public void testLootChest(){
+		BoardData gameData = new BoardData();
+		gameData.loadTestData();
+		gameData.getGameUtil().TESTsetViewDirection(Direction.NORTH);
+		Room testRoom = gameData.getAllRooms().get(0);
+		assertEquals(-1, testRoom.movePlayer(playerOne, Direction.LEFT, gameData.getGameUtil().getViewDirection()));
+		assertEquals(1, testRoom.movePlayer(playerOne, Direction.LEFT, gameData.getGameUtil().getViewDirection()));
+		assertEquals(-1, testRoom.movePlayer(playerOne, Direction.UP, gameData.getGameUtil().getViewDirection()));
+		assertEquals(1, testRoom.movePlayer(playerOne, Direction.UP, gameData.getGameUtil().getViewDirection()));
+		assertTrue(testRoom.getObjectAheadOfCharactor(playerOne, gameData.getGameUtil().getViewDirection()) instanceof Chest);
+		assertEquals(1,testRoom.PlayerLoot(playerOne, gameData.getGameUtil().getViewDirection()));
+		assertEquals(3,testRoom.getPlayerInRoom(playerOne).getInventory().size());
+	}
+	
+	@Test
+	public void testLootDeadMinion(){
+		BoardData gameData = new BoardData();
+		gameData.loadTestData();
+		gameData.getGameUtil().TESTsetViewDirection(Direction.NORTH);
+		Room testRoom = gameData.getAllRooms().get(0);
+		assertEquals(-1, testRoom.movePlayer(playerOne, Direction.RIGHT, gameData.getGameUtil().getViewDirection()));
+		assertEquals(1, testRoom.movePlayer(playerOne, Direction.RIGHT, gameData.getGameUtil().getViewDirection()));
+		assertEquals(1, testRoom.movePlayer(playerOne, Direction.RIGHT, gameData.getGameUtil().getViewDirection()));
+		assertEquals(1, testRoom.movePlayer(playerOne, Direction.RIGHT, gameData.getGameUtil().getViewDirection()));
+		assertEquals(-1, testRoom.movePlayer(playerOne, Direction.UP, gameData.getGameUtil().getViewDirection()));
+		assertEquals(1, testRoom.movePlayer(playerOne, Direction.UP, gameData.getGameUtil().getViewDirection()));
+		assertEquals(1, testRoom.movePlayer(playerOne, Direction.UP, gameData.getGameUtil().getViewDirection()));
+		// We know that the player successfully attacked because of the return 1
+		assertEquals(1, testRoom.playerAction(playerOne, gameData.getGameUtil().getViewDirection()));
+		//try and loot an alive body
+		assertTrue(testRoom.getObjectAheadOfCharactor(playerOne, gameData.getGameUtil().getViewDirection()) instanceof Minion);
+		assertEquals(-1,testRoom.PlayerLoot(playerOne, gameData.getGameUtil().getViewDirection()));
+		assertEquals(1,testRoom.getPlayerInRoom(playerOne).getInventory().size());
+		//kill it
+		assertEquals(1, testRoom.playerAction(playerOne, gameData.getGameUtil().getViewDirection()));
+		assertEquals(1, testRoom.playerAction(playerOne, gameData.getGameUtil().getViewDirection()));
+		assertEquals(-1, testRoom.playerAction(playerOne, gameData.getGameUtil().getViewDirection()));
+		//minion is now dead now loot it
+		assertTrue(testRoom.getObjectAheadOfCharactor(playerOne, gameData.getGameUtil().getViewDirection()) instanceof Minion);
+		assertEquals(1,testRoom.PlayerLoot(playerOne, gameData.getGameUtil().getViewDirection()));
+		assertEquals(2,testRoom.getPlayerInRoom(playerOne).getInventory().size());
+		
+	}
+	
+	@Test
+	public void testLootDeadBoss(){
+		BoardData gameData = new BoardData();
+		gameData.loadTestData();
+		gameData.getGameUtil().TESTsetViewDirection(Direction.NORTH);
+		Room testRoom = gameData.getAllRooms().get(0);
+		assertEquals(-1, testRoom.movePlayer(playerOne, Direction.RIGHT, gameData.getGameUtil().getViewDirection()));
+		assertEquals(1, testRoom.movePlayer(playerOne, Direction.RIGHT, gameData.getGameUtil().getViewDirection()));
+		assertEquals(1, testRoom.movePlayer(playerOne, Direction.RIGHT, gameData.getGameUtil().getViewDirection()));
+		assertEquals(-1, testRoom.movePlayer(playerOne, Direction.UP, gameData.getGameUtil().getViewDirection()));
+		assertEquals(1, testRoom.movePlayer(playerOne, Direction.UP, gameData.getGameUtil().getViewDirection()));
+		assertEquals(1, testRoom.movePlayer(playerOne, Direction.UP, gameData.getGameUtil().getViewDirection()));
+		// We know that the player successfully attacked because of the return 1
+		assertEquals(1, testRoom.playerAction(playerOne, gameData.getGameUtil().getViewDirection()));
+		//try and loot an alive body
+		assertTrue(testRoom.getObjectAheadOfCharactor(playerOne, gameData.getGameUtil().getViewDirection()) instanceof Boss);
+		assertEquals(-1,testRoom.PlayerLoot(playerOne, gameData.getGameUtil().getViewDirection()));
+		assertEquals(1,testRoom.getPlayerInRoom(playerOne).getInventory().size());
+		//kill it
+		assertEquals(1, testRoom.playerAction(playerOne, gameData.getGameUtil().getViewDirection()));
+		assertEquals(1, testRoom.playerAction(playerOne, gameData.getGameUtil().getViewDirection()));
+		assertEquals(1, testRoom.playerAction(playerOne, gameData.getGameUtil().getViewDirection()));
+		assertEquals(1, testRoom.playerAction(playerOne, gameData.getGameUtil().getViewDirection()));
+		assertEquals(1, testRoom.playerAction(playerOne, gameData.getGameUtil().getViewDirection()));
+		assertEquals(1, testRoom.playerAction(playerOne, gameData.getGameUtil().getViewDirection()));
+		assertEquals(1, testRoom.playerAction(playerOne, gameData.getGameUtil().getViewDirection()));
+		assertEquals(1, testRoom.playerAction(playerOne, gameData.getGameUtil().getViewDirection()));
+		assertEquals(-1, testRoom.playerAction(playerOne, gameData.getGameUtil().getViewDirection()));
+		//minion is now dead now loot it
+		assertTrue(testRoom.getObjectAheadOfCharactor(playerOne, gameData.getGameUtil().getViewDirection()) instanceof Boss);
+		assertEquals(1,testRoom.PlayerLoot(playerOne, gameData.getGameUtil().getViewDirection()));
+		assertEquals(3,testRoom.getPlayerInRoom(playerOne).getInventory().size());
+		
+	}
+	
+	@Test 
+	public void testFindItemInObjectStorer(){
+		BoardData gameData = new BoardData();
+		gameData.loadTestData();
+		//find a key
+		assertEquals(601010, gameData.getObjStorer().findItemInGame(601010).getObjectID());
+	}
+	
+	@Test 
+	public void testFindPlayerInObjectStorer(){
+		BoardData gameData = new BoardData();
+		gameData.loadTestData();
+		assertEquals(playerOne, gameData.getObjStorer().findCharacter(playerOne).getObjectID());
+	}
+	
+	@Test 
+	public void testFindNpcInObjectStorer(){
+		BoardData gameData = new BoardData();
+		gameData.loadTestData();
+		assertEquals(141010, gameData.getObjStorer().findNCP(141010).getObjectID());
+	}
+	
+	@Test
+	public void testUseDoor(){
+		//TODO
+	}
+	
+	@Test
+	public void testLockedDoors(){ 
+		//TODO
+	}
+	
+	@Test
+	public void testPlayerEat(){
+		BoardData gameData = new BoardData();
+		gameData.loadTestData();
+		gameData.getGameUtil().TESTsetViewDirection(Direction.NORTH);
+		Room testRoom = gameData.getAllRooms().get(0);
+		((PlayableCharacter) testRoom.getCharactorCell(playerOne).getObjectOnCell()).changeHealth(-20);
+		assertEquals(80, ((PlayableCharacter) testRoom.getCharactorCell(playerOne).getObjectOnCell()).getHealth());
+		assertEquals(1, ((PlayableCharacter) testRoom.getCharactorCell(playerOne).getObjectOnCell()).eat(801014));
+		assertEquals(100, ((PlayableCharacter) testRoom.getCharactorCell(playerOne).getObjectOnCell()).getHealth());
+	}
+	
+	@Test
+	public void testGetPlayersRoom(){
+		BoardData gameData = new BoardData();
+		gameData.loadTestData();
+		gameData.getGameUtil().TESTsetViewDirection(Direction.NORTH);
+		Room testRoom = gameData.getAllRooms().get(0);
+		assertEquals(testRoom, gameData.getGameUtil().findPlayersRoom(playerOne));
+	}
+	
+	@Test
+	public void testGetPlayerInRoom(){
+		BoardData gameData = new BoardData();
+		gameData.loadTestData();
+		gameData.getGameUtil().TESTsetViewDirection(Direction.NORTH);
+		Room testRoom = gameData.getAllRooms().get(0);
+		assertEquals(testRoom, gameData.getGameUtil().findPlayersRoom(playerOne));
+		assertEquals(playerOne, testRoom.getCharactorCell(playerOne).getObjectOnCell().getObjectID());
+	}
+	
+	@Test
+	public void testGetPlayerInGameUtil(){
+		
+	}
+	
+	@Test
+	public void testGetDoor(){
+		
+	}
+	
+	@Test 
+	public void getDoorsExit(){
+		
+	}
+	
+	@Test
+	public void getObjectsId(){
+		
+	}
+	
+	@Test
+	public void getetObjectAhead(){
+		
+	}
+	
+	@Test
+	public void addSingleItem(){
+		
+	}
+	
+	
+
+	// @Test
+	// public void TestDoor(){
+	// BoardData gameData = new BoardData();
+	// gameData.loadTestData();
+	// gameData.getGameUtil().TESTsetViewDirection(Direction.NORTH);
+	// Room testRoom = gameData.getAllRooms().get(0);
+	// assertTrue(testRoom.getBoardGrid()[4][0].getObjectOnCell() instanceof
+	// Door);
+	// assertTrue(testRoom.getBoardGrid()[4][5].getObjectOnCell() instanceof
+	// Door);
+	// ((Door)testRoom.getBoardGrid()[4][0].getObjectOnCell()).addOtherSide(testRoom.getBoardGrid()[4][5].getObjectOnCell().getObjectID(),0);
+	// assertEquals(411011,((Door)
+	// testRoom.getBoardGrid()[4][0].getObjectOnCell()).getOtherSide());
+	// }
 }

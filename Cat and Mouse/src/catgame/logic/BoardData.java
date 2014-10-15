@@ -31,10 +31,8 @@ public class BoardData {
 	 * 
 	 * @return
 	 */
-	public List<Room> loadLevel() {
-		ArrayList toLoad = new ArrayList<Room>();
-
-		return toLoad;
+	public boolean addRoomToLevel(Room room) {
+		return this.allRooms.add(room);
 	}
 
 	/**
