@@ -100,7 +100,7 @@ public class SlaveReceiver {
 				frame.startMyClient(uid);
 
 				while(locked){
-					workOutUpdate(input);
+					recieveMassUpdate(input);
 					try {
 						Thread.sleep(1000);
 					} catch (InterruptedException e) {
@@ -115,34 +115,12 @@ public class SlaveReceiver {
 	};
 
 	/**
-	 * works out if the incoming message is a normal update or a mass update
-	 * @param input
-	 */
-	private void workOutUpdate(DataInputStream input){
-
-		try {
-
-			int todo = input.readInt();
-			if(todo==MINORUPDATE){
-				System.out.println("received 30");
-				//recieveUpdate(input);
-			}
-			else if (todo==MASSUPDATE){
-				System.out.println("received 35");
-				recieveMassUpdate(input);
-			}
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
-
-	/**
 	 * deals with receiving a mass update from the server
 	 * @param input
 	 */
 	private void recieveMassUpdate(DataInputStream input) {
 		try {
-			ReceiveMassUpdate receiver = new ReceiveMassUpdate(input, net.getBoardData().getGameUtil());
+			ReceiveMassUpdate receiver = new ReceiveMassUpdate(input, net.getBoardData());
 
 			int noChars = input.readInt();
 
@@ -172,30 +150,6 @@ public class SlaveReceiver {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-
-	}
-
-	/**
-	 * handles receiving a minor update from the server
-	 * @param input
-	 */
-	private void recieveUpdate(DataInputStream input) {/*
-		System.out.println("still running");
-		Update update = new Update(input);
-		
-		if(update.equals(Update.unPauseUpdate)){
-			frame.setState("running");
-		}
-		else if(update.equals(Update.pauseUpdate)){
-			frame.setState("paused");
-		}
-		else if(update.getInst()!=0){
-			net.update(update, false);// will not record last update
-			System.out.println("update recieved to actually use");
-		}
-		System.out.printf("received update from the server : %f\n", update.toString());	
-*/
-
 
 	}
 

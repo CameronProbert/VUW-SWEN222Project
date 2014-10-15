@@ -86,9 +86,6 @@ public class ReceiveMassUpdate {
 		int roomID;
 		try {
 			roomID = in.readInt();
-			if(roomID == -1){
-				throw new IDNotFoundError();
-			}
 			int x = in.readInt();
 			int y = in.readInt();
 			Position p = new Position(x,y);
@@ -112,7 +109,7 @@ public class ReceiveMassUpdate {
 			}
 			for(Room r : data.getAllRooms()){
 				if(r.getRoomID()==roomID){
-					
+					r.forcePlayerMove(ch.getObjectID(), p, direct);
 				}
 			}
 			

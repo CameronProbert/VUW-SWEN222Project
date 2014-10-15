@@ -77,6 +77,9 @@ public class Update {
 	 */
 
 	public Update(Descriptor describe, int playerID, int supID){
+		this.playerID = playerID;
+		this.otherID = supID;
+		
 		switch(describe){
 		case NORTH:
 			this.setInst(1); 

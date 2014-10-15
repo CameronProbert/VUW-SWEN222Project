@@ -28,19 +28,13 @@ import catgame.logic.ObjectStorer;
 public final class Master extends Thread {
 
 
-	private final int MASSUPDATE = 35;
-	private final int MINORUPDATE = 30;
-
-
 	private final NetworkHandler game;
 	private final int broadcastClock;
 	private int uid;
 	private final Socket socket;
-	private int timer = 0;
 	private boolean canStart = false;
 	private File file;
 
-	private final static int TIMESUP = 0; // when timer reaches TIMESUP massive update to system 
 
 	public Master(Socket socket, int broadcastClock, NetworkHandler game) {
 		this.game = game;	
@@ -59,51 +53,18 @@ public final class Master extends Thread {
 			boolean exit=false;
 			while(!exit) {
 				try {
-
-					if(timer==TIMESUP){
-						timer=0;
-						output.writeInt(MASSUPDATE);
-						broadcastGameState(output);
+					// this will read the last update from the slave
+					if(input.available()!=0){
+						Update update = new Update(input);
+						if(update.getInst() != 0){
+							System.out.printf("\n\nMy clients uid is : %d and I had a non zero update\n", uid);
+							System.out.println("latest update to the game was, just after reupdating! : " + update.toString() );
+							game.update(update, true);
+						}else{
+							System.out.printf("\n\nMy clients uid is : %d and I had a zero update\n\n", uid);
+						}
 					}
-					else{/*
-
-						output.writeInt(MINORUPDATE);
-
-
-						// this will read the last update from the slave
-						if(input.available()!=0){
-							Update update = new Update(input);
-							if(update.getInst() != 0){
-								System.out.printf("\n\nMy clients uid is : %d and I had a non zero update\n", uid);
-								System.out.println("latest update to the game was, just after reupdating! : " + update.toString() );
-								game.update(update, true);
-								this.lastUpdateReceived = update;
-							}else{
-								System.out.printf("\n\nMy clients uid is : %d and I had a zero update\n\n", uid);
-							}
-						}
-
-
-						// Now, broadcast the latest update of the board to client
-
-						Update updateToSlave = game.getLatestUpdate();
-
-						if(updateToSlave.equals(lastUpdateReceived)){
-							updateToSlave = Update.noUpdate;
-							updateToSlave.send(output);
-							System.out.printf("\n\nMy clients uid is : %d and I had a nothing to update\n", uid);
-							System.out.printf("the games latest update is : %f\n", updateToSlave.toString());
-							System.out.printf("the masters last update received was : %f\n\n", lastUpdateReceived.toString());
-						}
-						else{
-							updateToSlave.send(output); 
-							System.out.printf("\n\nMy clients uid is : %d and I have SOMETHING to update\n", uid);
-							System.out.printf("the games latest update is : %f\n\n", updateToSlave.toString());
-						}
-
-						timer++;
-*/
-					}
+					broadcastGameState(output);
 					output.flush();
 					Thread.sleep(broadcastClock);
 				} catch(InterruptedException e) {					
@@ -178,19 +139,19 @@ public final class Master extends Thread {
 			while(!hasStarted){
 				if(canStart){
 					output.writeInt(uid);
-					
+
 					System.out.println("got uid : " + uid);
-					
+
 					if(file==null){
 						output.writeInt(0);
 						System.out.println("File was null");
 						return;
 					}
-					
+
 					output.writeInt((int)file.length());
 
 					// send file
-					
+
 					byte [] mybytearray  = new byte [(int)file.length()];
 					FileInputStream fis = new FileInputStream(file);
 					BufferedInputStream bis = new BufferedInputStream(fis);
