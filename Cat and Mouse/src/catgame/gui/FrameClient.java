@@ -332,34 +332,6 @@ public class FrameClient extends FrameAbstract implements KeyListener {
 	 */
 	@Override
 	public void keyPressed(KeyEvent key) {
-	}
-
-	/**
-	 * Uses the given item
-	 * 
-	 * @param item
-	 */
-	public void itemUsed(GameItem item) {
-		int validAction = 0;
-		Update up = Update.noUpdate;
-		validAction = runner.getBoardData().getGameUtil()
-				.useItem(clientsUID, item.getObjectID());
-		up = new Update(Update.Descriptor.CONSUME, clientsUID,
-				item.getObjectID());
-		if (validAction > 0 && isClient) {
-			slave.sendUpdate(up);
-		}
-		System.out.println("Valid Action = " + validAction);
-		if (validAction > 0) {
-			invPanel.resetInvItems();
-		}
-	}
-
-	/**
-	 * Unneeded for the game
-	 */
-	@Override
-	public void keyReleased(KeyEvent key) {
 		if (slaveR != null && !slaveR.isReady())
 			return;
 		if (this.state.equals("paused"))
@@ -494,6 +466,34 @@ public class FrameClient extends FrameAbstract implements KeyListener {
 		// Ensure the inventory panel's items are correct
 		invPanel.resetInvItems();
 		repaint();
+	}
+
+	/**
+	 * Uses the given item
+	 * 
+	 * @param item
+	 */
+	public void itemUsed(GameItem item) {
+		int validAction = 0;
+		Update up = Update.noUpdate;
+		validAction = runner.getBoardData().getGameUtil()
+				.useItem(clientsUID, item.getObjectID());
+		up = new Update(Update.Descriptor.CONSUME, clientsUID,
+				item.getObjectID());
+		if (validAction > 0 && isClient) {
+			slave.sendUpdate(up);
+		}
+		System.out.println("Valid Action = " + validAction);
+		if (validAction > 0) {
+			invPanel.resetInvItems();
+		}
+	}
+
+	/**
+	 * Unneeded for the game
+	 */
+	@Override
+	public void keyReleased(KeyEvent key) {
 	}
 
 	/**
