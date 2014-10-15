@@ -5,7 +5,6 @@ D - Move Right
 
 Space - Attack
 E - Open Chest
-R - Activate Door
 
 Left Arrow - Look Left
 Right Arrow - Look Right
