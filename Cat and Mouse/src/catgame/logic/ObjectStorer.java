@@ -188,4 +188,8 @@ public class ObjectStorer {
 		System.err.println("findItemInGame RETURNING NULL");
 		return null;
 	}
+
+	public NonPlayableCharacter findNonPlayCharacter(int objectID) {
+		return this.nonPlayableChs.get(objectID);
+	}
 }

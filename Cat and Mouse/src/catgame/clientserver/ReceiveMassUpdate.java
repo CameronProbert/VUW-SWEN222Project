@@ -11,6 +11,7 @@ import catgame.gameObjects.Character;
 import catgame.gameObjects.Chest;
 import catgame.gameObjects.GameItem;
 import catgame.gameObjects.GameObject;
+import catgame.gameObjects.NonPlayableCharacter;
 import catgame.gameObjects.PlayableCharacter;
 import catgame.logic.BoardData;
 import catgame.logic.GameUtil;
@@ -29,13 +30,46 @@ import catgame.logic.Room;
 public class ReceiveMassUpdate {
 
 	private DataInputStream in ;
-	private GameUtil game;
 	private BoardData data;
 
 	public ReceiveMassUpdate(DataInputStream input, BoardData data){
 		this.in = input;
-		this.game = data.getGameUtil();
 		this.data = data;
+	}
+	
+	public void readNonPlayChar(){
+		try {
+			int objectID = in.readInt();
+			int health = in.readInt();
+			int level = in.readInt();
+
+
+			ObjectStorer storer = data.getObjStorer();
+			NonPlayableCharacter ch = storer.findNonPlayCharacter((int)objectID);
+			
+			int inSize = in.readInt();
+			int[] itemIDs = new int[(int)inSize];
+			for(int i=0; i<inSize; i++){
+				itemIDs[i] = in.readInt();
+			}
+			if(ch==null){
+				throw new IDNotFoundError();
+			}
+			ch.reset(0, health, level);
+
+			List<GameItem> items = new ArrayList<GameItem>();
+
+			for(int i = 0; i< inSize; i++){
+				GameItem item = storer.findItem((int)itemIDs[i]);
+				items.add(item);
+			}
+
+			ch.resetItems(items);
+
+
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 	/**
@@ -47,15 +81,10 @@ public class ReceiveMassUpdate {
 			int attackPower = in.readInt();
 			int health = in.readInt();
 			int level = in.readInt();
-			// int x,y = .. // receive position somehow TODO
-			
 
 
-			ObjectStorer storer = game.getStorer();
+			ObjectStorer storer = data.getObjStorer();
 			Character ch = storer.findCharacter((int)objectID);
-			if(ch instanceof PlayableCharacter){
-				doMove(ch);
-			}
 			
 			int inSize = in.readInt();
 			int[] itemIDs = new int[(int)inSize];
@@ -75,6 +104,7 @@ public class ReceiveMassUpdate {
 			}
 
 			ch.resetItems(items);
+			doMove(ch);
 
 
 		} catch (IOException e) {
@@ -107,11 +137,8 @@ public class ReceiveMassUpdate {
 				direct = Direction.WEST;
 				break;
 			}
-			for(Room r : data.getAllRooms()){
-				if(r.getRoomID()==roomID){
-					r.forcePlayerMove(ch.getObjectID(), p, direct);
-				}
-			}
+			Room r = data.getGameUtil().findPlayersRoom(ch.getObjectID());
+			r.forcePlayerMove(ch.getObjectID(), p, direct);
 			
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -124,7 +151,7 @@ public class ReceiveMassUpdate {
 	public void readItem(){
 		try {
 			int id = in.readInt();
-			ObjectStorer storer = game.getStorer();
+			ObjectStorer storer = data.getObjStorer();
 			GameItem item = storer.findItem((int)id);
 			if(item==null){
 				throw new IDNotFoundError();
@@ -141,14 +168,14 @@ public class ReceiveMassUpdate {
 		try {
 			int id = in.readInt();
 			int lootSize = in.readInt();
-			Chest chest = game.getStorer().findChest((int)id);
+			Chest chest = data.getObjStorer().findChest((int)id);
 			if(chest==null){
 				throw new IDNotFoundError();
 			}
 			List<GameItem> items = new ArrayList<GameItem>();
 			for(GameItem item : chest.getLoot()){
 				int itemID = in.readInt();
-				items.add(game.getStorer().findItem((int)itemID));
+				items.add(data.getObjStorer().findItem((int)itemID));
 			}
 			chest.updateLoot(items);
 		} catch (IOException e) {

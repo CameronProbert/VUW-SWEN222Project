@@ -33,15 +33,15 @@ public class SendMassUpdate {
 	public void sendCharacter(int objectID, Character ch, BoardData boardData){
 		try {
 			out.writeInt(objectID);
-			out.writeInt(ch.getAttackPower());
 			out.writeInt(ch.getHealth());
-			if(ch instanceof PlayableCharacter){
-				writePos(objectID, (PlayableCharacter)ch, boardData);
-			}
 			int inSize = ch.getInventory().size();
 			out.writeInt(inSize);
 			for(GameItem item : ch.getInventory()){
 				out.writeInt(item.getObjectID());
+			}
+
+			if(ch instanceof PlayableCharacter){
+				writePos(objectID, (PlayableCharacter)ch, boardData);
 			}
 
 		} catch (IOException e) {

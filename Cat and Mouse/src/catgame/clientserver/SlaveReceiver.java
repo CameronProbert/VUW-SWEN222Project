@@ -101,11 +101,6 @@ public class SlaveReceiver {
 
 				while(locked){
 					recieveMassUpdate(input);
-					try {
-						Thread.sleep(1000);
-					} catch (InterruptedException e) {
-						e.printStackTrace();
-					}
 				}
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
@@ -121,6 +116,7 @@ public class SlaveReceiver {
 	private void recieveMassUpdate(DataInputStream input) {
 		try {
 			ReceiveMassUpdate receiver = new ReceiveMassUpdate(input, net.getBoardData());
+			System.out.println("starting a mass update");
 
 			int noChars = input.readInt();
 
@@ -131,7 +127,7 @@ public class SlaveReceiver {
 			int noNCPs = input.readInt();
 
 			for(int i=0; i<noNCPs; i++){
-				receiver.readPlayer();
+				receiver.readNonPlayChar();
 			}
 
 			int noChests = input.readInt();
