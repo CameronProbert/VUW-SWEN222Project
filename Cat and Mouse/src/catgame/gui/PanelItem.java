@@ -9,6 +9,12 @@ import java.awt.event.MouseListener;
 
 import catgame.gameObjects.GameItem;
 
+/**
+ * Holds an item and calls the use method on that item.
+ * 
+ * @author Cameron Probert
+ * 
+ */
 @SuppressWarnings("serial")
 public class PanelItem extends PanelAbstract implements MouseListener {
 
@@ -26,10 +32,18 @@ public class PanelItem extends PanelAbstract implements MouseListener {
 		// this.setOpaque(true);
 	}
 
+	/**
+	 * Sets the item contained by the ItemPanel
+	 * 
+	 * @param item
+	 */
 	public void setItem(GameItem item) {
 		this.item = item;
 	}
 
+	/**
+	 * Draw the item
+	 */
 	@Override
 	protected void paintComponent(Graphics g) {
 		super.paintComponent(g);
@@ -44,8 +58,9 @@ public class PanelItem extends PanelAbstract implements MouseListener {
 	@Override
 	public void mouseClicked(MouseEvent e) {
 		System.out.println("Item clicked");
-		if(state.equals("paused")) return;
-		
+		if (state.equals("paused"))
+			return;
+
 		if (item != null) {
 			if (item.isUsable()) {
 				System.out.println("Usable item");
@@ -69,30 +84,47 @@ public class PanelItem extends PanelAbstract implements MouseListener {
 		}
 	}
 
+	/**
+	 * Sets a transparent background to give the appearance of highlighting an
+	 * object
+	 */
 	@Override
 	public void mouseEntered(MouseEvent e) {
 		this.setBackground(new Color(150, 100, 200, 100));
 	}
 
+	/**
+	 * Removes the transparent background and repaints
+	 */
 	@Override
 	public void mouseExited(MouseEvent e) {
 		this.setBackground(new Color(0, 0, 0, 0));
 		this.getParent().getParent().repaint();
 	}
 
+	/**
+	 * Not used
+	 */
 	@Override
 	public void mousePressed(MouseEvent e) {
 		// TODO Auto-generated method stub
 
 	}
 
+	/**
+	 * Not used
+	 */
 	@Override
 	public void mouseReleased(MouseEvent e) {
 		// TODO Auto-generated method stub
 
 	}
-	
-	public void setState(String state){
+
+	/**
+	 * Enables and disables using the item
+	 * @param state
+	 */
+	public void setState(String state) {
 		this.state = state;
 	}
 

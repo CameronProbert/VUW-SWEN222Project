@@ -15,6 +15,13 @@ import javax.swing.JRadioButton;
 import javax.swing.JSlider;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
+/**
+ * HelperMethods contains useful static methods that are called in the other gui
+ * classes.
+ * 
+ * @author Cameron Probert
+ * 
+ */
 public class HelperMethods {
 
 	// ================= Helper Methods ====================

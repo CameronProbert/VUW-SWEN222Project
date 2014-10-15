@@ -48,9 +48,14 @@ public class PanelMinimap extends PanelAbstract {
 		this.runner = runner;
 	}
 
+	/**
+	 * Draws the minimap
+	 */
 	@Override
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
+
+		// Initial working to make code less complicated later
 		Room currentRoom = runner.getBoardData().getGameUtil()
 				.findPlayersRoom(character.getObjectID());
 		int centreX = this.getWidth() / 2;
@@ -61,7 +66,7 @@ public class PanelMinimap extends PanelAbstract {
 		int sqSize = this.getWidth() / highestNum;
 		int startX = centreX - (sqSize * numWidth) / 2;
 		int startY = centreY - (sqSize * numHeight) / 2;
-		
+
 		Direction dir = runner.getBoardData().getGameUtil().getViewDirection();
 
 		for (int x = 0; x < numWidth; x++) {
@@ -72,30 +77,34 @@ public class PanelMinimap extends PanelAbstract {
 				// Default colours
 				Color base = NULL, outline = NULL, groundCol = NULL, objectCol = NULL;
 
-				// First find colours
+				// Changes the cell depending on the orientation
 				BoardCell cell = currentRoom.getBoardGrid()[x][y];
 				switch (dir) {
 				case NORTH:
 					cell = currentRoom.getBoardGrid()[x][y];
 					break;
 				case EAST:
-					cell = currentRoom.getBoardGrid()[y][numWidth-x-1];
+					cell = currentRoom.getBoardGrid()[y][numWidth - x - 1];
 					break;
 				case SOUTH:
-					cell = currentRoom.getBoardGrid()[numWidth-x-1][numHeight-y-1];
+					cell = currentRoom.getBoardGrid()[numWidth - x - 1][numHeight
+							- y - 1];
 					break;
 				case WEST:
-					cell = currentRoom.getBoardGrid()[numHeight-y-1][x];
+					cell = currentRoom.getBoardGrid()[numHeight - y - 1][x];
 					break;
 				default:
 					break;
-				
 				}
+
+				// First find colours
 				String type = cell.getGroundType();
 				if (type != null) {
 					base = GRASS;
 				}
 
+				// Changes the object colour depending on the contents of the
+				// cell
 				GameObject object = cell.getObjectOnCell();
 				if (object instanceof Chest) {
 					objectCol = CHEST;

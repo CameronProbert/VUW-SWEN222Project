@@ -58,6 +58,9 @@ public class FrameLauncher extends FrameAbstract {
 		this.setVisible(true);
 	}
 
+	/**
+	 * Creates and adds the background image panel
+	 */
 	private void createBG() {
 		bgPanel = new JPanel() {
 			@Override
@@ -128,7 +131,6 @@ public class FrameLauncher extends FrameAbstract {
 				"Single Player", buttonSize);
 		buttonSinglePlayer.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				//setVisible(false);
 				singlePlayerPressed();
 			}
 		});
@@ -151,7 +153,9 @@ public class FrameLauncher extends FrameAbstract {
 	}
 
 	/**
-	 * Called when the single player button is pressed in the launcher
+	 * Called when the single player button is pressed in the launcher. This
+	 * method changes the buttons from the original 4 to the single player
+	 * options.
 	 */
 	public void singlePlayerPressed() {
 		this.remove(box);
@@ -190,7 +194,13 @@ public class FrameLauncher extends FrameAbstract {
 		this.revalidate();
 		this.repaint();
 	}
-	
+
+	/**
+	 * Obtains a file name if loadPlayer is true and creates a new single player
+	 * game.
+	 * 
+	 * @param loadPlayer
+	 */
 	protected void startGame(boolean loadPlayer) {
 		String filename = "no file";
 		if (loadPlayer) {

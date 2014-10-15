@@ -12,8 +12,11 @@ import javax.swing.JPanel;
 @SuppressWarnings("serial")
 public class PanelAbstract extends JPanel {
 
-
+	/**
+	 * Creates the abstract panel
+	 */
 	public PanelAbstract() {
+		super();
 		this.setLayout(null);
 		this.setVisible(true);
 		this.setBackground(new Color((int) (Math.random() * 255), (int) (Math

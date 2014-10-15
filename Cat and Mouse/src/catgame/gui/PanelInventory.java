@@ -14,6 +14,13 @@ import catgame.gameObjects.GameItem;
 import catgame.gameObjects.PlayableCharacter;
 import catgame.gui.renderpanel.PanelRender;
 
+/**
+ * Panel inventory contains the 6 smaller item panels, and methods to help with
+ * displaying the items.
+ * 
+ * @author Cameron Probert
+ * 
+ */
 @SuppressWarnings("serial")
 public class PanelInventory extends PanelAbstract {
 
@@ -69,8 +76,13 @@ public class PanelInventory extends PanelAbstract {
 		resetInvItems();
 	}
 
+	/**
+	 * Resets which item is in each panel
+	 */
 	public void resetInvItems() {
-		if(character==null){System.out.println("character is null");}
+		if (character == null) {
+			System.out.println("character is null");
+		}
 		List<GameItem> items = character.getInventory();
 		if (items != null) {
 			for (int i = 0; i < TOTALSLOTS; i++) {
@@ -83,6 +95,9 @@ public class PanelInventory extends PanelAbstract {
 		}
 	}
 
+	/**
+	 * Draws the back ground
+	 */
 	@Override
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
@@ -92,12 +107,22 @@ public class PanelInventory extends PanelAbstract {
 		}
 	}
 
+	/**
+	 * Uses a given game item (should only be food)
+	 * 
+	 * @param item
+	 */
 	public void itemUsed(GameItem item) {
 		frame.itemUsed(item);
 		resetInvItems();
 		repaint();
 	}
 
+	/**
+	 * Pauses or enables the panels so you can't use them while saving the game
+	 * 
+	 * @param state
+	 */
 	public void setPanelsState(String state) {
 		for (PanelItem p : panels) {
 			p.setState(state);
