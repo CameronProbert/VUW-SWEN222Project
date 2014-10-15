@@ -80,8 +80,7 @@ public class Room {
 		if (roomGrid[newPos.getY()][newPos.getX()].getGroundType() != null) {
 			if (roomGrid[newPos.getY()][newPos.getX()].getObjectOnCell() instanceof Door) {
 				System.out.println("DOOR AHEADS ID :" + roomGrid[newPos.getY()][newPos.getX()].getObjectOnCell().getObjectID());
-				useDoor(playerID, (Door) roomGrid[newPos.getY()][newPos.getX()].getObjectOnCell());
-				return -1;
+				return useDoor(playerID, (Door) roomGrid[newPos.getY()][newPos.getX()].getObjectOnCell());
 			}
 			if (roomGrid[newPos.getY()][newPos.getX()].getObjectOnCell() == null) {
 				BoardCell oldCell = playerLocationMap.get(playerID);
@@ -102,7 +101,7 @@ public class Room {
 	 * @param playerID
 	 * @param door
 	 */
-	private void useDoor(int playerID, Door door) {
+	private int useDoor(int playerID, Door door) {
 		if (door.getIsLocked()) {
 			System.out.println("Unlocking Door");
 			if (((PlayableCharacter) playerLocationMap.get(playerID).getObjectOnCell()).hasKey()) {
@@ -110,7 +109,7 @@ public class Room {
 				door.unlockDoor(((PlayableCharacter) playerLocationMap.get(playerID).getObjectOnCell()).useKey());
 			} else {
 				System.out.println("Door is locked and requires a key");
-				return;
+				return -1;
 			}
 		}
 		if (door.enterDoor().checkExitDoor()) {
@@ -120,9 +119,11 @@ public class Room {
 			roomInventory.remove(player);
 			delete.removeObjectOnCell();
 			door.enterDoor().exitDoor(player);
+			return 1;
 		} else {
 			System.out.println("SOMETHING IS INFRONT OF THE DOOR");
 		}
+		return -1;
 	}
 
 	/**
