@@ -46,6 +46,7 @@ public class ServerOldGame extends StartServer {
 			return; // cannot load from null file
 		}
 		this.fileName = fileName;
+		this.handler = new NetworkHandler(NetworkHandler.Type.SERVER);
 		if(url != null) {
 			System.out.println("Cannot be a server and connect to another server!");
 			System.exit(1);
@@ -109,13 +110,7 @@ public class ServerOldGame extends StartServer {
 
 	private void setUpGame() {
 		try {
-			URL fileURL = LoadingGameMain.class.getResource("files/" +fileName);
-			File file = null;
-			try {
-				file = new File(fileURL.toURI());
-			} catch (URISyntaxException e) {
-				e.printStackTrace();
-			}
+			File file = new File(fileName);
 			LoadOldGame loadXML = new LoadOldGame(file);
 			boardData = loadXML.getBoardData();
 			handler.setBoardData(boardData);

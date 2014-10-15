@@ -40,13 +40,7 @@ public class SinglePlayerHandler extends GameRunner {
 	public SinglePlayerHandler (String fileName){
 		if(!fileName.equals("no file")){
 			try {
-				URL fileURL = LoadingGameMain.class.getResource("files/"+fileName);
-				File xmlFile = null;
-				try {
-					xmlFile = new File(fileURL.toURI());
-				} catch (URISyntaxException e) {
-					e.printStackTrace();
-				}
+				File xmlFile = new File(fileName);
 				LoadOldGame loadXML = new LoadOldGame(xmlFile);
 				boardData = loadXML.getBoardData();
 			} catch (JDOMException | XMLException e) {

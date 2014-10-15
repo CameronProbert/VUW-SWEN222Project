@@ -71,16 +71,7 @@ public class SlaveReceiver {
 				// LOAD the game
 				////////////////////////////////////////////////////////////////
 				String FILE_TO_RECEIVED = "files/Load_From.xml";
-				URL fileURL = LoadingGameMain.class.getResource(FILE_TO_RECEIVED);
-				File file = null;
-				try {
-					file = new File(fileURL.toURI());
-				} catch (URISyntaxException e) {
-					e.printStackTrace();
-				}
-				if(file==null){
-					throw new FileNotSentError();
-				}
+				File file = new File(FILE_TO_RECEIVED);
 
 				int FILE_SIZE = input.readInt();
 				if(FILE_SIZE!=0){
