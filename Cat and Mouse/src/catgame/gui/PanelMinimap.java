@@ -28,7 +28,7 @@ public class PanelMinimap extends PanelAbstract {
 	/**
 	 * Colours of each object
 	 */
-	private static final Color GRASS = new Color(46, 252, 23);
+	private static final Color GRASS = new Color(107, 131, 33);
 	private static final Color ROCK = new Color(157, 157, 157);
 	private static final Color CHEST = new Color(142, 90, 147);
 	private static final Color TREE = new Color(39, 137, 24);
@@ -72,10 +72,7 @@ public class PanelMinimap extends PanelAbstract {
 				int xCo = startX + sqSize * y;
 				int yCo = startY + sqSize * x;
 				// Default colours
-				Color base = Color.black;
-				Color outline = Color.black;
-				Color groundCol = Color.black;
-				Color objectCol = Color.black;
+				Color base = NULL, outline = NULL, groundCol = NULL, objectCol = NULL;
 
 				// First find colours
 				BoardCell cell = currentRoom.getBoardGrid()[x][y];
@@ -100,7 +97,7 @@ public class PanelMinimap extends PanelAbstract {
 					}
 				} else if (object instanceof PlayableCharacter) {
 					PlayableCharacter ch = (PlayableCharacter) object;
-					if (ch == character){
+					if (ch == character) {
 						objectCol = YOURCAT;
 					} else {
 						objectCol = OTHERCATS;
