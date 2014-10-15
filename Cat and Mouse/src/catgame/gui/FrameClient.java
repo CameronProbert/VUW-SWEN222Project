@@ -26,6 +26,7 @@ import catgame.gameObjects.*;
 import catgame.gamestarting.GameRunner;
 import catgame.gui.renderpanel.*;
 import catgame.logic.*;
+import catgame.logic.GameUtil.Direction;
 
 /**
  * The ClientFrame is the main game window. It contains the render window and
@@ -342,27 +343,32 @@ public class FrameClient extends FrameAbstract implements KeyListener {
 		// Starts with a blank update and then changes what the update
 		// is if an action occurs.
 		Update up = Update.noUpdate;
+		Direction absDir = null;
 		switch (keyID) {
 		// WASD are all move directions
 		case KeyEvent.VK_W:
 			validAction = runner.getBoardData().getGameUtil()
 					.moveUp(clientsUID);
-			up = new Update(Update.Descriptor.NORTH, clientsUID, 0);
+			absDir  = Room.getNewDirection(runner.getBoardData().getGameUtil().getViewDirection(), Direction.UP);
+			up = new Update(Update.Descriptor.values()[absDir.getValue()], clientsUID, 0);
 			break;
 		case KeyEvent.VK_A:
 			validAction = runner.getBoardData().getGameUtil()
 					.moveLeft(clientsUID);
-			up = new Update(Update.Descriptor.WEST, clientsUID, 0);
+			absDir = Room.getNewDirection(runner.getBoardData().getGameUtil().getViewDirection(), Direction.LEFT);
+			up = new Update(Update.Descriptor.values()[absDir.getValue()], clientsUID, 0);
 			break;
 		case KeyEvent.VK_S:
 			validAction = runner.getBoardData().getGameUtil()
 					.moveDown(clientsUID);
-			up = new Update(Update.Descriptor.SOUTH, clientsUID, 0);
+			absDir = Room.getNewDirection(runner.getBoardData().getGameUtil().getViewDirection(), Direction.DOWN);
+			up = new Update(Update.Descriptor.values()[absDir.getValue()], clientsUID, 0);
 			break;
 		case KeyEvent.VK_D:
 			validAction = runner.getBoardData().getGameUtil()
 					.moveRight(clientsUID);
-			up = new Update(Update.Descriptor.EAST, clientsUID, 0);
+			absDir = Room.getNewDirection(runner.getBoardData().getGameUtil().getViewDirection(), Direction.RIGHT);
+			up = new Update(Update.Descriptor.values()[absDir.getValue()], clientsUID, 0);
 			break;
 		case KeyEvent.VK_SPACE:
 			// Attack pressed
