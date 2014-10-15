@@ -49,7 +49,7 @@ public class Door implements NonMovavble {
 	 * Enters the door
 	 * 
 	 * @return The Other side of the door
-	 */
+	 */ 
 	public Door enterDoor() {
 		return this.entranceToDoor;
 	}

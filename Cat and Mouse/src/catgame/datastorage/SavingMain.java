@@ -197,7 +197,7 @@ public class SavingMain {
 			boardGrid.addContent(rowBoardCellElement);
 		}
 		return boardGrid;
-	}
+	} 
 
 	public SavingHelper getHelper() {
 		return helper;

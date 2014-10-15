@@ -202,7 +202,7 @@ public class TestingSavingMasterObj {
 	private Element testBoss(Boss obj) throws XMLException {
 		Element bossElement = savingMasterObj.writeBoss(obj);
 		assertTrue(bossElement != null);
-		assertTrue(bossElement.getName().equals("Boss"));
+		assertTrue(bossElement.getName().equals("Boss")); 
 		assertFalse(bossElement.getChildren().isEmpty());
 		assertFalse(bossElement.getChild("Health") == null); 
 		assertEquals(obj.getHealth(),

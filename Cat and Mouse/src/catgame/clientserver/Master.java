@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.net.Socket;
 
 import catgame.gameObjects.Chest;
+import catgame.gameObjects.Door;
 import catgame.gameObjects.GameItem;
 import catgame.gameObjects.NonPlayableCharacter;
 import catgame.gameObjects.PlayableCharacter;
@@ -111,13 +112,13 @@ public final class Master extends Thread {
 				Chest chest = storer.findChest(i);
 				broadcast.sendChest(i, chest);
 			}
-
-			int noItems = storer.getNumItems();
-			output.writeInt(noItems);
-			for(int i: storer.getItemIDs()){
-				GameItem item = storer.findItem(i);
-				broadcast.sendItem(i, item);
-			}	
+			
+			int noDoors = storer.getDoorNo();
+			output.writeInt(noDoors);
+			for(int i: storer.getDoors()){
+				Door d = storer.findDoor(i);
+				broadcast.sendDoor(i, d);
+			}
 
 		} catch (IOException e) {
 			e.printStackTrace();

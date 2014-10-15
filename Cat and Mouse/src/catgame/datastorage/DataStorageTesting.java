@@ -31,7 +31,7 @@ public class DataStorageTesting {
 		testSaveObj = new TestingSavingMasterObj(this);
 
 		testSavingMasterObjects();
-		testSavingBoardData();
+		testBoardGrid();
 
 	}
 
@@ -44,7 +44,7 @@ public class DataStorageTesting {
 	}
 
 	public void setUpLoading() throws JDOMException, XMLException {
-		this.loadingMain = new LoadingGameMain(false, testingXML);
+		this.loadingMain = new LoadingGameMain(true, testingXML);
 		this.loadingMasterObj = loadingMain.getLoadMasterObj();
 		this.loadingHelper = loadingMain.getHelper();
 	}
@@ -67,7 +67,7 @@ public class DataStorageTesting {
 	}
 
 	@Test
-	public void testSavingBoardData() {
+	public void testBoardGrid() {
 		BoardCell[][] roomGrid = boardData.getAllRooms().get(0).getBoardGrid();
 		Element boardElement = null;
 		Throwable savingException = null;
@@ -86,11 +86,26 @@ public class DataStorageTesting {
 		} catch (XMLException e1) {
 			loadingException = e1;
 		}
-		assertTrue("loading boardGrid with element that is saved the boardgrid", loadingException == null);
-		
-		for(int y = 0; y < roomGrid.length; y++){
-			for(int x = 0; x < roomGrid[y].length; x++){
-				//assertTrue(roomGrid[y][x].getObjectOnCell().getObjectID() == lo)
+		assertTrue(
+				"loading boardGrid with element that is saved the boardgrid",
+				loadingException == null);
+		assertTrue(loadedGrid.length == roomGrid.length);
+		assertTrue(loadedGrid[0].length == roomGrid[0].length);
+		for (int y = 0; y < roomGrid.length; y++) {
+			for (int x = 0; x < roomGrid[y].length; x++) {
+				if (roomGrid[y][x].getObjectOnCell() == null) {
+					if (loadedGrid[y][x].getObjectOnCell() == null) {
+						assertTrue(roomGrid[y][x].getObjectOnCell() == loadedGrid[y][x]
+								.getObjectOnCell());
+					}
+					else{
+						fail();
+					}
+				}
+				else {
+					assertTrue(roomGrid[y][x].getObjectOnCell().getObjectID() == loadedGrid[y][x]
+							.getObjectOnCell().getObjectID());
+				}
 			}
 		}
 		// testing breaking writeRoomGrid method by passing null
@@ -101,9 +116,11 @@ public class DataStorageTesting {
 		}
 		assertFalse(savingException == null); // exception should be thrown
 	}
+	
+	
 
 	public SavingMain getSavingMain() {
-		return savingMain;
+		return savingMain; 
 	}
 
 	public SavingMasterObjects getSavingMasterObj() {
