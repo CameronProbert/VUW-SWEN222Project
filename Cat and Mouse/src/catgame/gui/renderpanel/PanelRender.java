@@ -426,8 +426,8 @@ public class PanelRender extends JPanel {
 		PlayableCharacter character = (PlayableCharacter) currentRoom.getBoardGrid()[sendY][sendX].getObjectOnCell();
 		String charID = character.getObjectID()+"";
 		String charNumberID = charID.substring(4,6);
-		System.out.println("charID: " + charID);
-		System.out.println("charImageID: " + charNumberID);
+//		System.out.println("charID: " + charID);
+//		System.out.println("charImageID: " + charNumberID);
 		switch (charNumberID){
 		case "10":
 			backRight = catBackRight1;
