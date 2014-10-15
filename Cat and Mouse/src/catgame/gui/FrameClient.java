@@ -209,11 +209,11 @@ public class FrameClient extends FrameAbstract implements KeyListener {
 			setState("paused");
 			this.invPanel.setPanelsState("paused");
 			if (slave != null)
-				slave.sendUpdate(new Update(Update.PAUSE_STATE));
+				//slave.sendUpdate(Update.pauseUpdate);
 			try {
 				new SavingMain(runner.getBoardData(), file);
 				if (slave != null)
-					slave.sendUpdate(new Update(Update.UN_PAUSE_STATE));
+					//slave.sendUpdate(Update.unPauseUpdate);
 				setState("running");
 				this.invPanel.setPanelsState("running");
 			} catch (IOException e) {
@@ -354,31 +354,31 @@ public class FrameClient extends FrameAbstract implements KeyListener {
 
 		int keyID = key.getKeyCode();
 		int validAction = 0;
-		Update up = new Update(0);
+		//Update up = Update.noUpdate;
 		switch (keyID) {
 		case KeyEvent.VK_W:
 			System.out.println("MOVE UP PRESSED");
 			validAction = runner.getBoardData().getGameUtil()
 					.moveUp(clientsUID);
-			up = new Update(Update.Descriptor.NORTH, clientsUID, 0);
+			//up = new Update(Update.Descriptor.NORTH, clientsUID, 0);
 			break;
 		case KeyEvent.VK_A:
 			System.out.println("MOVE LEFT PRESSED");
 			validAction = runner.getBoardData().getGameUtil()
 					.moveLeft(clientsUID);
-			up = new Update(Update.Descriptor.WEST, clientsUID, 0);
+			//up = new Update(Update.Descriptor.WEST, clientsUID, 0);
 			break;
 		case KeyEvent.VK_S:
 			System.out.println("MOVE DOWN PRESSED");
 			validAction = runner.getBoardData().getGameUtil()
 					.moveDown(clientsUID);
-			up = new Update(Update.Descriptor.SOUTH, clientsUID, 0);
+			//up = new Update(Update.Descriptor.SOUTH, clientsUID, 0);
 			break;
 		case KeyEvent.VK_D:
 			System.out.println("MOVE RIGHT PRESSED");
 			validAction = runner.getBoardData().getGameUtil()
 					.moveRight(clientsUID);
-			up = new Update(Update.Descriptor.EAST, clientsUID, 0);
+			//up = new Update(Update.Descriptor.EAST, clientsUID, 0);
 			break;
 		case KeyEvent.VK_SPACE:
 			System.out.println("ATTACK PRESSED");
@@ -386,7 +386,7 @@ public class FrameClient extends FrameAbstract implements KeyListener {
 					.action(clientsUID);
 			if (attacked > 0) {
 				validAction = 1;
-				up = new Update(Update.Descriptor.ATTACK, clientsUID, attacked);
+				//up = new Update(Update.Descriptor.ATTACK, clientsUID, attacked);
 			}
 			break;
 		case KeyEvent.VK_LEFT:
@@ -410,8 +410,8 @@ public class FrameClient extends FrameAbstract implements KeyListener {
 								.getGameUtil()
 								.addObjectToInventory(clientsUID,
 										item.getObjectID());
-						up = new Update(Update.Descriptor.PICKUP, clientsUID,
-								item.getObjectID());
+						//up = new Update(Update.Descriptor.PICKUP, clientsUID,
+								//item.getObjectID());
 						validAction = 1;
 					}
 				} else if (object instanceof NonPlayableCharacter) {
@@ -425,8 +425,8 @@ public class FrameClient extends FrameAbstract implements KeyListener {
 									.getGameUtil()
 									.addObjectToInventory(clientsUID,
 											item.getObjectID());
-							up = new Update(Update.Descriptor.PICKUP,
-									clientsUID, item.getObjectID());
+							//up = new Update(Update.Descriptor.PICKUP,
+									//clientsUID, item.getObjectID());
 							validAction = 1;
 						}
 					} else {
@@ -471,7 +471,7 @@ public class FrameClient extends FrameAbstract implements KeyListener {
 			break;
 		}
 		if (validAction > 0 && isClient) {
-			slave.sendUpdate(up);
+			// slave.sendUpdate(up);
 		}
 		System.out.printf("VALIDACTION: %d", validAction);
 		if (invPanel != null) {
@@ -485,13 +485,13 @@ public class FrameClient extends FrameAbstract implements KeyListener {
 	public void itemUsed(GameItem item) {
 		System.out.println("Inside frameClient itemUsed");
 		int validAction = 0;
-		Update up = new Update(0);
+		//Update up = Update.noUpdate;
 		validAction = runner.getBoardData().getGameUtil()
 				.useItem(clientsUID, item.getObjectID());
-		up = new Update(Update.Descriptor.CONSUME, clientsUID,
-				item.getObjectID());
+		//up = new Update(Update.Descriptor.CONSUME, clientsUID,
+		//		item.getObjectID());
 		if (validAction > 0 && isClient) {
-			slave.sendUpdate(up);
+			// slave.sendUpdate(up);
 		}
 		System.out.println("Valid Action = " + validAction);
 		if (validAction > 0) {

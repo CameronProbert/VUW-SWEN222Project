@@ -21,7 +21,7 @@ public class NetworkHandler extends GameRunner{
 		SERVER
 	}
 
-	private Update lastUpdate = new Update(0);
+	private Update lastUpdate = new Update(0,0,0);
 	private Type stateType;
 	private List<Integer> playerIds = new ArrayList<Integer>();
 	private int clientPlayerID; // this will only have a value if the client is running the program, used so the UI knows whos who
@@ -58,7 +58,7 @@ public class NetworkHandler extends GameRunner{
 	 */
 	public void update(Update update, boolean changeLastUpdate) {
 		if(changeLastUpdate)		this.lastUpdate = update;
-		//update.decode(game); 
+		update.decode(boardData.getGameUtil()); 
 	}
 
 	/**

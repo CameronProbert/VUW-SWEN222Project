@@ -5,6 +5,10 @@ import java.io.IOException;
 
 import catgame.gameObjects.*;
 import catgame.gameObjects.Character;
+import catgame.logic.BoardCell;
+import catgame.logic.BoardData;
+import catgame.logic.Position;
+import catgame.logic.Room;
 
 
 /**
@@ -26,23 +30,46 @@ public class SendMassUpdate {
 	 * @param objectID
 	 * @param ch
 	 */
-	public void sendCharacter(int objectID, Character ch){
+	public void sendCharacter(int objectID, Character ch, BoardData boardData){
 		try {
-			out.writeDouble(objectID);
-			out.writeDouble(ch.getAttackPower());
-			out.writeDouble(ch.getHealth());
-			// out.write(ch.getCurrentCell().); // send position somehow TODO
+			out.writeInt(objectID);
+			out.writeInt(ch.getAttackPower());
+			out.writeInt(ch.getHealth());
+			if(ch instanceof PlayableCharacter){
+				writePos(objectID, (PlayableCharacter)ch, boardData);
+			}
 			int inSize = ch.getInventory().size();
-			out.writeDouble(inSize);
+			out.writeInt(inSize);
 			for(GameItem item : ch.getInventory()){
-				out.writeDouble(item.getObjectID());
+				out.writeInt(item.getObjectID());
 			}
 
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
-	
+
+	private void writePos(int objectID, PlayableCharacter ch,
+			BoardData boardData) {
+
+		Room r = boardData.getGameUtil().findPlayersRoom(objectID);
+		BoardCell cell = r.getCharactorCell(objectID);
+		if(cell!=null){
+			try {
+				out.writeInt(r.getRoomID());
+				Position p = cell.getPosition();
+				out.writeInt(p.getX());
+				out.writeInt(p.getY());
+				out.writeInt(ch.getFacingDirection().getValue());
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+
+		}
+	}
+
+
+
 	/**
 	 * Send each game item (food key etc)
 	 * The items are updated as to who holds them as well as anything that can hold, their
@@ -54,14 +81,13 @@ public class SendMassUpdate {
 	public void sendItem(int objectID, GameItem item){
 		// TODO send the location of each item that must be held, in terms of what is the id that is holding it
 		try {
-			out.writeDouble(objectID);
-			out.writeDouble(item.getOwner().getObjectID());
+			out.writeInt(objectID);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		
+
 	}
-	
+
 	/**
 	 * Updates chests loot
 	 * 
@@ -70,15 +96,15 @@ public class SendMassUpdate {
 	 */
 	public void sendChest(int objectID, Chest chest){
 		try {
-			out.writeDouble(objectID);
-			out.writeDouble(chest.getLoot().size());
+			out.writeInt(objectID);
+			out.writeInt(chest.getLoot().size());
 			for(GameItem item : chest.getLoot()){
-				out.writeDouble(item.getObjectID());
+				out.writeInt(item.getObjectID());
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		
+
 	}
 
 }
