@@ -159,7 +159,6 @@ public class TestingSavingMasterObj {
 		Element element = savingMasterObj.writeHedge(obj);
 		assertTrue(element != null);
 		assertTrue(element.getName().equals("Hedge"));
-		assertTrue(element.getChild("Direction") != null);
 		return element;
 	}
 
