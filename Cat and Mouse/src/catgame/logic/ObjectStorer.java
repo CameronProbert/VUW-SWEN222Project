@@ -86,9 +86,6 @@ public class ObjectStorer {
 	}
 
 	public Chest findChest(int i) {
-		for(int id: chests.keySet()){
-			System.out.println("I have the chest id : " + id);
-		}
 		return this.chests.get(i);
 	}
 
