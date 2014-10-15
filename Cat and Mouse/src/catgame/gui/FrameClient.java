@@ -351,24 +351,36 @@ public class FrameClient extends FrameAbstract implements KeyListener {
 					.moveUp(clientsUID);
 			absDir  = Room.getNewDirection(runner.getBoardData().getGameUtil().getViewDirection(), Direction.UP);
 			up = new Update(Update.Descriptor.values()[absDir.getValue()], clientsUID, 0);
+			if (validAction == 3){
+				initialiseRenderPanel();
+			}
 			break;
 		case KeyEvent.VK_A:
 			validAction = runner.getBoardData().getGameUtil()
 					.moveLeft(clientsUID);
 			absDir = Room.getNewDirection(runner.getBoardData().getGameUtil().getViewDirection(), Direction.LEFT);
 			up = new Update(Update.Descriptor.values()[absDir.getValue()], clientsUID, 0);
+			if (validAction == 3){
+				initialiseRenderPanel();
+			}
 			break;
 		case KeyEvent.VK_S:
 			validAction = runner.getBoardData().getGameUtil()
 					.moveDown(clientsUID);
 			absDir = Room.getNewDirection(runner.getBoardData().getGameUtil().getViewDirection(), Direction.DOWN);
 			up = new Update(Update.Descriptor.values()[absDir.getValue()], clientsUID, 0);
+			if (validAction == 3){
+				initialiseRenderPanel();
+			}
 			break;
 		case KeyEvent.VK_D:
 			validAction = runner.getBoardData().getGameUtil()
 					.moveRight(clientsUID);
 			absDir = Room.getNewDirection(runner.getBoardData().getGameUtil().getViewDirection(), Direction.RIGHT);
 			up = new Update(Update.Descriptor.values()[absDir.getValue()], clientsUID, 0);
+			if (validAction == 3){
+				initialiseRenderPanel();
+			}
 			break;
 		case KeyEvent.VK_SPACE:
 			// Attack pressed
