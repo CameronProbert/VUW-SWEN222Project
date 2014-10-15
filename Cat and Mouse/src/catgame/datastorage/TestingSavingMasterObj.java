@@ -95,12 +95,12 @@ public class TestingSavingMasterObj {
 		assertTrue(element.getChild("Direction") != null);
 		assertTrue(element.getChild("Direction").getText()
 				.equals(obj.getFacingDirection().name()));
-		assertFalse(element.getChild("attackPower") == null);
+		assertFalse(element.getChild("AttackPower") == null);
 		assertEquals(obj.getAttackPower(),
-				Integer.parseInt(element.getChild("attackPower").getText()));
-		assertFalse(element.getChild("health") == null);
+				Integer.parseInt(element.getChild("AttackPower").getText()));
+		assertFalse(element.getChild("Health") == null);
 		assertEquals(obj.getHealth(),
-				Integer.parseInt(element.getChild("health").getText()));
+				Integer.parseInt(element.getChild("Health").getText()));
 		assertFalse(element.getChild("Inventory") == null);
 		assertTrue(element.getChild("Inventory").getChildren().size() == obj
 				.getInventory().size());
@@ -112,8 +112,8 @@ public class TestingSavingMasterObj {
 		Element element = savingMasterObj.writeFood(obj);
 		assertTrue(element != null);
 		assertTrue(element.getName().equals("Food"));
-		assertTrue(element.getChild("heal") != null);
-		assertEquals(Integer.parseInt(element.getChild("heal").getText()),
+		assertTrue(element.getChild("Heal") != null);
+		assertEquals(Integer.parseInt(element.getChild("Heal").getText()),
 				obj.getHeal());
 		return element;
 	}
@@ -204,21 +204,21 @@ public class TestingSavingMasterObj {
 		assertTrue(bossElement != null);
 		assertTrue(bossElement.getName().equals("Boss"));
 		assertFalse(bossElement.getChildren().isEmpty());
-		assertFalse(bossElement.getChild("health") == null);
+		assertFalse(bossElement.getChild("Health") == null); 
 		assertEquals(obj.getHealth(),
-				Integer.parseInt(bossElement.getChild("health").getText()));
-		assertFalse(bossElement.getChild("maxItems") == null);
+				Integer.parseInt(bossElement.getChild("Health").getText()));
+		assertFalse(bossElement.getChild("MaxItems") == null);
 		assertEquals(6,
-				Integer.parseInt(bossElement.getChild("maxItems").getText()));
-		assertFalse(bossElement.getChild("attackPower") == null);
+				Integer.parseInt(bossElement.getChild("MaxItems").getText()));
+		assertFalse(bossElement.getChild("AttackPower") == null);
 		assertEquals(obj.getAttackPower(),
-				Integer.parseInt(bossElement.getChild("attackPower").getText()));
+				Integer.parseInt(bossElement.getChild("AttackPower").getText()));
 		// TODO better test inventory
 		assertFalse(bossElement.getChild("Inventory") == null);
 		assertTrue(bossElement.getChild("Inventory").getChildren().size() == obj
 				.getInventory().size());
 		return bossElement;
-	}
+	} 
 	
 	public static void main(String[] args){ 
 //		DataStorageTesting maintesting= new DataStorageTesting();

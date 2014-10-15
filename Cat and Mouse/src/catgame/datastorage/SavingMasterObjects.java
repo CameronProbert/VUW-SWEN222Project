@@ -36,13 +36,13 @@ public class SavingMasterObjects {
 				+ boss.getAttackPower()));
 
 		return bossElement;
-	}
+	} 
 
 	public Element writeBush(MasterObject obj) {
 		Bush bush = (Bush) obj;
 		Element bushElement = new Element("Bush");
 		bushElement.setAttribute(new Attribute("id", "" + bush.getObjectID()));
-		return bushElement;
+		return bushElement; 
 	}
 
 	public Element writeChest(MasterObject obj) throws XMLException {

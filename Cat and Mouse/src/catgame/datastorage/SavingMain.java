@@ -29,7 +29,7 @@ public class SavingMain {
 		this.xmlFile = xmlFile;
 		this.boardData = boardData;
 		this.document = new Document();
-		this.root = new Element("CatGame");
+		this.root = new Element("CatGame"); 
 		document.setRootElement(root);
 		write();
 	}
@@ -160,7 +160,19 @@ public class SavingMain {
 		// add door links to roomElement
 		roomElement.addContent(writeDoorsLinks());
 		// ----------------------------------------------------------------
+		
 		// ------------ RoomGrid ------------
+		roomElement.addContent(writeRoomGrid(room)); // add roomGrid to roomElement
+		// ----------------------------------------------------------------
+
+		return roomElement;
+	}
+	
+	public Element writeRoomGrid(Room room) throws XMLException{
+		if(room == null){
+			throw new XMLException("Room passed in is null when making roomGrid");
+		}
+		// ------------ RoomGrid  Saving------------
 		BoardCell[][] roomGrid = room.getBoardGrid();
 		Element boardGrid = new Element("boardGrid");
 		// save the size of the 2D roomgrid array
@@ -184,10 +196,7 @@ public class SavingMain {
 			rowBoardCellElement.setText(cellValuesOfRow);
 			boardGrid.addContent(rowBoardCellElement);
 		}
-		roomElement.addContent(boardGrid); // add roomGrid to roomElement
-		// ----------------------------------------------------------------
-
-		return roomElement;
+		return boardGrid;
 	}
 
 	public SavingHelper getHelper() {

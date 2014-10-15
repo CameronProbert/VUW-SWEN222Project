@@ -4,7 +4,10 @@ import java.io.File;
 import java.io.IOException;
 import java.util.*;
 
+import static org.junit.Assert.*;
+
 import org.junit.Test;
+import org.jdom2.*;
 
 import catgame.logic.*;
 import catgame.gameObjects.*;
@@ -21,20 +24,29 @@ public class DataStorageTesting {
 	private BoardData boardData;
 	private File testingXML;
 
-	public DataStorageTesting() throws IOException, XMLException{
+	public DataStorageTesting() throws IOException, XMLException, JDOMException {
 		makeTestRoom();
 		setUpSaving();
+		setUpLoading();
 		testSaveObj = new TestingSavingMasterObj(this);
-		
+
 		testSavingMasterObjects();
+		testSavingBoardData();
 
 	}
 
 	public void setUpSaving() throws IOException {
 		this.testingXML = new File("testing_01.xml");
 		this.savingMain = new SavingMain(boardData, testingXML);
+		testingXML = savingMain.getXMLFile();
 		this.savingMasterObj = savingMain.getSavingMasterObj();
 		this.savingHelper = savingMain.getHelper();
+	}
+
+	public void setUpLoading() throws JDOMException, XMLException {
+		this.loadingMain = new LoadingGameMain(false, testingXML);
+		this.loadingMasterObj = loadingMain.getLoadMasterObj();
+		this.loadingHelper = loadingMain.getHelper();
 	}
 
 	public void makeTestRoom() {
@@ -50,23 +62,61 @@ public class DataStorageTesting {
 
 	@Test
 	public void testSavingMasterObjects() throws XMLException {
-		testSaveObj.testRoomInventory(boardData.getAllRooms().get(0).getRoomInventory());
+		testSaveObj.testRoomInventory(boardData.getAllRooms().get(0)
+				.getRoomInventory());
 	}
-	
-	public SavingMain getSavingMain(){
+
+	@Test
+	public void testSavingBoardData() {
+		BoardCell[][] roomGrid = boardData.getAllRooms().get(0).getBoardGrid();
+		Element boardElement = null;
+		Throwable savingException = null;
+		try {
+			boardElement = savingMain.writeRoomGrid(boardData.getAllRooms()
+					.get(0));
+		} catch (XMLException e) {
+			savingException = e;
+		}
+		assertTrue(savingException == null); // exception shouldn't be thrown
+		assertFalse(boardElement == null);
+		Throwable loadingException = null;
+		BoardCell[][] loadedGrid = null;
+		try {
+			loadedGrid = loadingMain.loadRoomGrid(boardElement);
+		} catch (XMLException e1) {
+			loadingException = e1;
+		}
+		assertTrue("loading boardGrid with element that is saved the boardgrid", loadingException == null);
+		
+		for(int y = 0; y < roomGrid.length; y++){
+			for(int x = 0; x < roomGrid[y].length; x++){
+				//assertTrue(roomGrid[y][x].getObjectOnCell().getObjectID() == lo)
+			}
+		}
+		// testing breaking writeRoomGrid method by passing null
+		try {
+			boardElement = savingMain.writeRoomGrid(null);
+		} catch (XMLException e) {
+			savingException = e;
+		}
+		assertFalse(savingException == null); // exception should be thrown
+	}
+
+	public SavingMain getSavingMain() {
 		return savingMain;
 	}
-	
-	public SavingMasterObjects getSavingMasterObj(){
+
+	public SavingMasterObjects getSavingMasterObj() {
 		return savingMasterObj;
 	}
-	
-	public SavingHelper getSavingHelper(){
+
+	public SavingHelper getSavingHelper() {
 		return savingHelper;
 	}
-	
-	public static void main(String[] args) throws IOException, XMLException{
+
+	public static void main(String[] args) throws IOException, XMLException,
+			JDOMException {
 		new DataStorageTesting();
 	}
-	
+
 }

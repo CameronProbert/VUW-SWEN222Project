@@ -70,14 +70,14 @@ public class Minion implements NonPlayableCharacter {
 	}
 
 	public void changeAttackpower(int change) {
-		this.attackPower += change;
+		this.attackPower += change; 
 	}
 	
 	public boolean isDead() {
 		return health < 1;
 	}
 
-	public Room getCurrentRoom() {
+	public Room getCurrentRoom() { 
 		return currentRoom;
 	}
 
