@@ -45,8 +45,8 @@ public class SavingMain {
 		// Outputting xml file
 		XMLOutputter xmlOutputter = new XMLOutputter(
 				org.jdom2.output.Format.getPrettyFormat());
-		File temp = new File("RoomBuilder_01.xml");
-		xmlOutputter.output(document, new FileOutputStream(temp));
+		//File temp = new File("RoomBuilder_01.xml");
+		xmlOutputter.output(document, new FileOutputStream(xmlFile));
 	}
 
 	/**
