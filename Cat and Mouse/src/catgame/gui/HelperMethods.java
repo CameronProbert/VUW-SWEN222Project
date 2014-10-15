@@ -188,7 +188,7 @@ public class HelperMethods {
 	public static String chooseCatgameFile(Component parent) {
 		JFileChooser chooser = new JFileChooser();
 		FileNameExtensionFilter filter = new FileNameExtensionFilter(
-				".catgame (Saved game)", "catgame");
+				"'.catgame', '.xml' (Saved game)", "catgame", "xml");
 		chooser.setFileFilter(filter);
 		int returnVal = -1;
 		returnVal = chooser.showOpenDialog(parent);
