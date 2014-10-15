@@ -8,7 +8,11 @@ import org.jdom2.input.SAXBuilder;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.URISyntaxException;
+import java.net.URL;
 import java.util.*;
+
+import javax.imageio.ImageIO;
 
 public class LoadingGameMain {
 	private Map<Integer, MasterObject> objectIDMap = new HashMap<Integer, MasterObject>();
@@ -42,7 +46,12 @@ public class LoadingGameMain {
 		// if xmlFile != null, we are loading old game
 		if (xmlFile == null) {
 			// xmlFile is null meaning we are loading a standard new game
-			xmlFile = new File("RoomBuilder_01.xml");
+			URL fileURL = getClass().getResource("files/RoomBuilder_01.xml");
+			try {
+				xmlFile = new File(fileURL.toURI());
+			} catch (URISyntaxException e) {
+				e.printStackTrace();
+			}
 		}
 		try {
 			// make document and read root

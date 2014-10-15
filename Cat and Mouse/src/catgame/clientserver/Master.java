@@ -56,7 +56,9 @@ public final class Master extends Thread {
 					if(input.available()!=0){
 						Update update = new Update(input);
 						if(update.getInst() != 0){
-							
+							if(update.getInst()==5){
+								System.err.println("was updated an attack!!!");
+							}
 							game.update(update, true);
 						}
 					}
