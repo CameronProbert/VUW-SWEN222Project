@@ -168,7 +168,9 @@ public class ReceiveMassUpdate {
 	public void readChest(){
 		try {
 			int id = in.readInt();
+			System.out.println("chest id is : " +id);
 			int lootSize = in.readInt();
+			System.out.println("chest loot size is : " + lootSize);
 			Chest chest = data.getObjStorer().findChest(id);
 			if(chest==null){
 				throw new IDNotFoundError();
