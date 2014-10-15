@@ -36,7 +36,7 @@ public class DataStorageTesting {
 	}
 
 	public void setUpSaving() throws IOException {
-		this.testingXML = new File("testing_01.xml");
+		this.testingXML = new File("testing_01.xml"); 
 		this.savingMain = new SavingMain(boardData, testingXML);
 		testingXML = savingMain.getXMLFile();
 		this.savingMasterObj = savingMain.getSavingMasterObj();
@@ -115,6 +115,30 @@ public class DataStorageTesting {
 			savingException = e;
 		}
 		assertFalse(savingException == null); // exception should be thrown
+	}
+	
+	@Test
+	public void testRoom(){
+		Room room = boardData.getAllRooms().get(0);
+		Throwable exception = null;
+		Element saveRoomElement = null;
+		try {
+			 saveRoomElement = savingMain.writeRoom(room, 0);
+		} catch (XMLException e) {
+			exception = e;
+			fail();
+		}
+		assertFalse(saveRoomElement == null);
+		Room loadedRoom = null;
+		try {
+			loadedRoom = loadingMain.loadRooms(saveRoomElement);
+		} catch (XMLException e) {
+			exception = e;
+			e.printStackTrace();
+		}
+		assertFalse(loadedRoom == null);
+		assertEquals("Room Id's ", room.getRoomID(), loadedRoom.getRoomID());
+		assertEquals("Room inventory size", room.getRoomInventory().size(), loadedRoom.getRoomInventory().size());
 	}
 	
 	
