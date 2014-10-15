@@ -26,6 +26,7 @@ public class PanelRender extends JPanel {
 	private int xOffset;
 	private int yOffset;
 	
+	private Image background;
 	private Image grassBlock;
 	private Image tree1;
 	private Image tree2;
@@ -85,13 +86,22 @@ public class PanelRender extends JPanel {
 		redraw(g);
 	}
 	
+	/**
+	 * Method for setting offset values used for positioning every block and game object/character
+	 */
 	public void setOffsetValues(){
 		xOffset = 20;
 		yOffset = 300;
 	}
 
+	/**
+	 * Loads in all game images
+	 */
 	public void setupImages() {
 		try {
+			// Load background image
+			background = ImageIO.read(PanelRender.class.getResource("/images/Background.jpg"));
+			
 			// Load object images
 			grassBlock = ImageIO.read(PanelRender.class.getResource("/images/Grass1.png"));
 			tree1 = ImageIO.read(PanelRender.class.getResource("/images/Tree1.png"));
@@ -166,36 +176,32 @@ public class PanelRender extends JPanel {
 	 * determineAndDrawGround() which determines the type of groundBlock at the
 	 * current position of on the map, then calls a relevant draw method to draw
 	 * the groundBlock at that position.
-	 * 
-	 * 
-	 * 
-	 * @param g
 	 */
 	public void drawGroundAndObjects(Graphics g) {
-		int sendX;
-		int sendY;
+		int gridX;
+		int gridY;
 		for (int y = 0; y < currentRoom.getBoardGrid().length; y++) {
 			for (int x = currentRoom.getBoardGrid()[0].length - 1; x >= 0; x--) {
 				if (gUtil.getViewDirection() == Direction.NORTH) {
-					sendX = y;
-					sendY = currentRoom.getBoardGrid()[0].length - x - 1;
-					determineAndDrawGround(g, sendY, sendX, y, x);
-					determineAndDrawObject(g, sendY, sendX, y, x);
+					gridX = y;
+					gridY = currentRoom.getBoardGrid()[0].length - x - 1;
+					determineAndDrawGround(g, gridY, gridX, y, x);
+					determineAndDrawObject(g, gridY, gridX, y, x);
 				} else if (gUtil.getViewDirection() == Direction.EAST) {
-					sendX = x;
-					sendY = y;
-					determineAndDrawGround(g, sendY, sendX, y, x);
-					determineAndDrawObject(g, sendY, sendX, y, x);
+					gridX = x;
+					gridY = y;
+					determineAndDrawGround(g, gridY, gridX, y, x);
+					determineAndDrawObject(g, gridY, gridX, y, x);
 				} else if (gUtil.getViewDirection() == Direction.SOUTH) {
-					sendX = currentRoom.getBoardGrid().length - y - 1;
-					sendY = x;
-					determineAndDrawGround(g, sendY, sendX, y, x);
-					determineAndDrawObject(g, sendY, sendX, y, x);
+					gridX = currentRoom.getBoardGrid().length - y - 1;
+					gridY = x;
+					determineAndDrawGround(g, gridY, gridX, y, x);
+					determineAndDrawObject(g, gridY, gridX, y, x);
 				} else if (gUtil.getViewDirection() == Direction.WEST) {
-					sendX = currentRoom.getBoardGrid()[0].length - x - 1;
-					sendY = currentRoom.getBoardGrid().length - y - 1;
-					determineAndDrawGround(g, sendY, sendX, y, x);
-					determineAndDrawObject(g, sendY, sendX, y, x);
+					gridX = currentRoom.getBoardGrid()[0].length - x - 1;
+					gridY = currentRoom.getBoardGrid().length - y - 1;
+					determineAndDrawGround(g, gridY, gridX, y, x);
+					determineAndDrawObject(g, gridY, gridX, y, x);
 				}
 			}
 		}
@@ -206,19 +212,19 @@ public class PanelRender extends JPanel {
 	 * method, passing it the relevant image and positioning values.
 	 * 
 	 * @param g
-	 * @param sendY
-	 * @param sendX
+	 * @param gridY
+	 * @param gridX
 	 * @param y
 	 * @param x
 	 */
-	public void determineAndDrawGround(Graphics g, int sendY, int sendX, int y,	int x) {
+	public void determineAndDrawGround(Graphics g, int gridY, int gridX, int y,	int x) {
 		int startX = xOffset + 19;
 		int startY = yOffset + 20;
-		if (currentRoom.getBoardGrid()[sendY][sendX].getGroundType() == null) {
+		if (currentRoom.getBoardGrid()[gridY][gridX].getGroundType() == null) {
 			return;
 		}
-		if (currentRoom.getBoardGrid()[sendY][sendX].getGroundType().equals("Grass")) {
-			drawGround(g, grassBlock, sendY, sendX, y, x, startY, startX);
+		if (currentRoom.getBoardGrid()[gridY][gridX].getGroundType().equals("Grass")) {
+			drawGround(g, grassBlock, y, x, startY, startX);
 		}
 	}
 
@@ -227,17 +233,17 @@ public class PanelRender extends JPanel {
 	 * method, passing it the relevant image and positioning values.
 	 * 
 	 * @param g
-	 * @param sendY
-	 * @param sendX
+	 * @param gridY
+	 * @param gridX
 	 * @param y
 	 * @param x
 	 */
-	public void determineAndDrawObject(Graphics g, int sendY, int sendX, int y,	int x) {
+	public void determineAndDrawObject(Graphics g, int gridY, int gridX, int y,	int x) {
 		//Returns if current cell doesn't contain an object or character
-		if (currentRoom.getBoardGrid()[sendY][sendX].getObjectOnCell() == null) {
+		if (currentRoom.getBoardGrid()[gridY][gridX].getObjectOnCell() == null) {
 			return;
 		}
-		String objFullID = currentRoom.getBoardGrid()[sendY][sendX]
+		String objFullID = currentRoom.getBoardGrid()[gridY][gridX]
 				.getObjectOnCell().getObjectID()+"";
 		String objTypeID = objFullID.substring(0, 2);
 		String objImageID = objFullID.substring(2, 4);
@@ -246,42 +252,42 @@ public class PanelRender extends JPanel {
 		if (objTypeID.equals(GameUtil.BUSH+"")){
 			startX = xOffset + 40;
 			startY = yOffset - 15;
-			drawObject(g, bush1, sendY, sendX, y, x, startY, startX);
+			drawObject(g, bush1, y, x, startY, startX);
 		}
 		else if (objTypeID.equals(GameUtil.TREE+"")){
-			drawTree(g, sendY, sendX, y, x, objImageID);
+			drawTree(g, y, x, objImageID);
 		}
 		else if (objTypeID.equals(GameUtil.ROCK+"")){
 			startX = xOffset + 60;
 			startY = yOffset + 25;
-			drawObject(g, rock1, sendY, sendX, y, x, startY, startX);
+			drawObject(g, rock1, y, x, startY, startX);
 		}
 		else if (objTypeID.equals(GameUtil.CHESTONE+"") || 
 				objTypeID.equals(GameUtil.CHESTTWO+"")){
-			drawChest(g, sendY, sendX, y, x);
+			drawChest(g, y, x);
 		}
 		else if (objTypeID.equals(GameUtil.DOORN+"") ||
 				objTypeID.equals(GameUtil.DOORS+"") ||
 				objTypeID.equals(GameUtil.DOORE+"") ||
 				objTypeID.equals(GameUtil.DOORW+"")){
-			drawDoor(g, sendY, sendX, y, x, objTypeID);			
+			drawDoor(g, gridY, gridX, y, x, objTypeID);			
 		}
 		else if (objTypeID.equals(GameUtil.HEDGEL+"") ||
 				objTypeID.equals(GameUtil.HEDGER+"")){
-			drawHedge(g, sendY, sendX, y, x, objTypeID);
+			drawHedge(g, y, x, objTypeID);
 		}
 		else if (objTypeID.equals(GameUtil.FENCEL+"") ||
 				objTypeID.equals(GameUtil.FENCER+"")){
-			drawFence(g, sendY, sendX, y, x, objTypeID);
+			drawFence(g, y, x, objTypeID);
 		}
 		else if (objTypeID.equals(GameUtil.PLAYABLECHARACTER+"")){
-			drawPlayableChar(g, sendY, sendX, y, x);
+			drawPlayableChar(g, gridY, gridX, y, x);
 		}
 		else if (objTypeID.equals(GameUtil.MINIONONE+"")){
-			drawMinion(g, sendY, sendX, y, x);
+			drawMinion(g, gridY, gridX, y, x);
 		}
 		else if (objTypeID.equals(GameUtil.BOSSONE+"")){
-			drawBoss(g, sendY, sendX, y, x);
+			drawBoss(g, gridY, gridX, y, x);
 		}
 	}
 
@@ -291,15 +297,12 @@ public class PanelRender extends JPanel {
 	 * 
 	 * @param g
 	 * @param image
-	 * @param sendY
-	 * @param sendX
 	 * @param y
 	 * @param x
 	 * @param startY
 	 * @param startX
 	 */
-	public void drawGround(Graphics g, Image image, int sendY, int sendX,
-			int y, int x, int startY, int startX) {
+	public void drawGround(Graphics g, Image image,	int y, int x, int startY, int startX) {
 		g.drawImage(image,
 				startX + (x * blockWidth / 2) + (y * blockWidth / 2), startY
 						+ (y * blockHeight / 2) - (x * blockHeight / 2), null);
@@ -318,19 +321,13 @@ public class PanelRender extends JPanel {
 	 * @param startY
 	 * @param startX
 	 */
-	public void drawObject(Graphics g, Image image, int sendY, int sendX,
-			int y, int x, int startY, int startX) {
+	public void drawObject(Graphics g, Image image, int y, int x, int startY, int startX) {
 		g.drawImage(image,
 				startX + (x * blockWidth / 2) + (y * blockWidth / 2), 
 				startY + (y * blockHeight / 2) - (x * blockHeight / 2), 
 				null);
 	}
 
-	
-	
-	public int directionTranslate(Direction boardOrientation, Direction playerDirection) {
-		return (boardOrientation.getValue() + playerDirection.getValue()) % 4;
-	}
 	
 	public Direction directionTranslator(Direction viewDirection, Direction charDirection){
 		switch (viewDirection){
@@ -379,41 +376,37 @@ public class PanelRender extends JPanel {
 	public void redraw(Graphics g) {
 		g.setColor(Color.DARK_GRAY);
 		g.fillRect(0, 0, panelWidth, panelHeight);
+		g.drawImage(background, 0, 0, null);
 		drawGroundAndObjects(g);
 	}
 	
-	//
-	//
-	//
+
 	//Helper methods for drawing various objects
-	//
-	//
-	//
 	
-	public void drawTree(Graphics g, int sendY, int sendX, int y, int x, String objImageID){
+	public void drawTree(Graphics g, int y, int x, String objImageID){
 		if (objImageID.equals("10")){
 			int startX = xOffset - 30;
 			int startY = yOffset - 155;
-			drawObject(g, tree1, sendY, sendX, y, x, startY, startX);
+			drawObject(g, tree1, y, x, startY, startX);
 		}
 		else if (objImageID.equals("11")){
 			int treeStartX = xOffset;
 			int treeStartY = yOffset - 115;
-			drawObject(g, tree2, sendY, sendX, y, x, treeStartY, treeStartX);
+			drawObject(g, tree2, y, x, treeStartY, treeStartX);
 		}
 	}
 
-	public void drawChest(Graphics g, int sendY, int sendX, int y, int x){
+	public void drawChest(Graphics g, int y, int x){
 		int startX = xOffset + 50;
 		int startY = yOffset;
 		switch (gUtil.getViewDirection()) {
-		case NORTH: drawObject(g, chestFrontLeft1, sendY, sendX, y, x, startY, startX);
+		case NORTH: drawObject(g, chestFrontLeft1, y, x, startY, startX);
 			break;
-		case WEST: drawObject(g, chestFrontRight1, sendY, sendX, y, x, startY, startX);
+		case WEST: drawObject(g, chestFrontRight1, y, x, startY, startX);
 			break;
-		case SOUTH: drawObject(g, chestBackLeft1, sendY, sendX, y, x, startY, startX);
+		case SOUTH: drawObject(g, chestBackLeft1, y, x, startY, startX);
 			break;
-		case EAST: drawObject(g, chestBackRight1, sendY, sendX, y, x, startY, startX);
+		case EAST: drawObject(g, chestBackRight1, y, x, startY, startX);
 			break;
 		default:
 			System.out.println("There was a drawing error");
@@ -421,9 +414,9 @@ public class PanelRender extends JPanel {
 		}
 	}
 	
-	public void drawPlayableChar(Graphics g, int sendY, int sendX, int y, int x){
+	public void drawPlayableChar(Graphics g, int gridY, int gridX, int y, int x){
 		Image backRight, backLeft, frontRight, frontLeft;
-		PlayableCharacter character = (PlayableCharacter) currentRoom.getBoardGrid()[sendY][sendX].getObjectOnCell();
+		PlayableCharacter character = (PlayableCharacter) currentRoom.getBoardGrid()[gridY][gridX].getObjectOnCell();
 		String charID = character.getObjectID()+"";
 		String charNumberID = charID.substring(4,6);
 		switch (charNumberID){
@@ -458,66 +451,66 @@ public class PanelRender extends JPanel {
 		Direction drawDirection = directionTranslator(gUtil.getViewDirection(), character.getFacingDirection());
 		int startX = xOffset + 27;
 		int startY = yOffset - 5;
-		if (((PlayableCharacter)currentRoom.getBoardGrid()[sendY][sendX].getObjectOnCell()).isDead()){
-			drawObject(g, corpse1, sendY, sendX, y, x, startY+25, startX+25);
+		if (((PlayableCharacter)currentRoom.getBoardGrid()[gridY][gridX].getObjectOnCell()).isDead()){
+			drawObject(g, corpse1, y, x, startY+25, startX+25);
 			return;
 		}			
 		switch (drawDirection) {
-		case NORTH: drawObject(g, backRight, sendY, sendX, y, x, startY, startX);
+		case NORTH: drawObject(g, backRight, y, x, startY, startX);
 			break;
-		case EAST: drawObject(g, frontRight, sendY, sendX, y, x, startY, startX);
+		case EAST: drawObject(g, frontRight, y, x, startY, startX);
 			break;
-		case SOUTH: drawObject(g, frontLeft, sendY, sendX, y, x, startY, startX);
+		case SOUTH: drawObject(g, frontLeft, y, x, startY, startX);
 			break;
-		case WEST: drawObject(g, backLeft, sendY, sendX, y, x, startY, startX);
+		case WEST: drawObject(g, backLeft, y, x, startY, startX);
 			break;
 		default: System.out.println("There was a problem drawing a character");
 		}
 	}
 	
-	public void drawMinion(Graphics g, int sendY, int sendX, int y, int x){
+	public void drawMinion(Graphics g, int gridY, int gridX, int y, int x){
 		int startX = xOffset + 60;
 		int startY = yOffset;
-		if (((Minion)currentRoom.getBoardGrid()[sendY][sendX].getObjectOnCell()).isDead()){
-			drawObject(g, corpse1, sendY, sendX, y, x, startY+20, startX-10);
+		if (((Minion)currentRoom.getBoardGrid()[gridY][gridX].getObjectOnCell()).isDead()){
+			drawObject(g, corpse1, y, x, startY+20, startX-10);
 			return;
 		}
 		switch (gUtil.getViewDirection()) {
-		case NORTH: drawObject(g, minionFrontLeft1, sendY, sendX, y, x, startY, startX);
+		case NORTH: drawObject(g, minionFrontLeft1, y, x, startY, startX);
 			break;
-		case WEST: drawObject(g, minionBackLeft1, sendY, sendX, y, x, startY, startX);
+		case WEST: drawObject(g, minionBackLeft1, y, x, startY, startX);
 			break;
-		case SOUTH: drawObject(g, minionBackRight1, sendY, sendX, y, x, startY, startX);
+		case SOUTH: drawObject(g, minionBackRight1, y, x, startY, startX);
 			break;
-		case EAST: drawObject(g, minionFrontRight1, sendY, sendX, y, x, startY, startX);
+		case EAST: drawObject(g, minionFrontRight1, y, x, startY, startX);
 			break;
 		default: System.out.println("There was a drawing error");
 			break;				
 		}
 	}
 	
-	public void drawBoss(Graphics g, int sendY, int sendX, int y, int x){
+	public void drawBoss(Graphics g, int gridY, int gridX, int y, int x){
 		int startX = xOffset + 25;
 		int startY = yOffset - 50;
-		if (((Boss)currentRoom.getBoardGrid()[sendY][sendX].getObjectOnCell()).isDead()){
-			drawObject(g, corpse1, sendY, sendX, y, x, startY+75, startX+35);
+		if (((Boss)currentRoom.getBoardGrid()[gridY][gridX].getObjectOnCell()).isDead()){
+			drawObject(g, corpse1, y, x, startY+75, startX+35);
 			return;
 		}
 		switch (gUtil.getViewDirection()) {
-		case NORTH: drawObject(g, bossFrontLeft1, sendY, sendX, y, x, startY, startX);
+		case NORTH: drawObject(g, bossFrontLeft1, y, x, startY, startX);
 			break;
-		case WEST: drawObject(g, bossBackLeft1, sendY, sendX, y, x, startY, startX+20);
+		case WEST: drawObject(g, bossBackLeft1, y, x, startY, startX+20);
 			break;
-		case SOUTH: drawObject(g, bossBackRight1, sendY, sendX, y, x, startY, startX-20);
+		case SOUTH: drawObject(g, bossBackRight1, y, x, startY, startX-20);
 			break;
-		case EAST: drawObject(g, bossFrontRight1, sendY, sendX, y, x, startY, startX);
+		case EAST: drawObject(g, bossFrontRight1, y, x, startY, startX);
 			break;
 		default: System.out.println("There was a drawing error");
 			break;				
 		}		
 	}
 	
-	public void drawHedge(Graphics g, int sendY, int sendX, int y, int x, String hedgeType){		
+	public void drawHedge(Graphics g, int y, int x, String hedgeType){		
 		int startX = xOffset + 35;
 		int startY = yOffset - 40;
 		Image img = hedgeLeft1;
@@ -525,22 +518,22 @@ public class PanelRender extends JPanel {
 		case NORTH:
 			if (hedgeType == "30"){ img = hedgeRight1; } 
 			else { img = hedgeLeft1; }
-			drawObject(g, img, sendY, sendX, y, x, startY, startX);
+			drawObject(g, img, y, x, startY, startX);
 			break;
 		case EAST:
 			if (hedgeType == "30"){ img = hedgeLeft1; }
 			else { img = hedgeRight1; }
-			drawObject(g, img, sendY, sendX, y, x, startY, startX);
+			drawObject(g, img, y, x, startY, startX);
 			break;
 		case SOUTH:
 			if (hedgeType == "30"){ img = hedgeRight1; } 
 			else {img = hedgeLeft1; }
-			drawObject(g, img, sendY, sendX, y, x, startY, startX);
+			drawObject(g, img, y, x, startY, startX);
 			break;
 		case WEST:
 			if (hedgeType == "30"){	img = hedgeLeft1; } 
 			else { img = hedgeRight1; }
-			drawObject(g, img, sendY, sendX, y, x, startY, startX);
+			drawObject(g, img, y, x, startY, startX);
 			break;
 		default:
 			System.out.println("Something went wrong");
@@ -548,7 +541,7 @@ public class PanelRender extends JPanel {
 		}
 	}
 	
-	public void drawFence(Graphics g, int sendY, int sendX, int y, int x, String fenceType){
+	public void drawFence(Graphics g, int y, int x, String fenceType){
 		int startX = xOffset + 55;
 		int startY = yOffset - 15;
 		Image img = fenceLeft1;
@@ -556,22 +549,22 @@ public class PanelRender extends JPanel {
 		case NORTH:
 			if (fenceType == "34"){	img = fenceLeft1; } 
 			else { img = fenceRight1; }
-			drawObject(g, img, sendY, sendX, y, x, startY, startX);
+			drawObject(g, img, y, x, startY, startX);
 			break;
 		case EAST:
 			if (fenceType == "34"){ img = fenceRight1; } 
 			else { img = fenceLeft1; }
-			drawObject(g, img, sendY, sendX, y, x, startY, startX);
+			drawObject(g, img, y, x, startY, startX);
 			break;
 		case SOUTH:
 			if (fenceType == "34"){ img = fenceLeft1; } 
 			else { img = fenceRight1; }
-			drawObject(g, img, sendY, sendX, y, x, startY, startX);
+			drawObject(g, img, y, x, startY, startX);
 			break;
 		case WEST:
 			if (fenceType == "34"){ img = fenceRight1; } 
 			else { img = fenceLeft1; }
-			drawObject(g, img, sendY, sendX, y, x, startY, startX);
+			drawObject(g, img, y, x, startY, startX);
 			break;
 		default:
 			System.out.println("Something went wrong");
@@ -579,14 +572,14 @@ public class PanelRender extends JPanel {
 		}
 	}
 	
-	public void drawDoor(Graphics g, int sendY, int sendX, int y, int x, String objTypeID){
+	public void drawDoor(Graphics g, int gridY, int gridX, int y, int x, String objTypeID){
 		Image leftDoor;
 		Image rightDoor;
 		int startLeftX = xOffset + 50;
 		int startLeftY = yOffset - 10;
 		int startRightX = xOffset + 50;
 		int startRightY = yOffset - 10;
-		if (((Door) currentRoom.getBoardGrid()[sendY][sendX].getObjectOnCell()).getIsLocked() == true){
+		if (((Door) currentRoom.getBoardGrid()[gridY][gridX].getObjectOnCell()).getIsLocked() == true){
 			leftDoor = doorClosedLeft1;
 			rightDoor = doorClosedRight1;
 		}
@@ -599,49 +592,49 @@ public class PanelRender extends JPanel {
 		switch (gUtil.getViewDirection()) {
 		case NORTH:
 			switch (objTypeID) {
-			case "40": drawObject(g, rightDoor, sendY, sendX, y, x, startRightY, startRightX);
+			case "40": drawObject(g, rightDoor, y, x, startRightY, startRightX);
 				break;
-			case "41": drawObject(g, leftDoor, sendY, sendX, y, x, startLeftY, startLeftX);
+			case "41": drawObject(g, leftDoor, y, x, startLeftY, startLeftX);
 				break;
-			case "42": drawObject(g, rightDoor, sendY, sendX, y, x, startRightY, startRightX);
+			case "42": drawObject(g, rightDoor, y, x, startRightY, startRightX);
 				break;
-			case "43": drawObject(g, leftDoor, sendY, sendX, y, x, startLeftY, startLeftX);
+			case "43": drawObject(g, leftDoor, y, x, startLeftY, startLeftX);
 				break;
 			}			
 			break;
 		case WEST:
 			switch (objTypeID) {
-			case "40": drawObject(g, leftDoor, sendY, sendX, y, x, startLeftY, startLeftX);
+			case "40": drawObject(g, leftDoor, y, x, startLeftY, startLeftX);
 				break;
-			case "41": drawObject(g, rightDoor, sendY, sendX, y, x, startRightY, startRightX);
+			case "41": drawObject(g, rightDoor, y, x, startRightY, startRightX);
 				break;
-			case "42": drawObject(g, leftDoor, sendY, sendX, y, x, startLeftY, startLeftX);
+			case "42": drawObject(g, leftDoor, y, x, startLeftY, startLeftX);
 				break;
-			case "43": drawObject(g, rightDoor, sendY, sendX, y, x, startRightY, startRightX);
+			case "43": drawObject(g, rightDoor, y, x, startRightY, startRightX);
 				break;
 		}			
 		break;
 		case SOUTH:
 			switch (objTypeID) {
-			case "40": drawObject(g, rightDoor, sendY, sendX, y, x, startRightY, startRightX);
+			case "40": drawObject(g, rightDoor, y, x, startRightY, startRightX);
 				break;
-			case "41": drawObject(g, leftDoor, sendY, sendX, y, x, startLeftY, startLeftX);
+			case "41": drawObject(g, leftDoor, y, x, startLeftY, startLeftX);
 				break;
-			case "42": drawObject(g, rightDoor, sendY, sendX, y, x, startRightY, startRightX);
+			case "42": drawObject(g, rightDoor, y, x, startRightY, startRightX);
 				break;
-			case "43": drawObject(g, leftDoor, sendY, sendX, y, x, startLeftY, startLeftX);
+			case "43": drawObject(g, leftDoor, y, x, startLeftY, startLeftX);
 				break;
 		}			
 		break;
 		case EAST:
 			switch (objTypeID) {
-			case "40": drawObject(g, leftDoor, sendY, sendX, y, x, startLeftY, startLeftX);
+			case "40": drawObject(g, leftDoor, y, x, startLeftY, startLeftX);
 				break;
-			case "41": drawObject(g, rightDoor, sendY, sendX, y, x, startRightY, startRightX);
+			case "41": drawObject(g, rightDoor, y, x, startRightY, startRightX);
 				break;
-			case "42": drawObject(g, leftDoor, sendY, sendX, y, x, startLeftY, startLeftX);
+			case "42": drawObject(g, leftDoor, y, x, startLeftY, startLeftX);
 				break;
-			case "43": drawObject(g, rightDoor, sendY, sendX, y, x, startRightY, startRightX);
+			case "43": drawObject(g, rightDoor, y, x, startRightY, startRightX);
 				break;
 		}			
 		break;
