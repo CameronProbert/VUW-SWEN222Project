@@ -88,6 +88,9 @@ public class FrameClient extends FrameAbstract implements KeyListener {
 					.findCharacter(clientsUID);
 			this.addPanels(character);
 		} else {
+			SlaveReceiver slaveR = new SlaveReceiver(slave, runner, this);
+			slaveR.run();
+			//waitForPlayers(slaveR);
 			try {
 				imageBG = ImageIO.read(PanelRender.class
 						.getResource("/images/CatBGLoading.png"));

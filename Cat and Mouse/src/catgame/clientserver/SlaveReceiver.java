@@ -40,9 +40,10 @@ public class SlaveReceiver {
 	private FrameClient frame;
 
 
-	public SlaveReceiver(Slave slave, GameRunner net){
+	public SlaveReceiver(Slave slave, GameRunner net, FrameClient frame){
 		this.slave = slave;
 		this.net = (NetworkHandler)net;
+		this.frame = frame;
 	}
 
 	public void run(){

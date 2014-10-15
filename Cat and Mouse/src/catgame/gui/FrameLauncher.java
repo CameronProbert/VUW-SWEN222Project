@@ -84,12 +84,8 @@ public class FrameLauncher extends FrameAbstract {
 					Slave slave = new Slave(s);
 					NetworkHandler net = new NetworkHandler(
 							NetworkHandler.Type.CLIENT);
-					SlaveReceiver slaveR = new SlaveReceiver(slave, net);
-					slaveR.run();
-					//waitForPlayers(slaveR);
-					int id = slaveR.getUID();
-					FrameClient frame = new FrameClient(net, true, slave, id);
-					slaveR.addFrame(frame);
+					
+					FrameClient frame = new FrameClient(net, true, slave, 0);
 				} catch (IOException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
