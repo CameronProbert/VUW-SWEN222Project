@@ -142,7 +142,7 @@ public class RoomBuilder {
 				y++;
 			}
 		} catch (Exception e) {
-			System.out.println(e);
+			System.err.println("Error loading a board in roomBuilder :"+e);
 		}
 		// now we load board to the room
 		loadingRoom.loadBoardCellToRoom(board);

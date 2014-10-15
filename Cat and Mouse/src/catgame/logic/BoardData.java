@@ -78,10 +78,12 @@ public class BoardData {
 		doorsList.add(411012);
 		doorsList.add(0);
 
-		doorsList.add(431011);
-		doorsList.add(0);
+		
 		doorsList.add(421013);
 		doorsList.add(GameUtil.KEY);
+		doorsList.add(431011);
+		doorsList.add(0);
+		
 
 		for (int i = 0; i < doorsList.size(); i += 2) {
 			Room doorsRoom = getDoorsRoom(doorsList.get(i));
@@ -114,7 +116,7 @@ public class BoardData {
 	}
 
 	public void loadLevelOne() {
-		String[] roomFiles = { "RoomOne.csv", "RoomTwo.csv" };
+		String[] roomFiles = { "RoomOne.csv", "RoomTwo.csv", "RoomThree.csv" };
 		RoomBuilder builder = new RoomBuilder(objStorer);
 		for (int i = 0; i < roomFiles.length; i++) {
 			addRoomToLevel(builder.loadRoom(roomFiles[i]));
@@ -127,6 +129,11 @@ public class BoardData {
 		doorsList.add(401010);
 		doorsList.add(0);
 		doorsList.add(411011);
+		doorsList.add(0);
+		
+		doorsList.add(431012);
+		doorsList.add(0);
+		doorsList.add(401014);
 		doorsList.add(0);
 		
 		for (int i = 0; i < doorsList.size(); i += 2) {

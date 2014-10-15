@@ -312,7 +312,7 @@ public class Room {
 	 * @param movementDirection
 	 * @return
 	 */
-	public Direction getNewDirection(Direction boardDirection, Direction movementDirection) {
+	public static Direction getNewDirection(Direction boardDirection, Direction movementDirection) {
 		switch (boardDirection.getValue()) {
 		case 0:
 			switch (movementDirection.getValue()) {
