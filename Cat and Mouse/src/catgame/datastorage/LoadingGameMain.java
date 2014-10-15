@@ -44,7 +44,7 @@ public class LoadingGameMain {
 		// if xmlFile != null, we are loading old game
 		if (xmlFile == null) {
 			// xmlFile is null meaning we are loading a standard new game
-			URL fileURL = getClass().getResource("files/RoomBuilder_01.xml");
+			URL fileURL = LoadingGameMain.class.getResource("files/RoomBuilder_01.xml");
 			try {
 				xmlFile = new File(fileURL.toURI());
 			} catch (URISyntaxException e) {

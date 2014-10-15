@@ -13,6 +13,7 @@ import org.jdom2.JDOMException;
 
 import catgame.datastorage.LoadNewGame;
 import catgame.datastorage.LoadOldGame;
+import catgame.datastorage.LoadingGameMain;
 import catgame.datastorage.XMLException;
 import catgame.gameObjects.Food;
 import catgame.gameObjects.GameItem;
@@ -39,7 +40,7 @@ public class SinglePlayerHandler extends GameRunner {
 	public SinglePlayerHandler (String fileName){
 		if(!fileName.equals("no file")){
 			try {
-				URL fileURL = getClass().getResource(fileName);
+				URL fileURL = LoadingGameMain.class.getResource("files/"+fileName);
 				File xmlFile = null;
 				try {
 					xmlFile = new File(fileURL.toURI());
