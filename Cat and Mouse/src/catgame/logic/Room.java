@@ -66,7 +66,7 @@ public class Room {
 			((PlayableCharacter) getCharactorCell(playerID).getObjectOnCell()).changeDirection(getNewDirection(boardDirection, playerDirection));
 			System.err.println("Board Dir :" + boardDirection + " player Dir :" + playerDirection + " current dir: "
 					+ ((PlayableCharacter) getCharactorCell(playerID).getObjectOnCell()).getFacingDirection());
-			return -1;
+			return 2;
 		}
 
 		Position newPos = findPosition(playerID, boardDirection, playerDirection);
