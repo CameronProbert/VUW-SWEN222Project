@@ -23,8 +23,8 @@ public class Update {
 	
 	public enum Descriptor{
 		NORTH,
-		SOUTH,
 		EAST,
+		SOUTH,
 		WEST,
 		ATTACK,
 		PICKUP,
@@ -123,19 +123,15 @@ public class Update {
 		switch(getInst()){
 		case 1: // move forward
 			int i = game.moveUp(getPlayerID());
-			System.out.println("doing the instrution returned : " + i);
 			break;
 		case 2: // move right
 			i = game.moveLeft(getPlayerID());
-			System.out.println("doing the instrution returned : " + i);
 			break;
 		case 3: // move left
 			i = game.moveRight(getPlayerID());
-			System.out.println("doing the instrution returned : " + i);
 			break;
 		case 4: // move back
 			i = game.moveDown(getPlayerID());
-			System.out.println("doing the instrution returned : " + i);
 			break;
 		case 5: // attack
 			game.attackUpdate(getPlayerID(), getOtherID());
@@ -145,7 +141,6 @@ public class Update {
 			break;
 		case 9: // object eaten
 			i = game.useItem(getPlayerID(), getOtherID());
-			System.out.println("doing the instrution returned : " + i);
 			break;
 		}
 		

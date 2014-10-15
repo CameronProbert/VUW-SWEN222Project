@@ -260,6 +260,7 @@ public class ObjectBuilder {
 		Door newDoor = new Door(newDoorId, Direction.NORTH, loadingRoom);
 		loadingRoom.addToInventory(newDoor);
 		objStore.addDoor(newDoorId, newDoor);
+		System.out.println("newDoor ID "+newDoorId);
 		return new BoardCell(new Position(x, y), newDoor, GROUNDTYPEGRASS);
 	}
 
@@ -277,6 +278,7 @@ public class ObjectBuilder {
 		Door newDoor = new Door(newDoorId, Direction.EAST, loadingRoom);
 		loadingRoom.addToInventory(newDoor);
 		objStore.addDoor(newDoorId, newDoor);
+		System.out.println("newDoor ID "+newDoorId);
 		return new BoardCell(new Position(x, y), newDoor, GROUNDTYPEGRASS);
 	}
 
@@ -294,6 +296,7 @@ public class ObjectBuilder {
 		Door newDoor = new Door(newDoorId, Direction.SOUTH, loadingRoom);
 		loadingRoom.addToInventory(newDoor);
 		objStore.addDoor(newDoorId, newDoor);
+		System.out.println("newDoor ID "+newDoorId);
 		return new BoardCell(new Position(x, y), newDoor, GROUNDTYPEGRASS);
 	}
 
@@ -311,6 +314,7 @@ public class ObjectBuilder {
 		Door newDoor = new Door(newDoorId, Direction.WEST, loadingRoom);
 		loadingRoom.addToInventory(newDoor);
 		objStore.addDoor(newDoorId, newDoor);
+		System.out.println("newDoor ID "+newDoorId);
 		return new BoardCell(new Position(x, y), newDoor, GROUNDTYPEGRASS);
 	}
 
