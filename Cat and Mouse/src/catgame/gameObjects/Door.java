@@ -30,7 +30,7 @@ public class Door implements NonMovavble {
 		this.wallEdge = direction;
 		this.room = room;
 	}
-
+ 
 	public int getObjectID() {
 		return ID;
 	}

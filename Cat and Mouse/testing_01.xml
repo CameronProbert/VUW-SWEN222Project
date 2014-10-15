@@ -5,41 +5,42 @@
       <Inventory>
         <non-playerableInventory>
           <Bush id="201010" />
-          <Tree id="211110" />
+          <Tree id="211010" />
           <Rock id="221010" />
           <Boss id="111010">
-            <health>180</health>
+            <Health>180</Health>
             <Inventory>
               <Food id="801010">
-                <heal>40</heal>
+                <Heal>40</Heal>
               </Food>
               <Key id="601010">
                 <owner_ID>null</owner_ID>
               </Key>
             </Inventory>
-            <maxItems>6</maxItems>
-            <attackPower>10</attackPower>
+            <MaxItems>6</MaxItems>
+            <AttackPower>10</AttackPower>
           </Boss>
           <Minion id="141010">
             <RoomID>0</RoomID>
             <Health>60</Health>
+            <AttackPower>8</AttackPower>
             <Inventory>
               <Food id="801011">
-                <heal>20</heal>
+                <Heal>20</Heal>
               </Food>
             </Inventory>
           </Minion>
           <Chest id="251010">
             <Inventory>
               <Food id="801012">
-                <heal>20</heal>
+                <Heal>20</Heal>
               </Food>
             </Inventory>
           </Chest>
           <Chest id="251011">
             <Inventory>
               <Food id="801013">
-                <heal>20</heal>
+                <Heal>20</Heal>
               </Food>
               <Key id="601011">
                 <owner_ID>null</owner_ID>
@@ -76,11 +77,11 @@
         <playerableInventory>
           <PlayableCharacter id="101010">
             <Direction>NORTH</Direction>
-            <attackPower>20</attackPower>
-            <health>100</health>
+            <AttackPower>20</AttackPower>
+            <Health>100</Health>
             <Inventory>
               <Food id="801014">
-                <heal>20</heal>
+                <Heal>20</Heal>
               </Food>
             </Inventory>
           </PlayableCharacter>
@@ -90,7 +91,7 @@
       <boardGrid>
         <FirstArray.length>6</FirstArray.length>
         <SecondArray.length>6</SecondArray.length>
-        <Row0>(0,0,null,null) (1,0,201010,Grass) (2,0,211110,Grass) (3,0,221010,Grass) (4,0,111010,Grass) (5,0,141010,Grass)</Row0>
+        <Row0>(0,0,null,null) (1,0,201010,Grass) (2,0,211010,Grass) (3,0,221010,Grass) (4,0,111010,Grass) (5,0,141010,Grass)</Row0>
         <Row1>(0,1,251010,Grass) (1,1,251011,Grass) (2,1,null,Grass) (3,1,null,Grass) (4,1,null,Grass) (5,1,null,Grass)</Row1>
         <Row2>(0,2,null,Grass) (1,2,null,Grass) (2,2,null,Grass) (3,2,null,Grass) (4,2,null,Grass) (5,2,null,Grass)</Row2>
         <Row3>(0,3,431010,Grass) (1,3,null,Grass) (2,3,101010,Grass) (3,3,null,Grass) (4,3,null,Grass) (5,3,null,Grass)</Row3>

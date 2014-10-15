@@ -55,7 +55,7 @@ public class LoadMasterObjects {
 			return loadHedge(element);
 		}
 		throw new XMLException("Cannot determine GameObject element!");
-	}
+	} 
 
 	private Fence loadFence(Element element) {
 		
@@ -73,7 +73,7 @@ public class LoadMasterObjects {
 		int health = Integer.parseInt(element.getChild("Health").getText());
 
 		// TODO load list of items that Boss has
-		List<GameItem> inventory = new ArrayList<GameItem>(); 
+		List<GameItem> inventory = new ArrayList<GameItem>();  
 		for (Element inventoryElement : element.getChild("Inventory")
 				.getChildren()) {
 			inventory.add((GameItem) verifyElement(inventoryElement));
@@ -119,7 +119,7 @@ public class LoadMasterObjects {
 		
 		Door door = new Door(ID, dir, currentRoom);
 		main.getDoorIDMap().put(ID, door);
-		
+		boardData.getObjStorer().addDoor(ID, door);
 		return door;
 	}
 

@@ -16,7 +16,7 @@ public class LoadingGameMain {
 	private Map<Integer, PlayableCharacter> playerIDMap = new HashMap<Integer, PlayableCharacter>();
 	private Map<Integer, Door> doorIDMap = new HashMap<Integer, Door>();
 	private boolean isLoadOldGame;
-	private LoadMasterObjects masterObjectLoader;
+	private LoadMasterObjects masterObjectLoader; 
 	private LoadingHelper helper;
 	private BoardData boardData = new BoardData();
 	private File xmlFile;
@@ -166,7 +166,7 @@ public class LoadingGameMain {
 		}
 	}
 
-	private BoardCell[][] loadRoomGrid(Element childrenElement)
+	public BoardCell[][] loadRoomGrid(Element childrenElement)
 			throws XMLException {
 
 		// get the dimensions of the boardCell array
