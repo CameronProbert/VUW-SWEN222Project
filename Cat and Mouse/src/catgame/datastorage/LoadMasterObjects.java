@@ -67,14 +67,17 @@ public class LoadMasterObjects {
 		return new Hedge(Integer.parseInt(element.getAttribute("id").getValue()));
 	}
 
-	public Boss loadBoss(Element element) {
+	public Boss loadBoss(Element element) throws XMLException {
 		int id = Integer.parseInt(element.getAttribute("id").getValue());
 
 		int health = Integer.parseInt(element.getChild("Health").getText());
 
 		// TODO load list of items that Boss has
-		List<GameItem> inventory = new ArrayList<GameItem>(); // <--- FILL THIS
-
+		List<GameItem> inventory = new ArrayList<GameItem>(); 
+		for (Element inventoryElement : element.getChild("Inventory")
+				.getChildren()) {
+			inventory.add((GameItem) verifyElement(inventoryElement));
+		}
 		int attackPower = Integer.parseInt(element.getChild("AttackPower")
 				.getText());
 		Boss boss = new Boss(id, attackPower, health, inventory);
