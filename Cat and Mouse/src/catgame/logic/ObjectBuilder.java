@@ -252,12 +252,14 @@ public class ObjectBuilder {
 	 * @param x
 	 * @param y
 	 * @param loadingRoom
+	 * @param objStore 
 	 * @return boardCell with a northern Door
 	 */
-	public BoardCell addDoorN(int x, int y, Room loadingRoom) {
+	public BoardCell addDoorN(int x, int y, Room loadingRoom, ObjectStorer objStore) {
 		int newDoorId = genorateObjectId(GameUtil.DOORN, genorateRandomObjectType(1), doorNum++);
 		Door newDoor = new Door(newDoorId, Direction.NORTH, loadingRoom);
 		loadingRoom.addToInventory(newDoor);
+		objStore.addDoor(newDoorId, newDoor);
 		return new BoardCell(new Position(x, y), newDoor, GROUNDTYPEGRASS);
 	}
 
@@ -267,12 +269,14 @@ public class ObjectBuilder {
 	 * @param x
 	 * @param y
 	 * @param loadingRoom
+	 * @param objStore 
 	 * @return boardCell with a Eastern Door
 	 */
-	public BoardCell addDoorE(int x, int y, Room loadingRoom) {
+	public BoardCell addDoorE(int x, int y, Room loadingRoom, ObjectStorer objStore) {
 		int newDoorId = genorateObjectId(GameUtil.DOORE, genorateRandomObjectType(1), doorNum++);
 		Door newDoor = new Door(newDoorId, Direction.EAST, loadingRoom);
 		loadingRoom.addToInventory(newDoor);
+		objStore.addDoor(newDoorId, newDoor);
 		return new BoardCell(new Position(x, y), newDoor, GROUNDTYPEGRASS);
 	}
 
@@ -282,12 +286,14 @@ public class ObjectBuilder {
 	 * @param x
 	 * @param y
 	 * @param loadingRoom
+	 * @param objStore 
 	 * @return boardCell with a Southern Door
 	 */
-	public BoardCell addDoorS(int x, int y, Room loadingRoom) {
+	public BoardCell addDoorS(int x, int y, Room loadingRoom, ObjectStorer objStore) {
 		int newDoorId = genorateObjectId(GameUtil.DOORS, genorateRandomObjectType(1), doorNum++);
 		Door newDoor = new Door(newDoorId, Direction.SOUTH, loadingRoom);
 		loadingRoom.addToInventory(newDoor);
+		objStore.addDoor(newDoorId, newDoor);
 		return new BoardCell(new Position(x, y), newDoor, GROUNDTYPEGRASS);
 	}
 
@@ -297,12 +303,14 @@ public class ObjectBuilder {
 	 * @param x
 	 * @param y
 	 * @param loadingRoom
+	 * @param objStore 
 	 * @return boardCell with a Western Door
 	 */
-	public BoardCell addDoorW(int x, int y, Room loadingRoom) {
+	public BoardCell addDoorW(int x, int y, Room loadingRoom, ObjectStorer objStore) {
 		int newDoorId = genorateObjectId(GameUtil.DOORW, genorateRandomObjectType(1), doorNum++);
 		Door newDoor = new Door(newDoorId, Direction.WEST, loadingRoom);
 		loadingRoom.addToInventory(newDoor);
+		objStore.addDoor(newDoorId, newDoor);
 		return new BoardCell(new Position(x, y), newDoor, GROUNDTYPEGRASS);
 	}
 

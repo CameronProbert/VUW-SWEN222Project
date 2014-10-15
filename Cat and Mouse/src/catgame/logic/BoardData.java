@@ -117,4 +117,8 @@ public class BoardData {
 		System.out.println("Cannot find Door using DoorsID :" + DoorID);
 		return null;
 	}
+	
+	public void loadLevelOne(){
+		String[] roomFiles = {"",""};
+	}
 }

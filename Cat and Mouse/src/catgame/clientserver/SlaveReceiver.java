@@ -147,11 +147,11 @@ public class SlaveReceiver {
 			}
 			
 			System.out.println("updated chests");
-
-			int noItems = input.readInt();
-
-			for(int i=0; i<noItems; i++){
-				receiver.readItem();
+			
+			int noDoors = input.readInt();
+			
+			for(int i=0; i<noDoors; i++){
+				receiver.readDoor();
 			}
 			System.out.println("\n\nfinished reading update\n\n");
 
