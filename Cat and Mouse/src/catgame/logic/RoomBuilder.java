@@ -106,19 +106,19 @@ public class RoomBuilder {
 						board[y][x] = objBuilder.addMinionOne(x, y, loadingRoom, objStore);
 						break;
 					case GameUtil.DOORN + "":
-						board[y][x] = objBuilder.addDoorN(x, y, loadingRoom);
+						board[y][x] = objBuilder.addDoorN(x, y, loadingRoom, objStore);
 						loadingRoom.addToDoorsLocation(board[y][x].getObjectOnCell().getObjectID(), board[y][x]);
 						break;
 					case GameUtil.DOORE + "":
-						board[y][x] = objBuilder.addDoorE(x, y, loadingRoom);
+						board[y][x] = objBuilder.addDoorE(x, y, loadingRoom, objStore);
 						loadingRoom.addToDoorsLocation(board[y][x].getObjectOnCell().getObjectID(), board[y][x]);
 						break;
 					case GameUtil.DOORS + "":
-						board[y][x] = objBuilder.addDoorS(x, y, loadingRoom);
+						board[y][x] = objBuilder.addDoorS(x, y, loadingRoom, objStore);
 						loadingRoom.addToDoorsLocation(board[y][x].getObjectOnCell().getObjectID(), board[y][x]);
 						break;
 					case GameUtil.DOORW + "":
-						board[y][x] = objBuilder.addDoorW(x, y, loadingRoom);
+						board[y][x] = objBuilder.addDoorW(x, y, loadingRoom, objStore);
 						loadingRoom.addToDoorsLocation(board[y][x].getObjectOnCell().getObjectID(), board[y][x]);
 						break;
 					case GameUtil.HEDGEL + "":
