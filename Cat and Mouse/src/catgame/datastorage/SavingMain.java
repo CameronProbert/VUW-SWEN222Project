@@ -14,6 +14,16 @@ import org.jdom2.output.XMLOutputter;
 import catgame.gameObjects.*;
 import catgame.logic.*;
 
+/**
+ * Main class to save the whole game. Needs a boardData and a file to write to.
+ * We are using JDOM v2.0.5 from http://www.jdom.org/ Firstly looks at each room
+ * in BoardData, and writes the room inventory then room grid. Whenever a door
+ * is saved its link is also saved to a map. Once a room is finished writing to
+ * file, we write another element saving all the door links.
+ * 
+ * @author MIla
+ *
+ */
 public class SavingMain {
 	private SavingMasterObjects masterObj;
 	private SavingHelper helper;
@@ -29,7 +39,7 @@ public class SavingMain {
 		this.xmlFile = xmlFile;
 		this.boardData = boardData;
 		this.document = new Document();
-		this.root = new Element("CatGame"); 
+		this.root = new Element("CatGame");
 		document.setRootElement(root);
 		write();
 	}
@@ -45,7 +55,7 @@ public class SavingMain {
 		// Outputting xml file
 		XMLOutputter xmlOutputter = new XMLOutputter(
 				org.jdom2.output.Format.getPrettyFormat());
-		//File temp = new File("RoomBuilder_01.xml");
+		// File temp = new File("RoomBuilder_01.xml");
 		xmlOutputter.output(document, new FileOutputStream(xmlFile));
 	}
 
@@ -67,12 +77,10 @@ public class SavingMain {
 				boardDataElement.addContent(writeRoom(boardDataRooms.get(id),
 						boardDataRooms.get(id).getRoomID()));
 			} catch (XMLException e) {
-				// TODO Auto-generated catch block
+
 				e.printStackTrace();
 			}
 		}
-
-		// boardDataElement.addContent(writeDoorsLinks());
 
 		return boardDataElement;
 	}
@@ -123,7 +131,8 @@ public class SavingMain {
 
 		// make empty doorLinks Map
 		this.doorLinks = new HashMap<Integer, Integer>();
-		System.out.println("Room inventory size: " + room.getRoomInventory().size());
+		System.out.println("Room inventory size: "
+				+ room.getRoomInventory().size());
 		for (GameObject gameobj : room.getRoomInventory()) {
 			// Save all the objects that are ONLY playable character
 			if (gameobj instanceof PlayableCharacter) {
@@ -135,10 +144,10 @@ public class SavingMain {
 		}
 		if (gameObjectsList.isEmpty()) {
 			throw new XMLException("gameObjectsList is empty");
-		} 
-//		else if (playersInRoomList.isEmpty()) {
-//			throw new XMLException("playersInRoomList is empty");
-//		}
+		}
+		// else if (playersInRoomList.isEmpty()) {
+		// throw new XMLException("playersInRoomList is empty");
+		// }
 		Element roomInventoryElement = new Element("Inventory");
 		Element nonplayerableObjectsElement = new Element(
 				"non-playerableInventory");
@@ -161,19 +170,21 @@ public class SavingMain {
 		// add door links to roomElement
 		roomElement.addContent(writeDoorsLinks());
 		// ----------------------------------------------------------------
-		
+
 		// ------------ RoomGrid ------------
-		roomElement.addContent(writeRoomGrid(room)); // add roomGrid to roomElement
+		roomElement.addContent(writeRoomGrid(room)); // add roomGrid to
+														// roomElement
 		// ----------------------------------------------------------------
 
 		return roomElement;
 	}
-	
-	public Element writeRoomGrid(Room room) throws XMLException{
-		if(room == null){
-			throw new XMLException("Room passed in is null when making roomGrid");
+
+	public Element writeRoomGrid(Room room) throws XMLException {
+		if (room == null) {
+			throw new XMLException(
+					"Room passed in is null when making roomGrid");
 		}
-		// ------------ RoomGrid  Saving------------
+		// ------------ RoomGrid Saving------------
 		BoardCell[][] roomGrid = room.getBoardGrid();
 		Element boardGrid = new Element("boardGrid");
 		// save the size of the 2D roomgrid array
@@ -198,15 +209,16 @@ public class SavingMain {
 			boardGrid.addContent(rowBoardCellElement);
 		}
 		return boardGrid;
-	} 
+	}
 
 	public SavingHelper getHelper() {
 		return helper;
 	}
 
-	public SavingMasterObjects getSavingMasterObj(){
+	public SavingMasterObjects getSavingMasterObj() {
 		return masterObj;
 	}
+
 	public File getXMLFile() {
 		return xmlFile;
 	}
@@ -227,8 +239,8 @@ public class SavingMain {
 			IOException {
 		BoardData gameData = new BoardData();
 		gameData.loadLevelOne();
-		
-		if(gameData.getAllRooms().isEmpty()) {
+
+		if (gameData.getAllRooms().isEmpty()) {
 			System.out.println("room list is empty");
 		} else if (gameData.getAllRooms().get(0).getRoomInventory().isEmpty()) {
 			System.out.println("room's inventory is empty");

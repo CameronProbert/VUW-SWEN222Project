@@ -11,8 +11,11 @@ import org.jdom2.*;
 
 import catgame.logic.*;
 import catgame.gameObjects.*;
+
 /**
- * Main testing class for data storage. It sets up the loading and saving classes as well as make a test game. 
+ * Main testing class for data storage. It sets up the loading and saving
+ * classes as well as make a test game.
+ * 
  * @author MIla
  * 
  *
@@ -42,10 +45,11 @@ public class DataStorageTesting {
 
 	/**
 	 * Creates all the saving classes with a temp xml file to read to
+	 * 
 	 * @throws IOException
 	 */
 	public void setUpSaving() throws IOException {
-		this.testingXML = new File("testing_01.xml"); 
+		this.testingXML = new File("testing_01.xml");
 		this.savingMain = new SavingMain(boardData, testingXML);
 		testingXML = savingMain.getXMLFile();
 		this.savingMasterObj = savingMain.getSavingMasterObj();
@@ -54,6 +58,7 @@ public class DataStorageTesting {
 
 	/**
 	 * Creates all the loading classes.
+	 * 
 	 * @throws JDOMException
 	 * @throws XMLException
 	 */
@@ -64,7 +69,7 @@ public class DataStorageTesting {
 	}
 
 	/**
-	 * Makes the test game. 
+	 * Makes the test game.
 	 */
 	public void makeTestRoom() {
 		this.boardData = new BoardData();
@@ -114,12 +119,10 @@ public class DataStorageTesting {
 					if (loadedGrid[y][x].getObjectOnCell() == null) {
 						assertTrue(roomGrid[y][x].getObjectOnCell() == loadedGrid[y][x]
 								.getObjectOnCell());
-					}
-					else{
+					} else {
 						fail();
 					}
-				}
-				else {
+				} else {
 					assertTrue(roomGrid[y][x].getObjectOnCell().getObjectID() == loadedGrid[y][x]
 							.getObjectOnCell().getObjectID());
 				}
@@ -133,14 +136,14 @@ public class DataStorageTesting {
 		}
 		assertFalse(savingException == null); // exception should be thrown
 	}
-	
+
 	@Test
-	public void testRoom(){
+	public void testRoom() {
 		Room room = boardData.getAllRooms().get(0);
 		Throwable exception = null;
 		Element saveRoomElement = null;
 		try {
-			 saveRoomElement = savingMain.writeRoom(room, 0);
+			saveRoomElement = savingMain.writeRoom(room, 0);
 		} catch (XMLException e) {
 			exception = e;
 			fail();
@@ -155,13 +158,12 @@ public class DataStorageTesting {
 		}
 		assertFalse(loadedRoom == null);
 		assertEquals("Room Id's ", room.getRoomID(), loadedRoom.getRoomID());
-		assertEquals("Room inventory size", room.getRoomInventory().size(), loadedRoom.getRoomInventory().size());
+		assertEquals("Room inventory size", room.getRoomInventory().size(),
+				loadedRoom.getRoomInventory().size());
 	}
-	
-	
 
 	public SavingMain getSavingMain() {
-		return savingMain; 
+		return savingMain;
 	}
 
 	public SavingMasterObjects getSavingMasterObj() {

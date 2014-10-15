@@ -14,6 +14,18 @@ import java.util.*;
 
 import javax.imageio.ImageIO;
 
+/**
+ * Main loading class for reading the xml file and loading up a game. We are
+ * using JDOM v2.0.5 from http://www.jdom.org/ The loading is similar style to
+ * saving. We make a boarddata first then make all the rooms. All the rooms load
+ * their inventory and boardgrid. If we are loading a new game, we load from a
+ * standard starting game xml file (which doesn't load the playable character
+ * until the end). But if we are loading an old game from a save, we simply load
+ * it without complicated conditions.
+ * 
+ * @author MIla
+ *
+ */
 public class LoadingGameMain {
 	private Map<Integer, MasterObject> objectIDMap = new HashMap<Integer, MasterObject>();
 	private Map<Integer, Room> roomIDMap = new HashMap<Integer, Room>();
@@ -113,14 +125,18 @@ public class LoadingGameMain {
 		if (roomElement == null) {
 			throw new XMLException("roomElement is null");
 		}
+		// get room id
 		int id = Integer.parseInt(roomElement.getAttribute("id").getValue());
 		Room room = addRoomToMap(id);
+		// create room inventory
 		createRoomInventory(roomElement.getChildren().get(0), room);
 		linkAllDoors(roomElement.getChildren().get(1));
+		// create boardgrid
 		room.loadBoardCellToRoom(loadRoomGrid(roomElement.getChildren().get(2)));
+		// at this stage, the doors are all made, so we now link them
 		helper.populateDoorLocationMap(room);
-		// TODO fix door links on dans side
 		if (isLoadOldGame) {
+			// Once the players are created, update their location on map
 			helper.populatePlayerLocationMap(room);
 		}
 
@@ -128,6 +144,11 @@ public class LoadingGameMain {
 	}
 
 	// 192.168.20.107
+	/**
+	 * 
+	 * @param element
+	 * @throws XMLException
+	 */
 	private void linkAllDoors(Element element) throws XMLException {
 		// <DoorLinks>(431010,null) (431011,null) (421013,null)
 		// (411012,null)</DoorLinks>
@@ -179,6 +200,7 @@ public class LoadingGameMain {
 					MasterObject inventoryObj = masterObjectLoader
 							.verifyElement(nonPlayerableObj);
 					addObjectToMap(inventoryObj);
+					// Add object to room inventory
 					if (inventoryObj instanceof GameObject) {
 						room.addToInventory((GameObject) inventoryObj);
 					}
@@ -209,7 +231,8 @@ public class LoadingGameMain {
 	}
 
 	/**
-	 * Makes the room's board grid. 
+	 * Makes the room's board grid.
+	 * 
 	 * @param childrenElement
 	 * @return BoardCell[][] roomGrid
 	 * @throws XMLException
@@ -227,7 +250,7 @@ public class LoadingGameMain {
 		// Start dealing with boardCell info stored in elements
 		// Get the element's text containing all the info and split
 		// the string into an array, "wholeElementArray". Each String value
-		// in this array is in format (x,y,ID,groundType) representing info 
+		// in this array is in format (x,y,ID,groundType) representing info
 		// to make each BoardCell. Once each BoardCell is created,
 		// it is saved in the new boardCell[][] which is then returned
 		for (int y = 0; y < firstArrayLength; y++) {
@@ -247,7 +270,7 @@ public class LoadingGameMain {
 				// use helper method to parse string of (x,y,ID,groundType)
 				// and make new BoardCells
 				// System.out.println("Calling helper method on string: "
-				// + wholeElementArray[x]); 
+				// + wholeElementArray[x]);
 				boardCell[y][x] = helper.loadBoardCell(wholeElementArray[x]);
 			}
 		}
@@ -255,7 +278,8 @@ public class LoadingGameMain {
 	}
 
 	/**
-	 * Adds a room and it's ID to map 
+	 * Adds a room and it's ID to map
+	 * 
 	 * @param ID
 	 * @return
 	 */
@@ -267,7 +291,8 @@ public class LoadingGameMain {
 	}
 
 	/**
-	 * Adds a gameObject and it's ID to map 
+	 * Adds a gameObject and it's ID to map
+	 * 
 	 * @param inventoryObj
 	 * @throws XMLException
 	 */
@@ -279,7 +304,8 @@ public class LoadingGameMain {
 	}
 
 	/**
-	 * Adds a player and it's ID to map 
+	 * Adds a player and it's ID to map
+	 * 
 	 * @param obj
 	 */
 	public void addPlayerToMap(PlayableCharacter obj) {

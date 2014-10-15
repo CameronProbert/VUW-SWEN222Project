@@ -14,16 +14,30 @@ import org.jdom2.output.XMLOutputter;
 
 import catgame.gameObjects.*;
 
+/**
+ * Writes MasterObjects of the game to an xml file. Each MasterObject needs
+ * different things to save to the xml. We are using JDOM v2.0.5 from
+ * http://www.jdom.org/
+ * 
+ * @author MIla
+ *
+ */
 public class SavingMasterObjects {
 	private SavingMain main;
 	private SavingHelper helper;
-	
 
 	public SavingMasterObjects(SavingMain main) {
 		this.main = main;
 		this.helper = new SavingHelper(main, this);
 	}
 
+	/**
+	 * Writes Boss information to xml
+	 * 
+	 * @param obj
+	 * @return Element 
+	 * @throws XMLException
+	 */
 	public Element writeBoss(MasterObject obj) throws XMLException {
 		Boss boss = (Boss) obj;
 		Element bossElement = new Element("Boss");
@@ -36,15 +50,26 @@ public class SavingMasterObjects {
 				+ boss.getAttackPower()));
 
 		return bossElement;
-	} 
+	}
 
+	/**
+	 *  Writes Bush information to xml
+	 * @param 
+	 * @return Element
+	 */
 	public Element writeBush(MasterObject obj) {
 		Bush bush = (Bush) obj;
 		Element bushElement = new Element("Bush");
 		bushElement.setAttribute(new Attribute("id", "" + bush.getObjectID()));
-		return bushElement; 
+		return bushElement;
 	}
 
+	/**
+	 *  Writes Chest information to xml
+	 * @param obj
+	 * @return Element
+	 * @throws XMLException
+	 */
 	public Element writeChest(MasterObject obj) throws XMLException {
 		Chest chest = (Chest) obj;
 		Element chestElement = new Element("Chest");
@@ -54,31 +79,40 @@ public class SavingMasterObjects {
 		return chestElement;
 	}
 
+	/**
+	 *  Writes Door information to xml
+	 * @param obj
+	 * @return Element
+	 */
 	public Element writeDoor(MasterObject obj) {
 		Door door = (Door) obj;
 		Element doorElement = new Element("Door");
 		doorElement.setAttribute(new Attribute("id", "" + door.getObjectID()));
-		doorElement.addContent(new Element("Direction").setText(door.getDoorsWallEdge().name()));
-		doorElement.addContent(new Element("RoomID").setText("" + door.getRoom().getRoomID()));
+		doorElement.addContent(new Element("Direction").setText(door
+				.getDoorsWallEdge().name()));
+		doorElement.addContent(new Element("RoomID").setText(""
+				+ door.getRoom().getRoomID()));
 		Element doorEntranceElement = new Element("EntranceDoor");
-		if(door.enterDoor() == null){
+		if (door.enterDoor() == null) {
 			doorEntranceElement.setText("null");
 			main.getDoorLinksMap().put(door.getObjectID(), null);
-		}
-		else{
+		} else {
 			doorEntranceElement.setText("" + door.enterDoor().getObjectID());
-			main
-			.getDoorLinksMap().
-			put(door.getObjectID(), door
-					.enterDoor()
-					.getObjectID());
+			main.getDoorLinksMap().put(door.getObjectID(),
+					door.enterDoor().getObjectID());
 		}
 		doorElement.addContent(doorEntranceElement);
-		doorElement.addContent(new Element("isLocked").setText("" + door.getIsLocked()));
-		
+		doorElement.addContent(new Element("isLocked").setText(""
+				+ door.getIsLocked()));
+
 		return doorElement;
 	}
 
+	/**
+	 *  Writes Food information to xml
+	 * @param obj
+	 * @return Element
+	 */
 	public Element writeFood(MasterObject obj) {
 		Food food = (Food) obj;
 		Element foodElement = new Element("Food");
@@ -89,6 +123,11 @@ public class SavingMasterObjects {
 		return foodElement;
 	}
 
+	/**
+	 *  Writes Key information to xml
+	 * @param obj
+	 * @return Element
+	 */
 	public Element writeKey(MasterObject obj) {
 		Key key = (Key) obj;
 		Element keyElement = new Element("Key");
@@ -104,6 +143,12 @@ public class SavingMasterObjects {
 		return keyElement;
 	}
 
+	/**
+	 *  Writes Minion information to xml
+	 * @param obj
+	 * @return Element
+	 * @throws XMLException
+	 */
 	public Element writeMinion(MasterObject obj) throws XMLException {
 		Minion minion = (Minion) obj;
 		Element minionElement = new Element("Minion");
@@ -120,6 +165,11 @@ public class SavingMasterObjects {
 		return minionElement;
 	}
 
+	/**
+	 *  Writes Rock information to xml
+	 * @param obj
+	 * @return Element
+	 */
 	public Element writeRock(MasterObject obj) {
 		Rock rock = (Rock) obj;
 		Element rockElement = new Element("Rock");
@@ -128,6 +178,11 @@ public class SavingMasterObjects {
 		return rockElement;
 	}
 
+	/**
+	 *  Writes Tree information to xml
+	 * @param obj
+	 * @return Element
+	 */
 	public Element writeTree(MasterObject obj) {
 		Tree tree = (Tree) obj;
 		Element treeElement = new Element("Tree");
@@ -136,6 +191,12 @@ public class SavingMasterObjects {
 		return treeElement;
 	}
 
+	/**
+	 *  Writes PlayableCharacter information to xml
+	 * @param obj
+	 * @return Element
+	 * @throws XMLException
+	 */
 	public Element writePlayableCharacter(MasterObject obj) throws XMLException {
 		PlayableCharacter character = (PlayableCharacter) obj;
 		Element characterElement = new Element("PlayableCharacter");
@@ -166,19 +227,31 @@ public class SavingMasterObjects {
 		return characterElement;
 	}
 
+	/**
+	 *  Writes Fence information to xml
+	 * @param obj
+	 * @return Element
+	 */
 	public Element writeFence(MasterObject obj) {
 		Fence fence = (Fence) obj;
 		Element fenceElement = new Element("Fence");
-		fenceElement.setAttribute(new Attribute("id", "" + fence.getObjectID()));
+		fenceElement
+				.setAttribute(new Attribute("id", "" + fence.getObjectID()));
 		return fenceElement;
 	}
 
+	/**
+	 *  Writes Hedge information to xml
+	 * @param obj
+	 * @return Element
+	 */
 	public Element writeHedge(MasterObject obj) {
 		Hedge hedge = (Hedge) obj;
 		Element hedgeElement = new Element("Hedge");
-		hedgeElement.setAttribute(new Attribute("id", "" + hedge.getObjectID()));
-		
-		return hedgeElement; 
+		hedgeElement
+				.setAttribute(new Attribute("id", "" + hedge.getObjectID()));
+
+		return hedgeElement;
 	}
 
 }

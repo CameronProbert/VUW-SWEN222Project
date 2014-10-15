@@ -7,6 +7,13 @@ import org.jdom2.Element;
 import catgame.gameObjects.*;
 import catgame.logic.BoardCell;
 
+/**
+ * Helper class for saving xml files. Holds methods which are used by several
+ * saving classes.
+ * 
+ * @author MIla
+ *
+ */
 public class SavingHelper {
 	private SavingMain main;
 	private SavingMasterObjects masterObj;
@@ -16,57 +23,61 @@ public class SavingHelper {
 		this.masterObj = masterObj;
 	}
 
+	/**
+	 * Determines what kind of game object is passed through and calls
+	 * appropriate method to write that game object to xml
+	 * 
+	 * @param obj
+	 * @return
+	 * @throws XMLException
+	 */
 	public Element writeMasterObject(MasterObject obj) throws XMLException {
-		if(obj == null){
+		if (obj == null) {
 			throw new XMLException("obj is null");
 		}
 		if (obj instanceof Boss) {
 			return masterObj.writeBoss(obj);
-		}
-		else if (obj instanceof Bush) {
+		} else if (obj instanceof Bush) {
 			return masterObj.writeBush(obj);
-		}
-		else if (obj instanceof Door) {
+		} else if (obj instanceof Door) {
 			return masterObj.writeDoor(obj);
-		}
-		else if (obj instanceof Fence) {
+		} else if (obj instanceof Fence) {
 			return masterObj.writeFence(obj);
-		}
-		else if (obj instanceof Hedge) {
+		} else if (obj instanceof Hedge) {
 			return masterObj.writeHedge(obj);
-		}
-		else if (obj instanceof Key) {
+		} else if (obj instanceof Key) {
 			return masterObj.writeKey(obj);
-		}
-		else if (obj instanceof Minion) {
+		} else if (obj instanceof Minion) {
 			return masterObj.writeMinion(obj);
-		}
-		else if (obj instanceof Chest) {
+		} else if (obj instanceof Chest) {
 			return masterObj.writeChest(obj);
-		}
-		else if (obj instanceof Food) {
+		} else if (obj instanceof Food) {
 			return masterObj.writeFood(obj);
-		}
-		else if (obj instanceof Fence) {
+		} else if (obj instanceof Fence) {
 			return masterObj.writeFence(obj);
-		}
-		else if (obj instanceof PlayableCharacter) {
+		} else if (obj instanceof PlayableCharacter) {
 			return masterObj.writePlayableCharacter(obj);
 		}
-		
+
 		else if (obj instanceof Minion) {
 			return masterObj.writeMinion(obj);
-		}
-		else if (obj instanceof Rock) {
+		} else if (obj instanceof Rock) {
 			return masterObj.writeRock(obj);
-		}
-		else if (obj instanceof Tree) {
+		} else if (obj instanceof Tree) {
 			return masterObj.writeTree(obj);
 		}
-		
+
 		throw new XMLException("Cannot find MasterObject type");
 	}
 
+	/**
+	 * Makes an inventory of game objects for game objects like
+	 * PlayableCharacter.
+	 * 
+	 * @param list
+	 * @return
+	 * @throws XMLException
+	 */
 	public Element makeInventory(List<GameItem> list) throws XMLException {
 		Element inventoryList = new Element("Inventory");
 		for (GameItem item : list) {

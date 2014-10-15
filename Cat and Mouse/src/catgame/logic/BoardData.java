@@ -31,6 +31,7 @@ public class BoardData {
 
 	/**
 	 * Add a room to the roomLevels
+	 * 
 	 * @return
 	 */
 	public boolean addRoomToLevel(Room room) {
@@ -67,6 +68,7 @@ public class BoardData {
 	public ObjectStorer getObjStorer() {
 		return objStorer;
 	}
+
 	/**
 	 * Loads the test room for testing the game
 	 */
@@ -75,7 +77,7 @@ public class BoardData {
 		addRoom(testRoom.loadRoom("SwenProjectRoomTestOne.csv"));
 		TESTattachDoors();
 	}
-	
+
 	/**
 	 * Attaches all of the doors in the test room
 	 */
@@ -105,12 +107,14 @@ public class BoardData {
 				doorsExitRoom = getDoorsRoom(doorsList.get(i + direction));
 			}
 			// we now have both doors and their rooms
-			Door currentDoor = ((Door) doorsRoom.getDoorsLocation().get(doorsList.get(i)).getObjectOnCell());
-			Door exit = (Door) doorsExitRoom.getDoorsLocation().get(doorsList.get(i + direction)).getObjectOnCell();
+			Door currentDoor = ((Door) doorsRoom.getDoorsLocation()
+					.get(doorsList.get(i)).getObjectOnCell());
+			Door exit = (Door) doorsExitRoom.getDoorsLocation()
+					.get(doorsList.get(i + direction)).getObjectOnCell();
 			currentDoor.addOtherSide(exit, doorsList.get(i + 1));
-		} 
+		}
 	}
-	
+
 	/**
 	 * 
 	 * @param DoorID
@@ -138,9 +142,9 @@ public class BoardData {
 		}
 		attachDoorsForLevelOne();
 	}
-	
+
 	/**
-	 * Attaches all of the doors in the firstLevel 
+	 * Attaches all of the doors in the firstLevel
 	 */
 	public void attachDoorsForLevelOne() {
 		List<Integer> doorsList = new ArrayList<Integer>();
@@ -168,8 +172,10 @@ public class BoardData {
 				doorsExitRoom = getDoorsRoom(doorsList.get(i + direction));
 			}
 			// we now have both doors and their rooms
-			Door currentDoor = ((Door) doorsRoom.getDoorsLocation().get(doorsList.get(i)).getObjectOnCell());
-			Door exit = (Door) doorsExitRoom.getDoorsLocation().get(doorsList.get(i + direction)).getObjectOnCell();
+			Door currentDoor = ((Door) doorsRoom.getDoorsLocation()
+					.get(doorsList.get(i)).getObjectOnCell());
+			Door exit = (Door) doorsExitRoom.getDoorsLocation()
+					.get(doorsList.get(i + direction)).getObjectOnCell();
 			currentDoor.addOtherSide(exit, doorsList.get(i + 1));
 		}
 	}

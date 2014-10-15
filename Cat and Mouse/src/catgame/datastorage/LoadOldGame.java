@@ -1,13 +1,21 @@
 package catgame.datastorage;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
+
+
 
 import org.jdom2.JDOMException;
 
 import catgame.logic.BoardData;
 
+/**
+ * Loads an old game from a previous save. When an old game is run, it reads the
+ * standard starting xml file INCLUDING the players that might be in the xml
+ * file.
+ * 
+ * @author MIla
+ *
+ */
 public class LoadOldGame {
 
 	private BoardData boardData;
@@ -21,9 +29,9 @@ public class LoadOldGame {
 	}
 
 	public BoardData getBoardData() {
-		return boardData; 
+		return boardData;
 	}
-	
+
 	public static void main(String[] args) throws JDOMException, XMLException {
 		new LoadOldGame(new File("TestingMultiple.xml"));
 	}

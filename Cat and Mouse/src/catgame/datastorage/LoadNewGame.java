@@ -42,6 +42,12 @@ public class LoadNewGame {
 		loadCharacters();
 	}
 
+	/**
+	 * Creates PlayableCharacters with unique IDs (passed through from
+	 * client/server) and added them to the game.
+	 * 
+	 * @throws XMLException
+	 */
 	public void loadCharacters() throws XMLException {
 		Room room = loaderMain.getRoomIDMap().get(0);
 		for (int i = 0; i < playerIDList.size(); i++) {

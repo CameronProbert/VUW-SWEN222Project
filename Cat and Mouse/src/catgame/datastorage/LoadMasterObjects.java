@@ -9,6 +9,12 @@ import catgame.logic.GameUtil.Direction;
 
 import org.jdom2.*;
 
+/**
+ * Loads all MasterObjects from xml file.
+ * 
+ * @author MIla
+ *
+ */
 public class LoadMasterObjects {
 	private LoadingGameMain main;
 	private BoardData boardData;

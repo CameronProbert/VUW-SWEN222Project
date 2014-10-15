@@ -11,6 +11,13 @@ import java.io.File;
 import java.io.IOException;
 import java.util.*;
 
+/**
+ * Helper class for loading xml files. Holds methods which are used by several
+ * loading classes.
+ * 
+ * @author MIla
+ *
+ */
 public class LoadingHelper {
 	LoadingGameMain main;
 	boolean isOldGame;
@@ -20,6 +27,21 @@ public class LoadingHelper {
 		this.isOldGame = isOldGame;
 	}
 
+	/**
+	 * Creates a boardcell from an element string parsing. Looks up in the
+	 * Object ID map (previously loaded game objects) to find the object that is
+	 * supposed to be on that cell. NOTE: if we are looking for an object ID
+	 * starting with "10" it is a PlayableCharacter which means we have to see
+	 * if we are loading an old game or a new game. If we are loading an old
+	 * game, then we place the player on that cell. But if we are loading a new
+	 * game, we place null on that cell for now. Later when the xml file is
+	 * finished reading for a new game, we make new PlayableCharacter and put
+	 * them on the cell.
+	 * 
+	 * @param boardString
+	 * @return
+	 * @throws XMLException
+	 */
 	public BoardCell loadBoardCell(String boardString) throws XMLException {
 		// boardString format: (x,y,ID,groundType)
 		// remove the brackets
@@ -32,12 +54,11 @@ public class LoadingHelper {
 		Position position = new Position(x, y);
 		GameObject ObjectID = null;
 		if (!boardInfoArray[2].equals("null")) {
-			if(checkPlayerID(boardInfoArray[2]) == 10){
-				if(isOldGame){
+			if (checkPlayerID(boardInfoArray[2]) == 10) {
+				if (isOldGame) {
 					int ID = Integer.parseInt(boardInfoArray[2]);
 					if (main.getObjectIDMap().containsKey(ID)) {
 						ObjectID = (GameObject) main.getObjectIDMap().get(ID);
-						// System.out.println("Found object ID: " + ID);
 					} else {
 						throw new XMLException(
 								"Cannot find GameObject_"
@@ -45,12 +66,10 @@ public class LoadingHelper {
 										+ " that is supposed to be already made in the room. Cannot make BoardCell without this!");
 					}
 				}
-			}
-			else{
+			} else {
 				int ID = Integer.parseInt(boardInfoArray[2]);
 				if (main.getObjectIDMap().containsKey(ID)) {
 					ObjectID = (GameObject) main.getObjectIDMap().get(ID);
-					// System.out.println("Found object ID: " + ID);
 				} else {
 					throw new XMLException(
 							"Cannot find GameObject_"
@@ -58,25 +77,27 @@ public class LoadingHelper {
 									+ " that is supposed to be already made in the room. Cannot make BoardCell without this!");
 				}
 			}
-			
 
 		}
 		String groundType = null;
 		if (!boardInfoArray[3].equals("null")) {
 			groundType = boardInfoArray[3];
 		}
-		// System.out.println("GroundType is: " + groundType);
 		return new BoardCell(position, ObjectID, groundType);
 	}
 
+	/**
+	 * Helper method to return the first two digits of a game object ID
+	 * 
+	 * @param loadingString
+	 * @return
+	 */
 	public Integer checkPlayerID(String loadingString) {
 		// input: "101010"
 		String temp = loadingString.substring(0, 2);
 		int id = Integer.parseInt(temp);
 		return id;
 	}
-
-	// public void addPlayerToRoom(Room room, )
 
 	/**
 	 * Main just for quick testing for parsing strings. This will be removed in
