@@ -46,12 +46,10 @@ public class PanelStat extends PanelAbstract {
 	public void addMinimap(GameRunner runner) {
 		this.runner = runner;
 		margin = (int) (this.getWidth()*MARGINPERCENT);
-		System.out.println("Adding minimap");
 		map = new PanelMinimap(character, runner);
 		
 		// Set the size of the mini-map
 		int mapSize = this.getWidth()-margin*2;
-		System.out.println(mapSize);
 		Dimension mapDim = new Dimension(mapSize, mapSize);
 		map.setSize(mapDim);
 		map.setPreferredSize(mapDim);
@@ -59,7 +57,6 @@ public class PanelStat extends PanelAbstract {
 		// Set the placement of the mini-map
 		int mapX = margin;
 		int mapY = this.getHeight()-mapSize-margin*2;
-		System.out.println(mapX + ":" + mapY);
 		map.setLocation(mapX, mapY);
 		
 		this.add(map);

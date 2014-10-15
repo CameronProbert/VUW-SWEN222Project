@@ -271,17 +271,6 @@ public class FrameClient extends FrameAbstract implements KeyListener {
 	 * Sets the frame to this size.
 	 */
 	private void setDimensions() {
-		// Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-		// if (screenSize == null) {
-		// System.out.println("screenSize is null");
-		// }
-		// System.out.println(screenSize.getHeight());
-		// int windowHeight = (int) (screenSize.getHeight() *
-		// FRAMEHEIGHTMODIFIER);
-		// int windowWidth = (int) (windowHeight * ASPECTRATIO);
-		// System.out.printf("Width: %d | Height: %d", windowWidth,
-		// windowHeight);
-		// windowSize = new Dimension(windowWidth, windowHeight);
 		windowSize = new Dimension(FRAMEWIDTH, FRAMEHEIGHT);
 		this.setSize(windowSize);
 		this.setPreferredSize(windowSize);
@@ -333,8 +322,6 @@ public class FrameClient extends FrameAbstract implements KeyListener {
 		}
 		Room currentRoom = runner.getBoardData().getGameUtil()
 				.findPlayersRoom(clientsUID);
-		if (currentRoom == null)
-			System.out.println("currentRoom is null");
 		renderPanel = new PanelRender(windowSize, runner.getBoardData()
 				.getGameUtil(), currentRoom);
 		this.add(renderPanel);
@@ -345,7 +332,6 @@ public class FrameClient extends FrameAbstract implements KeyListener {
 	 */
 	@Override
 	public void keyPressed(KeyEvent key) {
-		System.out.printf("Client ID: %d", clientsUID);
 		if (slaveR != null && !slaveR.isReady())
 			return;
 		if (this.state.equals("paused"))
@@ -470,19 +456,13 @@ public class FrameClient extends FrameAbstract implements KeyListener {
 			break;
 		}
 		if (validAction > 0 && isClient) {
-			 slave.sendUpdate(up);
+			slave.sendUpdate(up);
 		}
-		System.out.printf("VALIDACTION: %d", validAction);
-		if (invPanel != null) {
-			invPanel.resetInvItems();
-		} else {
-			System.out.println("invPanel is null");
-		}
+		invPanel.resetInvItems();
 		repaint();
 	}
 
 	public void itemUsed(GameItem item) {
-		System.out.println("Inside frameClient itemUsed");
 		int validAction = 0;
 		Update up = Update.noUpdate;
 		validAction = runner.getBoardData().getGameUtil()
@@ -490,7 +470,7 @@ public class FrameClient extends FrameAbstract implements KeyListener {
 		up = new Update(Update.Descriptor.CONSUME, clientsUID,
 				item.getObjectID());
 		if (validAction > 0 && isClient) {
-			 slave.sendUpdate(up);
+			slave.sendUpdate(up);
 		}
 		System.out.println("Valid Action = " + validAction);
 		if (validAction > 0) {
