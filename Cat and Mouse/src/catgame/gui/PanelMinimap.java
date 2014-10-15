@@ -21,6 +21,7 @@ import catgame.gameObjects.Rock;
 import catgame.gameObjects.Tree;
 import catgame.gamestarting.GameRunner;
 import catgame.logic.BoardCell;
+import catgame.logic.GameUtil.Direction;
 import catgame.logic.Room;
 
 public class PanelMinimap extends PanelAbstract {
@@ -65,6 +66,8 @@ public class PanelMinimap extends PanelAbstract {
 		System.out.println(this.getWidth() + "/" + highestNum + "=" + sqSize);
 		int startX = centreX - (sqSize * numWidth) / 2;
 		int startY = centreY - (sqSize * numHeight) / 2;
+		
+		Direction dir = runner.getBoardData().getGameUtil().getViewDirection();
 
 		for (int x = 0; x < numWidth; x++) {
 			for (int y = 0; y < numHeight; y++) {
@@ -76,6 +79,23 @@ public class PanelMinimap extends PanelAbstract {
 
 				// First find colours
 				BoardCell cell = currentRoom.getBoardGrid()[x][y];
+				switch (dir) {
+				case NORTH:
+					cell = currentRoom.getBoardGrid()[x][y];
+					break;
+				case EAST:
+					cell = currentRoom.getBoardGrid()[y][numWidth-x-1];
+					break;
+				case SOUTH:
+					cell = currentRoom.getBoardGrid()[numWidth-x-1][numHeight-y-1];
+					break;
+				case WEST:
+					cell = currentRoom.getBoardGrid()[numHeight-y-1][x];
+					break;
+				default:
+					break;
+				
+				}
 				String type = cell.getGroundType();
 				if (type != null) {
 					base = GRASS;
