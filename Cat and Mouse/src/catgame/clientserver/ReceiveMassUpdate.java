@@ -9,6 +9,7 @@ import java.util.List;
 
 import catgame.gameObjects.Character;
 import catgame.gameObjects.Chest;
+import catgame.gameObjects.Door;
 import catgame.gameObjects.GameItem;
 import catgame.gameObjects.GameObject;
 import catgame.gameObjects.NonPlayableCharacter;
@@ -36,7 +37,7 @@ public class ReceiveMassUpdate {
 		this.in = input;
 		this.data = data;
 	}
-	
+
 	public void readNonPlayChar(){
 		try {
 			int objectID = in.readInt();
@@ -45,7 +46,7 @@ public class ReceiveMassUpdate {
 
 			ObjectStorer storer = data.getObjStorer();
 			NonPlayableCharacter ch = storer.findNonPlayCharacter((int)objectID);
-			
+
 			int inSize = in.readInt();
 			System.out.println("inventory size is : " +inSize);
 			int[] itemIDs = new int[(int)inSize];
@@ -84,7 +85,7 @@ public class ReceiveMassUpdate {
 
 			ObjectStorer storer = data.getObjStorer();
 			Character ch = storer.findCharacter((int)objectID);
-			
+
 			int inSize = in.readInt();
 			int[] itemIDs = new int[(int)inSize];
 			System.out.println("inventory size is : " +inSize);
@@ -121,9 +122,9 @@ public class ReceiveMassUpdate {
 			int y = in.readInt();
 			Position p = new Position(x,y);
 			int dir = in.readInt();
-			
+
 			Direction direct = Direction.NORTH;
-			
+
 			switch(dir){
 			case 0:
 				direct = Direction.NORTH;
@@ -140,28 +141,12 @@ public class ReceiveMassUpdate {
 			}
 			Room r = data.getGameUtil().findPlayersRoom(ch.getObjectID());
 			r.forcePlayerMove(ch.getObjectID(), p, direct);
-			
+
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
 
-	/**
-	 * rea in item and where it is stored - update
-	 */
-	public void readItem(){
-		try {
-			int id = in.readInt();
-			ObjectStorer storer = data.getObjStorer();
-			GameItem item = storer.findItem((int)id);
-			if(item==null){
-				throw new IDNotFoundError();
-			}
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
-	
 	/** read in chest and update loot
 	 * 
 	 */
@@ -181,6 +166,23 @@ public class ReceiveMassUpdate {
 				items.add(data.getObjStorer().findItem((int)itemID));
 			}
 			chest.updateLoot(items);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+	public void readDoor(){
+		try {
+			int id = in.readInt();
+			int isLocked = in.readInt();
+
+			Door door = data.getObjStorer().findDoor(id);
+			if(isLocked==0){
+				door.setIsLocked(true);
+			}
+			else{
+				door.setIsLocked(false);
+			}
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

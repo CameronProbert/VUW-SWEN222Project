@@ -70,23 +70,6 @@ public class SendMassUpdate {
 
 
 
-	/**
-	 * Send each game item (food key etc)
-	 * The items are updated as to who holds them as well as anything that can hold, their
-	 * inventory is updated so the back and forth link btween the objects is consistent
-	 * 
-	 * @param objectID
-	 * @param item
-	 */
-	public void sendItem(int objectID, GameItem item){
-		// TODO send the location of each item that must be held, in terms of what is the id that is holding it
-		try {
-			out.writeInt(objectID);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-
-	}
 
 	/**
 	 * Updates chests loot
@@ -105,6 +88,19 @@ public class SendMassUpdate {
 			e.printStackTrace();
 		}
 
+	}
+
+	public void sendDoor(int i, Door d) {
+		try {
+			out.writeInt(i);
+			if(d.getIsLocked()){
+				out.writeInt(0);
+			}else{
+				out.writeInt(1);
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 }
