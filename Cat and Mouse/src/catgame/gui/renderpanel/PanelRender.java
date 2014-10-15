@@ -43,7 +43,10 @@ public class PanelRender extends JPanel {
 	private Image fenceLeft1, fenceRight1;
 
 	// Cat images
-	private Image catFrontLeft1, catFrontRight1, catBackLeft1, catBackRight1;
+	private Image catFrontLeft1, catFrontRight1, catBackLeft1, catBackRight1, 
+				catFrontLeft2, catFrontRight2, catBackLeft2, catBackRight2,
+				catFrontLeft3, catFrontRight3, catBackLeft3, catBackRight3,
+				catFrontLeft4, catFrontRight4, catBackLeft4, catBackRight4;
 	
 	// Chest images
 	private Image chestFrontLeft1, chestFrontRight1, chestBackLeft1, chestBackRight1;
@@ -134,6 +137,22 @@ public class PanelRender extends JPanel {
 			catFrontRight1 = ImageIO.read(PanelRender.class.getResource("/images/CatFrontRight1.png"));
 			catBackLeft1 = ImageIO.read(PanelRender.class.getResource("/images/CatBackLeft1.png"));
 			catBackRight1 = ImageIO.read(PanelRender.class.getResource("/images/CatBackRight1.png"));
+			
+			catFrontLeft2 = ImageIO.read(PanelRender.class.getResource("/images/CatFrontLeft2.png"));
+			catFrontRight2 = ImageIO.read(PanelRender.class.getResource("/images/CatFrontRight2.png"));
+			catBackLeft2 = ImageIO.read(PanelRender.class.getResource("/images/CatBackLeft2.png"));
+			catBackRight2 = ImageIO.read(PanelRender.class.getResource("/images/CatBackRight2.png"));
+			
+			catFrontLeft3 = ImageIO.read(PanelRender.class.getResource("/images/CatFrontLeft3.png"));
+			catFrontRight3 = ImageIO.read(PanelRender.class.getResource("/images/CatFrontRight3.png"));
+			catBackLeft3 = ImageIO.read(PanelRender.class.getResource("/images/CatBackLeft3.png"));
+			catBackRight3 = ImageIO.read(PanelRender.class.getResource("/images/CatBackRight3.png"));
+			
+			catFrontLeft4 = ImageIO.read(PanelRender.class.getResource("/images/CatFrontLeft4.png"));
+			catFrontRight4 = ImageIO.read(PanelRender.class.getResource("/images/CatFrontRight4.png"));
+			catBackLeft4 = ImageIO.read(PanelRender.class.getResource("/images/CatBackLeft4.png"));
+			catBackRight4 = ImageIO.read(PanelRender.class.getResource("/images/CatBackRight4.png"));
+			
 		} catch (IOException e) {
 			System.out
 					.println("There was an issue loading image files, check file locations are correct.");
@@ -401,7 +420,41 @@ public class PanelRender extends JPanel {
 	}
 	
 	public void drawPlayableChar(Graphics g, int sendY, int sendX, int y, int x){
+		Image backRight, backLeft, frontRight, frontLeft;
 		PlayableCharacter character = (PlayableCharacter) currentRoom.getBoardGrid()[sendY][sendX].getObjectOnCell();
+		String charID = character.getObjectID()+"";
+		String charNumberID = charID.substring(4,6);
+		System.out.println("charID: " + charID);
+		System.out.println("charImageID: " + charNumberID);
+		switch (charNumberID){
+		case "10":
+			backRight = catBackRight1;
+			backLeft = catBackLeft1;
+			frontRight = catFrontRight1;
+			frontLeft = catFrontLeft1;
+			break;
+		case "11":
+			backRight = catBackRight2;
+			backLeft = catBackLeft2;
+			frontRight = catFrontRight2;
+			frontLeft = catFrontLeft2;
+			break;
+		case "12":
+			backRight = catBackRight3;
+			backLeft = catBackLeft3;
+			frontRight = catFrontRight3;
+			frontLeft = catFrontLeft3;
+			break;
+		case "13":
+			backRight = catBackRight4;
+			backLeft = catBackLeft4;
+			frontRight = catFrontRight4;
+			frontLeft = catFrontLeft4;
+			break;
+		default:
+			System.out.println("There was an error determining which player cat to draw");
+			return;
+		}
 		Direction drawDirection = directionTranslator(gUtil.getViewDirection(), character.getFacingDirection());
 		int startX = xOffset + 27;
 		int startY = yOffset - 5;
@@ -410,13 +463,13 @@ public class PanelRender extends JPanel {
 			return;
 		}			
 		switch (drawDirection) {
-		case NORTH: drawObject(g, catBackRight1, sendY, sendX, y, x, startY, startX);
+		case NORTH: drawObject(g, backRight, sendY, sendX, y, x, startY, startX);
 			break;
-		case EAST: drawObject(g, catFrontRight1, sendY, sendX, y, x, startY, startX);
+		case EAST: drawObject(g, frontRight, sendY, sendX, y, x, startY, startX);
 			break;
-		case SOUTH: drawObject(g, catFrontLeft1, sendY, sendX, y, x, startY, startX);
+		case SOUTH: drawObject(g, frontLeft, sendY, sendX, y, x, startY, startX);
 			break;
-		case WEST: drawObject(g, catBackLeft1, sendY, sendX, y, x, startY, startX);
+		case WEST: drawObject(g, backLeft, sendY, sendX, y, x, startY, startX);
 			break;
 		default: System.out.println("There was a problem drawing a character");
 		}
@@ -546,14 +599,14 @@ public class PanelRender extends JPanel {
 		switch (gUtil.getViewDirection()) {
 		case NORTH:
 			switch (objTypeID) {
-				case "40": drawObject(g, rightDoor, sendY, sendX, y, x, startRightY, startRightX);
-					break;
-				case "41": drawObject(g, leftDoor, sendY, sendX, y, x, startLeftY, startLeftX);
-					break;
-				case "42": drawObject(g, rightDoor, sendY, sendX, y, x, startRightY, startRightX);
-					break;
-				case "43": drawObject(g, leftDoor, sendY, sendX, y, x, startLeftY, startLeftX);
-					break;
+			case "40": drawObject(g, rightDoor, sendY, sendX, y, x, startRightY, startRightX);
+				break;
+			case "41": drawObject(g, leftDoor, sendY, sendX, y, x, startLeftY, startLeftX);
+				break;
+			case "42": drawObject(g, rightDoor, sendY, sendX, y, x, startRightY, startRightX);
+				break;
+			case "43": drawObject(g, leftDoor, sendY, sendX, y, x, startLeftY, startLeftX);
+				break;
 			}			
 			break;
 		case WEST:
