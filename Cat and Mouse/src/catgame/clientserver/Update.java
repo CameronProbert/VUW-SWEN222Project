@@ -17,8 +17,8 @@ public class Update {
 	private int inst;
 	private int playerID;
 	private int otherID;
-	public final static Update pauseUpdate = new Update(5,0,0);
-	public final static Update unPauseUpdate = new Update(6,0,0);
+	public final static Update pauseUpdate = new Update(11,0,0);
+	public final static Update unPauseUpdate = new Update(12,0,0);
 	public final static Update noUpdate = new Update(0,0,0);
 	
 	public enum Descriptor{
