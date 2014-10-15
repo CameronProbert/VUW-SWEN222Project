@@ -9,6 +9,7 @@ import java.util.Set;
 
 import catgame.clientserver.IDNotFoundError;
 import catgame.gameObjects.Chest;
+import catgame.gameObjects.Door;
 import catgame.gameObjects.Food;
 import catgame.gameObjects.GameItem;
 import catgame.gameObjects.GameObject;
@@ -32,6 +33,7 @@ public class ObjectStorer {
 	private HashMap<Integer, NonPlayableCharacter> nonPlayableChs = new HashMap<Integer, NonPlayableCharacter>();
 	private HashMap<Integer, Chest> chests = new HashMap<Integer, Chest>();
 	private HashMap<Integer, GameItem> items = new HashMap<Integer, GameItem>();
+	private HashMap<Integer, Door> doors = new HashMap<Integer, Door>();
 
 	public ObjectStorer() {
 
@@ -52,6 +54,10 @@ public class ObjectStorer {
 
 	public void addItems(int objId, GameItem item) {
 		items.put(objId, item);
+	}
+	
+	public void addDoor(int objectID, Door door){
+		doors.put(objectID, door);
 	}
 
 	/**
@@ -191,5 +197,17 @@ public class ObjectStorer {
 
 	public NonPlayableCharacter findNonPlayCharacter(int objectID) {
 		return this.nonPlayableChs.get(objectID);
+	}
+	
+	public int getDoorNo(){
+		return doors.size();
+	}
+	
+	public Set<Integer> getDoors(){
+		return doors.keySet();
+	}
+	
+	public Door findDoor(int objectID){
+		return doors.get(objectID);
 	}
 }
