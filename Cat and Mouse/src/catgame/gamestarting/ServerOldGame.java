@@ -97,6 +97,10 @@ public class ServerOldGame extends StartServer {
 		} 
 	}
 
+	/**
+	 * set masters ids given from the already described 
+	 * id list loaded in from the xml file
+	 */
 	protected void setMasterIDs(List<Master> connections) {
 		if(playerIDs!=null){
 			int i=0;
@@ -108,6 +112,9 @@ public class ServerOldGame extends StartServer {
 
 	}
 
+	/**
+	 * sets up game from the choosen file
+	 */
 	private void setUpGame() {
 		try {
 			File file = new File(fileName);

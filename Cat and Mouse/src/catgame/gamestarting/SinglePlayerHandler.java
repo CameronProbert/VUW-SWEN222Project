@@ -38,7 +38,6 @@ public class SinglePlayerHandler extends GameRunner {
 	 * @param playerID
 	 */
 	public SinglePlayerHandler (String fileName){
-
 		if(!fileName.equals("no file")){
 			try {
 				File xmlFile = new File(fileName);
@@ -58,10 +57,9 @@ public class SinglePlayerHandler extends GameRunner {
 				e.printStackTrace();
 			}
 		}
-
 		
-		 //boardData = new BoardData();
-		 //boardData.loadLevelOne();
+		// boardData = new BoardData();
+		// boardData.loadTestData();
 		
 		FrameClient frame = new FrameClient(this, false, null, 101010);
 		try {
@@ -73,7 +71,12 @@ public class SinglePlayerHandler extends GameRunner {
 	}
 
 
-
+	
+    /**
+     * Handles the games state, whether it is over or not
+     * @param game
+     * @throws IOException
+     */
 	private static void singleUserGame(GameRunner game) throws IOException {
 
 		while(game.isNotOver()) {

@@ -38,6 +38,9 @@ public class ReceiveMassUpdate {
 		this.data = data;
 	}
 
+	/**
+	 * this updates the ncps
+	 */
 	public void readNonPlayChar(){
 		try {
 			int objectID = in.readInt();
@@ -110,6 +113,10 @@ public class ReceiveMassUpdate {
 		}
 	}
 
+	/**
+	 * Makes the characters position be updated
+	 * @param ch
+	 */
 	private void doMove(Character ch) {
 		int roomID;
 		try {
@@ -165,6 +172,9 @@ public class ReceiveMassUpdate {
 		}
 	}
 
+	/**
+	 * updates if a door is locked or not
+	 */
 	public void readDoor(){
 		try {
 			int id = in.readInt();

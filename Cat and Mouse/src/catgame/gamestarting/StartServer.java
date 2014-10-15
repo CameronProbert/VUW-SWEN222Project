@@ -5,6 +5,14 @@ import java.util.List;
 
 import catgame.clientserver.Master;
 
+/**
+ * Main class for the servers
+ * This cuts down on a lot of code reuse, as the serverold and servernew are very similar but have
+ * a slight change in setup due to the way they are loaded
+ * 
+ * @author Francine
+ *
+ */
 public abstract class StartServer extends Thread {
 
 
