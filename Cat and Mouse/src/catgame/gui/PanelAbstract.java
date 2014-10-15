@@ -1,10 +1,7 @@
 package catgame.gui;
 
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.Graphics;
-import java.awt.LayoutManager;
-import java.awt.Point;
 
 import javax.swing.JPanel;
 
@@ -12,6 +9,7 @@ import javax.swing.JPanel;
  * The AbstractPanel is an intermediary panel for the rest of the panels,
  * its purpose is to reduce code and ensure correct behaviours.
  */
+@SuppressWarnings("serial")
 public class PanelAbstract extends JPanel {
 
 

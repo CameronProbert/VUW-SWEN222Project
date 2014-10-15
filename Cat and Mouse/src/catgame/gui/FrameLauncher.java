@@ -6,20 +6,14 @@ import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.net.Socket;
-import java.net.UnknownHostException;
 
 import javax.imageio.ImageIO;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JSlider;
 
 import catgame.clientserver.Slave;
-import catgame.clientserver.SlaveReceiver;
-import catgame.gameObjects.PlayableCharacter;
 import catgame.gamestarting.NetworkHandler;
 import catgame.gamestarting.SinglePlayerHandler;
 import catgame.gui.renderpanel.PanelRender;
@@ -34,6 +28,7 @@ import catgame.gui.renderpanel.PanelRender;
  * @author Cameron Probert
  * 
  */
+@SuppressWarnings("serial")
 public class FrameLauncher extends FrameAbstract {
 
 	protected static final int BUTTONWIDTH = 200;
@@ -121,7 +116,7 @@ public class FrameLauncher extends FrameAbstract {
 					NetworkHandler net = new NetworkHandler(
 							NetworkHandler.Type.CLIENT);
 
-					FrameClient frame = new FrameClient(net, true, slave, 0);
+					new FrameClient(net, true, slave, 0);
 				} catch (IOException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();

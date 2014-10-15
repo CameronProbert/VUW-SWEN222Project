@@ -15,8 +15,6 @@ import javax.swing.JRadioButton;
 import javax.swing.JSlider;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
-import catgame.gameObjects.GameObject;
-
 public class HelperMethods {
 
 	// ================= Helper Methods ====================
