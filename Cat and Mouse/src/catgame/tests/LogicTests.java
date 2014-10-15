@@ -156,8 +156,7 @@ public class LogicTests {
 	}
 
 	// Test the movement for the game
-	// if testTranslateForGid() passes then all movements will work correctly on
-	// the board at any view angle
+	// if testTranslateForGid() passes then all movements will work correctly on=
 	@Test
 	public void testPlayerMoveUpNORTH() {
 		BoardData gameData = new BoardData();
@@ -198,7 +197,7 @@ public class LogicTests {
 		((PlayableCharacter) testRoom.getCharactorCell(playerOne).getObjectOnCell()).changeDirection(Direction.SOUTH);
 		Position preMovePos = testRoom.getCharactorCell(playerOne).getPosition();
 		assertEquals(playerOne, testRoom.getBoardGrid()[preMovePos.getY()][preMovePos.getX()].getObjectOnCell().getObjectID());
-		assertEquals(-1, gameData.getGameUtil().moveDown(playerOne));
+		assertEquals(1, gameData.getGameUtil().moveDown(playerOne));
 		assertEquals(null, testRoom.getBoardGrid()[preMovePos.getY()][preMovePos.getX()].getObjectOnCell());
 		assertEquals(playerOne, testRoom.getBoardGrid()[preMovePos.getY() + 1][preMovePos.getX()].getObjectOnCell().getObjectID());
 	}

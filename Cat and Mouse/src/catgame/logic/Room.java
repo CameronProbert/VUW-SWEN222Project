@@ -61,11 +61,13 @@ public class Room {
 		if (((PlayableCharacter) getCharactorCell(playerID).getObjectOnCell()).isDead()) {
 			System.out.println("PLAYER IS DEAD!");
 		}
-		
-//		if (directionTranslator(((PlayableCharacter) getCharactorCell(playerID).getObjectOnCell()).getFacingDirection(), playerDirection) == 0) {
-//			((PlayableCharacter) getCharactorCell(playerID).getObjectOnCell()).changeDirection(getNewDirection(boardDirection, playerDirection));
-//			return -1;
-//		}
+
+		if (directionTranslator(boardDirection,playerDirection) != ((PlayableCharacter) getCharactorCell(playerID).getObjectOnCell()).getFacingDirection().getValue() ) {
+			((PlayableCharacter) getCharactorCell(playerID).getObjectOnCell()).changeDirection(getNewDirection(boardDirection, playerDirection));
+			System.err.println("Board Dir :" + boardDirection + " player Dir :" + playerDirection + " current dir: "
+					+ ((PlayableCharacter) getCharactorCell(playerID).getObjectOnCell()).getFacingDirection());
+			return -1;
+		}
 
 		Position newPos = findPosition(playerID, boardDirection, playerDirection);
 		// Check if the move is on the board
@@ -248,13 +250,13 @@ public class Room {
 		case 3:
 			switch (playerDirection.getValue()) {
 			case 0:
-				return new Position(playerPos.getX()-1, playerPos.getY());
+				return new Position(playerPos.getX() - 1, playerPos.getY());
 			case 1:
-				return new Position(playerPos.getX(), playerPos.getY()-1);
+				return new Position(playerPos.getX(), playerPos.getY() - 1);
 			case 2:
-				return new Position(playerPos.getX()+1, playerPos.getY());
+				return new Position(playerPos.getX() + 1, playerPos.getY());
 			case 3:
-				return new Position(playerPos.getX(), playerPos.getY()+1);
+				return new Position(playerPos.getX(), playerPos.getY() + 1);
 			}
 		}
 		throw new GameError("Find Position Couldn't find a new Position for :");
