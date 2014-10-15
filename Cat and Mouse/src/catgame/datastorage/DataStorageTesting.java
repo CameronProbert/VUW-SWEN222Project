@@ -22,9 +22,10 @@ public class DataStorageTesting {
 	private File testingXML;
 
 	public DataStorageTesting() throws IOException, XMLException{
-		testSaveObj = new TestingSavingMasterObj(this);
 		makeTestRoom();
 		setUpSaving();
+		testSaveObj = new TestingSavingMasterObj(this);
+		
 		testSavingMasterObjects();
 
 	}
@@ -47,7 +48,7 @@ public class DataStorageTesting {
 		}
 	}
 
-	
+	@Test
 	public void testSavingMasterObjects() throws XMLException {
 		testSaveObj.testRoomInventory(boardData.getAllRooms().get(0).getRoomInventory());
 	}
@@ -67,4 +68,5 @@ public class DataStorageTesting {
 	public static void main(String[] args) throws IOException, XMLException{
 		new DataStorageTesting();
 	}
+	
 }

@@ -70,6 +70,8 @@
             <EntranceDoor>431011</EntranceDoor>
             <isLocked>true</isLocked>
           </Door>
+          <Fence id="341010" />
+          <Fence id="341011" />
         </non-playerableInventory>
         <playerableInventory>
           <PlayableCharacter id="101010">
@@ -93,7 +95,7 @@
         <Row2>(0,2,null,Grass) (1,2,null,Grass) (2,2,null,Grass) (3,2,null,Grass) (4,2,null,Grass) (5,2,null,Grass)</Row2>
         <Row3>(0,3,431010,Grass) (1,3,null,Grass) (2,3,101010,Grass) (3,3,null,Grass) (4,3,null,Grass) (5,3,null,Grass)</Row3>
         <Row4>(0,4,431011,Grass) (1,4,null,Grass) (2,4,null,Grass) (3,4,null,Grass) (4,4,null,Grass) (5,4,411012,Grass)</Row4>
-        <Row5>(0,5,null,Grass) (1,5,null,Grass) (2,5,null,Grass) (3,5,421013,Grass) (4,5,null,Grass) (5,5,null,Grass)</Row5>
+        <Row5>(0,5,null,Grass) (1,5,null,Grass) (2,5,null,Grass) (3,5,421013,Grass) (4,5,341010,Grass) (5,5,341011,Grass)</Row5>
       </boardGrid>
     </Room_0>
   </BoardData>

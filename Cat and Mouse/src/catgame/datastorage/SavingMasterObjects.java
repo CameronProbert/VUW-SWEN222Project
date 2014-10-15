@@ -67,7 +67,11 @@ public class SavingMasterObjects {
 		}
 		else{
 			doorEntranceElement.setText("" + door.enterDoor().getObjectID());
-			main.getDoorLinksMap().put(door.getObjectID(), door.enterDoor().getObjectID());
+			main
+			.getDoorLinksMap().
+			put(door.getObjectID(), door
+					.enterDoor()
+					.getObjectID());
 		}
 		doorElement.addContent(doorEntranceElement);
 		doorElement.addContent(new Element("isLocked").setText("" + door.getIsLocked()));
