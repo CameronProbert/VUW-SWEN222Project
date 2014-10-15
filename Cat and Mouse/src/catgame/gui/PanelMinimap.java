@@ -28,7 +28,7 @@ public class PanelMinimap extends PanelAbstract {
 	/**
 	 * Colours of each object
 	 */
-	private static final Color GRASS = new Color(46, 252, 23);
+	private static final Color GRASS = new Color(107, 131, 33);
 	private static final Color ROCK = new Color(157, 157, 157);
 	private static final Color CHEST = new Color(142, 90, 147);
 	private static final Color TREE = new Color(39, 137, 24);
