@@ -41,7 +41,7 @@ public class HelperMethods {
 	}
 
 	/**
-	 * Creates a dialog box full of checkboxes that returns a List of the
+	 * Creates a dialog box full of check boxes that returns a List of the
 	 * checked items.
 	 * 
 	 * @param title
@@ -57,8 +57,7 @@ public class HelperMethods {
 			JCheckBox box = null;
 			if (useSimpleName) {
 				box = new JCheckBox(item.getClass().getSimpleName());
-			}
-			else {
+			} else {
 				box = new JCheckBox(item.toString());
 			}
 			boxes.add(box);
@@ -75,8 +74,7 @@ public class HelperMethods {
 	}
 
 	/**
-	 * Creates a dialog box full of checkboxes that returns a List of the
-	 * checked items.
+	 * Creates a dialog box full of radio boxes that returns the selected item.
 	 * 
 	 * @param title
 	 * @param options
@@ -91,8 +89,7 @@ public class HelperMethods {
 			JRadioButton box = null;
 			if (useSimpleName) {
 				box = new JRadioButton(item.getClass().getSimpleName());
-			}
-			else {
+			} else {
 				box = new JRadioButton(item.toString());
 			}
 			bg.add(box);
@@ -180,11 +177,24 @@ public class HelperMethods {
 		return slider.getValue();
 	}
 
+	/**
+	 * Opens up a text dialog that displays a message to the user
+	 * 
+	 * @param title
+	 * @param message
+	 */
 	public static void textDialog(String title, String message) {
 		JOptionPane.showMessageDialog(null, message, title,
 				JOptionPane.PLAIN_MESSAGE);
 	}
 
+	/**
+	 * Opens up a file chooser dialog and returns the absolute path to the file
+	 * chosen
+	 * 
+	 * @param parent
+	 * @return
+	 */
 	public static String chooseCatgameFile(Component parent) {
 		JFileChooser chooser = new JFileChooser();
 		FileNameExtensionFilter filter = new FileNameExtensionFilter(
