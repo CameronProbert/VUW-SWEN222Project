@@ -12,13 +12,15 @@ import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.*;
 
+import javax.imageio.ImageIO;
+
 public class LoadingGameMain {
 	private Map<Integer, MasterObject> objectIDMap = new HashMap<Integer, MasterObject>();
 	private Map<Integer, Room> roomIDMap = new HashMap<Integer, Room>();
 	private Map<Integer, PlayableCharacter> playerIDMap = new HashMap<Integer, PlayableCharacter>();
 	private Map<Integer, Door> doorIDMap = new HashMap<Integer, Door>();
 	private boolean isLoadOldGame;
-	private LoadMasterObjects masterObjectLoader; 
+	private LoadMasterObjects masterObjectLoader;
 	private LoadingHelper helper;
 	private BoardData boardData = new BoardData();
 	private File xmlFile;
@@ -39,6 +41,13 @@ public class LoadingGameMain {
 		boardData.TESTattachDoors();
 	}
 
+	/**
+	 * Begin loading from xml file.
+	 * 
+	 * @return
+	 * @throws XMLException
+	 * @throws JDOMException
+	 */
 	public BoardData startLoading() throws XMLException, JDOMException {
 		SAXBuilder builder = new SAXBuilder(); // make SAXBuilder
 		// if xmlFile != null, we are loading old game
@@ -67,6 +76,14 @@ public class LoadingGameMain {
 		return null;
 	}
 
+	/**
+	 * Take the boardData element and parses the information to make all rooms.
+	 * Creates the BoardData when loading of rooms is finished.
+	 * 
+	 * @param root
+	 * @return
+	 * @throws XMLException
+	 */
 	private BoardData loadBoardData(Element root) throws XMLException {
 		Element boardDataElement = root.getChildren().get(0);
 		if (boardDataElement == null
@@ -83,6 +100,12 @@ public class LoadingGameMain {
 		return boardData;
 	}
 
+	/**
+	 * Takes a room element and parses the information for the room. Firstly makes a room inventory. 
+	 * @param roomElement
+	 * @return
+	 * @throws XMLException
+	 */
 	public Room loadRooms(Element roomElement) throws XMLException {
 		if (roomElement == null) {
 			throw new XMLException("roomElement is null");
@@ -92,7 +115,7 @@ public class LoadingGameMain {
 		createRoomInventory(roomElement.getChildren().get(0), room);
 		linkAllDoors(roomElement.getChildren().get(1));
 		room.loadBoardCellToRoom(loadRoomGrid(roomElement.getChildren().get(2)));
-		helper.populateDoorLocationMap(room); 
+		helper.populateDoorLocationMap(room);
 		// TODO fix door links on dans side
 		if (isLoadOldGame) {
 			helper.populatePlayerLocationMap(room);
@@ -132,7 +155,7 @@ public class LoadingGameMain {
 		// firstDoor.addOtherSide(null, 0);
 		// }
 		//
-		// } 
+		// }
 
 	}
 
@@ -271,14 +294,14 @@ public class LoadingGameMain {
 		return boardData;
 	}
 
-	
-	public LoadingHelper getHelper(){
+	public LoadingHelper getHelper() {
 		return helper;
 	}
-	
-	public LoadMasterObjects getLoadMasterObj(){
+
+	public LoadMasterObjects getLoadMasterObj() {
 		return masterObjectLoader;
 	}
+
 	public static void main(String[] args) throws JDOMException, XMLException {
 		// List<Integer> temp = new ArrayList<Integer>();
 		// temp.add(23);

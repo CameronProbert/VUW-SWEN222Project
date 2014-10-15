@@ -225,14 +225,14 @@ public class SavingMain {
 	public static void main(String[] args) throws FileNotFoundException,
 			IOException {
 		BoardData gameData = new BoardData();
-		gameData.loadTestData();
+		gameData.loadLevelOne();
 		
 		if(gameData.getAllRooms().isEmpty()) {
 			System.out.println("room list is empty");
 		} else if (gameData.getAllRooms().get(0).getRoomInventory().isEmpty()) {
 			System.out.println("room's inventory is empty");
 		} else {
-			new SavingMain(gameData, null);
+			new SavingMain(gameData, new File("TestingMultiple.xml"));
 		}
 
 	}
