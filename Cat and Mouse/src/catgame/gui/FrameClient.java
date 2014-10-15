@@ -483,9 +483,7 @@ public class FrameClient extends FrameAbstract implements KeyListener {
 			break;
 		}
 		if (validAction == 3) {
-			up = new Update(Update.Descriptor.NEWROOM, clientsUID, runner
-					.getBoardData().getGameUtil()
-					.findPlayersRoom(clientsUID).getRoomID());
+			up = new Update(Update.Descriptor.NEWROOM, clientsUID, 0);
 			initialiseRenderPanel();
 		}
 		if (validAction > 0 && isClient) {
