@@ -42,7 +42,7 @@ public class FrameLauncher extends FrameAbstract {
 	 * Creates and initialises the frame
 	 */
 	public FrameLauncher() {
-		super("Launcher");
+		super("Cat and Mouse");
 		try {
 			backGround = ImageIO.read(PanelRender.class
 					.getResource("/images/CatBG.png")); // TODO Cat background
