@@ -414,7 +414,7 @@ public class Room {
 		BoardCell oldCell = playerLocationMap.get(playerID);
 		roomGrid[pos.getY()][pos.getX()].setObjectOnCell(oldCell.removeObjectOnCell());
 		playerLocationMap.put(playerID, roomGrid[pos.getY()][pos.getX()]);
-		//((PlayableCharacter) playerLocationMap.get(playerID).getObjectOnCell()).changeDirection(dir);
+		((PlayableCharacter) playerLocationMap.get(playerID).getObjectOnCell()).changeDirection(dir);
 		return 1;
 	}
 
