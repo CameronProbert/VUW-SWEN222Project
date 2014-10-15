@@ -2,23 +2,17 @@ package catgame.tests;
 
 import static org.junit.Assert.*;
 
-import java.time.DayOfWeek;
 
 import org.junit.Test;
 
 import catgame.gameObjects.Boss;
 import catgame.gameObjects.Chest;
-import catgame.gameObjects.Door;
-import catgame.gameObjects.GameItem;
 import catgame.gameObjects.Key;
 import catgame.gameObjects.Minion;
-import catgame.gameObjects.NonPlayableCharacter;
 import catgame.gameObjects.PlayableCharacter;
-import catgame.gamestarting.GameRunner.GameState;
 import catgame.logic.BoardData;
 import catgame.logic.GameUtil.Direction;
 import catgame.logic.GameError;
-import catgame.logic.GameUtil;
 import catgame.logic.ObjectBuilder;
 import catgame.logic.ObjectStorer;
 import catgame.logic.Position;
