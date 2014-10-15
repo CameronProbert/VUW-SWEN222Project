@@ -78,7 +78,6 @@ public class ReceiveMassUpdate {
 	public void readPlayer(){
 		try {
 			int objectID = in.readInt();
-			int attackPower = in.readInt();
 			int health = in.readInt();
 			int level = in.readInt();
 
@@ -94,7 +93,7 @@ public class ReceiveMassUpdate {
 			if(ch==null){
 				throw new IDNotFoundError();
 			}
-			ch.reset((int)attackPower, (int)health, (int)level);
+			ch.reset(0, (int)health, (int)level);
 
 			List<GameItem> items = new ArrayList<GameItem>();
 

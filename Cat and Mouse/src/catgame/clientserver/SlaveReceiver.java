@@ -116,7 +116,7 @@ public class SlaveReceiver {
 	private void recieveMassUpdate(DataInputStream input) {
 		try {
 			ReceiveMassUpdate receiver = new ReceiveMassUpdate(input, net.getBoardData());
-			System.out.println("starting a mass update");
+			System.out.println("\n\nstarting a mass update\n\n");
 
 			int noChars = input.readInt();
 
@@ -141,6 +141,7 @@ public class SlaveReceiver {
 			for(int i=0; i<noItems; i++){
 				receiver.readItem();
 			}
+			System.out.println("\n\nfinished reading update\n\n");
 
 
 		} catch (IOException e) {

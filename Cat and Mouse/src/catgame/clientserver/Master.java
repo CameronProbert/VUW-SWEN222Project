@@ -84,10 +84,9 @@ public final class Master extends Thread {
 	 * @param output
 	 */
 	private void broadcastGameState(DataOutputStream output) {
-		//for each player send update
-		//for each non playable character send update
-		//for each chest
-		//for each item
+		
+		System.out.println("\n\nsending  mass update\n\n");
+		
 		SendMassUpdate broadcast = new SendMassUpdate(output);
 		try {
 			ObjectStorer storer = game.getBoardData().getObjStorer();

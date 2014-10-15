@@ -102,9 +102,6 @@ public class ObjectStorer {
 	public PlayableCharacter findCharacter(int objectID) {
 		if (playableChs.size() == 0)
 			System.out.println("\n\n\nplayableChs not populated\n\n\n");
-		for(int i: playableChs.keySet()){
-			System.out.println("I have the id : " + i);
-		}
 		return playableChs.get(objectID);
 
 	}
