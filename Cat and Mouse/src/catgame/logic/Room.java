@@ -77,7 +77,7 @@ public class Room {
 		}
 
 		// Check that the next Position is empty then move the player
-		if (roomGrid[newPos.getY()][newPos.getX()].getGroundType() != null) {
+		if (roomGrid[newPos.getY()][newPos.getX()].getGroundType().equals("Grass")) {
 			if (roomGrid[newPos.getY()][newPos.getX()].getObjectOnCell() instanceof Door) {
 				System.out.println("DOOR AHEADS ID :" + roomGrid[newPos.getY()][newPos.getX()].getObjectOnCell().getObjectID());
 				return useDoor(playerID, (Door) roomGrid[newPos.getY()][newPos.getX()].getObjectOnCell());
