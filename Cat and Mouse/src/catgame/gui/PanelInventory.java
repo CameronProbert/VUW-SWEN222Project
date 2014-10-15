@@ -1,24 +1,20 @@
 package catgame.gui;
 
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
-import java.awt.LayoutManager;
 import java.awt.Point;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.imageio.ImageIO;
-import javax.swing.JPanel;
 
 import catgame.gameObjects.GameItem;
 import catgame.gameObjects.PlayableCharacter;
 import catgame.gui.renderpanel.PanelRender;
 
+@SuppressWarnings("serial")
 public class PanelInventory extends PanelAbstract {
 
 	private static final int NUMCOLUMNS = 1;

@@ -4,19 +4,16 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
-import java.awt.Point;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
-import javax.swing.JButton;
 
 import catgame.gameObjects.PlayableCharacter;
 import catgame.gamestarting.GameRunner;
 import catgame.gui.renderpanel.PanelRender;
 
+@SuppressWarnings("serial")
 public class PanelStat extends PanelAbstract {
 
 	private static final double MARGINPERCENT = 0.1;

@@ -9,6 +9,7 @@ import java.awt.event.MouseListener;
 
 import catgame.gameObjects.GameItem;
 
+@SuppressWarnings("serial")
 public class PanelItem extends PanelAbstract implements MouseListener {
 
 	private GameItem item;
