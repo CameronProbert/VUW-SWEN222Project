@@ -123,7 +123,7 @@ public class SavingMain {
 
 		// make empty doorLinks Map
 		this.doorLinks = new HashMap<Integer, Integer>();
-
+		System.out.println("Room inventory size: " + room.getRoomInventory().size());
 		for (GameObject gameobj : room.getRoomInventory()) {
 			// Save all the objects that are ONLY playable character
 			if (gameobj instanceof PlayableCharacter) {
@@ -135,9 +135,10 @@ public class SavingMain {
 		}
 		if (gameObjectsList.isEmpty()) {
 			throw new XMLException("gameObjectsList is empty");
-		} else if (playersInRoomList.isEmpty()) {
-			throw new XMLException("playersInRoomList is empty");
-		}
+		} 
+//		else if (playersInRoomList.isEmpty()) {
+//			throw new XMLException("playersInRoomList is empty");
+//		}
 		Element roomInventoryElement = new Element("Inventory");
 		Element nonplayerableObjectsElement = new Element(
 				"non-playerableInventory");
