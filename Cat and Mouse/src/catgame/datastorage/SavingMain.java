@@ -106,7 +106,7 @@ public class SavingMain {
 	 * @return Element
 	 * @throws XMLException
 	 */
-	private Element writeRoom(Room room, int id) throws XMLException {
+	public Element writeRoom(Room room, int id) throws XMLException {
 		// Create element and include room ID
 		Element roomElement = new Element("Room_" + id);
 		roomElement.setAttribute(new Attribute("id", "" + id));

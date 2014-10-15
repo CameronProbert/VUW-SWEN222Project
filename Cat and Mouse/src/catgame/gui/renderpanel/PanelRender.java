@@ -86,7 +86,7 @@ public class PanelRender extends JPanel {
 	}
 	
 	public void setOffsetValues(){
-		xOffset = 250;
+		xOffset = 20;
 		yOffset = 300;
 	}
 
@@ -426,8 +426,6 @@ public class PanelRender extends JPanel {
 		PlayableCharacter character = (PlayableCharacter) currentRoom.getBoardGrid()[sendY][sendX].getObjectOnCell();
 		String charID = character.getObjectID()+"";
 		String charNumberID = charID.substring(4,6);
-//		System.out.println("charID: " + charID);
-//		System.out.println("charImageID: " + charNumberID);
 		switch (charNumberID){
 		case "10":
 			backRight = catBackRight1;
@@ -520,28 +518,28 @@ public class PanelRender extends JPanel {
 	}
 	
 	public void drawHedge(Graphics g, int sendY, int sendX, int y, int x, String hedgeType){		
-		int startX = panelWidth / 4 + 50;
-		int startY = 50 + 340;
-		Image img = fenceLeft1;
+		int startX = xOffset + 35;
+		int startY = yOffset - 40;
+		Image img = hedgeLeft1;
 		switch (gUtil.getViewDirection()) {
 		case NORTH:
-			if (hedgeType == "30"){ img = hedgeLeft1; } 
-			else { img = hedgeRight1; }
+			if (hedgeType == "30"){ img = hedgeRight1; } 
+			else { img = hedgeLeft1; }
 			drawObject(g, img, sendY, sendX, y, x, startY, startX);
 			break;
 		case EAST:
-			if (hedgeType == "30"){ img = hedgeRight1; }
-			else { img = hedgeLeft1; }
+			if (hedgeType == "30"){ img = hedgeLeft1; }
+			else { img = hedgeRight1; }
 			drawObject(g, img, sendY, sendX, y, x, startY, startX);
 			break;
 		case SOUTH:
-			if (hedgeType == "30"){ img = hedgeLeft1; } 
-			else {img = hedgeRight1; }
+			if (hedgeType == "30"){ img = hedgeRight1; } 
+			else {img = hedgeLeft1; }
 			drawObject(g, img, sendY, sendX, y, x, startY, startX);
 			break;
 		case WEST:
-			if (hedgeType == "30"){	img = hedgeRight1; } 
-			else { img = hedgeLeft1; }
+			if (hedgeType == "30"){	img = hedgeLeft1; } 
+			else { img = hedgeRight1; }
 			drawObject(g, img, sendY, sendX, y, x, startY, startX);
 			break;
 		default:

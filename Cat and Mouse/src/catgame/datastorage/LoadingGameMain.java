@@ -83,7 +83,7 @@ public class LoadingGameMain {
 		return boardData;
 	}
 
-	private Room loadRooms(Element roomElement) throws XMLException {
+	public Room loadRooms(Element roomElement) throws XMLException {
 		if (roomElement == null) {
 			throw new XMLException("roomElement is null");
 		}
@@ -132,7 +132,7 @@ public class LoadingGameMain {
 		// firstDoor.addOtherSide(null, 0);
 		// }
 		//
-		// }
+		// } 
 
 	}
 
