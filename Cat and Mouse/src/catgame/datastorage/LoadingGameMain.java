@@ -38,7 +38,7 @@ public class LoadingGameMain {
 		if (boardData != null) {
 			System.out.println("Done");
 		}
-		boardData.TESTattachDoors();
+		boardData.attachDoorsForLevelOne();
 	}
 
 	/**
@@ -53,7 +53,8 @@ public class LoadingGameMain {
 		// if xmlFile != null, we are loading old game
 		if (xmlFile == null) {
 			// xmlFile is null meaning we are loading a standard new game
-			URL fileURL = LoadingGameMain.class.getResource("files/RoomBuilder_01.xml");
+			URL fileURL = LoadingGameMain.class
+					.getResource("files/RoomBuilder_01.xml");
 			try {
 				xmlFile = new File(fileURL.toURI());
 			} catch (URISyntaxException e) {
@@ -64,7 +65,7 @@ public class LoadingGameMain {
 			// make document and read root
 			Document document = (Document) builder.build(xmlFile);
 			Element root = document.getRootElement();
-			// validate
+			// validate root
 			if (root == null || root.getChildren().isEmpty()) {
 				throw new XMLException("XML file is empty at root");
 			}
@@ -101,7 +102,9 @@ public class LoadingGameMain {
 	}
 
 	/**
-	 * Takes a room element and parses the information for the room. Firstly makes a room inventory. 
+	 * Takes a room element and parses the information for the room. Firstly
+	 * makes a room inventory.
+	 * 
 	 * @param roomElement
 	 * @return
 	 * @throws XMLException
@@ -159,9 +162,17 @@ public class LoadingGameMain {
 
 	}
 
+	/**
+	 * Create a list of gameObjects for the room inventory.
+	 * 
+	 * @param childrenElement
+	 * @param room
+	 * @throws XMLException
+	 */
 	private void createRoomInventory(Element childrenElement, Room room)
 			throws XMLException {
 		List<Element> gameObjList = childrenElement.getChildren();
+		// read and create all the non-playable game objects
 		for (Element objElement : gameObjList) {
 			if (objElement.getName().equals("non-playerableInventory")) {
 				for (Element nonPlayerableObj : objElement.getChildren()) {
@@ -174,28 +185,35 @@ public class LoadingGameMain {
 
 				}
 			}
-
-			// TODO Check casting!!!!
 			// isLoadOldGame is a check if we are loading an old game or new
-			// game. if we are then we load and create players from xml
-			// if not then we create standard players ready for a new game
-			else if (isLoadOldGame
-					&& objElement.getName().equals("playerableInventory")) {
-				for (Element playerableObj : objElement.getChildren()) {
-					PlayableCharacter inventoryObj = (PlayableCharacter) masterObjectLoader
-							.verifyElement(playerableObj);
-					if (inventoryObj instanceof PlayableCharacter) {
-						// System.out.println("Adding a PlayableCharacter");
-						addPlayerToMap((PlayableCharacter) inventoryObj);
-					}
+			// game. if we are loading an old game then we load and create
+			// players from xml
+			// if not then we create standard players ready for a new game after
+			// reading xml
+			else if (isLoadOldGame) {
+				if (objElement.getName().equals("playerableInventory")) {
+					for (Element playerableObj : objElement.getChildren()) {
+						PlayableCharacter inventoryObj = (PlayableCharacter) masterObjectLoader
+								.verifyElement(playerableObj);
+						if (inventoryObj instanceof PlayableCharacter) {
+							addPlayerToMap((PlayableCharacter) inventoryObj);
+						}
 
-					addObjectToMap(inventoryObj);
-					room.addToInventory((GameObject) inventoryObj);
+						addObjectToMap(inventoryObj);
+						room.addToInventory((GameObject) inventoryObj);
+					}
 				}
 			}
+
 		}
 	}
 
+	/**
+	 * Makes the room's board grid. 
+	 * @param childrenElement
+	 * @return BoardCell[][] roomGrid
+	 * @throws XMLException
+	 */
 	public BoardCell[][] loadRoomGrid(Element childrenElement)
 			throws XMLException {
 
@@ -204,16 +222,7 @@ public class LoadingGameMain {
 				"FirstArray.length").getText());
 		int secondArrayLength = Integer.parseInt(childrenElement.getChild(
 				"SecondArray.length").getText());
-		// System.out.println("IN LOAD ROOM GRID. FirstArray.length = "
-		// + firstArrayLength + " SecondArray.length = "
-		// + secondArrayLength);
-		// make new boardCell array using dimensions
 		BoardCell[][] boardCell = new BoardCell[firstArrayLength][secondArrayLength];
-		// ----------------------------Test----------------------------------------
-		// for (Integer id : objectIDMap.keySet()) {
-		// System.out.println("ID: " + id + " Object: "
-		// + objectIDMap.get(id).toString());
-		// }
 		// ------------------------------------------------------------------------
 		// Start dealing with boardCell info stored in elements
 		// Get the element's text containing all the info and split
@@ -242,17 +251,14 @@ public class LoadingGameMain {
 				boardCell[y][x] = helper.loadBoardCell(wholeElementArray[x]);
 			}
 		}
-
-		// for (int y = 0; y < firstArrayLength; y++) {
-		// for (int x = 0; x < secondArrayLength; x++) {
-		// System.out.print("(y = " + y + " x = " + x + " " +
-		// boardCell[y][x].getGroundType() + ") ");
-		// }
-		// System.out.println();
-		// }
 		return boardCell;
 	}
 
+	/**
+	 * Adds a room and it's ID to map 
+	 * @param ID
+	 * @return
+	 */
 	public Room addRoomToMap(int ID) {
 		if (!roomIDMap.containsKey(ID)) {
 			roomIDMap.put(ID, new Room(ID));
@@ -260,6 +266,11 @@ public class LoadingGameMain {
 		return roomIDMap.get(ID);
 	}
 
+	/**
+	 * Adds a gameObject and it's ID to map 
+	 * @param inventoryObj
+	 * @throws XMLException
+	 */
 	public void addObjectToMap(MasterObject inventoryObj) throws XMLException {
 		if (inventoryObj == null) {
 			throw new XMLException("inventoryObj is null");
@@ -267,6 +278,10 @@ public class LoadingGameMain {
 		objectIDMap.put(inventoryObj.getObjectID(), inventoryObj);
 	}
 
+	/**
+	 * Adds a player and it's ID to map 
+	 * @param obj
+	 */
 	public void addPlayerToMap(PlayableCharacter obj) {
 		if (!playerIDMap.containsKey(obj.getObjectID())) {
 			playerIDMap.put(obj.getObjectID(), obj);

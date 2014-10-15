@@ -27,7 +27,7 @@ public class LoadNewGame {
 		loaderMain = new LoadingGameMain(false, null);
 		boardData = loaderMain.getBoardData();
 		loadCharacters();
-	}
+	} 
 
 	public void loadCharacters() throws XMLException {
 		Room room = loaderMain.getRoomIDMap().get(0);

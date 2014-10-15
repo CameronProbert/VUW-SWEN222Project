@@ -102,7 +102,7 @@ public class BoardData {
 			Door currentDoor = ((Door) doorsRoom.getDoorsLocation().get(doorsList.get(i)).getObjectOnCell());
 			Door exit = (Door) doorsExitRoom.getDoorsLocation().get(doorsList.get(i + direction)).getObjectOnCell();
 			currentDoor.addOtherSide(exit, doorsList.get(i + 1));
-		}
+		} 
 	}
 
 	public Room getDoorsRoom(int DoorID) {
