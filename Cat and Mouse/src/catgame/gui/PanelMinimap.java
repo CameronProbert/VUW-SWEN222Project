@@ -74,8 +74,8 @@ public class PanelMinimap extends PanelAbstract {
 				// Default colours
 				Color base = Color.black;
 				Color outline = Color.black;
-				Color detail = Color.black;
-				Color detailFill = Color.black;
+				Color groundCol = Color.black;
+				Color objectCol = Color.black;
 
 				// First find colours
 				BoardCell cell = currentRoom.getBoardGrid()[x][y];
@@ -86,61 +86,56 @@ public class PanelMinimap extends PanelAbstract {
 
 				GameObject object = cell.getObjectOnCell();
 				if (object instanceof Chest) {
-					detailFill = CHEST;
+					objectCol = CHEST;
 				} else if (object instanceof NonPlayableCharacter) {
 					NonPlayableCharacter ch = (NonPlayableCharacter) object;
 					if (ch instanceof Boss) {
 						if (!ch.isDead()) {
-							detailFill = BOSS;
+							objectCol = BOSS;
 						}
 					} else {
 						if (!ch.isDead()) {
-							detailFill = MINION;
+							objectCol = MINION;
 						}
 					}
 				} else if (object instanceof PlayableCharacter) {
 					PlayableCharacter ch = (PlayableCharacter) object;
 					if (ch == character){
-						detailFill = YOURCAT;
+						objectCol = YOURCAT;
 					} else {
-						detailFill = OTHERCATS;
+						objectCol = OTHERCATS;
 					}
 				} else if (object instanceof Rock) {
-					detailFill = ROCK;
+					objectCol = ROCK;
 				} else if (object instanceof Tree) {
-					detailFill = TREE;
+					objectCol = TREE;
 				} else if (object instanceof Fence) {
-					detailFill = FENCE;
+					objectCol = FENCE;
 				} else if (object instanceof Door) {
 					Door d = (Door) object;
 					if (d.getIsLocked()) {
-						detailFill = DOOR;
+						objectCol = DOOR;
 					} else {
-						detailFill = DOOR;
+						objectCol = DOOR;
 					}
 				} else if (object instanceof Bush) {
-					detailFill = BUSH;
+					objectCol = BUSH;
 				} else if (object instanceof Hedge) {
-					detailFill = HEDGE;
+					objectCol = HEDGE;
 				}
 
-				// Draw Fill
+				// Draw mini-map Base
 				g.setColor(base);
 				g.fillRect(xCo, yCo, sqSize - 1, sqSize - 1);
-				// Draw Outline
 				g.setColor(outline);
 				g.drawRect(xCo, yCo, sqSize - 1, sqSize - 1);
-				// Draw Detail
-				g.setColor(detail);
+				// Draw ground type
+				g.setColor(groundCol);
 				g.fillRect(xCo + 2, yCo + 2, sqSize - 4, sqSize - 4);
-				g.setColor(detailFill);
+				// Draw object on cell
+				g.setColor(objectCol);
 				g.fillRect(xCo + 4, yCo + 4, sqSize - 8, sqSize - 8);
-				// g.drawLine(xCo + sqSize, yCo, xCo, yCo + sqSize);
-				// g.drawLine(xCo, yCo, xCo + sqSize, yCo + sqSize);
 			}
 		}
-
-		g.setColor(Color.red);
-		g.drawRect(0, 0, getWidth() - 1, getHeight() - 1);
 	}
 }
