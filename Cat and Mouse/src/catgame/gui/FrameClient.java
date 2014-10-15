@@ -3,7 +3,6 @@ package catgame.gui;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Image;
-import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -13,8 +12,6 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.imageio.ImageIO;
 import javax.swing.JFileChooser;
@@ -23,18 +20,12 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 
-import org.jdom2.JDOMException;
-
 import catgame.clientserver.*;
-import catgame.datastorage.LoadingGameMain;
 import catgame.datastorage.SavingMain;
-import catgame.datastorage.XMLException;
 import catgame.gameObjects.*;
-import catgame.gameObjects.Character;
 import catgame.gamestarting.GameRunner;
 import catgame.gui.renderpanel.*;
 import catgame.logic.*;
-import catgame.logic.GameUtil.Direction;
 
 /**
  * The ClientFrame is the main game window. It contains the render window and
@@ -44,10 +35,9 @@ import catgame.logic.GameUtil.Direction;
  * @author Cameron Probert
  * 
  */
+@SuppressWarnings("serial")
 public class FrameClient extends FrameAbstract implements KeyListener {
 
-	private static final double FRAMEHEIGHTMODIFIER = .9;
-	private static final double ASPECTRATIO = 1.8;
 	private static final int FRAMEWIDTH = 1300;
 	private static final int FRAMEHEIGHT = 700;
 

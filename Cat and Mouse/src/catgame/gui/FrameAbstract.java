@@ -1,12 +1,11 @@
 package catgame.gui;
 
 import java.awt.Dimension;
-import java.awt.GraphicsConfiguration;
-import java.awt.HeadlessException;
 import java.awt.Point;
 
 import javax.swing.JFrame;
 
+@SuppressWarnings("serial")
 public abstract class FrameAbstract extends JFrame {
 	
 	public FrameAbstract(String windowTitle) {

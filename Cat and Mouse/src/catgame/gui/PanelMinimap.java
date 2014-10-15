@@ -2,17 +2,12 @@ package catgame.gui;
 
 import java.awt.Color;
 import java.awt.Graphics;
-import java.awt.LayoutManager;
 
-import javax.swing.JPanel;
-
-import catgame.clientserver.Update;
 import catgame.gameObjects.Boss;
 import catgame.gameObjects.Bush;
 import catgame.gameObjects.Chest;
 import catgame.gameObjects.Door;
 import catgame.gameObjects.Fence;
-import catgame.gameObjects.GameItem;
 import catgame.gameObjects.GameObject;
 import catgame.gameObjects.Hedge;
 import catgame.gameObjects.NonPlayableCharacter;
@@ -24,6 +19,7 @@ import catgame.logic.BoardCell;
 import catgame.logic.GameUtil.Direction;
 import catgame.logic.Room;
 
+@SuppressWarnings("serial")
 public class PanelMinimap extends PanelAbstract {
 
 	/**
@@ -63,7 +59,6 @@ public class PanelMinimap extends PanelAbstract {
 		int numHeight = currentRoom.getBoardGrid()[0].length;
 		int highestNum = Math.max(numWidth, numHeight);
 		int sqSize = this.getWidth() / highestNum;
-		System.out.println(this.getWidth() + "/" + highestNum + "=" + sqSize);
 		int startX = centreX - (sqSize * numWidth) / 2;
 		int startY = centreY - (sqSize * numHeight) / 2;
 		

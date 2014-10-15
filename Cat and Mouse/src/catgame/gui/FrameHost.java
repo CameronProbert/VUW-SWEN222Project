@@ -9,14 +9,13 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 import javax.swing.JButton;
-import javax.swing.JFileChooser;
 import javax.swing.JPanel;
-import javax.swing.filechooser.FileNameExtensionFilter;
 
 import catgame.gamestarting.ServerNewGame;
 import catgame.gamestarting.ServerOldGame;
 import catgame.gui.renderpanel.PanelRender;
 
+@SuppressWarnings("serial")
 public class FrameHost extends FrameAbstract {
 
 	private JButton startServerButton;
