@@ -139,6 +139,8 @@ public class Update {
 		case 6: // add object to inventory
 			game.addObjectToInventory(getPlayerID(), getOtherID());
 			break;
+		case 8:
+			game.moveToNextRoom(getPlayerID());
 		case 9: // object eaten
 			i = game.useItem(getPlayerID(), getOtherID());
 			break;
