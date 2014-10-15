@@ -67,8 +67,8 @@ public class ObjectStorer {
 		return this.nonPlayableChs.keySet();
 	}
 
-	public NonPlayableCharacter findNCP(int i) {
-		return this.nonPlayableChs.get(i);
+	public NonPlayableCharacter findNCP(int npcID) {
+		return this.nonPlayableChs.get(npcID);
 	}
 
 	public int getNumChests() {

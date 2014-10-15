@@ -1,20 +1,9 @@
 package catgame.logic;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Set;
-
 import catgame.gameObjects.Boss;
 import catgame.gameObjects.Character;
-import catgame.gameObjects.Chest;
-import catgame.gameObjects.Food;
-import catgame.gameObjects.GameItem;
 import catgame.gameObjects.GameObject;
-import catgame.gameObjects.Key;
-import catgame.gameObjects.MasterObject;
 import catgame.gameObjects.Minion;
-import catgame.gameObjects.NonPlayableCharacter;
 import catgame.gameObjects.PlayableCharacter;
 
 //characters id's 10 - 19
@@ -168,7 +157,7 @@ public class GameUtil {
 	}
 
 	/**
-	 * Call to the logic loot in the facing direction of a character
+	 * Call to the logic loot an object in the facing direction of a character
 	 * 
 	 * @param playerID
 	 * @return
@@ -331,5 +320,4 @@ public class GameUtil {
 			pC.changeHealth(20);
 		}
 	}
-
 }
