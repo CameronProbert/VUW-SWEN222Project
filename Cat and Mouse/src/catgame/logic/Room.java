@@ -36,21 +36,6 @@ public class Room {
 		this.roomID = roomID;
 	}
 
-	public void printBoard() {
-		for (int x = 0; x < roomGrid.length; x++) {
-			String line = "";
-			for (int y = 0; y < roomGrid[0].length; y++) {
-				// TODO remove cheap fix
-				if (roomGrid[x][y] != null) {
-					line += roomGrid[x][y].toString() + "\t";
-				}
-			}
-			System.out.println(line);
-			line = "";
-		}
-
-	}
-
 	public BoardCell[][] getBoardGrid() {
 		return roomGrid;
 	}
@@ -79,7 +64,7 @@ public class Room {
 			System.out.println("PLAYER IS DEAD!");
 		}
 		if (((PlayableCharacter) getCharactorCell(playerID).getObjectOnCell()).getFacingDirection().getValue() != playerDirection.getValue()) {
-			((PlayableCharacter) getCharactorCell(playerID).getObjectOnCell()).changeDirection(getNewDirection(playerDirection));
+			((PlayableCharacter) getCharactorCell(playerID).getObjectOnCell()).changeDirection(getNewDirection(boardDirection, playerDirection));
 			return -1;
 		}
 
@@ -291,16 +276,51 @@ public class Room {
 	 * @param movementDirection
 	 * @return
 	 */
-	public Direction getNewDirection(Direction movementDirection) {
-		switch (movementDirection.getValue()) {
+	public Direction getNewDirection(Direction boardDirection, Direction movementDirection) {
+		switch (boardDirection.getValue()) {
 		case 0:
-			return Direction.NORTH;
+			switch (movementDirection.getValue()) {
+			case 0:
+				return Direction.NORTH;
+			case 1:
+				return Direction.EAST;
+			case 2:
+				return Direction.SOUTH;
+			}
+			return Direction.WEST;
 		case 1:
-			return Direction.EAST;
+			switch (movementDirection.getValue()) {
+			case 0:
+				return Direction.EAST;
+			case 1:
+				return Direction.SOUTH;
+			case 2:
+				return Direction.WEST;
+			}
+			return Direction.NORTH;
 		case 2:
+			switch (movementDirection.getValue()) {
+			case 0:
+				return Direction.SOUTH;
+			case 1:
+				return Direction.WEST;
+			case 2:
+				return Direction.NORTH;
+			}
+			return Direction.EAST;
+		case 3:
+			switch (movementDirection.getValue()) {
+			case 0:
+				return Direction.WEST;
+			case 1:
+				return Direction.NORTH;
+			case 2:
+				return Direction.EAST;
+			}
 			return Direction.SOUTH;
 		}
-		return Direction.WEST;
+		System.err.println("CANNOT FIND A FACING DIR SET IT TO NORTH");
+		return Direction.NORTH;
 	}
 
 	public HashMap<Integer, BoardCell> getDoorsLocation() {
