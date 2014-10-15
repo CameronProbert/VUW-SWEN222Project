@@ -23,7 +23,6 @@ public class BoardData {
 	public BoardData() {
 		this.objStorer = new ObjectStorer();
 		this.gameUtil = new GameUtil(this, objStorer);
-		
 	}
 
 	/**
@@ -68,7 +67,7 @@ public class BoardData {
 
 	public void loadTestData() {
 		RoomBuilder testRoom = new RoomBuilder(objStorer);
-		addRoom(testRoom.loadRoom());
+		addRoom(testRoom.loadRoom("SwenProjectRoomTestOne.csv"));
 		TESTattachDoors();
 	}
 
@@ -98,11 +97,7 @@ public class BoardData {
 				doorsExitRoom = getDoorsRoom(doorsList.get(i + direction));
 			}
 			// we now have both doors and their rooms
-			Door currentDoor = ((Door) doorsRoom.
-					getDoorsLocation().
-					get(doorsList.
-							get(i)).
-					getObjectOnCell());
+			Door currentDoor = ((Door) doorsRoom.getDoorsLocation().get(doorsList.get(i)).getObjectOnCell());
 			Door exit = (Door) doorsExitRoom.getDoorsLocation().get(doorsList.get(i + direction)).getObjectOnCell();
 			currentDoor.addOtherSide(exit, doorsList.get(i + 1));
 		}
@@ -117,8 +112,13 @@ public class BoardData {
 		System.out.println("Cannot find Door using DoorsID :" + DoorID);
 		return null;
 	}
-	
-	public void loadLevelOne(){
-		String[] roomFiles = {"",""};
+
+	public void loadLevelOne() {
+		String[] roomFiles = { "RoomOne.csv", "RoomTwo.csv" };
+		RoomBuilder builder = new RoomBuilder(objStorer);
+		for (int i = 0; i < roomFiles.length; i++) {
+			addRoomToLevel(builder.loadRoom(roomFiles[i]));
+		}
+
 	}
 }

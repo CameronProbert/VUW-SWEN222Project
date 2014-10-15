@@ -130,7 +130,7 @@ public class LogicTests {
 	public void testGetPlayersGrid() {
 		ObjectStorer objStore = new ObjectStorer();
 		RoomBuilder testBuilder = new RoomBuilder(objStore);
-		Room testRoom = testBuilder.loadRoom();
+		Room testRoom = testBuilder.loadRoom(testRoomFile);
 		assertEquals(playerOne, testRoom.getCharactorCell(playerOne).getObjectOnCell().getObjectID());
 	}
 

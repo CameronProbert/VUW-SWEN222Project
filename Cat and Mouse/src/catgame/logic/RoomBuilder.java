@@ -48,7 +48,7 @@ public class RoomBuilder {
 	 * @param fileName
 	 * @return
 	 */
-	public Room loadRoom() {
+	public Room loadRoom(String fileName) {
 		// Make the new Room
 		Room loadingRoom = new Room(roomNum++);
 		// this will need to be added in at the end
@@ -58,7 +58,7 @@ public class RoomBuilder {
 		int y = 0;
 		// Load the file
 		try {
-			buffer = new BufferedReader(new FileReader("SwenProjectRoomTestOne.csv"));
+			buffer = new BufferedReader(new FileReader(fileName));
 			// Set the arrays size [y][x]
 			String formatingLine = buffer.readLine();
 			String[] formatArray = formatingLine.split(",");
