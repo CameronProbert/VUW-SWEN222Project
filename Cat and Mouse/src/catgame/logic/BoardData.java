@@ -132,7 +132,7 @@ public class BoardData {
 		doorsList.add(0);
 		
 		doorsList.add(411012);
-		doorsList.add(0);
+		doorsList.add(60);
 		doorsList.add(401014);
 		doorsList.add(0);
 		
