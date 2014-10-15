@@ -65,8 +65,7 @@ public class PanelRender extends JPanel {
 		this.panelWidth = (int)(windowSize.getWidth());
 		this.panelHeight = (int)(windowSize.getHeight());
 		this.gUtil = gUtil;
-		this.currentRoom = room;
-		
+		this.currentRoom = room;		
 
 		setLayout(null);
 		setSize((int)(windowSize.getWidth()), (int)(windowSize.getHeight()));
@@ -87,7 +86,8 @@ public class PanelRender extends JPanel {
 	}
 	
 	/**
-	 * Method for setting offset values used for positioning every block and game object/character
+	 * Method for setting offset values used for positioning every block and game object/character.
+	 * Can be used to set different values for different sized rooms.
 	 */
 	public void setOffsetValues(){
 		xOffset = 20;
@@ -210,12 +210,6 @@ public class PanelRender extends JPanel {
 	/**
 	 * Determines ground type at current block, then calls the drawGround()
 	 * method, passing it the relevant image and positioning values.
-	 * 
-	 * @param g
-	 * @param gridY
-	 * @param gridX
-	 * @param y
-	 * @param x
 	 */
 	public void determineAndDrawGround(Graphics g, int gridY, int gridX, int y,	int x) {
 		int startX = xOffset + 19;
@@ -231,12 +225,6 @@ public class PanelRender extends JPanel {
 	/**
 	 * Determines object type at current block, then calls the drawObject()
 	 * method, passing it the relevant image and positioning values.
-	 * 
-	 * @param g
-	 * @param gridY
-	 * @param gridX
-	 * @param y
-	 * @param x
 	 */
 	public void determineAndDrawObject(Graphics g, int gridY, int gridX, int y,	int x) {
 		//Returns if current cell doesn't contain an object or character
@@ -294,13 +282,6 @@ public class PanelRender extends JPanel {
 	/**
 	 * Draws a groundBlock image at a position specified by the given
 	 * positioning values.
-	 * 
-	 * @param g
-	 * @param image
-	 * @param y
-	 * @param x
-	 * @param startY
-	 * @param startX
 	 */
 	public void drawGround(Graphics g, Image image,	int y, int x, int startY, int startX) {
 		g.drawImage(image,
@@ -311,15 +292,6 @@ public class PanelRender extends JPanel {
 	/**
 	 * Draws an object image at a position specified by the given positioning
 	 * values.
-	 * 
-	 * @param g
-	 * @param image
-	 * @param sendY
-	 * @param sendX
-	 * @param y
-	 * @param x
-	 * @param startY
-	 * @param startX
 	 */
 	public void drawObject(Graphics g, Image image, int y, int x, int startY, int startX) {
 		g.drawImage(image,
@@ -328,7 +300,10 @@ public class PanelRender extends JPanel {
 				null);
 	}
 
-	
+	/**
+	 * Helper method for determining the physical direction that a character moves on screen based on their viewing direction
+	 * and the current viewingDirection of the rendering panel.
+	 */
 	public Direction directionTranslator(Direction viewDirection, Direction charDirection){
 		switch (viewDirection){
 		case NORTH:
