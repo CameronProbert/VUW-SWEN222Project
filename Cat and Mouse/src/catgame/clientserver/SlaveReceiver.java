@@ -101,6 +101,7 @@ public class SlaveReceiver {
 
 				while(locked){
 					recieveMassUpdate(input);
+					frame.repaint();
 					try {
 						Thread.sleep(50);
 					} catch (InterruptedException e) {
