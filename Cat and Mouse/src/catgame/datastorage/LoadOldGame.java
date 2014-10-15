@@ -21,10 +21,10 @@ public class LoadOldGame {
 	}
 
 	public BoardData getBoardData() {
-		return boardData;
+		return boardData; 
 	}
 	
 	public static void main(String[] args) throws JDOMException, XMLException {
-		
+		new LoadOldGame(new File("TestingMultiple.xml"));
 	}
 }

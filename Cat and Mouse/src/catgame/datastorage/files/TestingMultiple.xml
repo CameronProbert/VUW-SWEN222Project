@@ -103,17 +103,7 @@
             <AttackPower>20</AttackPower>
             <Health>100</Health>
             <Inventory>
-              <Food id="808080">
-                <Heal>20</Heal>
-              </Food>
-            </Inventory>
-          </PlayableCharacter>
-          <PlayableCharacter id="101111">
-            <Direction>NORTH</Direction>
-            <AttackPower>20</AttackPower>
-            <Health>100</Health>
-            <Inventory>
-              <Food id="808080">
+              <Food id="801015">
                 <Heal>20</Heal>
               </Food>
             </Inventory>
@@ -133,7 +123,7 @@
         <Row6>(0,6,301022,Grass) (1,6,201014,Grass) (2,6,null,Grass) (3,6,null,Grass) (4,6,null,Grass) (5,6,null,Grass) (6,6,221012,Grass) (7,6,141012,Grass) (8,6,null,Grass) (9,6,301023,Grass)</Row6>
         <Row7>(0,7,301024,Grass) (1,7,211011,Grass) (2,7,null,Grass) (3,7,null,Grass) (4,7,null,Grass) (5,7,null,Grass) (6,7,null,Grass) (7,7,null,Grass) (8,7,141013,Grass) (9,7,301025,Grass)</Row7>
         <Row8>(0,8,301026,Grass) (1,8,null,Grass) (2,8,null,Grass) (3,8,null,Grass) (4,8,null,Grass) (5,8,null,Grass) (6,8,201015,Grass) (7,8,null,Grass) (8,8,221013,Grass) (9,8,301027,Grass)</Row8>
-        <Row9>(0,9,301028,Grass) (1,9,101010,Grass) (2,9,101111,Grass) (3,9,null,Grass) (4,9,null,Grass) (5,9,null,Grass) (6,9,null,Grass) (7,9,null,Grass) (8,9,null,Grass) (9,9,301029,Grass)</Row9>
+        <Row9>(0,9,301028,Grass) (1,9,null,Grass) (2,9,101010,Grass) (3,9,null,Grass) (4,9,null,Grass) (5,9,null,Grass) (6,9,null,Grass) (7,9,null,Grass) (8,9,null,Grass) (9,9,301029,Grass)</Row9>
       </boardGrid>
     </Room_0>
     <Room_1 id="1">
@@ -228,7 +218,7 @@
         </non-playerableInventory>
         <playerableInventory />
       </Inventory>
-      <DoorLinks>(411012,401014) (431011,401010)</DoorLinks>
+      <DoorLinks>(431011,401010) (411012,401014)</DoorLinks>
       <boardGrid>
         <FirstArray.length>10</FirstArray.length>
         <SecondArray.length>10</SecondArray.length>
@@ -323,7 +313,7 @@
         </non-playerableInventory>
         <playerableInventory />
       </Inventory>
-      <DoorLinks>(401014,411012) (401013,null)</DoorLinks>
+      <DoorLinks>(401013,null) (401014,411012)</DoorLinks>
       <boardGrid>
         <FirstArray.length>10</FirstArray.length>
         <SecondArray.length>10</SecondArray.length>

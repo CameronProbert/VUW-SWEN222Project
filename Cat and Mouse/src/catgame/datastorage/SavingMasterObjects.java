@@ -177,8 +177,8 @@ public class SavingMasterObjects {
 		Hedge hedge = (Hedge) obj;
 		Element hedgeElement = new Element("Hedge");
 		hedgeElement.setAttribute(new Attribute("id", "" + hedge.getObjectID()));
-		hedgeElement.addContent(new Element("Direction").setText(hedge.getDirection().name()));
-		return hedgeElement;
+		
+		return hedgeElement; 
 	}
 
 }

@@ -320,4 +320,9 @@ public class GameUtil {
 			pC.changeHealth(20);
 		}
 	}
+
+	public void moveToNextRoom(int playerID) {
+		// TODO Auto-generated method stub
+		
+	}
 }

@@ -5,6 +5,8 @@ import java.io.File;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.net.URISyntaxException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,6 +14,7 @@ import org.jdom2.JDOMException;
 
 import catgame.clientserver.Master;
 import catgame.datastorage.LoadOldGame;
+import catgame.datastorage.LoadingGameMain;
 import catgame.datastorage.XMLException;
 import catgame.logic.BoardData;
 
@@ -43,6 +46,7 @@ public class ServerOldGame extends StartServer {
 			return; // cannot load from null file
 		}
 		this.fileName = fileName;
+		this.handler = new NetworkHandler(NetworkHandler.Type.SERVER);
 		if(url != null) {
 			System.out.println("Cannot be a server and connect to another server!");
 			System.exit(1);
@@ -106,7 +110,8 @@ public class ServerOldGame extends StartServer {
 
 	private void setUpGame() {
 		try {
-			LoadOldGame loadXML = new LoadOldGame(new File(fileName));
+			File file = new File(fileName);
+			LoadOldGame loadXML = new LoadOldGame(file);
 			boardData = loadXML.getBoardData();
 			handler.setBoardData(boardData);
 			playerIDs = boardData.getObjStorer().getPlayerIDs();

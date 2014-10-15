@@ -2,6 +2,8 @@ package catgame.gamestarting;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.URISyntaxException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,6 +13,7 @@ import org.jdom2.JDOMException;
 
 import catgame.datastorage.LoadNewGame;
 import catgame.datastorage.LoadOldGame;
+import catgame.datastorage.LoadingGameMain;
 import catgame.datastorage.XMLException;
 import catgame.gameObjects.Food;
 import catgame.gameObjects.GameItem;
@@ -35,27 +38,30 @@ public class SinglePlayerHandler extends GameRunner {
 	 * @param playerID
 	 */
 	public SinglePlayerHandler (String fileName){
-//		if(!fileName.equals("no file")){
-//			try {
-//				LoadOldGame loadXML = new LoadOldGame(new File(fileName));
-//				boardData = loadXML.getBoardData();
-//			} catch (JDOMException | XMLException e) {
-//				e.printStackTrace();
-//			}
-//		}
-//		else{
-//			List<Integer> ids = new ArrayList<Integer>();
-//			ids.add(101010);
-//			try {
-//				LoadNewGame loadXML = new LoadNewGame(ids);
-//				boardData = loadXML.getBoardData();
-//			} catch (JDOMException | XMLException e) {
-//				e.printStackTrace();
-//			}
-//		}
+
+		if(!fileName.equals("no file")){
+			try {
+				File xmlFile = new File(fileName);
+				LoadOldGame loadXML = new LoadOldGame(xmlFile);
+				boardData = loadXML.getBoardData();
+			} catch (JDOMException | XMLException e) {
+				e.printStackTrace();
+			}
+		}
+		else{
+			List<Integer> ids = new ArrayList<Integer>();
+			ids.add(101010);
+			try {
+				LoadNewGame loadXML = new LoadNewGame(ids);
+				boardData = loadXML.getBoardData();
+			} catch (JDOMException | XMLException e) {
+				e.printStackTrace();
+			}
+		}
+
 		
-		 boardData = new BoardData();
-		 boardData.loadLevelOne();
+		 //boardData = new BoardData();
+		 //boardData.loadLevelOne();
 		
 		FrameClient frame = new FrameClient(this, false, null, 101010);
 		try {
