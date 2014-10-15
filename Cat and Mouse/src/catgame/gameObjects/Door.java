@@ -6,6 +6,15 @@ import catgame.logic.BoardCell;
 import catgame.logic.GameUtil.Direction;
 import catgame.logic.Room;
 
+/**
+ * 
+ * @author Dan
+ *
+ *         Door Object in the Game this object holds another Door that is the other side
+ *         when a player exits the door it is moved to the boardCell inwards in the gameBoard
+ *         a door is locked iff when the other side of a door is loaded the key != 0, otherwise the door is always unlocked (islocked = false)
+ *        
+ */
 public class Door implements NonMovavble {
 	private final int ID;
 	private Door entranceToDoor;
@@ -30,11 +39,17 @@ public class Door implements NonMovavble {
 		this.wallEdge = direction;
 		this.room = room;
 	}
- 
+
 	public int getObjectID() {
 		return ID;
 	}
-
+	
+	/**
+	 * Add the other side of the door this needs to be called once an entire level has been build as it links rooms together
+	 * if the key != 0 then the door is locked. 
+	 * @param entranceTo
+	 * @param keyId
+	 */
 	public void addOtherSide(Door entranceTo, int keyId) {
 		this.entranceToDoor = entranceTo;
 		// this.wallEdge = wallEdge;
@@ -49,7 +64,7 @@ public class Door implements NonMovavble {
 	 * Enters the door
 	 * 
 	 * @return The Other side of the door
-	 */ 
+	 */
 	public Door enterDoor() {
 		return this.entranceToDoor;
 	}
@@ -62,7 +77,7 @@ public class Door implements NonMovavble {
 	 * @return boolean : current state of the door
 	 */
 	public boolean unlockDoor(Key key) {
-		if(key != null){
+		if (key != null) {
 			this.isLocked = false;
 		}
 		return this.isLocked;
@@ -75,7 +90,11 @@ public class Door implements NonMovavble {
 	public Direction getDoorsWallEdge() {
 		return this.wallEdge;
 	}
-
+	
+	/**
+	 * added the player to the room infront of the door pointing towards the centre
+	 * @param player
+	 */
 	public void exitDoor(PlayableCharacter player) {
 		BoardCell doorsCell = room.getDoorsLocation().get(ID);
 		BoardCell newPlayersCell = null;
@@ -100,32 +119,36 @@ public class Door implements NonMovavble {
 		room.getRoomInventory().add(player);
 
 	}
-
-	public boolean checkExitDoor(){
+	
+	/**
+	 * check to see that the other side of a door is clear before a player can move through it
+	 * @return
+	 */
+	public boolean checkExitDoor() {
 		BoardCell doorsCell = room.getDoorsLocation().get(ID);
 		switch (wallEdge.getValue()) {
 		case 0:
-			if(room.getBoardGrid()[doorsCell.getPosition().getY()+1][doorsCell.getPosition().getX()].getObjectOnCell() == null){ 
+			if (room.getBoardGrid()[doorsCell.getPosition().getY() + 1][doorsCell.getPosition().getX()].getObjectOnCell() == null) {
 				return true;
-			}else {
+			} else {
 				return false;
-				}
+			}
 		case 1:
-			if(room.getBoardGrid()[doorsCell.getPosition().getY()][doorsCell.getPosition().getX()-1].getObjectOnCell() == null){
-			return true;
-		}else {
-			return false;
+			if (room.getBoardGrid()[doorsCell.getPosition().getY()][doorsCell.getPosition().getX() - 1].getObjectOnCell() == null) {
+				return true;
+			} else {
+				return false;
 			}
 		case 2:
-			if(room.getBoardGrid()[doorsCell.getPosition().getY()-1][doorsCell.getPosition().getX()].getObjectOnCell() == null){
+			if (room.getBoardGrid()[doorsCell.getPosition().getY() - 1][doorsCell.getPosition().getX()].getObjectOnCell() == null) {
 				return true;
-			}else{
+			} else {
 				return false;
 			}
 		case 3:
-			if(room.getBoardGrid()[doorsCell.getPosition().getY()][doorsCell.getPosition().getX()+1].getObjectOnCell() == null){
+			if (room.getBoardGrid()[doorsCell.getPosition().getY()][doorsCell.getPosition().getX() + 1].getObjectOnCell() == null) {
 				return true;
-			}else {
+			} else {
 				return false;
 			}
 		}
@@ -135,12 +158,12 @@ public class Door implements NonMovavble {
 	public Room getRoom() {
 		return room;
 	}
-	
-	public void setIsLocked(boolean b){
+
+	public void setIsLocked(boolean b) {
 		this.isLocked = b;
 	}
-	
-	public void setKeyId(int id){
+
+	public void setKeyId(int id) {
 		this.keyID = id;
 	}
 }

@@ -26,8 +26,9 @@ public class Room {
 	private HashMap<Integer, BoardCell> doorsLocation = new HashMap<Integer, BoardCell>();
 
 	/**
-	 * TODO Room parameters are subject to change, once the .xml file readers
-	 * are sorted we will have to decide how we want to load rooms
+	 * Rooms are a smart controller for any action that a player does inside the room.
+	 * A Room holds the games boardCell which is a grind of cells holding gameobjects
+	 * to construct the game.
 	 * 
 	 * @param groundFile
 	 * @param objectLayerFile
@@ -46,13 +47,12 @@ public class Room {
 
 	/**
 	 * Move a player around a room, Check to see if the move is valid(the move
-	 * is on the board and there is an empty space
-	 * 
-	 * //TODO fix it such that the player only moves if it is facing in the
+	 * is on the board and there is an empty space. The player only moves if it is facing in the
 	 * direction otherwise change the direction that the player is facing
 	 * 
 	 * @param playerID
 	 * @param direction
+	 * @return unsuccesful = -1, succesful = 1 facing direction changed = 2 , entered a door = 3
 	 */
 	public int movePlayer(int playerID, Direction playerDirection, Direction boardDirection) {
 		if (!(getCharactorCell(playerID).getObjectOnCell() instanceof PlayableCharacter) && getCharactorCell(playerID).getObjectOnCell().getObjectID() != playerID) {
@@ -76,12 +76,13 @@ public class Room {
 			return -1;
 		}
 
-		// Check that the next Position is empty then move the player
+		//If the object infront of the player is a door try and use it
 		if (roomGrid[newPos.getY()][newPos.getX()].getGroundType().equals("Grass")) {
 			if (roomGrid[newPos.getY()][newPos.getX()].getObjectOnCell() instanceof Door) {
 				System.out.println("DOOR AHEADS ID :" + roomGrid[newPos.getY()][newPos.getX()].getObjectOnCell().getObjectID());
 				return useDoor(playerID, (Door) roomGrid[newPos.getY()][newPos.getX()].getObjectOnCell());
 			}
+			// Check that the next Position is empty then move the player
 			if (roomGrid[newPos.getY()][newPos.getX()].getObjectOnCell() == null) {
 				BoardCell oldCell = playerLocationMap.get(playerID);
 				roomGrid[newPos.getY()][newPos.getX()].setObjectOnCell(oldCell.removeObjectOnCell());
@@ -127,18 +128,7 @@ public class Room {
 	}
 
 	/**
-	 * TODO check that that move is working then once it is this should be easy
-	 * 
-	 * @param playerID
-	 * @param direction
-	 */
-	public int playerAction(int playerID, int playerDirection) {
-
-		return -1;
-	}
-
-	/**
-	 * TODO check that that move is working then once it is this should be easy
+	 * Used for attacking npc if they are in the direction you are facing
 	 * 
 	 * @param playerID
 	 * @param direction
@@ -148,8 +138,12 @@ public class Room {
 			BoardCell playersCell = playerLocationMap.get(playerID);
 			PlayableCharacter player = (PlayableCharacter) playersCell.getObjectOnCell();
 			Position actionPosition = findPosition(playerID, boardDirection, player.getFacingDirection());
-			// Check to see if a npc is there then we can attack it
-			if (roomGrid[actionPosition.getY()][actionPosition.getX()].getObjectOnCell() != null
+			//check if the position is on the board
+			if(actionPosition.getY() < 0 || actionPosition.getX() < 0 || actionPosition.getY() > roomGrid.length || actionPosition.getX() > roomGrid[0].length){
+				return -1;
+			}
+			// Check to see if a npc is there then we can attack it 
+			if (roomGrid[actionPosition.getY()][actionPosition.getX()].getObjectOnCell() != null 
 					&& roomGrid[actionPosition.getY()][actionPosition.getX()].getObjectOnCell() instanceof NonPlayableCharacter) {
 				// if the npc is not dead attack it
 				if (!((NonPlayableCharacter) roomGrid[actionPosition.getY()][actionPosition.getX()].getObjectOnCell()).isDead()) {
@@ -206,6 +200,46 @@ public class Room {
 		}
 		return -1;
 	}
+	
+	/**
+	 * Return the GameObject ahead of a character if there is no object it will
+	 * return null
+	 * 
+	 * @param playerID
+	 * @param boardDirection
+	 * @return
+	 */
+	public GameObject getObjectAheadOfCharactor(int playerID, Direction boardDirection) {
+		GameObject returnObj = null;
+		if (playerLocationMap.get(playerID).getObjectOnCell() instanceof PlayableCharacter) {
+			BoardCell playersCell = playerLocationMap.get(playerID);
+			PlayableCharacter player = (PlayableCharacter) playersCell.getObjectOnCell();
+			Position actionPosition = findPosition(playerID, boardDirection, player.getFacingDirection());
+
+			if (actionPosition.getX() < 0 || actionPosition.getY() < 0 || actionPosition.getX() >= roomGrid.length || actionPosition.getY() >= roomGrid[0].length) {
+				return null;
+			}
+			returnObj = roomGrid[actionPosition.getY()][actionPosition.getX()].getObjectOnCell();
+		}
+		return returnObj;
+	}
+
+	/**
+	 * Force a gameState update called by the networking
+	 * 
+	 * @param playerID
+	 * @param pos
+	 * @param dir
+	 * @return
+	 */
+	public int forcePlayerMove(int playerID, Position pos, Direction dir) {
+		BoardCell oldCell = playerLocationMap.get(playerID);
+		roomGrid[pos.getY()][pos.getX()].setObjectOnCell(oldCell.removeObjectOnCell());
+		playerLocationMap.put(playerID, roomGrid[pos.getY()][pos.getX()]);
+		((PlayableCharacter) playerLocationMap.get(playerID).getObjectOnCell()).changeDirection(dir);
+		return 1;
+	}
+
 
 	/**
 	 * 
@@ -262,49 +296,7 @@ public class Room {
 		}
 		throw new GameError("Find Position Couldn't find a new Position for :");
 	}
-
-	public int getRoomID() {
-		return this.roomID;
-	}
-
-	/**
-	 * finds the direction in which a players action is on the grid no matter
-	 * the maps orientation
-	 * 
-	 * NORTH = UP = 0, EAST = RIGHT = 1, SOUTH = DOWN = 2, WEST = LEFT = 3,
-	 * 
-	 * @param boardOrientation
-	 * @param playerDirection
-	 * 
-	 */
-	public int directionTranslator(Direction boardOrientation, Direction playerDirection) {
-		return (boardOrientation.getValue() + playerDirection.getValue()) % 4;
-	}
-
-	public BoardCell getCharactorCell(int playerID) {
-		return playerLocationMap.get(playerID);
-	}
-
-	public void loadBoardCellToRoom(BoardCell[][] newRoom) {
-		this.roomGrid = newRoom;
-	}
-
-	public void addToInventory(GameObject object) {
-		this.roomInventory.add(object);
-	}
-
-	public void removeFromInventory(GameObject object) {
-
-	}
-
-	public void addToPlayerLocationMap(int playersID, BoardCell cell) {
-		playerLocationMap.put(playersID, cell);
-	}
-
-	public void RemoveFromPlayerLocationMap(int playersID) {
-		playerLocationMap.remove(playersID);
-	}
-
+	
 	/**
 	 * Finds and returns the correct facing direction rather than a moving
 	 * direction
@@ -364,6 +356,50 @@ public class Room {
 		return Direction.NORTH;
 	}
 
+
+	public int getRoomID() {
+		return this.roomID;
+	}
+
+	/**
+	 * finds the direction in which a players action is on the grid no matter
+	 * the maps orientation
+	 * 
+	 * NORTH = UP = 0, EAST = RIGHT = 1, SOUTH = DOWN = 2, WEST = LEFT = 3,
+	 * 
+	 * @param boardOrientation
+	 * @param playerDirection
+	 * 
+	 */
+	public int directionTranslator(Direction boardOrientation, Direction playerDirection) {
+		return (boardOrientation.getValue() + playerDirection.getValue()) % 4;
+	}
+
+	public BoardCell getCharactorCell(int playerID) {
+		return playerLocationMap.get(playerID);
+	}
+
+	public void loadBoardCellToRoom(BoardCell[][] newRoom) {
+		this.roomGrid = newRoom;
+	}
+
+	public void addToInventory(GameObject object) {
+		this.roomInventory.add(object);
+	}
+
+	public void removeFromInventory(GameObject object) {
+
+	}
+
+	public void addToPlayerLocationMap(int playersID, BoardCell cell) {
+		playerLocationMap.put(playersID, cell);
+	}
+
+	public void RemoveFromPlayerLocationMap(int playersID) {
+		playerLocationMap.remove(playersID);
+	}
+
+	
 	public HashMap<Integer, BoardCell> getDoorsLocation() {
 		return doorsLocation;
 	}
@@ -380,43 +416,5 @@ public class Room {
 		return (PlayableCharacter) playerLocationMap.get(playerID).getObjectOnCell();
 	}
 
-	/**
-	 * Return the GameObject ahead of a character if there is no object it will
-	 * return null
-	 * 
-	 * @param playerID
-	 * @param boardDirection
-	 * @return
-	 */
-	public GameObject getObjectAheadOfCharactor(int playerID, Direction boardDirection) {
-		GameObject returnObj = null;
-		if (playerLocationMap.get(playerID).getObjectOnCell() instanceof PlayableCharacter) {
-			BoardCell playersCell = playerLocationMap.get(playerID);
-			PlayableCharacter player = (PlayableCharacter) playersCell.getObjectOnCell();
-			Position actionPosition = findPosition(playerID, boardDirection, player.getFacingDirection());
-
-			if (actionPosition.getX() < 0 || actionPosition.getY() < 0 || actionPosition.getX() >= roomGrid.length || actionPosition.getY() >= roomGrid[0].length) {
-				return null;
-			}
-			returnObj = roomGrid[actionPosition.getY()][actionPosition.getX()].getObjectOnCell();
-		}
-		return returnObj;
-	}
-
-	/**
-	 * Force a gameState update called by the networking
-	 * 
-	 * @param playerID
-	 * @param pos
-	 * @param dir
-	 * @return
-	 */
-	public int forcePlayerMove(int playerID, Position pos, Direction dir) {
-		BoardCell oldCell = playerLocationMap.get(playerID);
-		roomGrid[pos.getY()][pos.getX()].setObjectOnCell(oldCell.removeObjectOnCell());
-		playerLocationMap.put(playerID, roomGrid[pos.getY()][pos.getX()]);
-		((PlayableCharacter) playerLocationMap.get(playerID).getObjectOnCell()).changeDirection(dir);
-		return 1;
-	}
-
+	
 }

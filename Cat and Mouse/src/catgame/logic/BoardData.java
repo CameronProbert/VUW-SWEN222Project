@@ -11,8 +11,12 @@ import catgame.gameObjects.Door;
  * 
  * @author Dan
  * 
- *         This class holds all of the rooms in the game. TODO Fill out the
- *         boardData
+ *         This class holds all of the Rooms in the game and all of the games
+ *         Data which is stored in a the ObjectStorer Here we also have a
+ *         GameUtil getting initialised for the roomBuilder and communication
+ *         ports between the logic and networking
+ * 
+ * 
  */
 public class BoardData {
 
@@ -26,8 +30,7 @@ public class BoardData {
 	}
 
 	/**
-	 * TODO Loading level
-	 * 
+	 * Add a room to the roomLevels
 	 * @return
 	 */
 	public boolean addRoomToLevel(Room room) {
@@ -64,13 +67,18 @@ public class BoardData {
 	public ObjectStorer getObjStorer() {
 		return objStorer;
 	}
-
+	/**
+	 * Loads the test room for testing the game
+	 */
 	public void loadTestData() {
 		RoomBuilder testRoom = new RoomBuilder(objStorer);
 		addRoom(testRoom.loadRoom("SwenProjectRoomTestOne.csv"));
 		TESTattachDoors();
 	}
-
+	
+	/**
+	 * Attaches all of the doors in the test room
+	 */
 	public void TESTattachDoors() {
 		List<Integer> doorsList = new ArrayList<Integer>();
 		doorsList.add(431010);
@@ -78,12 +86,10 @@ public class BoardData {
 		doorsList.add(411012);
 		doorsList.add(0);
 
-		
 		doorsList.add(421013);
 		doorsList.add(GameUtil.KEY);
 		doorsList.add(431011);
 		doorsList.add(0);
-		
 
 		for (int i = 0; i < doorsList.size(); i += 2) {
 			Room doorsRoom = getDoorsRoom(doorsList.get(i));
@@ -104,7 +110,12 @@ public class BoardData {
 			currentDoor.addOtherSide(exit, doorsList.get(i + 1));
 		}
 	}
-
+	
+	/**
+	 * 
+	 * @param DoorID
+	 * @return the Room of a given door
+	 */
 	public Room getDoorsRoom(int DoorID) {
 		for (Room room : allRooms) {
 			if (room.getDoorsLocation().containsKey(DoorID)) {
@@ -115,6 +126,10 @@ public class BoardData {
 		return null;
 	}
 
+	/**
+	 * initialises the first (and only) level in the game
+	 * 
+	 */
 	public void loadLevelOne() {
 		String[] roomFiles = { "RoomOne.csv", "RoomTwo.csv", "RoomThree.csv" };
 		RoomBuilder builder = new RoomBuilder(objStorer);
@@ -124,18 +139,21 @@ public class BoardData {
 		attachDoorsForLevelOne();
 	}
 	
+	/**
+	 * Attaches all of the doors in the firstLevel 
+	 */
 	public void attachDoorsForLevelOne() {
 		List<Integer> doorsList = new ArrayList<Integer>();
 		doorsList.add(401010);
 		doorsList.add(0);
 		doorsList.add(431011);
 		doorsList.add(0);
-		
+
 		doorsList.add(411012);
 		doorsList.add(60);
-		doorsList.add(401014);
+		doorsList.add(401013);
 		doorsList.add(0);
-		
+
 		for (int i = 0; i < doorsList.size(); i += 2) {
 			Room doorsRoom = getDoorsRoom(doorsList.get(i));
 			Room doorsExitRoom;
@@ -153,14 +171,6 @@ public class BoardData {
 			Door currentDoor = ((Door) doorsRoom.getDoorsLocation().get(doorsList.get(i)).getObjectOnCell());
 			Door exit = (Door) doorsExitRoom.getDoorsLocation().get(doorsList.get(i + direction)).getObjectOnCell();
 			currentDoor.addOtherSide(exit, doorsList.get(i + 1));
-		}
-	}
-	
-	public static void main(String[] args){
-		BoardData game  = new BoardData();
-		game.loadLevelOne();
-		for(Room room :game.getAllRooms()){
-			room.getClass();
 		}
 	}
 }

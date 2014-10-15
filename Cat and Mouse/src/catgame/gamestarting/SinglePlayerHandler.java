@@ -35,27 +35,27 @@ public class SinglePlayerHandler extends GameRunner {
 	 * @param playerID
 	 */
 	public SinglePlayerHandler (String fileName){
-		if(!fileName.equals("no file")){
-			try {
-				LoadOldGame loadXML = new LoadOldGame(new File(fileName));
-				boardData = loadXML.getBoardData();
-			} catch (JDOMException | XMLException e) {
-				e.printStackTrace();
-			}
-		}
-		else{
-			List<Integer> ids = new ArrayList<Integer>();
-			ids.add(101010);
-			try {
-				LoadNewGame loadXML = new LoadNewGame(ids);
-				boardData = loadXML.getBoardData();
-			} catch (JDOMException | XMLException e) {
-				e.printStackTrace();
-			}
-		}
+//		if(!fileName.equals("no file")){
+//			try {
+//				LoadOldGame loadXML = new LoadOldGame(new File(fileName));
+//				boardData = loadXML.getBoardData();
+//			} catch (JDOMException | XMLException e) {
+//				e.printStackTrace();
+//			}
+//		}
+//		else{
+//			List<Integer> ids = new ArrayList<Integer>();
+//			ids.add(101010);
+//			try {
+//				LoadNewGame loadXML = new LoadNewGame(ids);
+//				boardData = loadXML.getBoardData();
+//			} catch (JDOMException | XMLException e) {
+//				e.printStackTrace();
+//			}
+//		}
 		
-		// boardData = new BoardData();
-		// boardData.loadTestData();
+		 boardData = new BoardData();
+		 boardData.loadLevelOne();
 		
 		FrameClient frame = new FrameClient(this, false, null, 101010);
 		try {

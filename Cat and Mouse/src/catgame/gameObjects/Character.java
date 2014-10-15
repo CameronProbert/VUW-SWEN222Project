@@ -10,6 +10,7 @@ import catgame.logic.GameUtil.Direction;
  *
  * @author Dan Henton
  *
+ *Character interface for the npc and playableCharacters
  */
 public interface Character extends Movable {
 

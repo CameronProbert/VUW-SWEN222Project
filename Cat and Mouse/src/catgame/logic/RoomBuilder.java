@@ -148,5 +148,4 @@ public class RoomBuilder {
 		loadingRoom.loadBoardCellToRoom(board);
 		return loadingRoom;
 	}
-
 }

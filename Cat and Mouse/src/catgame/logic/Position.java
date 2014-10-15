@@ -13,8 +13,6 @@ public class Position {
 	int x;
 	int y;
 	/**
-	 * TODO
-	 * ROOM NEEDS TO BE ADDED
 	 * @param x
 	 * @param y
 	 */

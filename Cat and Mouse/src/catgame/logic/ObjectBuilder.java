@@ -10,7 +10,9 @@ import catgame.logic.GameUtil.Direction;
  * 
  * @author Dan
  *
- *         Holds all of the preset object building methods
+ *        Constructs the preset gameObjects of objects in the game for testing and the first instance of a game
+ *        which will then be saved as a .xml file
+ *        
  */
 public class ObjectBuilder {
 

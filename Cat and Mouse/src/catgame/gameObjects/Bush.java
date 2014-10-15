@@ -1,5 +1,11 @@
 package catgame.gameObjects;
 
+/**
+ * 
+ * @author Dan
+ *
+ *Bush GameObject 
+ */
 public class Bush implements NonMovavble {
 
 	private final int id;
