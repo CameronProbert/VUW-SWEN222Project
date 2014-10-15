@@ -45,7 +45,7 @@ public class FrameLauncher extends FrameAbstract {
 		super("Cat and Mouse");
 		try {
 			backGround = ImageIO.read(PanelRender.class
-					.getResource("/images/CatBG.png")); // TODO Cat background
+					.getResource("/images/CatBG.png"));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -118,7 +118,6 @@ public class FrameLauncher extends FrameAbstract {
 
 					new FrameClient(net, true, slave, 0);
 				} catch (IOException e1) {
-					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
 			}
@@ -191,46 +190,7 @@ public class FrameLauncher extends FrameAbstract {
 		this.revalidate();
 		this.repaint();
 	}
-
-	//
-	// /**
-	// * Opens a panel that
-	// * @param slaveR
-	// */
-	// protected void waitForPlayers(SlaveReceiver slaveR) {
-	// Dimension frameSize = new Dimension(200, 100);
-	// JFrame frame = new JFrame("Loading");
-	// frame.setPreferredSize(frameSize);
-	// frame.setSize(frameSize);
-	// frame.setLayout(null);
-	// JPanel panel = new JPanel() {
-	// @Override
-	// public void paintComponent(Graphics g) {
-	// super.paintComponent(g);
-	// g.setColor(Color.red);
-	// g.drawString("Waiting for other players,  please wait...", 10,
-	// 10);
-	// }
-	// };
-	// panel.setPreferredSize(frameSize);
-	// panel.setSize(frameSize);
-	// panel.setMinimumSize(frameSize);
-	// panel.setMinimumSize(frameSize);
-	// panel.setLocation(0, 0);
-	// panel.setBackground(Color.black);
-	//
-	// frame.add(panel);
-	// frame.pack();
-	// panel.setVisible(true);
-	// frame.setVisible(true);
-	// frame.repaint();
-	// while (!slaveR.isReady()) {
-	// System.out.printf("");
-	// }
-	// // TODO get rid of loading frame
-	// frame.setVisible(false);
-	// }
-
+	
 	protected void startGame(boolean loadPlayer) {
 		String filename = "no file";
 		if (loadPlayer) {
