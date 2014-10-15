@@ -4,7 +4,6 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.text.Format;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -195,6 +194,9 @@ public class SavingMain {
 		return helper;
 	}
 
+	public SavingMasterObjects getSavingMasterObj(){
+		return masterObj;
+	}
 	public File getXMLFile() {
 		return xmlFile;
 	}

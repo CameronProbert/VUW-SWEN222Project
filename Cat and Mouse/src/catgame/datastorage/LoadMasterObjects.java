@@ -57,12 +57,12 @@ public class LoadMasterObjects {
 		throw new XMLException("Cannot determine GameObject element!");
 	}
 
-	private Fence loadHedge(Element element) {
+	private Fence loadFence(Element element) {
 		
 		return new Fence(Integer.parseInt(element.getAttribute("id").getValue()));
 	}
 
-	private Hedge loadFence(Element element) {
+	private Hedge loadHedge (Element element) {
 		
 		return new Hedge(Integer.parseInt(element.getAttribute("id").getValue()));
 	}
