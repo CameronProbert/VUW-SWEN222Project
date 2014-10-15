@@ -128,10 +128,10 @@ public class BoardData {
 		List<Integer> doorsList = new ArrayList<Integer>();
 		doorsList.add(401010);
 		doorsList.add(0);
-		doorsList.add(411011);
+		doorsList.add(431011);
 		doorsList.add(0);
 		
-		doorsList.add(431012);
+		doorsList.add(411012);
 		doorsList.add(0);
 		doorsList.add(401014);
 		doorsList.add(0);
