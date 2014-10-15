@@ -301,11 +301,11 @@ public class GameUtil {
 	}
 
 	public void lookLeft() {
-		viewDirection = Direction.rightDir(viewDirection);
+		viewDirection = Direction.leftDir(viewDirection);
 	}
 
 	public void lookRight() {
-		viewDirection = Direction.leftDir(viewDirection);
+		viewDirection = Direction.rightDir(viewDirection);
 	}
 
 	public void attackUpdate(int playerID, int minionID) {
