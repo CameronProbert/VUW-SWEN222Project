@@ -90,10 +90,10 @@ public class PanelStat extends PanelAbstract {
 		int HPWidth = this.getWidth()-2*margin;
 		int HPHeight = this.getHeight()/15;
 		int HPX = margin;
-		int HPY = margin+10;
+		int HPY = 2*margin;
 		
-		g.setColor(Color.black);
-		g.drawString("Health:", margin, margin+7);
+		g.setColor(Color.white);
+		g.drawString("Health:", HPX, HPY-3);
 		g.setColor(Color.DARK_GRAY);
 		g.fillRect(HPX, HPY, HPWidth, HPHeight);
 		if (character != null) {
