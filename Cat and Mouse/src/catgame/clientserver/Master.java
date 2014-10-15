@@ -47,8 +47,6 @@ public final class Master extends Thread {
 		try {
 			DataInputStream input = new DataInputStream(socket.getInputStream());
 			DataOutputStream output = new DataOutputStream(socket.getOutputStream());
-
-			System.out.println("about to write start");
 			writeStart(input, output);
 
 			boolean exit=false;
@@ -58,11 +56,8 @@ public final class Master extends Thread {
 					if(input.available()!=0){
 						Update update = new Update(input);
 						if(update.getInst() != 0){
-							System.out.printf("\n\nMy clients uid is : %d and I had a non zero update\n", uid);
-							System.out.println("latest update to the game was, just after reupdating! : " + update.toString() );
+							
 							game.update(update, true);
-						}else{
-							System.out.printf("\n\nMy clients uid is : %d and I had a zero update\n\n", uid);
 						}
 					}
 					broadcastGameState(output);
@@ -85,8 +80,6 @@ public final class Master extends Thread {
 	 * @param output
 	 */
 	private void broadcastGameState(DataOutputStream output) {
-		
-		System.out.println("\n\nsending  mass update\n\n");
 		
 		SendMassUpdate broadcast = new SendMassUpdate(output);
 		try {

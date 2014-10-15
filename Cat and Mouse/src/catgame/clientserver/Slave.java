@@ -40,7 +40,6 @@ public final class Slave {
 		try {
 			output = new DataOutputStream(socket.getOutputStream());
 			update.send(output);
-			//System.out.printf("writing update to client : %f\n", update.toString());
 			
 		} catch (IOException e) {
 			e.printStackTrace();

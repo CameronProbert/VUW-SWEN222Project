@@ -122,15 +122,12 @@ public class SlaveReceiver {
 	private void recieveMassUpdate(DataInputStream input) {
 		try {
 			ReceiveMassUpdate receiver = new ReceiveMassUpdate(input, net.getBoardData());
-			System.out.println("\n\nstarting a mass update\n\n");
-
 			int noChars = input.readInt();
 
 			for(int i=0; i<noChars; i++){
 				receiver.readPlayer();
 			}
 			
-			System.out.println("updates players");
 
 			int noNCPs = input.readInt();
 
@@ -138,7 +135,6 @@ public class SlaveReceiver {
 				receiver.readNonPlayChar();
 			}
 			
-			System.out.println("updated ncps");
 
 			int noChests = input.readInt();
 
@@ -146,14 +142,12 @@ public class SlaveReceiver {
 				receiver.readChest();
 			}
 			
-			System.out.println("updated chests");
 			
 			int noDoors = input.readInt();
 			
 			for(int i=0; i<noDoors; i++){
 				receiver.readDoor();
 			}
-			System.out.println("\n\nfinished reading update\n\n");
 
 
 		} catch (IOException e) {

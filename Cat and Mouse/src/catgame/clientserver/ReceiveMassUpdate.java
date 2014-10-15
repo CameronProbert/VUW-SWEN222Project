@@ -48,11 +48,9 @@ public class ReceiveMassUpdate {
 			NonPlayableCharacter ch = storer.findNonPlayCharacter((int)objectID);
 
 			int inSize = in.readInt();
-			System.out.println("inventory size is : " +inSize);
 			int[] itemIDs = new int[(int)inSize];
 			for(int i=0; i<inSize; i++){
 				itemIDs[i] = in.readInt();
-				System.out.println("read object id into list : " + itemIDs[i]);
 			}
 			if(ch==null){
 				throw new IDNotFoundError();
@@ -88,10 +86,8 @@ public class ReceiveMassUpdate {
 
 			int inSize = in.readInt();
 			int[] itemIDs = new int[(int)inSize];
-			System.out.println("inventory size is : " +inSize);
 			for(int i=0; i<inSize; i++){
 				itemIDs[i] = in.readInt();
-				System.out.println("read object id into list : " + itemIDs[i]);
 			}
 			if(ch==null){
 				throw new IDNotFoundError();
@@ -153,9 +149,7 @@ public class ReceiveMassUpdate {
 	public void readChest(){
 		try {
 			int id = in.readInt();
-			System.out.println("chest id is : " +id);
 			int lootSize = in.readInt();
-			System.out.println("chest loot size is : " + lootSize);
 			Chest chest = data.getObjStorer().findChest(id);
 			if(chest==null){
 				throw new IDNotFoundError();
