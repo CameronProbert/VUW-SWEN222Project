@@ -64,8 +64,8 @@ public class Room {
 
 		if (directionTranslator(boardDirection,playerDirection) != ((PlayableCharacter) getCharactorCell(playerID).getObjectOnCell()).getFacingDirection().getValue() ) {
 			((PlayableCharacter) getCharactorCell(playerID).getObjectOnCell()).changeDirection(getNewDirection(boardDirection, playerDirection));
-			System.err.println("Board Dir :" + boardDirection + " player Dir :" + playerDirection + " current dir: "
-					+ ((PlayableCharacter) getCharactorCell(playerID).getObjectOnCell()).getFacingDirection());
+//			System.err.println("Board Dir :" + boardDirection + " player Dir :" + playerDirection + " current dir: "
+//					+ ((PlayableCharacter) getCharactorCell(playerID).getObjectOnCell()).getFacingDirection());
 			return 2;
 		}
 
@@ -119,7 +119,7 @@ public class Room {
 			roomInventory.remove(player);
 			delete.removeObjectOnCell();
 			door.enterDoor().exitDoor(player);
-			return 1;
+			return 3;
 		} else {
 			System.out.println("SOMETHING IS INFRONT OF THE DOOR");
 		}
