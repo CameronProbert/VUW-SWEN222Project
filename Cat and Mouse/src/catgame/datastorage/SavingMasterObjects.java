@@ -113,6 +113,8 @@ public class SavingMasterObjects {
 				+ minion.getCurrentRoom().getRoomID()));
 		minionElement.addContent(new Element("Health").setText(""
 				+ minion.getHealth()));
+		minionElement.addContent(new Element("attackPower").setText(""
+				+ minion.getAttackPower()));
 		minionElement.addContent(helper.makeInventory(minion.getInventory()));
 
 		return minionElement;
