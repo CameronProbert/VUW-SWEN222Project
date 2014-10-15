@@ -3,10 +3,12 @@ package catgame.gui;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
+import javax.imageio.ImageIO;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
@@ -20,6 +22,7 @@ import catgame.clientserver.SlaveReceiver;
 import catgame.gameObjects.PlayableCharacter;
 import catgame.gamestarting.NetworkHandler;
 import catgame.gamestarting.SinglePlayerHandler;
+import catgame.gui.renderpanel.PanelRender;
 
 /**
  * The LauncherFrame will be the first instance of the program that the users
@@ -33,18 +36,44 @@ import catgame.gamestarting.SinglePlayerHandler;
  */
 public class FrameLauncher extends FrameAbstract {
 
+	protected static final int BUTTONWIDTH = 200;
+	private static final int BUTTONHEIGHT = 75;
 	protected int port = 32768;
+	private JPanel bgPanel;
+	protected BufferedImage backGround;
 
 	/**
 	 * Creates and initialises the frame
 	 */
 	public FrameLauncher() {
 		super("Launcher");
-		Dimension launcherSize = new Dimension(200, 400);
+		try {
+			backGround = ImageIO.read(PanelRender.class
+					.getResource("/images/CatBG.png")); // TODO Cat background
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		Dimension launcherSize = new Dimension(650, 400);
+		this.setLayout(null);
 		this.setSize(launcherSize);
 		this.setPreferredSize(launcherSize);
-		addButtons();
+		this.addButtons();
+		this.createBG();
+		this.add(bgPanel);
 		this.setVisible(true);
+	}
+
+	private void createBG() {
+		bgPanel = new JPanel(){
+			@Override
+			public void paintComponent(Graphics g){
+				super.paintComponent(g);
+				g.drawImage(backGround, 0, 0, getWidth(), getHeight(), null);
+			}
+		};
+		Dimension panelSize = new Dimension(this.getWidth()-BUTTONWIDTH, this.getHeight());
+		bgPanel.setSize(panelSize);
+		bgPanel.setPreferredSize(panelSize);
 	}
 
 	/**
@@ -57,9 +86,13 @@ public class FrameLauncher extends FrameAbstract {
 		// this.setLayout(boxLayout);
 		Box box = new Box(BoxLayout.X_AXIS);
 		box = Box.createVerticalBox();
+		box.setLocation(this.getWidth()-BUTTONWIDTH, 50);
+		Dimension boxSize = new Dimension(BUTTONWIDTH, 4*BUTTONHEIGHT);
+		box.setPreferredSize(boxSize);
+		box.setSize(boxSize);
 		this.add(box);
 
-		Dimension buttonSize = new Dimension(200, 100);
+		Dimension buttonSize = new Dimension(BUTTONWIDTH, BUTTONHEIGHT);
 
 		// Create the buttons
 		JButton buttonServer = HelperMethods.createButton("Multiplayer Host",
@@ -70,7 +103,7 @@ public class FrameLauncher extends FrameAbstract {
 				new FrameHost();
 			}
 		});
-		buttonServer.setAlignmentX(CENTER_ALIGNMENT);
+		buttonServer.setAlignmentX(RIGHT_ALIGNMENT);
 
 		JButton buttonClient = HelperMethods.createButton("Multiplayer Client",
 				buttonSize);
@@ -92,7 +125,7 @@ public class FrameLauncher extends FrameAbstract {
 				}
 			}
 		});
-		buttonClient.setAlignmentX(CENTER_ALIGNMENT);
+		buttonClient.setAlignmentX(RIGHT_ALIGNMENT);
 
 		JButton buttonSinglePlayer = HelperMethods.createButton(
 				"Single Player", buttonSize);
@@ -102,7 +135,7 @@ public class FrameLauncher extends FrameAbstract {
 				singlePlayerPressed();
 			}
 		});
-		buttonSinglePlayer.setAlignmentX(CENTER_ALIGNMENT);
+		buttonSinglePlayer.setAlignmentX(RIGHT_ALIGNMENT);
 
 		JButton buttonQuit = HelperMethods.createButton("Quit", buttonSize);
 		buttonQuit.addActionListener(new ActionListener() {
@@ -110,7 +143,7 @@ public class FrameLauncher extends FrameAbstract {
 				HelperMethods.confirmQuit();
 			}
 		});
-		buttonQuit.setAlignmentX(CENTER_ALIGNMENT);
+		buttonQuit.setAlignmentX(RIGHT_ALIGNMENT);
 
 		// Add the buttons
 		box.add(buttonServer);
