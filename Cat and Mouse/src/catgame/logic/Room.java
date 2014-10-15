@@ -419,14 +419,8 @@ public class Room {
 	public void forceUseDoor(int playerId, Direction boardDirection) {
 		Position newPos = findPosition(playerId, boardDirection, ((PlayableCharacter) getCharactorCell(playerId).getObjectOnCell()).getFacingDirection());
 		if (roomGrid[newPos.getY()][newPos.getX()].getObjectOnCell() instanceof Door) {
-			System.out.println("DOOR AHEADS ID :" + roomGrid[newPos.getY()][newPos.getX()].getObjectOnCell().getObjectID());
+			//System.out.println("DOOR AHEADS ID :" + roomGrid[newPos.getY()][newPos.getX()].getObjectOnCell().getObjectID());
 			 useDoor(playerId, (Door) roomGrid[newPos.getY()][newPos.getX()].getObjectOnCell());
-		}
-		// Check that the next Position is empty then move the player
-		if (roomGrid[newPos.getY()][newPos.getX()].getObjectOnCell() == null) {
-			BoardCell oldCell = playerLocationMap.get(playerId);
-			roomGrid[newPos.getY()][newPos.getX()].setObjectOnCell(oldCell.removeObjectOnCell());
-			playerLocationMap.put(playerId, roomGrid[newPos.getY()][newPos.getX()]);
 		}
 	}	
 }
