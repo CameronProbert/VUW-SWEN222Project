@@ -219,4 +219,11 @@ public class TestingSavingMasterObj {
 				.getInventory().size());
 		return bossElement;
 	}
+	
+	public static void main(String[] args){ 
+//		DataStorageTesting maintesting= new DataStorageTesting();
+//		new TestingSavingMasterObj(maintesting);
+	}
+	
+	
 }
