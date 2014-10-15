@@ -169,12 +169,12 @@ public class ReceiveMassUpdate {
 		try {
 			int id = in.readInt();
 			int lootSize = in.readInt();
-			Chest chest = data.getObjStorer().findChest((int)id);
+			Chest chest = data.getObjStorer().findChest(id);
 			if(chest==null){
 				throw new IDNotFoundError();
 			}
 			List<GameItem> items = new ArrayList<GameItem>();
-			for(GameItem item : chest.getLoot()){
+			for(int i=0; i<lootSize; i++){
 				int itemID = in.readInt();
 				items.add(data.getObjStorer().findItem((int)itemID));
 			}
