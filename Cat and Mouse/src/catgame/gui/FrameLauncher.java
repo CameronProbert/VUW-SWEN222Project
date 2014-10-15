@@ -41,6 +41,7 @@ public class FrameLauncher extends FrameAbstract {
 	protected int port = 32768;
 	private JPanel bgPanel;
 	protected BufferedImage backGround;
+	private Box box;
 
 	/**
 	 * Creates and initialises the frame
@@ -59,21 +60,22 @@ public class FrameLauncher extends FrameAbstract {
 		this.setPreferredSize(launcherSize);
 		this.addButtons();
 		this.createBG();
-		this.add(bgPanel);
 		this.setVisible(true);
 	}
 
 	private void createBG() {
-		bgPanel = new JPanel(){
+		bgPanel = new JPanel() {
 			@Override
-			public void paintComponent(Graphics g){
+			public void paintComponent(Graphics g) {
 				super.paintComponent(g);
 				g.drawImage(backGround, 0, 0, getWidth(), getHeight(), null);
 			}
 		};
-		Dimension panelSize = new Dimension(this.getWidth()-BUTTONWIDTH, this.getHeight());
+		Dimension panelSize = new Dimension(this.getWidth() - BUTTONWIDTH,
+				this.getHeight());
 		bgPanel.setSize(panelSize);
 		bgPanel.setPreferredSize(panelSize);
+		this.add(bgPanel);
 	}
 
 	/**
@@ -84,10 +86,11 @@ public class FrameLauncher extends FrameAbstract {
 		// BoxLayout boxLayout = new BoxLayout(this.getContentPane(),
 		// BoxLayout.Y_AXIS);
 		// this.setLayout(boxLayout);
-		Box box = new Box(BoxLayout.X_AXIS);
+		box = new Box(BoxLayout.X_AXIS);
 		box = Box.createVerticalBox();
-		box.setLocation(this.getWidth()-BUTTONWIDTH, 50);
-		Dimension boxSize = new Dimension(BUTTONWIDTH, 4*BUTTONHEIGHT);
+		box.setLocation(this.getWidth() - BUTTONWIDTH,
+				(this.getHeight() - 4 * BUTTONHEIGHT) / 2);
+		Dimension boxSize = new Dimension(BUTTONWIDTH, 4 * BUTTONHEIGHT);
 		box.setPreferredSize(boxSize);
 		box.setSize(boxSize);
 		this.add(box);
@@ -117,7 +120,7 @@ public class FrameLauncher extends FrameAbstract {
 					Slave slave = new Slave(s);
 					NetworkHandler net = new NetworkHandler(
 							NetworkHandler.Type.CLIENT);
-					
+
 					FrameClient frame = new FrameClient(net, true, slave, 0);
 				} catch (IOException e1) {
 					// TODO Auto-generated catch block
@@ -131,7 +134,7 @@ public class FrameLauncher extends FrameAbstract {
 				"Single Player", buttonSize);
 		buttonSinglePlayer.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				setVisible(false);
+				//setVisible(false);
 				singlePlayerPressed();
 			}
 		});
@@ -156,82 +159,88 @@ public class FrameLauncher extends FrameAbstract {
 	/**
 	 * Called when the single player button is pressed in the launcher
 	 */
-	protected void singlePlayerPressed() {
-		Dimension frameSize = new Dimension(200, 200);
-		Dimension buttonSize = new Dimension(200, 100);
-		final JFrame frame = new JFrame("New Game or Load Game?");
-		frame.setLayout(null);
-		frame.setPreferredSize(frameSize);
-		frame.setSize(frameSize);
-		JButton newButton = HelperMethods.createButton("New Game",
-				buttonSize);
-		JButton loadButton = HelperMethods.createButton("Load Game",
-				buttonSize);
+	public void singlePlayerPressed() {
+		this.remove(box);
+		this.createBG();
+		box = new Box(BoxLayout.X_AXIS);
+		box = Box.createVerticalBox();
+		box.setLocation(this.getWidth() - BUTTONWIDTH,
+				(this.getHeight() - 2 * BUTTONHEIGHT) / 2);
+		Dimension boxSize = new Dimension(BUTTONWIDTH, 2 * BUTTONHEIGHT);
+		box.setPreferredSize(boxSize);
+		box.setSize(boxSize);
+		Dimension buttonSize = new Dimension(BUTTONWIDTH, BUTTONHEIGHT);
+		JButton newButton = HelperMethods.createButton("New Game", buttonSize);
+		JButton loadButton = HelperMethods
+				.createButton("Load Game", buttonSize);
 		newButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				startGame(false);
-				frame.setVisible(false);
+				hideFrame();
 			}
 		});
 		loadButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				startGame(true);
-				frame.setVisible(false);
+				hideFrame();
 			}
 		});
 		newButton.setLocation(0, 0);
 		loadButton.setLocation(0, 100);
-		frame.add(newButton);
-		frame.add(loadButton);
-		frame.pack();
-		frame.setVisible(true);
+		box.add(newButton);
+		box.add(loadButton);
+		box.setVisible(true);
+		this.add(box);
+		this.revalidate();
+		this.repaint();
 	}
-//
-//	/**
-//	 * Opens a panel that
-//	 * @param slaveR
-//	 */
-//	protected void waitForPlayers(SlaveReceiver slaveR) {
-//		Dimension frameSize = new Dimension(200, 100);
-//		JFrame frame = new JFrame("Loading");
-//		frame.setPreferredSize(frameSize);
-//		frame.setSize(frameSize);
-//		frame.setLayout(null);
-//		JPanel panel = new JPanel() {
-//			@Override
-//			public void paintComponent(Graphics g) {
-//				super.paintComponent(g);
-//				g.setColor(Color.red);
-//				g.drawString("Waiting for other players,  please wait...", 10,
-//						10);
-//			}
-//		};
-//		panel.setPreferredSize(frameSize);
-//		panel.setSize(frameSize);
-//		panel.setMinimumSize(frameSize);
-//		panel.setMinimumSize(frameSize);
-//		panel.setLocation(0, 0);
-//		panel.setBackground(Color.black);
-//
-//		frame.add(panel);
-//		frame.pack();
-//		panel.setVisible(true);
-//		frame.setVisible(true);
-//		frame.repaint();
-//		while (!slaveR.isReady()) {
-//			System.out.printf("");
-//		}
-//		// TODO get rid of loading frame
-//		frame.setVisible(false);
-//	}
+
+	//
+	// /**
+	// * Opens a panel that
+	// * @param slaveR
+	// */
+	// protected void waitForPlayers(SlaveReceiver slaveR) {
+	// Dimension frameSize = new Dimension(200, 100);
+	// JFrame frame = new JFrame("Loading");
+	// frame.setPreferredSize(frameSize);
+	// frame.setSize(frameSize);
+	// frame.setLayout(null);
+	// JPanel panel = new JPanel() {
+	// @Override
+	// public void paintComponent(Graphics g) {
+	// super.paintComponent(g);
+	// g.setColor(Color.red);
+	// g.drawString("Waiting for other players,  please wait...", 10,
+	// 10);
+	// }
+	// };
+	// panel.setPreferredSize(frameSize);
+	// panel.setSize(frameSize);
+	// panel.setMinimumSize(frameSize);
+	// panel.setMinimumSize(frameSize);
+	// panel.setLocation(0, 0);
+	// panel.setBackground(Color.black);
+	//
+	// frame.add(panel);
+	// frame.pack();
+	// panel.setVisible(true);
+	// frame.setVisible(true);
+	// frame.repaint();
+	// while (!slaveR.isReady()) {
+	// System.out.printf("");
+	// }
+	// // TODO get rid of loading frame
+	// frame.setVisible(false);
+	// }
 
 	protected void startGame(boolean loadPlayer) {
 		String filename = "no file";
 		if (loadPlayer) {
 			filename = HelperMethods.chooseCatgameFile(this);
-			if (filename == null){
+			if (filename == null) {
 				System.exit(0);
 			}
 		}
