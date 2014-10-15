@@ -72,10 +72,7 @@ public class PanelMinimap extends PanelAbstract {
 				int xCo = startX + sqSize * y;
 				int yCo = startY + sqSize * x;
 				// Default colours
-				Color base = Color.black;
-				Color outline = Color.black;
-				Color groundCol = Color.black;
-				Color objectCol = Color.black;
+				Color base = NULL, outline = NULL, groundCol = NULL, objectCol = NULL;
 
 				// First find colours
 				BoardCell cell = currentRoom.getBoardGrid()[x][y];
@@ -100,7 +97,7 @@ public class PanelMinimap extends PanelAbstract {
 					}
 				} else if (object instanceof PlayableCharacter) {
 					PlayableCharacter ch = (PlayableCharacter) object;
-					if (ch == character){
+					if (ch == character) {
 						objectCol = YOURCAT;
 					} else {
 						objectCol = OTHERCATS;
