@@ -322,7 +322,6 @@ public class GameUtil {
 	}
 
 	public void moveToNextRoom(int playerID) {
-		// TODO Auto-generated method stub
-		
+		findPlayersRoom(playerID).forceUseDoor(playerID, this.viewDirection);
 	}
 }

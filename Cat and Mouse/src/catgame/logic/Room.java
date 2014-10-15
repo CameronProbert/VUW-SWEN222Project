@@ -75,7 +75,7 @@ public class Room {
 			System.out.println("New Move Position to x:" + newPos.getX() + " y:" + newPos.getY() + " is not valid");
 			return -1;
 		}
-
+		//TODO
 		//If the object infront of the player is a door try and use it
 		if (roomGrid[newPos.getY()][newPos.getX()].getGroundType().equals("Grass")) {
 			if (roomGrid[newPos.getY()][newPos.getX()].getObjectOnCell() instanceof Door) {
@@ -416,5 +416,17 @@ public class Room {
 		return (PlayableCharacter) playerLocationMap.get(playerID).getObjectOnCell();
 	}
 
-	
+	public void forceUseDoor(int playerId, Direction boardDirection) {
+		Position newPos = findPosition(playerId, boardDirection, ((PlayableCharacter) getCharactorCell(playerId).getObjectOnCell()).getFacingDirection());
+		if (roomGrid[newPos.getY()][newPos.getX()].getObjectOnCell() instanceof Door) {
+			System.out.println("DOOR AHEADS ID :" + roomGrid[newPos.getY()][newPos.getX()].getObjectOnCell().getObjectID());
+			 useDoor(playerId, (Door) roomGrid[newPos.getY()][newPos.getX()].getObjectOnCell());
+		}
+		// Check that the next Position is empty then move the player
+		if (roomGrid[newPos.getY()][newPos.getX()].getObjectOnCell() == null) {
+			BoardCell oldCell = playerLocationMap.get(playerId);
+			roomGrid[newPos.getY()][newPos.getX()].setObjectOnCell(oldCell.removeObjectOnCell());
+			playerLocationMap.put(playerId, roomGrid[newPos.getY()][newPos.getX()]);
+		}
+	}	
 }
