@@ -110,9 +110,9 @@ public class PanelRender extends JPanel {
 			hedgeLeft1 = ImageIO.read(PanelRender.class.getResource("/images/HedgeLeft1.png"));
 			hedgeRight1 = ImageIO.read(PanelRender.class.getResource("/images/HedgeRight1.png"));
 			
-			// Load hedge images
-			hedgeLeft1 = ImageIO.read(PanelRender.class.getResource("/images/FenceLeft1.png"));
-			hedgeRight1 = ImageIO.read(PanelRender.class.getResource("/images/FenceRight1.png"));
+			// Load fence images
+			fenceLeft1 = ImageIO.read(PanelRender.class.getResource("/images/FenceLeft1.png"));
+			fenceRight1 = ImageIO.read(PanelRender.class.getResource("/images/FenceRight1.png"));
 			
 			// Load chest images
 			chestFrontLeft1 = ImageIO.read(PanelRender.class.getResource("/images/ChestFrontLeft1.png"));
@@ -326,11 +326,7 @@ public class PanelRender extends JPanel {
 				null);
 	}
 
-	public void redraw(Graphics g) {
-		g.setColor(Color.DARK_GRAY);
-		g.fillRect(0, 0, panelWidth, panelHeight);
-		drawGroundAndObjects(g);
-	}
+	
 	
 	public int directionTranslate(Direction boardOrientation, Direction playerDirection) {
 		return (boardOrientation.getValue() + playerDirection.getValue()) % 4;
@@ -378,7 +374,13 @@ public class PanelRender extends JPanel {
 		break;
 		}
 		return null;
-	}	
+	}
+	
+	public void redraw(Graphics g) {
+		g.setColor(Color.DARK_GRAY);
+		g.fillRect(0, 0, panelWidth, panelHeight);
+		drawGroundAndObjects(g);
+	}
 	
 	//
 	//
@@ -549,8 +551,8 @@ public class PanelRender extends JPanel {
 	}
 	
 	public void drawFence(Graphics g, int sendY, int sendX, int y, int x, String fenceType){
-		int startX = panelWidth / 4 + 50;
-		int startY = 50 + 340;
+		int startX = xOffset + 55;
+		int startY = yOffset - 15;
 		Image img = fenceLeft1;
 		switch (gUtil.getViewDirection()) {
 		case NORTH:
