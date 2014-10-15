@@ -32,18 +32,33 @@ public class LoadingHelper {
 		Position position = new Position(x, y);
 		GameObject ObjectID = null;
 		if (!boardInfoArray[2].equals("null")) {
-			int ID = Integer.parseInt(boardInfoArray[2]);
-			if (main.getObjectIDMap().containsKey(ID)) {
-				ObjectID = (GameObject) main.getObjectIDMap().get(ID);
-				// System.out.println("Found object ID: " + ID);
-			} else {
-				throw new XMLException(
-						"Cannot find GameObject_"
-								+ ID
-								+ " that is supposed to be already made in the room. Cannot make BoardCell without this!");
-				// System.out.println("***********   Cannot find GameObject ID = "
-				// + ID + "   ***********");
+			if(checkPlayerID(boardInfoArray[2]) == 10){
+				if(isOldGame){
+					int ID = Integer.parseInt(boardInfoArray[2]);
+					if (main.getObjectIDMap().containsKey(ID)) {
+						ObjectID = (GameObject) main.getObjectIDMap().get(ID);
+						// System.out.println("Found object ID: " + ID);
+					} else {
+						throw new XMLException(
+								"Cannot find GameObject_"
+										+ ID
+										+ " that is supposed to be already made in the room. Cannot make BoardCell without this!");
+					}
+				}
 			}
+			else{
+				int ID = Integer.parseInt(boardInfoArray[2]);
+				if (main.getObjectIDMap().containsKey(ID)) {
+					ObjectID = (GameObject) main.getObjectIDMap().get(ID);
+					// System.out.println("Found object ID: " + ID);
+				} else {
+					throw new XMLException(
+							"Cannot find GameObject_"
+									+ ID
+									+ " that is supposed to be already made in the room. Cannot make BoardCell without this!");
+				}
+			}
+			
 
 		}
 		String groundType = null;
