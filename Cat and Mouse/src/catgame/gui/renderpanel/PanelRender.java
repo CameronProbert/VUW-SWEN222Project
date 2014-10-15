@@ -313,6 +313,10 @@ public class PanelRender extends JPanel {
 		drawGroundAndObjects(g);
 	}
 	
+	public int directionTranslate(Direction boardOrientation, Direction playerDirection) {
+		return (boardOrientation.getValue() + playerDirection.getValue()) % 4;
+	}
+	
 	public Direction directionTranslator(Direction viewDirection, Direction charDirection){
 		switch (viewDirection){
 		case NORTH:
@@ -416,6 +420,59 @@ public class PanelRender extends JPanel {
 			break;				
 		}	
 	}
+	
+	
+	
+	//TODO Need to check which method is correct
+//	public void drawPlayableChar(Graphics g, int sendY, int sendX, int y, int x){
+//		PlayableCharacter character = (PlayableCharacter) currentRoom.getBoardGrid()[sendY][sendX].getObjectOnCell();
+//		Direction drawDirection = directionTranslator(gUtil.getViewDirection(), character.getFacingDirection());
+//		int startX = xOffset + 27;
+//		int startY = yOffset - 5;
+//		if (((PlayableCharacter)currentRoom.getBoardGrid()[sendY][sendX].getObjectOnCell()).isDead()){
+//			drawObject(g, corpse1, sendY, sendX, y, x, startY+75, startX+35);
+//			return;
+//		}			
+//		switch (gUtil.getViewDirection()) {
+//		case NORTH:
+//			switch (character.getFacingDirection()){
+//			case NORTH: drawObject(g, catBackRight1, sendY, sendX, y, x, startY, startX);
+//				break;
+//			case EAST: drawObject(g, catFrontRight1, sendY, sendX, y, x, startY, startX);
+//				break;
+//			case SOUTH: drawObject(g, catFrontLeft1, sendY, sendX, y, x, startY, startX);
+//				break;
+//			case WEST: drawObject(g, catBackLeft1, sendY, sendX, y, x, startY, startX);
+//				break;
+//			default: System.out.println("Error");
+//			break;
+//			}
+//			break;
+//		case EAST: 
+//			System.out.println("----------------------------------------------");
+//			System.out.println("----------------------------------------------");
+//			System.out.println("catDir: " + character.getFacingDirection());
+//			switch (character.getFacingDirection()){
+//			case NORTH: drawObject(g, catBackLeft1, sendY, sendX, y, x, startY, startX);
+//				break;
+//			case EAST: drawObject(g, catBackRight1, sendY, sendX, y, x, startY, startX);
+//				break;
+//			case SOUTH: drawObject(g, catFrontRight1, sendY, sendX, y, x, startY, startX);
+//				break;
+//			case WEST: drawObject(g, catFrontLeft1, sendY, sendX, y, x, startY, startX);
+//				break;
+//			default: System.out.println("Error");
+//			break;
+//			}
+//			break;
+//		case SOUTH: 
+//			drawObject(g, catFrontLeft1, sendY, sendX, y, x, startY, startX);
+//			break;
+//		case WEST:
+//			drawObject(g, catBackLeft1, sendY, sendX, y, x, startY, startX);
+//			break;				
+//		}	
+//	}
 	
 	public void drawMinion(Graphics g, int sendY, int sendX, int y, int x){
 		int startX = xOffset + 60;
