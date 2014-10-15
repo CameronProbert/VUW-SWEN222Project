@@ -2,6 +2,8 @@ package catgame.gamestarting;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.URISyntaxException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -37,7 +39,14 @@ public class SinglePlayerHandler extends GameRunner {
 	public SinglePlayerHandler (String fileName){
 		if(!fileName.equals("no file")){
 			try {
-				LoadOldGame loadXML = new LoadOldGame(new File(fileName));
+				URL fileURL = getClass().getResource(fileName);
+				File xmlFile = null;
+				try {
+					xmlFile = new File(fileURL.toURI());
+				} catch (URISyntaxException e) {
+					e.printStackTrace();
+				}
+				LoadOldGame loadXML = new LoadOldGame(xmlFile);
 				boardData = loadXML.getBoardData();
 			} catch (JDOMException | XMLException e) {
 				e.printStackTrace();

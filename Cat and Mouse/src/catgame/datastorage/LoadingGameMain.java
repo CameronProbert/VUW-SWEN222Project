@@ -12,8 +12,6 @@ import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.*;
 
-import javax.imageio.ImageIO;
-
 public class LoadingGameMain {
 	private Map<Integer, MasterObject> objectIDMap = new HashMap<Integer, MasterObject>();
 	private Map<Integer, Room> roomIDMap = new HashMap<Integer, Room>();
