@@ -20,8 +20,7 @@ public class NetworkHandler extends GameRunner{
 		CLIENT,
 		SERVER
 	}
-
-	private Update lastUpdate = new Update(0);
+	
 	private Type stateType;
 	private List<Integer> playerIds = new ArrayList<Integer>();
 	private int clientPlayerID; // this will only have a value if the client is running the program, used so the UI knows whos who
@@ -57,16 +56,7 @@ public class NetworkHandler extends GameRunner{
 	 * (is usually not saved when used by the slave to update from the masters call)
 	 */
 	public void update(Update update, boolean changeLastUpdate) {
-		if(changeLastUpdate)		this.lastUpdate = update;
-		//update.decode(game); 
-	}
-
-	/**
-	 * get last update - this is for the masters to send updates to the slaves
-	 * @return
-	 */
-	public Update getLatestUpdate() {
-		return this.lastUpdate;
+		update.decode(boardData.getGameUtil()); 
 	}
 
 	/**

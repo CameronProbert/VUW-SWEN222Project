@@ -67,7 +67,11 @@ public class SavingMasterObjects {
 		}
 		else{
 			doorEntranceElement.setText("" + door.enterDoor().getObjectID());
-			main.getDoorLinksMap().put(door.getObjectID(), door.enterDoor().getObjectID());
+			main
+			.getDoorLinksMap().
+			put(door.getObjectID(), door
+					.enterDoor()
+					.getObjectID());
 		}
 		doorElement.addContent(doorEntranceElement);
 		doorElement.addContent(new Element("isLocked").setText("" + door.getIsLocked()));
@@ -89,6 +93,7 @@ public class SavingMasterObjects {
 		Key key = (Key) obj;
 		Element keyElement = new Element("Key");
 		keyElement.setAttribute(new Attribute("id", "" + key.getObjectID()));
+		// TODO remove owner ID stuff
 		if (key.getOwner() == null) {
 			keyElement.addContent(new Element("owner_ID").setText("null"));
 		} else {
@@ -106,8 +111,6 @@ public class SavingMasterObjects {
 				+ minion.getObjectID()));
 		minionElement.addContent(new Element("RoomID").setText(""
 				+ minion.getCurrentRoom().getRoomID()));
-		minionElement.addContent(new Element("AttackPower").setText(""
-				+ minion.getAttackPower()));
 		minionElement.addContent(new Element("Health").setText(""
 				+ minion.getHealth()));
 		minionElement.addContent(helper.makeInventory(minion.getInventory()));

@@ -2,6 +2,7 @@ package catgame.gui;
 
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
@@ -25,6 +26,8 @@ public class PanelStat extends PanelAbstract {
 	private int margin;
 	private PanelMinimap map;
 
+	private GameRunner runner;
+
 	public PanelStat(PlayableCharacter character) {
 		super();
 		try {
@@ -41,13 +44,12 @@ public class PanelStat extends PanelAbstract {
 	 * @param runner 
 	 */
 	public void addMinimap(GameRunner runner) {
+		this.runner = runner;
 		margin = (int) (this.getWidth()*MARGINPERCENT);
-		System.out.println("Adding minimap");
 		map = new PanelMinimap(character, runner);
 		
 		// Set the size of the mini-map
 		int mapSize = this.getWidth()-margin*2;
-		System.out.println(mapSize);
 		Dimension mapDim = new Dimension(mapSize, mapSize);
 		map.setSize(mapDim);
 		map.setPreferredSize(mapDim);
@@ -55,7 +57,6 @@ public class PanelStat extends PanelAbstract {
 		// Set the placement of the mini-map
 		int mapX = margin;
 		int mapY = this.getHeight()-mapSize-margin*2;
-		System.out.println(mapX + ":" + mapY);
 		map.setLocation(mapX, mapY);
 		
 		this.add(map);
@@ -79,18 +80,23 @@ public class PanelStat extends PanelAbstract {
 		if (backGround != null) {
 			g.drawImage(backGround, 0, 0, this.getWidth(), this.getHeight(), null);
 		}
-		drawHPBar(g);
+		g.setFont(new Font("Ariel", 0, 14));
+		drawHPBar(g, 2*margin);
+		g.setColor(Color.white);
+		g.drawString("Currently oriented: ", margin, (int) (4.1*margin));
+		g.setFont(new Font("Ariel", Font.BOLD, 14));
+		g.drawString(runner.getBoardData().getGameUtil().getViewDirection().toString(), margin, (int) (4.8*margin));
 	}
 	
 	/**
 	 * Draws the HP Bar
 	 * @param g
 	 */
-	public void drawHPBar(Graphics g){
+	public void drawHPBar(Graphics g, int yPos){
 		int HPWidth = this.getWidth()-2*margin;
 		int HPHeight = this.getHeight()/15;
 		int HPX = margin;
-		int HPY = 2*margin;
+		int HPY = yPos;
 		
 		g.setColor(Color.white);
 		g.drawString("Health:", HPX, HPY-3);

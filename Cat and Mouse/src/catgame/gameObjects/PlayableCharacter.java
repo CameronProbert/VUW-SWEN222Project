@@ -57,6 +57,9 @@ public class PlayableCharacter implements Character {
 
 	public void changeHealth(int change) {
 		health += change;
+		if(health < 0){
+			health = 0;
+		}
 	}
 
 	public List<GameItem> getInventory() {
@@ -101,7 +104,7 @@ public class PlayableCharacter implements Character {
 	}
 
 	public boolean isDead() {
-		return health < 0;
+		return health <= 0;
 	}
 
 	// TODO Check if this is even needed i don't think it is used

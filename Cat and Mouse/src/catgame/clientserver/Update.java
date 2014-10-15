@@ -1,5 +1,9 @@
 package catgame.clientserver;
 
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.IOException;
+
 import catgame.logic.GameUtil;
 
 /**
@@ -10,11 +14,12 @@ import catgame.logic.GameUtil;
  */
 public class Update {
 
-	private double code;
-	private final double TRILLION = 1000000000000.0;
-	private final double MILLION =  1000000;
-	public final static int PAUSE_STATE = 555555;
-	public final static int UN_PAUSE_STATE = 666666;
+	private int inst;
+	private int playerID;
+	private int otherID;
+	public final static Update pauseUpdate = new Update(5,0,0);
+	public final static Update unPauseUpdate = new Update(6,0,0);
+	public final static Update noUpdate = new Update(0,0,0);
 	
 	public enum Descriptor{
 		NORTH,
@@ -32,8 +37,31 @@ public class Update {
 	 * make a new update given some code (16 number grammar system)
 	 * @param code
 	 */
-	public Update(double code){
-		this.code = code;
+	public Update(int instruction, int playerID, int otherID){
+		this.setInst(instruction);
+		this.playerID = playerID;
+		this.otherID = otherID;
+	}
+	
+	public Update(DataInputStream input){
+		try {
+			this.setInst(input.readInt());
+			this.playerID = input.readInt();
+			this.otherID = input.readInt();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void send(DataOutputStream output){
+		try {
+			output.writeInt(this.inst);
+			output.writeInt(this.playerID);
+			output.writeInt(this.otherID);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
 	}
 
 	/**
@@ -49,33 +77,36 @@ public class Update {
 	 */
 
 	public Update(Descriptor describe, int playerID, int supID){
+		this.playerID = playerID;
+		this.otherID = supID;
+		
 		switch(describe){
 		case NORTH:
-			this.code = 01*TRILLION + playerID*MILLION; 
+			this.setInst(1); 
 			break;
 		case WEST:
-			this.code = 02*TRILLION + playerID*MILLION;
+			this.setInst(2);
 			break;
 		case EAST:
-			this.code = 03*TRILLION + playerID*MILLION;
+			this.setInst(3);
 			break;
 		case SOUTH:
-			this.code = 04*TRILLION + playerID*MILLION;
+			this.setInst(4);
 			break;
 		case ATTACK:
-			this.code = 05*TRILLION + playerID*MILLION + supID;
+			this.setInst(5);
 			break;
 		case PICKUP:
-			this.code = 06*TRILLION + playerID*MILLION + supID;
+			this.setInst(6);
 			break;
 		case DROP://may be not used as a player cannot really remove an item
-			this.code = 07*TRILLION + playerID*MILLION + supID;
+			this.setInst(7);
 			break;
 		case NEWROOM:
-			this.code = 8*TRILLION + playerID*MILLION + supID;
+			this.setInst(8);
 			break;
 		case CONSUME:
-			this.code = 9*TRILLION + playerID*MILLION + supID;
+			this.setInst(9);
 			break;
 
 		}
@@ -87,53 +118,37 @@ public class Update {
 	 * @param game
 	 */
 	public void decode(GameUtil game){
-		String str = Double.toString(code);
-		String first2 = str.substring(0, 1);
-		String next6 = str.substring(2, 7);
-		String last6 = str.substring(8, 13);
 		
-		int instruction = Integer.parseInt(first2);
-		int playerID = Integer.parseInt(next6);
-		int lastID = Integer.parseInt(last6);
 		
-		switch(instruction){
+		switch(getInst()){
 		case 1: // move forward
-			game.moveUp(playerID);
-			
+			int i = game.moveUp(getPlayerID());
+			System.out.println("doing the instrution returned : " + i);
+			break;
 		case 2: // move right
-			game.moveLeft(playerID);
-			
+			i = game.moveLeft(getPlayerID());
+			System.out.println("doing the instrution returned : " + i);
+			break;
 		case 3: // move left
-			game.moveRight(playerID);
-			
+			i = game.moveRight(getPlayerID());
+			System.out.println("doing the instrution returned : " + i);
+			break;
 		case 4: // move back
-			game.moveDown(playerID);
-			
+			i = game.moveDown(getPlayerID());
+			System.out.println("doing the instrution returned : " + i);
+			break;
 		case 5: // attack
-			game.attackUpdate(playerID, lastID);
-			
+			game.attackUpdate(getPlayerID(), getOtherID());
+			break;
 		case 6: // add object to inventory
-			game.addObjectToInventory(playerID, lastID);
-			
-		case 7: // remove object from inventory
-			//game.removeItem(playerID, lastID);
-			
-		case 8: // moved room
-			//game.moveToNextRoom(playerID, lastID); 
-			
+			game.addObjectToInventory(getPlayerID(), getOtherID());
+			break;
 		case 9: // object eaten
-			game.useItem(playerID, lastID);
-			
+			i = game.useItem(getPlayerID(), getOtherID());
+			System.out.println("doing the instrution returned : " + i);
+			break;
 		}
 		
-	}
-
-	/**
-	 * 
-	 * @return the update as an int
-	 */
-	public double getCode(){
-		return code;
 	}
 	
 
@@ -145,6 +160,26 @@ public class Update {
 			return false;
 		}
 		Update o = (Update)other;
-		return this.code == o.code;
+		return this.getInst() == o.getInst() && this.getPlayerID() == o.getPlayerID() && this.getOtherID()==o.getOtherID();
+	}
+
+	public int getInst() {
+		return inst;
+	}
+
+	private void setInst(int inst) {
+		this.inst = inst;
+	}
+
+	public int getPlayerID() {
+		return playerID;
+	}
+
+	public int getOtherID() {
+		return otherID;
+	}
+	
+	public String toString(){
+		return this.inst + " " + this.playerID + " " + this.otherID;
 	}
 }

@@ -17,12 +17,16 @@ public class DataStorageTesting {
 	private LoadingHelper loadingHelper;
 	private LoadMasterObjects loadingMasterObj;
 
+	private TestingSavingMasterObj testSaveObj;
 	private BoardData boardData;
 	private File testingXML;
 
-	public DataStorageTesting() throws IOException{
+	public DataStorageTesting() throws IOException, XMLException{
 		makeTestRoom();
 		setUpSaving();
+		testSaveObj = new TestingSavingMasterObj(this);
+		
+		testSavingMasterObjects();
 
 	}
 
@@ -45,15 +49,24 @@ public class DataStorageTesting {
 	}
 
 	@Test
-	public void testSavingMasterObjects() {
-		List<GameObject> roomInventory = boardData.getAllRooms().get(0).getRoomInventory();
-		for(int i = 0; i < roomInventory.size(); i++){
-			GameObject obj = roomInventory.get(i);
-			//if(obj instanceof )
-		}
+	public void testSavingMasterObjects() throws XMLException {
+		testSaveObj.testRoomInventory(boardData.getAllRooms().get(0).getRoomInventory());
 	}
 	
-	public static void main(String[] args){
-		
+	public SavingMain getSavingMain(){
+		return savingMain;
 	}
+	
+	public SavingMasterObjects getSavingMasterObj(){
+		return savingMasterObj;
+	}
+	
+	public SavingHelper getSavingHelper(){
+		return savingHelper;
+	}
+	
+	public static void main(String[] args) throws IOException, XMLException{
+		new DataStorageTesting();
+	}
+	
 }

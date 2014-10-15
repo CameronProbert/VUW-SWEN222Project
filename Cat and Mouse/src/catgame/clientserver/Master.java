@@ -28,23 +28,13 @@ import catgame.logic.ObjectStorer;
 public final class Master extends Thread {
 
 
-	private final int MASSUPDATE = 35;
-	private final int MINORUPDATE = 30;
-
-
 	private final NetworkHandler game;
 	private final int broadcastClock;
 	private int uid;
 	private final Socket socket;
-	private Update lastUpdateSent = new Update(0); // this keeps track of the last update sent
-	private Update lastUpdateReceived = new Update(0);
-	private int number = 0;
-	private boolean testing = false; // true when testing
-	private int timer = 0;
 	private boolean canStart = false;
 	private File file;
 
-	private final static int TIMESUP = 10; // when timer reaches TIMESUP massive update to system 
 
 	public Master(Socket socket, int broadcastClock, NetworkHandler game) {
 		this.game = game;	
@@ -63,50 +53,18 @@ public final class Master extends Thread {
 			boolean exit=false;
 			while(!exit) {
 				try {
-
-					if(timer==TIMESUP){
-						timer=0;
-						output.writeDouble(MASSUPDATE);
-						//broadcastGameState(output);
+					// this will read the last update from the slave
+					if(input.available()!=0){
+						Update update = new Update(input);
+						if(update.getInst() != 0){
+							System.out.printf("\n\nMy clients uid is : %d and I had a non zero update\n", uid);
+							System.out.println("latest update to the game was, just after reupdating! : " + update.toString() );
+							game.update(update, true);
+						}else{
+							System.out.printf("\n\nMy clients uid is : %d and I had a zero update\n\n", uid);
+						}
 					}
-					else{
-
-						output.writeDouble(MINORUPDATE);
-
-
-						// this will read the last update from the slave
-						if(input.available()!=0){
-							double updateFromSlave = input.readDouble(); 
-							if(updateFromSlave != 0){
-								game.update(new Update(updateFromSlave), true);
-								this.lastUpdateReceived = new Update(updateFromSlave);
-								System.out.printf("\n\nMy clients uid is : %d and I had a non zero update\n", uid);
-								System.out.println("latest update to the game was, just after reupdating! : " + updateFromSlave + "\n\n");
-							}else{
-								System.out.printf("\n\nMy clients uid is : %d and I had a zero update\n\n", uid);
-							}
-						}
-
-
-						// Now, broadcast the latest update of the board to client
-
-						Update updateToSlave = game.getLatestUpdate();
-
-						if(updateToSlave.equals(lastUpdateReceived)){
-							output.writeDouble(0); // writes a 'no update'
-							System.out.printf("\n\nMy clients uid is : %d and I had a nothing to update\n", uid);
-							System.out.printf("the games latest update is : %f\n", updateToSlave.getCode());
-							System.out.printf("the masters last update received was : %f\n\n", lastUpdateReceived.getCode());
-						}
-						else{
-							output.writeDouble(updateToSlave.getCode()); 
-							System.out.printf("\n\nMy clients uid is : %d and I have SOMETHING to update\n", uid);
-							System.out.printf("the games latest update is : %f\n\n", updateToSlave.getCode());
-						}
-
-						timer++;
-
-					}
+					broadcastGameState(output);
 					output.flush();
 					Thread.sleep(broadcastClock);
 				} catch(InterruptedException e) {					
@@ -135,28 +93,28 @@ public final class Master extends Thread {
 			ObjectStorer storer = game.getBoardData().getObjStorer();
 
 			int noChars = storer.getNumChars();
-			output.writeDouble(noChars);
+			output.writeInt(noChars);
 			for(int i : storer.getCharIDs()){
 				PlayableCharacter c = storer.findCharacter(i);
-				broadcast.sendCharacter(i, c);
+				broadcast.sendCharacter(i, c, game.getBoardData());
 			}
 
 			int noNCPs = storer.getNumNCPs();
-			output.writeDouble(noNCPs);
+			output.writeInt(noNCPs);
 			for(int i: storer.getNCPIDs()){
 				NonPlayableCharacter nc = storer.findNCP(i);
-				broadcast.sendCharacter(i, nc);
+				broadcast.sendCharacter(i, nc, game.getBoardData());
 			}
 
 			int noChests = storer.getNumChests();
-			output.writeDouble(noChests);
+			output.writeInt(noChests);
 			for(int i: storer.getChestIDs()){
 				Chest chest = storer.findChest(i);
 				broadcast.sendChest(i, chest);
 			}
 
 			int noItems = storer.getNumItems();
-			output.writeDouble(noItems);
+			output.writeInt(noItems);
 			for(int i: storer.getItemIDs()){
 				GameItem item = storer.findItem(i);
 				broadcast.sendItem(i, item);
@@ -180,20 +138,20 @@ public final class Master extends Thread {
 			boolean hasStarted = false;
 			while(!hasStarted){
 				if(canStart){
-					output.writeDouble(uid);
-					
+					output.writeInt(uid);
+
 					System.out.println("got uid : " + uid);
-					
+
 					if(file==null){
 						output.writeInt(0);
 						System.out.println("File was null");
 						return;
 					}
-					
+
 					output.writeInt((int)file.length());
 
 					// send file
-					
+
 					byte [] mybytearray  = new byte [(int)file.length()];
 					FileInputStream fis = new FileInputStream(file);
 					BufferedInputStream bis = new BufferedInputStream(fis);
@@ -212,7 +170,6 @@ public final class Master extends Thread {
 				}
 			}
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}

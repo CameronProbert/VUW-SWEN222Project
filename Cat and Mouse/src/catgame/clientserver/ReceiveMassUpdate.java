@@ -12,8 +12,12 @@ import catgame.gameObjects.Chest;
 import catgame.gameObjects.GameItem;
 import catgame.gameObjects.GameObject;
 import catgame.gameObjects.PlayableCharacter;
+import catgame.logic.BoardData;
 import catgame.logic.GameUtil;
+import catgame.logic.GameUtil.Direction;
 import catgame.logic.ObjectStorer;
+import catgame.logic.Position;
+import catgame.logic.Room;
 
 /**
  * handles reading the mass update 
@@ -26,10 +30,12 @@ public class ReceiveMassUpdate {
 
 	private DataInputStream in ;
 	private GameUtil game;
+	private BoardData data;
 
-	public ReceiveMassUpdate(DataInputStream input, GameUtil game){
+	public ReceiveMassUpdate(DataInputStream input, BoardData data){
 		this.in = input;
-		this.game = game;
+		this.game = data.getGameUtil();
+		this.data = data;
 	}
 
 	/**
@@ -37,20 +43,25 @@ public class ReceiveMassUpdate {
 	 */
 	public void readPlayer(){
 		try {
-			double objectID = in.readDouble();
-			double attackPower = in.readDouble();
-			double health = in.readDouble();
-			double level = in.readDouble();
-			// double x,y = .. // receive position somehow TODO
+			int objectID = in.readInt();
+			int attackPower = in.readInt();
+			int health = in.readInt();
+			int level = in.readInt();
+			// int x,y = .. // receive position somehow TODO
 			
-			double inSize = in.readDouble();
-			double[] itemIDs = new double[(int)inSize];
-			for(int i=0; i<inSize; i++){
-				itemIDs[i] = in.readDouble();
-			}
+
 
 			ObjectStorer storer = game.getStorer();
 			Character ch = storer.findCharacter((int)objectID);
+			if(ch instanceof PlayableCharacter){
+				doMove(ch);
+			}
+			
+			int inSize = in.readInt();
+			int[] itemIDs = new int[(int)inSize];
+			for(int i=0; i<inSize; i++){
+				itemIDs[i] = in.readInt();
+			}
 			if(ch==null){
 				throw new IDNotFoundError();
 			}
@@ -71,20 +82,53 @@ public class ReceiveMassUpdate {
 		}
 	}
 
+	private void doMove(Character ch) {
+		int roomID;
+		try {
+			roomID = in.readInt();
+			int x = in.readInt();
+			int y = in.readInt();
+			Position p = new Position(x,y);
+			int dir = in.readInt();
+			
+			Direction direct = Direction.NORTH;
+			
+			switch(dir){
+			case 0:
+				direct = Direction.NORTH;
+				break;
+			case 1:
+				direct = Direction.EAST;
+				break;
+			case 2:
+				direct = Direction.SOUTH;
+				break;
+			case 3:
+				direct = Direction.WEST;
+				break;
+			}
+			for(Room r : data.getAllRooms()){
+				if(r.getRoomID()==roomID){
+					r.forcePlayerMove(ch.getObjectID(), p, direct);
+				}
+			}
+			
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
 	/**
 	 * rea in item and where it is stored - update
 	 */
 	public void readItem(){
 		try {
-			double id = in.readDouble();
-			double ownerID = in.readDouble();
+			int id = in.readInt();
 			ObjectStorer storer = game.getStorer();
 			GameItem item = storer.findItem((int)id);
 			if(item==null){
 				throw new IDNotFoundError();
 			}
-			GameObject owner = storer.findGameObject((int)ownerID);
-			item.setOwner(owner);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -95,15 +139,15 @@ public class ReceiveMassUpdate {
 	 */
 	public void readChest(){
 		try {
-			double id = in.readDouble();
-			double lootSize = in.readDouble();
+			int id = in.readInt();
+			int lootSize = in.readInt();
 			Chest chest = game.getStorer().findChest((int)id);
 			if(chest==null){
 				throw new IDNotFoundError();
 			}
 			List<GameItem> items = new ArrayList<GameItem>();
 			for(GameItem item : chest.getLoot()){
-				double itemID = in.readDouble();
+				int itemID = in.readInt();
 				items.add(game.getStorer().findItem((int)itemID));
 			}
 			chest.updateLoot(items);
