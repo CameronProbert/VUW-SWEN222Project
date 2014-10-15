@@ -227,7 +227,7 @@ public class LoadingGameMain {
 		// Start dealing with boardCell info stored in elements
 		// Get the element's text containing all the info and split
 		// the string into an array, "wholeElementArray". Each String value
-		// in this array is in format (x,y,ID,groundType) representing info
+		// in this array is in format (x,y,ID,groundType) representing info 
 		// to make each BoardCell. Once each BoardCell is created,
 		// it is saved in the new boardCell[][] which is then returned
 		for (int y = 0; y < firstArrayLength; y++) {
@@ -247,7 +247,7 @@ public class LoadingGameMain {
 				// use helper method to parse string of (x,y,ID,groundType)
 				// and make new BoardCells
 				// System.out.println("Calling helper method on string: "
-				// + wholeElementArray[x]);
+				// + wholeElementArray[x]); 
 				boardCell[y][x] = helper.loadBoardCell(wholeElementArray[x]);
 			}
 		}
