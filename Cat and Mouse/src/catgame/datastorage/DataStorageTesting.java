@@ -11,7 +11,12 @@ import org.jdom2.*;
 
 import catgame.logic.*;
 import catgame.gameObjects.*;
-
+/**
+ * Main testing class for data storage. It sets up the loading and saving classes as well as make a test game. 
+ * @author MIla
+ * 
+ *
+ */
 public class DataStorageTesting {
 	private SavingMain savingMain;
 	private SavingMasterObjects savingMasterObj;
@@ -35,23 +40,35 @@ public class DataStorageTesting {
 
 	}
 
+	/**
+	 * Creates all the saving classes with a temp xml file to read to
+	 * @throws IOException
+	 */
 	public void setUpSaving() throws IOException {
-		this.testingXML = new File("testing_01.xml");
+		this.testingXML = new File("testing_01.xml"); 
 		this.savingMain = new SavingMain(boardData, testingXML);
 		testingXML = savingMain.getXMLFile();
 		this.savingMasterObj = savingMain.getSavingMasterObj();
 		this.savingHelper = savingMain.getHelper();
 	}
 
+	/**
+	 * Creates all the loading classes.
+	 * @throws JDOMException
+	 * @throws XMLException
+	 */
 	public void setUpLoading() throws JDOMException, XMLException {
 		this.loadingMain = new LoadingGameMain(true, testingXML);
 		this.loadingMasterObj = loadingMain.getLoadMasterObj();
 		this.loadingHelper = loadingMain.getHelper();
 	}
 
+	/**
+	 * Makes the test game. 
+	 */
 	public void makeTestRoom() {
 		this.boardData = new BoardData();
-		this.boardData.loadTestData();
+		this.boardData.loadLevelOne();
 
 		if (boardData.getAllRooms().isEmpty()) {
 			System.out.println("room list is empty");
@@ -115,6 +132,30 @@ public class DataStorageTesting {
 			savingException = e;
 		}
 		assertFalse(savingException == null); // exception should be thrown
+	}
+	
+	@Test
+	public void testRoom(){
+		Room room = boardData.getAllRooms().get(0);
+		Throwable exception = null;
+		Element saveRoomElement = null;
+		try {
+			 saveRoomElement = savingMain.writeRoom(room, 0);
+		} catch (XMLException e) {
+			exception = e;
+			fail();
+		}
+		assertFalse(saveRoomElement == null);
+		Room loadedRoom = null;
+		try {
+			loadedRoom = loadingMain.loadRooms(saveRoomElement);
+		} catch (XMLException e) {
+			exception = e;
+			e.printStackTrace();
+		}
+		assertFalse(loadedRoom == null);
+		assertEquals("Room Id's ", room.getRoomID(), loadedRoom.getRoomID());
+		assertEquals("Room inventory size", room.getRoomInventory().size(), loadedRoom.getRoomInventory().size());
 	}
 	
 	

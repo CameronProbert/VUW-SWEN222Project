@@ -320,4 +320,8 @@ public class GameUtil {
 			pC.changeHealth(20);
 		}
 	}
+
+	public void moveToNextRoom(int playerID) {
+		findPlayersRoom(playerID).forceUseDoor(playerID, this.viewDirection);
+	}
 }

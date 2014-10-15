@@ -7,12 +7,15 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.Socket;
+import java.net.URISyntaxException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.jdom2.JDOMException;
 
 import catgame.datastorage.LoadOldGame;
+import catgame.datastorage.LoadingGameMain;
 import catgame.datastorage.XMLException;
 import catgame.gameObjects.Chest;
 import catgame.gameObjects.GameItem;
@@ -79,7 +82,7 @@ public class SlaveReceiver {
 	
 					 //convert array of bytes into file
 				    FileOutputStream fileOuputStream = 
-			                  new FileOutputStream(FILE_TO_RECEIVED); 
+			                  new FileOutputStream(file); 
 				    fileOuputStream.write(data);
 				    fileOuputStream.close();
 					try {

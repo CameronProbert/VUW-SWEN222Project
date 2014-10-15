@@ -49,6 +49,12 @@ public class SendMassUpdate {
 		}
 	}
 
+	/**
+	 * writes a playable characters position to be updated
+	 * @param objectID
+	 * @param ch
+	 * @param boardData
+	 */
 	private void writePos(int objectID, PlayableCharacter ch,
 			BoardData boardData) {
 
@@ -90,6 +96,11 @@ public class SendMassUpdate {
 
 	}
 
+	/**
+	 * Updates whether a door has been unlocked or not
+	 * @param i
+	 * @param d
+	 */
 	public void sendDoor(int i, Door d) {
 		try {
 			out.writeInt(i);

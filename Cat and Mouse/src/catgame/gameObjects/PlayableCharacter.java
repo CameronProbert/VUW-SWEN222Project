@@ -12,7 +12,8 @@ import catgame.logic.Room;
  * @author Dan Henton
  * 
  *         A Dumb playable Character which only holds information about it's
- *         self: id, currentRoom, facing direction, health and inventory
+ *         self: id, facing direction, health and inventory
+ *         this character is the character which a player uses to play the game
  *
  */
 public class PlayableCharacter implements Character {

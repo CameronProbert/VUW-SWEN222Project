@@ -14,6 +14,19 @@ import catgame.gui.textfiles.*;
 import catgame.logic.*;
 import catgame.logic.GameUtil.Direction;
 
+/**
+ * Loads a new game. When a new game is run, it reads the standard starting xml
+ * file but does not read any of the players that might be in the xml file. The
+ * reason for this is all the players need to have unique IDs that are given to
+ * this class in a list from the client/server. So the xml file is read, and the
+ * game is built except for the players. Once that is done, we iterate through
+ * the list to make PlayableCharacter with the IDs passed in. These
+ * PlayableCharacters are added to the room and map.
+ * 
+ * 
+ * @author MIla
+ *
+ */
 public class LoadNewGame {
 	private List<Integer> playerIDList = new ArrayList<Integer>();
 	private LoadingGameMain loaderMain;
@@ -36,16 +49,18 @@ public class LoadNewGame {
 			newInv.add(new Food(808080, 20));
 			PlayableCharacter character = new PlayableCharacter(
 					playerIDList.get(i), Direction.NORTH, 20, 100, newInv);
-			System.out.println("added the playable ch to obj storer inside loadCh\n\n");
+			System.out
+					.println("added the playable ch to obj storer inside loadCh\n\n");
 			loaderMain.getBoardData().getObjStorer()
 					.addplayableChs(playerIDList.get(i), character);
 			loaderMain.addPlayerToMap(character);
 			loaderMain.addObjectToMap(character);
-			BoardCell cell = room.getBoardGrid()[room.getBoardGrid().length - 1][i+1];
+			BoardCell cell = room.getBoardGrid()[room.getBoardGrid().length - 1][i + 1];
 			cell.setObjectOnCell(character);
 			room.addToInventory(character);
 			room.addToPlayerLocationMap(playerIDList.get(i), cell);
-			boardData.getObjStorer().addplayableChs(character.getObjectID(), character);
+			boardData.getObjStorer().addplayableChs(character.getObjectID(),
+					character);
 		}
 		loaderMain.getHelper().populateDoorLocationMap(room);
 	}

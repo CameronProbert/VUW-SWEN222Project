@@ -106,7 +106,7 @@ public class SavingMain {
 	 * @return Element
 	 * @throws XMLException
 	 */
-	private Element writeRoom(Room room, int id) throws XMLException {
+	public Element writeRoom(Room room, int id) throws XMLException {
 		// Create element and include room ID
 		Element roomElement = new Element("Room_" + id);
 		roomElement.setAttribute(new Attribute("id", "" + id));
@@ -123,7 +123,7 @@ public class SavingMain {
 
 		// make empty doorLinks Map
 		this.doorLinks = new HashMap<Integer, Integer>();
-
+		System.out.println("Room inventory size: " + room.getRoomInventory().size());
 		for (GameObject gameobj : room.getRoomInventory()) {
 			// Save all the objects that are ONLY playable character
 			if (gameobj instanceof PlayableCharacter) {
@@ -135,9 +135,10 @@ public class SavingMain {
 		}
 		if (gameObjectsList.isEmpty()) {
 			throw new XMLException("gameObjectsList is empty");
-		} else if (playersInRoomList.isEmpty()) {
-			throw new XMLException("playersInRoomList is empty");
-		}
+		} 
+//		else if (playersInRoomList.isEmpty()) {
+//			throw new XMLException("playersInRoomList is empty");
+//		}
 		Element roomInventoryElement = new Element("Inventory");
 		Element nonplayerableObjectsElement = new Element(
 				"non-playerableInventory");
@@ -225,14 +226,14 @@ public class SavingMain {
 	public static void main(String[] args) throws FileNotFoundException,
 			IOException {
 		BoardData gameData = new BoardData();
-		gameData.loadTestData();
+		gameData.loadLevelOne();
 		
 		if(gameData.getAllRooms().isEmpty()) {
 			System.out.println("room list is empty");
 		} else if (gameData.getAllRooms().get(0).getRoomInventory().isEmpty()) {
 			System.out.println("room's inventory is empty");
 		} else {
-			new SavingMain(gameData, null);
+			new SavingMain(gameData, new File("TestingMultiple.xml"));
 		}
 
 	}

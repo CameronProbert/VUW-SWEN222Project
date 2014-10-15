@@ -13,6 +13,7 @@ import catgame.logic.Position;
  * 
  * @author Dan Henton
  *
+ *GameItem food Used for healing a player
  */
 public class Food implements GameItem{
 	private final int id;
