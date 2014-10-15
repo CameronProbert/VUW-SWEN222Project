@@ -55,18 +55,17 @@ public class Room {
 	 * @param direction
 	 */
 	public int movePlayer(int playerID, Direction playerDirection, Direction boardDirection) {
-		// TODO add the direction facing stuff here
-
 		if (!(getCharactorCell(playerID).getObjectOnCell() instanceof PlayableCharacter) && getCharactorCell(playerID).getObjectOnCell().getObjectID() != playerID) {
 			throw new GameError("PlayerLocationMap isn't pointing to a player");
 		}
 		if (((PlayableCharacter) getCharactorCell(playerID).getObjectOnCell()).isDead()) {
 			System.out.println("PLAYER IS DEAD!");
 		}
-		if (((PlayableCharacter) getCharactorCell(playerID).getObjectOnCell()).getFacingDirection().getValue() != playerDirection.getValue()) {
-			((PlayableCharacter) getCharactorCell(playerID).getObjectOnCell()).changeDirection(getNewDirection(boardDirection, playerDirection));
-			return -1;
-		}
+		
+//		if (directionTranslator(((PlayableCharacter) getCharactorCell(playerID).getObjectOnCell()).getFacingDirection(), playerDirection) == 0) {
+//			((PlayableCharacter) getCharactorCell(playerID).getObjectOnCell()).changeDirection(getNewDirection(boardDirection, playerDirection));
+//			return -1;
+//		}
 
 		Position newPos = findPosition(playerID, boardDirection, playerDirection);
 		// Check if the move is on the board
@@ -211,20 +210,54 @@ public class Room {
 	 *         Corresponding to the movementDirection
 	 */
 	private Position findPosition(int playerID, Direction boardOrientation, Direction playerDirection) {
-		int direction = directionTranslator(boardOrientation, playerDirection);
 		Position playerPos = playerLocationMap.get(playerID).getPosition();
-		// if (boardOrientation == Direction.NORTH) {
-		switch (direction) {
+		switch (boardOrientation.getValue()) {
 		case 0:
-			return new Position(playerPos.getX(), playerPos.getY() - 1);
+			switch (playerDirection.getValue()) {
+			case 0:
+				return new Position(playerPos.getX(), playerPos.getY() - 1);
+			case 1:
+				return new Position(playerPos.getX() + 1, playerPos.getY());
+			case 2:
+				return new Position(playerPos.getX(), playerPos.getY() + 1);
+			case 3:
+				return new Position(playerPos.getX() - 1, playerPos.getY());
+			}
 		case 1:
-			return new Position(playerPos.getX() + 1, playerPos.getY());
+			switch (playerDirection.getValue()) {
+			case 0:
+				return new Position(playerPos.getX() + 1, playerPos.getY());
+			case 1:
+				return new Position(playerPos.getX(), playerPos.getY() + 1);
+			case 2:
+				return new Position(playerPos.getX() - 1, playerPos.getY());
+			case 3:
+				return new Position(playerPos.getX(), playerPos.getY() - 1);
+			}
 		case 2:
-			return new Position(playerPos.getX(), playerPos.getY() + 1);
+			switch (playerDirection.getValue()) {
+			case 0:
+				return new Position(playerPos.getX(), playerPos.getY() + 1);
+			case 1:
+				return new Position(playerPos.getX() - 1, playerPos.getY());
+			case 2:
+				return new Position(playerPos.getX(), playerPos.getY() - 1);
+			case 3:
+				return new Position(playerPos.getX() + 1, playerPos.getY());
+			}
 		case 3:
-			return new Position(playerPos.getX() - 1, playerPos.getY());
+			switch (playerDirection.getValue()) {
+			case 0:
+				return new Position(playerPos.getX()-1, playerPos.getY());
+			case 1:
+				return new Position(playerPos.getX(), playerPos.getY()-1);
+			case 2:
+				return new Position(playerPos.getX()+1, playerPos.getY());
+			case 3:
+				return new Position(playerPos.getX(), playerPos.getY()+1);
+			}
 		}
-		throw new GameError("Find Position Couldn't find a new Position for :" + direction);
+		throw new GameError("Find Position Couldn't find a new Position for :");
 	}
 
 	public int getRoomID() {
@@ -286,8 +319,10 @@ public class Room {
 				return Direction.EAST;
 			case 2:
 				return Direction.SOUTH;
+			case 3:
+				return Direction.WEST;
 			}
-			return Direction.WEST;
+
 		case 1:
 			switch (movementDirection.getValue()) {
 			case 0:
@@ -296,8 +331,9 @@ public class Room {
 				return Direction.SOUTH;
 			case 2:
 				return Direction.WEST;
+			case 3:
+				return Direction.NORTH;
 			}
-			return Direction.NORTH;
 		case 2:
 			switch (movementDirection.getValue()) {
 			case 0:
@@ -306,8 +342,9 @@ public class Room {
 				return Direction.WEST;
 			case 2:
 				return Direction.NORTH;
+			case 3:
+				return Direction.EAST;
 			}
-			return Direction.EAST;
 		case 3:
 			switch (movementDirection.getValue()) {
 			case 0:
@@ -316,8 +353,9 @@ public class Room {
 				return Direction.NORTH;
 			case 2:
 				return Direction.EAST;
+			case 3:
+				return Direction.SOUTH;
 			}
-			return Direction.SOUTH;
 		}
 		System.err.println("CANNOT FIND A FACING DIR SET IT TO NORTH");
 		return Direction.NORTH;
@@ -362,6 +400,14 @@ public class Room {
 		return returnObj;
 	}
 
+	/**
+	 * Force a gameState update called by the networking
+	 * 
+	 * @param playerID
+	 * @param pos
+	 * @param dir
+	 * @return
+	 */
 	public int forcePlayerMove(int playerID, Position pos, Direction dir) {
 		BoardCell oldCell = playerLocationMap.get(playerID);
 		roomGrid[pos.getY()][pos.getX()].setObjectOnCell(oldCell.removeObjectOnCell());
