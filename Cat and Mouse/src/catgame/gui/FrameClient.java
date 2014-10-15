@@ -37,9 +37,9 @@ import catgame.logic.*;
 import catgame.logic.GameUtil.Direction;
 
 /**
- * The ClientFrame is the multi-player version of the game. It contains the
- * render window and gui panels to overlay the render window. It also has a
- * networkhandler that it sends updates to.
+ * The ClientFrame is the main game window. It contains the render window and
+ * gui panels to overlay the render window. It also has a networkhandler that it
+ * sends updates to.
  * 
  * @author Cameron Probert
  * 
@@ -113,6 +113,12 @@ public class FrameClient extends FrameAbstract implements KeyListener {
 		this.setVisible(true);
 	}
 
+	/**
+	 * Starts the client if it is in a multiplayer game. This should be called
+	 * only after everyone has loaded in
+	 * 
+	 * @param uid
+	 */
 	public void startMyClient(int uid) {
 		clientsUID = uid;
 		character = runner.getBoardData().getObjStorer()
@@ -316,6 +322,10 @@ public class FrameClient extends FrameAbstract implements KeyListener {
 		initialiseRenderPanel();
 	}
 
+	/**
+	 * Creates a render panel that draws the current room, and adds it to the
+	 * frame. First removes the old render panel if it exists.
+	 */
 	public void initialiseRenderPanel() {
 		if (renderPanel != null) {
 			this.remove(renderPanel);
@@ -339,34 +349,33 @@ public class FrameClient extends FrameAbstract implements KeyListener {
 
 		int keyID = key.getKeyCode();
 		int validAction = 0;
+		// Starts with a blank update and then changes what the update
+		// is if an action occurs.
 		Update up = Update.noUpdate;
 		switch (keyID) {
+		// WASD are all move directions
 		case KeyEvent.VK_W:
-			System.out.println("MOVE UP PRESSED");
 			validAction = runner.getBoardData().getGameUtil()
 					.moveUp(clientsUID);
 			up = new Update(Update.Descriptor.NORTH, clientsUID, 0);
 			break;
 		case KeyEvent.VK_A:
-			System.out.println("MOVE LEFT PRESSED");
 			validAction = runner.getBoardData().getGameUtil()
 					.moveLeft(clientsUID);
 			up = new Update(Update.Descriptor.WEST, clientsUID, 0);
 			break;
 		case KeyEvent.VK_S:
-			System.out.println("MOVE DOWN PRESSED");
 			validAction = runner.getBoardData().getGameUtil()
 					.moveDown(clientsUID);
 			up = new Update(Update.Descriptor.SOUTH, clientsUID, 0);
 			break;
 		case KeyEvent.VK_D:
-			System.out.println("MOVE RIGHT PRESSED");
 			validAction = runner.getBoardData().getGameUtil()
 					.moveRight(clientsUID);
 			up = new Update(Update.Descriptor.EAST, clientsUID, 0);
 			break;
 		case KeyEvent.VK_SPACE:
-			System.out.println("ATTACK PRESSED");
+			// Attack pressed
 			int attacked = runner.getBoardData().getGameUtil()
 					.action(clientsUID);
 			if (attacked > 0) {
@@ -380,12 +389,16 @@ public class FrameClient extends FrameAbstract implements KeyListener {
 		case KeyEvent.VK_RIGHT:
 			runner.getBoardData().getGameUtil().lookRight();
 			break;
-		case KeyEvent.VK_E: // open a chest
-			System.out.println("OPEN CHEST PRESSED");
+		case KeyEvent.VK_E:
+			// Interact with the object in front of you
+			// First, get the object ahead of us:
 			GameObject object = runner.getBoardData().getGameUtil()
 					.getObjectAhead(clientsUID);
+			// If it is not null then...
 			if (object != null) {
+				// Check what it is and react accordingly
 				if (object instanceof Chest) {
+					// Chest, so ask what item the user wants to take
 					Chest chest = (Chest) object;
 					GameItem item = HelperMethods.showRadioList(
 							"What item do you want to take?", chest.getLoot(),
@@ -400,6 +413,8 @@ public class FrameClient extends FrameAbstract implements KeyListener {
 						validAction = 1;
 					}
 				} else if (object instanceof NonPlayableCharacter) {
+					// NPC, so if it is dead then ask what item the user wants
+					// to take, otherwise display inspect string
 					NonPlayableCharacter ch = (NonPlayableCharacter) object;
 					if (ch.isDead()) {
 						GameItem item = HelperMethods.showRadioList(
@@ -419,7 +434,9 @@ public class FrameClient extends FrameAbstract implements KeyListener {
 								.textDialog("",
 										"The rat is still alive! (Space bar to attack)");
 					}
-				} else if (object instanceof PlayableCharacter) {
+				}
+				// The rest of the cases just display an information string
+				else if (object instanceof PlayableCharacter) {
 					HelperMethods.textDialog("",
 							"Another cat to help you find your kitten!");
 				} else if (object instanceof Rock) {
@@ -443,25 +460,29 @@ public class FrameClient extends FrameAbstract implements KeyListener {
 					HelperMethods.textDialog("", "It is a hedge");
 				}
 			} else {
+				// If there was nothing ahead of you
 				HelperMethods.textDialog("", "There is nothing ahead of you");
 			}
 			break;
 		case KeyEvent.VK_M:
+			// Increase HP Cheat
 			statPanel.increaseHP();
-			break;
-		case KeyEvent.VK_L:
-			System.out.println(HelperMethods.showRadioList(
-					"What items do you want to take?",
-					character.getInventory(), true));
 			break;
 		}
 		if (validAction > 0 && isClient) {
+			// Send the update
 			slave.sendUpdate(up);
 		}
+		// Ensure the inventory panel's items are correct
 		invPanel.resetInvItems();
 		repaint();
 	}
 
+	/**
+	 * Uses the given item
+	 * 
+	 * @param item
+	 */
 	public void itemUsed(GameItem item) {
 		int validAction = 0;
 		Update up = Update.noUpdate;
