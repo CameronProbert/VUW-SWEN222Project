@@ -28,11 +28,11 @@ public class SavingMasterObjects {
 		Boss boss = (Boss) obj;
 		Element bossElement = new Element("Boss");
 		bossElement.setAttribute(new Attribute("id", "" + boss.getObjectID()));
-		bossElement.addContent(new Element("health").setText(""
+		bossElement.addContent(new Element("Health").setText(""
 				+ boss.getHealth()));
 		bossElement.addContent(helper.makeInventory(boss.getInventory()));
-		bossElement.addContent(new Element("maxItems").setText("" + 6));
-		bossElement.addContent(new Element("attackPower").setText(""
+		bossElement.addContent(new Element("MaxItems").setText("" + 6));
+		bossElement.addContent(new Element("AttackPower").setText(""
 				+ boss.getAttackPower()));
 
 		return bossElement;
@@ -84,7 +84,7 @@ public class SavingMasterObjects {
 		Element foodElement = new Element("Food");
 		foodElement.setAttribute(new Attribute("id", "" + food.getObjectID()));
 		foodElement
-				.addContent(new Element("heal").setText("" + food.getHeal()));
+				.addContent(new Element("Heal").setText("" + food.getHeal()));
 
 		return foodElement;
 	}
@@ -113,7 +113,7 @@ public class SavingMasterObjects {
 				+ minion.getCurrentRoom().getRoomID()));
 		minionElement.addContent(new Element("Health").setText(""
 				+ minion.getHealth()));
-		minionElement.addContent(new Element("attackPower").setText(""
+		minionElement.addContent(new Element("AttackPower").setText(""
 				+ minion.getAttackPower()));
 		minionElement.addContent(helper.makeInventory(minion.getInventory()));
 
@@ -152,11 +152,11 @@ public class SavingMasterObjects {
 
 		// ------------------------------------------------
 		// ----------------- AttackPower ------------------
-		characterElement.addContent(new Element("attackPower").setText(""
+		characterElement.addContent(new Element("AttackPower").setText(""
 				+ character.getAttackPower()));
 		// ------------------------------------------------
 		// ----------------- AttackPower ------------------
-		characterElement.addContent(new Element("health").setText(""
+		characterElement.addContent(new Element("Health").setText(""
 				+ character.getHealth()));
 		// ------------------------------------------------
 		// -------------- Inventory List ------------------

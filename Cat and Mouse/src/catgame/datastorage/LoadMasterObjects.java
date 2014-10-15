@@ -70,12 +70,12 @@ public class LoadMasterObjects {
 	public Boss loadBoss(Element element) {
 		int id = Integer.parseInt(element.getAttribute("id").getValue());
 
-		int health = Integer.parseInt(element.getChild("health").getText());
+		int health = Integer.parseInt(element.getChild("Health").getText());
 
 		// TODO load list of items that Boss has
 		List<GameItem> inventory = new ArrayList<GameItem>(); // <--- FILL THIS
 
-		int attackPower = Integer.parseInt(element.getChild("attackPower")
+		int attackPower = Integer.parseInt(element.getChild("AttackPower")
 				.getText());
 		Boss boss = new Boss(id, attackPower, health, inventory);
 		boardData.getObjStorer().addNPC(id, boss);
@@ -121,7 +121,7 @@ public class LoadMasterObjects {
 	}
 
 	public Food loadFood(Element element) {
-		int heal = Integer.parseInt(element.getChild("heal").getText());
+		int heal = Integer.parseInt(element.getChild("Heal").getText());
 		// TODO check that the casting below is okay to use!!
 		Food food = new Food(Integer.parseInt(element.getAttribute("id").getValue()), heal);
 		boardData.getObjStorer().addItems(food.getObjectID(), food);
@@ -189,8 +189,8 @@ public class LoadMasterObjects {
 		} else {
 			dir = Direction.WEST;
 		}
-		int attackPower = Integer.parseInt(element.getChildText("attackPower"));
-		int health = Integer.parseInt(element.getChildText("health"));
+		int attackPower = Integer.parseInt(element.getChildText("AttackPower"));
+		int health = Integer.parseInt(element.getChildText("Health"));
 		List<GameItem> inventoryList = new ArrayList<GameItem>();
 		List<Element> inventoryElementsList = element.getChild("Inventory")
 				.getChildren();
