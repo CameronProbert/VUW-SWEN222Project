@@ -41,21 +41,22 @@ public class ReceiveMassUpdate {
 		try {
 			int objectID = in.readInt();
 			int health = in.readInt();
-			int level = in.readInt();
 
 
 			ObjectStorer storer = data.getObjStorer();
 			NonPlayableCharacter ch = storer.findNonPlayCharacter((int)objectID);
 			
 			int inSize = in.readInt();
+			System.out.println("inventory size is : " +inSize);
 			int[] itemIDs = new int[(int)inSize];
 			for(int i=0; i<inSize; i++){
 				itemIDs[i] = in.readInt();
+				System.out.println("read object id into list : " + itemIDs[i]);
 			}
 			if(ch==null){
 				throw new IDNotFoundError();
 			}
-			ch.reset(0, health, level);
+			ch.reset(0, health, 0);
 
 			List<GameItem> items = new ArrayList<GameItem>();
 
@@ -79,7 +80,6 @@ public class ReceiveMassUpdate {
 		try {
 			int objectID = in.readInt();
 			int health = in.readInt();
-			int level = in.readInt();
 
 
 			ObjectStorer storer = data.getObjStorer();
@@ -87,13 +87,15 @@ public class ReceiveMassUpdate {
 			
 			int inSize = in.readInt();
 			int[] itemIDs = new int[(int)inSize];
+			System.out.println("inventory size is : " +inSize);
 			for(int i=0; i<inSize; i++){
 				itemIDs[i] = in.readInt();
+				System.out.println("read object id into list : " + itemIDs[i]);
 			}
 			if(ch==null){
 				throw new IDNotFoundError();
 			}
-			ch.reset(0, (int)health, (int)level);
+			ch.reset(0, (int)health, 0);
 
 			List<GameItem> items = new ArrayList<GameItem>();
 
