@@ -8,6 +8,7 @@ import catgame.logic.Position;
  * 
  * @author Dan Henton
  *
+ *Interface for the GameItems (Keys & Food)
  */
 public interface GameItem extends MasterObject {
 	

@@ -6,6 +6,7 @@ import catgame.logic.Position;
  * 
  * @author Dan Henton
  *
+ *GameObject Rock 
  */
 public class Rock implements NonMovavble {
 

@@ -13,6 +13,7 @@ import catgame.logic.Position;
  * 
  * @author Dan Henton
  *
+ *GameItem Key used for locking doors within the game a key can unlock anyDoor 
  */
 public class Key implements GameItem{	
 	private final int id;
@@ -33,11 +34,6 @@ public class Key implements GameItem{
 		return id;
 	}
 
-	public boolean use() {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
 	public void draw(Graphics g) {
 		g.drawImage(picture, 0, 0, null);
 	}
@@ -53,6 +49,10 @@ public class Key implements GameItem{
 
 	@Override
 	public boolean isUsable() {
+		return false;
+	}
+
+	public boolean use() {
 		return false;
 	}
 

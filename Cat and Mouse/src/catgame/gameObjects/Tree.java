@@ -6,6 +6,7 @@ import catgame.logic.Position;
  * 
  * @author Dan Henton
  *
+ *GameObject Tree
  */
 public class Tree implements NonMovavble {
 	
