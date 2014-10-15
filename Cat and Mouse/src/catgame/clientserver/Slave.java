@@ -36,18 +36,17 @@ public final class Slave {
 	 * dumb method, takes the update and passes it on
 	 * @param update
 	 */
-//	public void sendUpdate(Update update){
-//		try {
-//			output = new DataOutputStream(socket.getOutputStream());
-//			update.send(output);
-//			System.out.printf("writing update to client : %f\n", update.toString());
-//			
-//		} catch (IOException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
-//		
-//	}
+	public void sendUpdate(Update update){
+		try {
+			output = new DataOutputStream(socket.getOutputStream());
+			update.send(output);
+			//System.out.printf("writing update to client : %f\n", update.toString());
+			
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+	}
 	
 	public Socket getSocket(){
 		return this.socket;
