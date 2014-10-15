@@ -205,16 +205,15 @@ public class Room {
 						return -1;
 					}
 				}// lootChest
-				else if (roomGrid[actionPosition.getY()][actionPosition.getX()].getObjectOnCell() != null && roomGrid[actionPosition.getY()][actionPosition.getX()].getObjectOnCell() instanceof Chest) {
-					List<GameItem> chestInv = ((Chest) roomGrid[actionPosition.getY()][actionPosition.getX()].getObjectOnCell()).getLoot();
-					switch (player.addAllToInventory(chestInv)) {
-					case 1:
-						System.out.println("LOOTING CHEST");
-						((Chest) roomGrid[actionPosition.getY()][actionPosition.getX()].getObjectOnCell()).removeInv();
-						return 1;
-					case -1:
-						return -1;
-					}
+			} else if (roomGrid[actionPosition.getY()][actionPosition.getX()].getObjectOnCell() != null && roomGrid[actionPosition.getY()][actionPosition.getX()].getObjectOnCell() instanceof Chest) {
+				List<GameItem> chestInv = ((Chest) roomGrid[actionPosition.getY()][actionPosition.getX()].getObjectOnCell()).getLoot();
+				switch (player.addAllToInventory(chestInv)) {
+				case 1:
+					System.out.println("LOOTING CHEST");
+					((Chest) roomGrid[actionPosition.getY()][actionPosition.getX()].getObjectOnCell()).removeInv();
+					return 1;
+				case -1:
+					return -1;
 				}
 			}
 		}
@@ -229,52 +228,17 @@ public class Room {
 	private Position findPosition(int playerID, Direction boardOrientation, Direction playerDirection) {
 		int direction = directionTranslator(boardOrientation, playerDirection);
 		Position playerPos = playerLocationMap.get(playerID).getPosition();
-		if (boardOrientation == Direction.NORTH) {
-			switch (direction) {
-			case 0:
-				return new Position(playerPos.getX(), playerPos.getY() - 1);
-			case 1:
-				return new Position(playerPos.getX() + 1, playerPos.getY());
-			case 2:
-				return new Position(playerPos.getX(), playerPos.getY() + 1);
-			case 3:
-				return new Position(playerPos.getX() - 1, playerPos.getY());
-			}
-		} else if (boardOrientation == Direction.EAST) {
-			switch (direction) {
-			case 0:
-				return new Position(playerPos.getX()-1, playerPos.getY());
-			case 1:
-				return new Position(playerPos.getX(), playerPos.getY()-1);
-			case 2:
-				return new Position(playerPos.getX()+1, playerPos.getY());
-			case 3:
-				return new Position(playerPos.getX(), playerPos.getY()+1);
-			}
-		} else if (boardOrientation == Direction.SOUTH) {
-			switch (direction) {
-			case 0:
-				return new Position(playerPos.getX(), playerPos.getY() + 1);
-			case 1:
-				return new Position(playerPos.getX() - 1, playerPos.getY());
-			case 2:
-				return new Position(playerPos.getX(), playerPos.getY() - 1);
-			case 3:
-				return new Position(playerPos.getX() + 1, playerPos.getY());
-			}
-		} else if (boardOrientation == Direction.WEST) {
-			switch (direction) {
-			case 0:
-				return new Position(playerPos.getX()+1, playerPos.getY());
-			case 1:
-				return new Position(playerPos.getX(), playerPos.getY()+1);
-			case 2:
-				return new Position(playerPos.getX()-1, playerPos.getY());
-			case 3:
-				return new Position(playerPos.getX(), playerPos.getY()-1);
-			}
+		// if (boardOrientation == Direction.NORTH) {
+		switch (direction) {
+		case 0:
+			return new Position(playerPos.getX(), playerPos.getY() - 1);
+		case 1:
+			return new Position(playerPos.getX() + 1, playerPos.getY());
+		case 2:
+			return new Position(playerPos.getX(), playerPos.getY() + 1);
+		case 3:
+			return new Position(playerPos.getX() - 1, playerPos.getY());
 		}
-		// should be dead Code just in case its not
 		throw new GameError("Find Position Couldn't find a new Position for :" + direction);
 	}
 
@@ -378,7 +342,12 @@ public class Room {
 		return returnObj;
 	}
 
-	// public void attackUpdate(){
-	// for(int i = 0; i < roomInventory.ge)
-	// }
+	public int forcePlayerMove(int playerID, Position pos, Direction dir) {
+		BoardCell oldCell = playerLocationMap.get(playerID);
+		roomGrid[pos.getY()][pos.getX()].setObjectOnCell(oldCell.removeObjectOnCell());
+		playerLocationMap.put(playerID, roomGrid[pos.getY()][pos.getX()]);
+		((PlayableCharacter) playerLocationMap.get(playerID).getObjectOnCell()).changeDirection(dir);
+		return 1;
+	}
+
 }
