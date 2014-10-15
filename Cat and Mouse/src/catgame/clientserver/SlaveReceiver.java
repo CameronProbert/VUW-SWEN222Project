@@ -62,7 +62,7 @@ public class SlaveReceiver {
 				input = new DataInputStream(s.getInputStream());
 
 				// First job, is to read the period so we can create the clock				
-				uid = (int)input.readDouble();	
+				uid = input.readInt();	
 				System.out.println("read in my uid : " + uid);
 				/////////////////////////////////////////////////////////////////
 				// LOAD the game
@@ -100,7 +100,7 @@ public class SlaveReceiver {
 				frame.startMyClient(uid);
 
 				while(locked){
-					workOutUpdate(input);
+					recieveMassUpdate(input);
 					try {
 						Thread.sleep(1000);
 					} catch (InterruptedException e) {
@@ -115,54 +115,32 @@ public class SlaveReceiver {
 	};
 
 	/**
-	 * works out if the incoming message is a normal update or a mass update
-	 * @param input
-	 */
-	private void workOutUpdate(DataInputStream input){
-
-		try {
-
-			double todo = input.readDouble();
-			if(todo==MINORUPDATE){
-				System.out.println("received 30");
-				recieveUpdate(input);
-			}
-			else if (todo==MASSUPDATE){
-				System.out.println("received 35");
-				//recieveMassUpdate(input);
-			}
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
-
-	/**
 	 * deals with receiving a mass update from the server
 	 * @param input
 	 */
 	private void recieveMassUpdate(DataInputStream input) {
 		try {
-			ReceiveMassUpdate receiver = new ReceiveMassUpdate(input, net.getBoardData().getGameUtil());
+			ReceiveMassUpdate receiver = new ReceiveMassUpdate(input, net.getBoardData());
 
-			double noChars = input.readDouble();
+			int noChars = input.readInt();
 
 			for(int i=0; i<noChars; i++){
 				receiver.readPlayer();
 			}
 
-			double noNCPs = input.readDouble();
+			int noNCPs = input.readInt();
 
 			for(int i=0; i<noNCPs; i++){
 				receiver.readPlayer();
 			}
 
-			double noChests = input.readDouble();
+			int noChests = input.readInt();
 
 			for(int i=0; i<noChests; i++){
 				receiver.readChest();
 			}
 
-			double noItems = input.readDouble();
+			int noItems = input.readInt();
 
 			for(int i=0; i<noItems; i++){
 				receiver.readItem();
@@ -172,34 +150,6 @@ public class SlaveReceiver {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-
-	}
-
-	/**
-	 * handles receiving a minor update from the server
-	 * @param input
-	 */
-	private void recieveUpdate(DataInputStream input) {
-		System.out.println("still running");
-		try {
-			double updateFromMaster = input.readDouble();
-			if(updateFromMaster == Update.UN_PAUSE_STATE){
-				frame.setState("running");
-			}
-			else if(updateFromMaster == Update.PAUSE_STATE){
-				frame.setState("paused");
-			}
-			else if(updateFromMaster!=0){
-				net.update(new Update(updateFromMaster), false);// will not record last update
-				System.out.println("update recieved to actually use");
-			}
-			System.out.printf("received update from the server : %f\n", updateFromMaster);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}	
-
-
 
 	}
 

@@ -90,7 +90,7 @@ public class FrameClient extends FrameAbstract implements KeyListener {
 		} else {
 			SlaveReceiver slaveR = new SlaveReceiver(slave, runner, this);
 			slaveR.run();
-			//waitForPlayers(slaveR);
+			// waitForPlayers(slaveR);
 			try {
 				imageBG = ImageIO.read(PanelRender.class
 						.getResource("/images/CatBGLoading.png"));
@@ -209,11 +209,11 @@ public class FrameClient extends FrameAbstract implements KeyListener {
 			setState("paused");
 			this.invPanel.setPanelsState("paused");
 			if (slave != null)
-				slave.sendUpdate(new Update(Update.PAUSE_STATE));
+				slave.sendUpdate(Update.pauseUpdate);
 			try {
 				new SavingMain(runner.getBoardData(), file);
 				if (slave != null)
-					slave.sendUpdate(new Update(Update.UN_PAUSE_STATE));
+					slave.sendUpdate(Update.unPauseUpdate);
 				setState("running");
 				this.invPanel.setPanelsState("running");
 			} catch (IOException e) {
@@ -335,9 +335,8 @@ public class FrameClient extends FrameAbstract implements KeyListener {
 				.findPlayersRoom(clientsUID);
 		if (currentRoom == null)
 			System.out.println("currentRoom is null");
-		renderPanel = new PanelRender(windowSize, Integer.toString(character
-				.getObjectID()), runner.getBoardData().getGameUtil(),
-				currentRoom);
+		renderPanel = new PanelRender(windowSize, runner.getBoardData()
+				.getGameUtil(), currentRoom);
 		this.add(renderPanel);
 	}
 
@@ -354,7 +353,7 @@ public class FrameClient extends FrameAbstract implements KeyListener {
 
 		int keyID = key.getKeyCode();
 		int validAction = 0;
-		Update up = new Update(0);
+		Update up = Update.noUpdate;
 		switch (keyID) {
 		case KeyEvent.VK_W:
 			System.out.println("MOVE UP PRESSED");
@@ -471,7 +470,7 @@ public class FrameClient extends FrameAbstract implements KeyListener {
 			break;
 		}
 		if (validAction > 0 && isClient) {
-			slave.sendUpdate(up);
+			 slave.sendUpdate(up);
 		}
 		System.out.printf("VALIDACTION: %d", validAction);
 		if (invPanel != null) {
@@ -485,13 +484,13 @@ public class FrameClient extends FrameAbstract implements KeyListener {
 	public void itemUsed(GameItem item) {
 		System.out.println("Inside frameClient itemUsed");
 		int validAction = 0;
-		Update up = new Update(0);
+		Update up = Update.noUpdate;
 		validAction = runner.getBoardData().getGameUtil()
 				.useItem(clientsUID, item.getObjectID());
 		up = new Update(Update.Descriptor.CONSUME, clientsUID,
 				item.getObjectID());
 		if (validAction > 0 && isClient) {
-			slave.sendUpdate(up);
+			 slave.sendUpdate(up);
 		}
 		System.out.println("Valid Action = " + validAction);
 		if (validAction > 0) {

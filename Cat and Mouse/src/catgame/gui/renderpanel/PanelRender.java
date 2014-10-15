@@ -18,7 +18,6 @@ import catgame.logic.Room;
 
 public class PanelRender extends JPanel {
 	
-	private String playableCharID;
 	private GameUtil gUtil;
 	private int panelWidth;
 	private int panelHeight;
@@ -58,10 +57,9 @@ public class PanelRender extends JPanel {
 	// Classes for creating a test board
 	private Room currentRoom;
 
-	public PanelRender(Dimension windowSize, String playableCharID, GameUtil gUtil, Room room) {
+	public PanelRender(Dimension windowSize, GameUtil gUtil, Room room) {
 		this.panelWidth = (int)(windowSize.getWidth());
 		this.panelHeight = (int)(windowSize.getHeight());
-		this.playableCharID = playableCharID;
 		this.gUtil = gUtil;
 		this.currentRoom = room;
 		
@@ -310,6 +308,7 @@ public class PanelRender extends JPanel {
 	}
 
 	public void redraw(Graphics g) {
+		g.setColor(Color.DARK_GRAY);
 		g.fillRect(0, 0, panelWidth, panelHeight);
 		drawGroundAndObjects(g);
 	}
@@ -383,17 +382,13 @@ public class PanelRender extends JPanel {
 		int startX = xOffset + 50;
 		int startY = yOffset;
 		switch (gUtil.getViewDirection()) {
-		case NORTH:
-			drawObject(g, chestFrontLeft1, sendY, sendX, y, x, startY, startX);
+		case NORTH: drawObject(g, chestFrontLeft1, sendY, sendX, y, x, startY, startX);
 			break;
-		case WEST:
-			drawObject(g, chestFrontRight1, sendY, sendX, y, x, startY, startX);
+		case WEST: drawObject(g, chestFrontRight1, sendY, sendX, y, x, startY, startX);
 			break;
-		case SOUTH:
-			drawObject(g, chestBackLeft1, sendY, sendX, y, x, startY, startX);
+		case SOUTH: drawObject(g, chestBackLeft1, sendY, sendX, y, x, startY, startX);
 			break;
-		case EAST:
-			drawObject(g, chestBackRight1, sendY, sendX, y, x, startY, startX);
+		case EAST: drawObject(g, chestBackRight1, sendY, sendX, y, x, startY, startX);
 			break;
 		default:
 			System.out.println("There was a drawing error");
@@ -411,17 +406,13 @@ public class PanelRender extends JPanel {
 			return;
 		}			
 		switch (drawDirection) {
-		case NORTH:
-			drawObject(g, catBackRight1, sendY, sendX, y, x, startY, startX);
+		case NORTH: drawObject(g, catBackRight1, sendY, sendX, y, x, startY, startX);
 			break;
-		case EAST:
-			drawObject(g, catFrontRight1, sendY, sendX, y, x, startY, startX);
+		case EAST: drawObject(g, catFrontRight1, sendY, sendX, y, x, startY, startX);
 			break;
-		case SOUTH:
-			drawObject(g, catFrontLeft1, sendY, sendX, y, x, startY, startX);
+		case SOUTH: drawObject(g, catFrontLeft1, sendY, sendX, y, x, startY, startX);
 			break;
-		case WEST:
-			drawObject(g, catBackLeft1, sendY, sendX, y, x, startY, startX);
+		case WEST: drawObject(g, catBackLeft1, sendY, sendX, y, x, startY, startX);
 			break;				
 		}	
 	}
@@ -434,20 +425,15 @@ public class PanelRender extends JPanel {
 			return;
 		}
 		switch (gUtil.getViewDirection()) {
-		case NORTH:
-			drawObject(g, minionFrontLeft1, sendY, sendX, y, x, startY, startX);
+		case NORTH: drawObject(g, minionFrontLeft1, sendY, sendX, y, x, startY, startX);
 			break;
-		case WEST:
-			drawObject(g, minionBackLeft1, sendY, sendX, y, x, startY, startX);
+		case WEST: drawObject(g, minionBackLeft1, sendY, sendX, y, x, startY, startX);
 			break;
-		case SOUTH:
-			drawObject(g, minionBackRight1, sendY, sendX, y, x, startY, startX);
+		case SOUTH: drawObject(g, minionBackRight1, sendY, sendX, y, x, startY, startX);
 			break;
-		case EAST:
-			drawObject(g, minionFrontRight1, sendY, sendX, y, x, startY, startX);
+		case EAST: drawObject(g, minionFrontRight1, sendY, sendX, y, x, startY, startX);
 			break;
-		default:
-			System.out.println("There was a drawing error");
+		default: System.out.println("There was a drawing error");
 			break;				
 		}
 	}
@@ -460,20 +446,15 @@ public class PanelRender extends JPanel {
 			return;
 		}
 		switch (gUtil.getViewDirection()) {
-		case NORTH:
-			drawObject(g, bossFrontLeft1, sendY, sendX, y, x, startY, startX);
+		case NORTH: drawObject(g, bossFrontLeft1, sendY, sendX, y, x, startY, startX);
 			break;
-		case WEST:
-			drawObject(g, bossBackLeft1, sendY, sendX, y, x, startY, startX+20);
+		case WEST: drawObject(g, bossBackLeft1, sendY, sendX, y, x, startY, startX+20);
 			break;
-		case SOUTH:
-			drawObject(g, bossBackRight1, sendY, sendX, y, x, startY, startX-20);
+		case SOUTH: drawObject(g, bossBackRight1, sendY, sendX, y, x, startY, startX-20);
 			break;
-		case EAST:
-			drawObject(g, bossFrontRight1, sendY, sendX, y, x, startY, startX);
+		case EAST: drawObject(g, bossFrontRight1, sendY, sendX, y, x, startY, startX);
 			break;
-		default:
-			System.out.println("There was a drawing error");
+		default: System.out.println("There was a drawing error");
 			break;				
 		}		
 	}
@@ -560,65 +541,49 @@ public class PanelRender extends JPanel {
 		switch (gUtil.getViewDirection()) {
 		case NORTH:
 			switch (objTypeID) {
-				case "40":
-					drawObject(g, rightDoor, sendY, sendX, y, x, startRightY, startRightX);
+				case "40": drawObject(g, rightDoor, sendY, sendX, y, x, startRightY, startRightX);
 					break;
-				case "41":
-					drawObject(g, leftDoor, sendY, sendX, y, x, startLeftY, startLeftX);
+				case "41": drawObject(g, leftDoor, sendY, sendX, y, x, startLeftY, startLeftX);
 					break;
-				case "42":
-					drawObject(g, rightDoor, sendY, sendX, y, x, startRightY, startRightX);
+				case "42": drawObject(g, rightDoor, sendY, sendX, y, x, startRightY, startRightX);
 					break;
-				case "43":
-					drawObject(g, leftDoor, sendY, sendX, y, x, startLeftY, startLeftX);
+				case "43": drawObject(g, leftDoor, sendY, sendX, y, x, startLeftY, startLeftX);
 					break;
 			}			
 			break;
 		case WEST:
 			switch (objTypeID) {
-			case "40":
-				drawObject(g, leftDoor, sendY, sendX, y, x, startLeftY, startLeftX);
+			case "40": drawObject(g, leftDoor, sendY, sendX, y, x, startLeftY, startLeftX);
 				break;
-			case "41":
-				drawObject(g, rightDoor, sendY, sendX, y, x, startRightY, startRightX);
+			case "41": drawObject(g, rightDoor, sendY, sendX, y, x, startRightY, startRightX);
 				break;
-			case "42":
-				drawObject(g, leftDoor, sendY, sendX, y, x, startLeftY, startLeftX);
+			case "42": drawObject(g, leftDoor, sendY, sendX, y, x, startLeftY, startLeftX);
 				break;
-			case "43":
-				drawObject(g, rightDoor, sendY, sendX, y, x, startRightY, startRightX);
+			case "43": drawObject(g, rightDoor, sendY, sendX, y, x, startRightY, startRightX);
 				break;
 		}			
 		break;
 		case SOUTH:
 			switch (objTypeID) {
-			case "40":
-				drawObject(g, rightDoor, sendY, sendX, y, x, startRightY, startRightX);
+			case "40": drawObject(g, rightDoor, sendY, sendX, y, x, startRightY, startRightX);
 				break;
-			case "41":
-				drawObject(g, leftDoor, sendY, sendX, y, x, startLeftY, startLeftX);
+			case "41": drawObject(g, leftDoor, sendY, sendX, y, x, startLeftY, startLeftX);
 				break;
-			case "42":
-				drawObject(g, rightDoor, sendY, sendX, y, x, startRightY, startRightX);
+			case "42": drawObject(g, rightDoor, sendY, sendX, y, x, startRightY, startRightX);
 				break;
-			case "43":
-				drawObject(g, leftDoor, sendY, sendX, y, x, startLeftY, startLeftX);
+			case "43": drawObject(g, leftDoor, sendY, sendX, y, x, startLeftY, startLeftX);
 				break;
 		}			
 		break;
 		case EAST:
 			switch (objTypeID) {
-			case "40":
-				drawObject(g, leftDoor, sendY, sendX, y, x, startLeftY, startLeftX);
+			case "40": drawObject(g, leftDoor, sendY, sendX, y, x, startLeftY, startLeftX);
 				break;
-			case "41":
-				drawObject(g, rightDoor, sendY, sendX, y, x, startRightY, startRightX);
+			case "41": drawObject(g, rightDoor, sendY, sendX, y, x, startRightY, startRightX);
 				break;
-			case "42":
-				drawObject(g, leftDoor, sendY, sendX, y, x, startLeftY, startLeftX);
+			case "42": drawObject(g, leftDoor, sendY, sendX, y, x, startLeftY, startLeftX);
 				break;
-			case "43":
-				drawObject(g, rightDoor, sendY, sendX, y, x, startRightY, startRightX);
+			case "43": drawObject(g, rightDoor, sendY, sendX, y, x, startRightY, startRightX);
 				break;
 		}			
 		break;

@@ -39,11 +39,10 @@ public final class Slave {
 	public void sendUpdate(Update update){
 		try {
 			output = new DataOutputStream(socket.getOutputStream());
-			output.writeDouble(update.getCode());
-			System.out.printf("writing update to client : %f\n", update.getCode());
+			update.send(output);
+			//System.out.printf("writing update to client : %f\n", update.toString());
 			
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		

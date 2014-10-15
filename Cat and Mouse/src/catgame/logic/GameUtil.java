@@ -242,21 +242,21 @@ public class GameUtil {
 			Direction newDir = NORTH;
 			switch (dir) {
 			case NORTH:
-				return WEST;
-			case UP:
-				return LEFT;
-			case EAST:
-				return NORTH;
-			case RIGHT:
-				return UP;
-			case SOUTH:
 				return EAST;
-			case DOWN:
+			case UP:
 				return RIGHT;
-			case WEST:
+			case EAST:
 				return SOUTH;
-			case LEFT:
+			case RIGHT:
 				return DOWN;
+			case SOUTH:
+				return WEST;
+			case DOWN:
+				return LEFT;
+			case WEST:
+				return NORTH;
+			case LEFT:
+				return UP;
 			}
 			return newDir;
 		}
@@ -268,21 +268,21 @@ public class GameUtil {
 			Direction newDir = NORTH;
 			switch (dir) {
 			case NORTH:
-				return EAST;
-			case UP:
-				return RIGHT;
-			case EAST:
-				return SOUTH;
-			case RIGHT:
-				return DOWN;
-			case SOUTH:
 				return WEST;
-			case DOWN:
+			case UP:
 				return LEFT;
-			case WEST:
+			case EAST:
 				return NORTH;
-			case LEFT:
+			case RIGHT:
 				return UP;
+			case SOUTH:
+				return EAST;
+			case DOWN:
+				return RIGHT;
+			case WEST:
+				return SOUTH;
+			case LEFT:
+				return DOWN;
 			}
 			return newDir;
 		}
@@ -301,11 +301,11 @@ public class GameUtil {
 	}
 
 	public void lookLeft() {
-		viewDirection = Direction.rightDir(viewDirection);
+		viewDirection = Direction.leftDir(viewDirection);
 	}
 
 	public void lookRight() {
-		viewDirection = Direction.leftDir(viewDirection);
+		viewDirection = Direction.rightDir(viewDirection);
 	}
 
 	public void attackUpdate(int playerID, int minionID) {
