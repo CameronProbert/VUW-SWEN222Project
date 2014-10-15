@@ -70,7 +70,7 @@ public class SlaveReceiver {
 				/////////////////////////////////////////////////////////////////
 				// LOAD the game
 				////////////////////////////////////////////////////////////////
-				String FILE_TO_RECEIVED = "files/Load_From.xml";
+				String FILE_TO_RECEIVED = "Load_From.xml";
 				File file = new File(FILE_TO_RECEIVED);
 
 				int FILE_SIZE = input.readInt();
