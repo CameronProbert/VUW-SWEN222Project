@@ -90,7 +90,7 @@ public class FrameClient extends FrameAbstract implements KeyListener {
 		} else {
 			SlaveReceiver slaveR = new SlaveReceiver(slave, runner, this);
 			slaveR.run();
-			//waitForPlayers(slaveR);
+			// waitForPlayers(slaveR);
 			try {
 				imageBG = ImageIO.read(PanelRender.class
 						.getResource("/images/CatBGLoading.png"));
@@ -335,9 +335,8 @@ public class FrameClient extends FrameAbstract implements KeyListener {
 				.findPlayersRoom(clientsUID);
 		if (currentRoom == null)
 			System.out.println("currentRoom is null");
-		renderPanel = new PanelRender(windowSize, Integer.toString(character
-				.getObjectID()), runner.getBoardData().getGameUtil(),
-				currentRoom);
+		renderPanel = new PanelRender(windowSize, runner.getBoardData()
+				.getGameUtil(), currentRoom);
 		this.add(renderPanel);
 	}
 
