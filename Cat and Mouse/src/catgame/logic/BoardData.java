@@ -119,6 +119,41 @@ public class BoardData {
 		for (int i = 0; i < roomFiles.length; i++) {
 			addRoomToLevel(builder.loadRoom(roomFiles[i]));
 		}
-
+		attachDoorsForLevelOne();
+	}
+	
+	public void attachDoorsForLevelOne() {
+		List<Integer> doorsList = new ArrayList<Integer>();
+		doorsList.add(401010);
+		doorsList.add(0);
+		doorsList.add(411011);
+		doorsList.add(0);
+		
+		for (int i = 0; i < doorsList.size(); i += 2) {
+			Room doorsRoom = getDoorsRoom(doorsList.get(i));
+			Room doorsExitRoom;
+			int direction;
+			if (i % 4 == 0) {
+				// look Forward in the list
+				direction = 2;
+				doorsExitRoom = getDoorsRoom(doorsList.get(i + direction));
+			} else {
+				// look backwards in the list
+				direction = -2;
+				doorsExitRoom = getDoorsRoom(doorsList.get(i + direction));
+			}
+			// we now have both doors and their rooms
+			Door currentDoor = ((Door) doorsRoom.getDoorsLocation().get(doorsList.get(i)).getObjectOnCell());
+			Door exit = (Door) doorsExitRoom.getDoorsLocation().get(doorsList.get(i + direction)).getObjectOnCell();
+			currentDoor.addOtherSide(exit, doorsList.get(i + 1));
+		}
+	}
+	
+	public static void main(String[] args){
+		BoardData game  = new BoardData();
+		game.loadLevelOne();
+		for(Room room :game.getAllRooms()){
+			room.getClass();
+		}
 	}
 }

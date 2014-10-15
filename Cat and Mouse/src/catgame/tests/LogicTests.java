@@ -144,19 +144,20 @@ public class LogicTests {
 		((PlayableCharacter) testRoom.getCharactorCell(playerOne).getObjectOnCell()).changeDirection(Direction.NORTH);
 		Position preMovePos = testRoom.getCharactorCell(playerOne).getPosition();
 		// we know that the character isn't moving because it is returning -1
-		assertEquals(-1, testRoom.movePlayer(playerOne, Direction.RIGHT, gameData.getGameUtil().getViewDirection()));
+		assertEquals(2, testRoom.movePlayer(playerOne, Direction.RIGHT, gameData.getGameUtil().getViewDirection()));
 		assertEquals(Direction.EAST, ((PlayableCharacter) testRoom.getCharactorCell(playerOne).getObjectOnCell()).getFacingDirection());
-		assertEquals(-1, testRoom.movePlayer(playerOne, Direction.DOWN, gameData.getGameUtil().getViewDirection()));
+		assertEquals(2, testRoom.movePlayer(playerOne, Direction.DOWN, gameData.getGameUtil().getViewDirection()));
 		assertEquals(Direction.SOUTH, ((PlayableCharacter) testRoom.getCharactorCell(playerOne).getObjectOnCell()).getFacingDirection());
-		assertEquals(-1, testRoom.movePlayer(playerOne, Direction.LEFT, gameData.getGameUtil().getViewDirection()));
+		assertEquals(2, testRoom.movePlayer(playerOne, Direction.LEFT, gameData.getGameUtil().getViewDirection()));
 		assertEquals(Direction.WEST, ((PlayableCharacter) testRoom.getCharactorCell(playerOne).getObjectOnCell()).getFacingDirection());
-		assertEquals(-1, testRoom.movePlayer(playerOne, Direction.UP, gameData.getGameUtil().getViewDirection()));
+		assertEquals(2, testRoom.movePlayer(playerOne, Direction.UP, gameData.getGameUtil().getViewDirection()));
 		assertEquals(Direction.NORTH, ((PlayableCharacter) testRoom.getCharactorCell(playerOne).getObjectOnCell()).getFacingDirection());
 
 	}
 
 	// Test the movement for the game
-	// if testTranslateForGid() passes then all movements will work correctly on=
+	// if testTranslateForGid() passes then all movements will work correctly
+	// on=
 	@Test
 	public void testPlayerMoveUpNORTH() {
 		BoardData gameData = new BoardData();
@@ -216,7 +217,7 @@ public class LogicTests {
 		assertEquals(null, testRoom.getBoardGrid()[preMovePos.getY()][preMovePos.getX()].getObjectOnCell());
 		assertEquals(playerOne, testRoom.getBoardGrid()[preMovePos.getY()][preMovePos.getX() - 1].getObjectOnCell().getObjectID());
 	}
-	
+
 	@Test
 	public void testPlayerMoveUpEAST() {
 		BoardData gameData = new BoardData();
@@ -227,10 +228,10 @@ public class LogicTests {
 		((PlayableCharacter) testRoom.getCharactorCell(playerOne).getObjectOnCell()).changeDirection(Direction.NORTH);
 		Position preMovePos = testRoom.getCharactorCell(playerOne).getPosition();
 		assertEquals(playerOne, testRoom.getBoardGrid()[preMovePos.getY()][preMovePos.getX()].getObjectOnCell().getObjectID());
-		assertEquals(-1, gameData.getGameUtil().moveUp(playerOne));
+		assertEquals(2, gameData.getGameUtil().moveUp(playerOne));
 		assertEquals(1, gameData.getGameUtil().moveUp(playerOne));
 		assertEquals(null, testRoom.getBoardGrid()[preMovePos.getY()][preMovePos.getX()].getObjectOnCell());
-		assertEquals(playerOne, testRoom.getBoardGrid()[preMovePos.getY()][preMovePos.getX()+1].getObjectOnCell().getObjectID());
+		assertEquals(playerOne, testRoom.getBoardGrid()[preMovePos.getY()][preMovePos.getX() + 1].getObjectOnCell().getObjectID());
 	}
 
 	@Test
@@ -243,10 +244,10 @@ public class LogicTests {
 		((PlayableCharacter) testRoom.getCharactorCell(playerOne).getObjectOnCell()).changeDirection(Direction.EAST);
 		Position preMovePos = testRoom.getCharactorCell(playerOne).getPosition();
 		assertEquals(playerOne, testRoom.getBoardGrid()[preMovePos.getY()][preMovePos.getX()].getObjectOnCell().getObjectID());
-		assertEquals(-1, gameData.getGameUtil().moveRight(playerOne));
+		assertEquals(2, gameData.getGameUtil().moveRight(playerOne));
 		assertEquals(1, gameData.getGameUtil().moveRight(playerOne));
 		assertEquals(null, testRoom.getBoardGrid()[preMovePos.getY()][preMovePos.getX()].getObjectOnCell());
-		assertEquals(playerOne, testRoom.getBoardGrid()[preMovePos.getY()+1][preMovePos.getX()].getObjectOnCell().getObjectID());
+		assertEquals(playerOne, testRoom.getBoardGrid()[preMovePos.getY() + 1][preMovePos.getX()].getObjectOnCell().getObjectID());
 	}
 
 	@Test
@@ -259,10 +260,10 @@ public class LogicTests {
 		((PlayableCharacter) testRoom.getCharactorCell(playerOne).getObjectOnCell()).changeDirection(Direction.SOUTH);
 		Position preMovePos = testRoom.getCharactorCell(playerOne).getPosition();
 		assertEquals(playerOne, testRoom.getBoardGrid()[preMovePos.getY()][preMovePos.getX()].getObjectOnCell().getObjectID());
-		assertEquals(-1, gameData.getGameUtil().moveDown(playerOne));
+		assertEquals(2, gameData.getGameUtil().moveDown(playerOne));
 		assertEquals(1, gameData.getGameUtil().moveDown(playerOne));
 		assertEquals(null, testRoom.getBoardGrid()[preMovePos.getY()][preMovePos.getX()].getObjectOnCell());
-		assertEquals(playerOne, testRoom.getBoardGrid()[preMovePos.getY()][preMovePos.getX()-1].getObjectOnCell().getObjectID());
+		assertEquals(playerOne, testRoom.getBoardGrid()[preMovePos.getY()][preMovePos.getX() - 1].getObjectOnCell().getObjectID());
 	}
 
 	@Test
@@ -275,10 +276,10 @@ public class LogicTests {
 		((PlayableCharacter) testRoom.getCharactorCell(playerOne).getObjectOnCell()).changeDirection(Direction.WEST);
 		Position preMovePos = testRoom.getCharactorCell(playerOne).getPosition();
 		assertEquals(playerOne, testRoom.getBoardGrid()[preMovePos.getY()][preMovePos.getX()].getObjectOnCell().getObjectID());
-		assertEquals(-1, gameData.getGameUtil().moveLeft(playerOne));
+		assertEquals(2, gameData.getGameUtil().moveLeft(playerOne));
 		assertEquals(1, gameData.getGameUtil().moveLeft(playerOne));
 		assertEquals(null, testRoom.getBoardGrid()[preMovePos.getY()][preMovePos.getX()].getObjectOnCell());
-		assertEquals(playerOne, testRoom.getBoardGrid()[preMovePos.getY()-1][preMovePos.getX()].getObjectOnCell().getObjectID());
+		assertEquals(playerOne, testRoom.getBoardGrid()[preMovePos.getY() - 1][preMovePos.getX()].getObjectOnCell().getObjectID());
 	}
 
 	@Test
@@ -291,7 +292,7 @@ public class LogicTests {
 		((PlayableCharacter) testRoom.getCharactorCell(playerOne).getObjectOnCell()).changeDirection(Direction.NORTH);
 		Position preMovePos = testRoom.getCharactorCell(playerOne).getPosition();
 		assertEquals(playerOne, testRoom.getBoardGrid()[preMovePos.getY()][preMovePos.getX()].getObjectOnCell().getObjectID());
-		assertEquals(-1, gameData.getGameUtil().moveUp(playerOne));
+		assertEquals(2, gameData.getGameUtil().moveUp(playerOne));
 		assertEquals(1, gameData.getGameUtil().moveUp(playerOne));
 		assertEquals(null, testRoom.getBoardGrid()[preMovePos.getY()][preMovePos.getX()].getObjectOnCell());
 		assertEquals(playerOne, testRoom.getBoardGrid()[preMovePos.getY() + 1][preMovePos.getX()].getObjectOnCell().getObjectID());
@@ -307,7 +308,7 @@ public class LogicTests {
 		((PlayableCharacter) testRoom.getCharactorCell(playerOne).getObjectOnCell()).changeDirection(Direction.EAST);
 		Position preMovePos = testRoom.getCharactorCell(playerOne).getPosition();
 		assertEquals(playerOne, testRoom.getBoardGrid()[preMovePos.getY()][preMovePos.getX()].getObjectOnCell().getObjectID());
-		assertEquals(-1, gameData.getGameUtil().moveRight(playerOne));
+		assertEquals(2, gameData.getGameUtil().moveRight(playerOne));
 		assertEquals(1, gameData.getGameUtil().moveRight(playerOne));
 		assertEquals(null, testRoom.getBoardGrid()[preMovePos.getY()][preMovePos.getX()].getObjectOnCell());
 		assertEquals(playerOne, testRoom.getBoardGrid()[preMovePos.getY()][preMovePos.getX() - 1].getObjectOnCell().getObjectID());
@@ -323,7 +324,7 @@ public class LogicTests {
 		((PlayableCharacter) testRoom.getCharactorCell(playerOne).getObjectOnCell()).changeDirection(Direction.SOUTH);
 		Position preMovePos = testRoom.getCharactorCell(playerOne).getPosition();
 		assertEquals(playerOne, testRoom.getBoardGrid()[preMovePos.getY()][preMovePos.getX()].getObjectOnCell().getObjectID());
-		assertEquals(-1, gameData.getGameUtil().moveDown(playerOne));
+		assertEquals(2, gameData.getGameUtil().moveDown(playerOne));
 		assertEquals(1, gameData.getGameUtil().moveDown(playerOne));
 		assertEquals(null, testRoom.getBoardGrid()[preMovePos.getY()][preMovePos.getX()].getObjectOnCell());
 		assertEquals(playerOne, testRoom.getBoardGrid()[preMovePos.getY() - 1][preMovePos.getX()].getObjectOnCell().getObjectID());
@@ -339,12 +340,12 @@ public class LogicTests {
 		((PlayableCharacter) testRoom.getCharactorCell(playerOne).getObjectOnCell()).changeDirection(Direction.WEST);
 		Position preMovePos = testRoom.getCharactorCell(playerOne).getPosition();
 		assertEquals(playerOne, testRoom.getBoardGrid()[preMovePos.getY()][preMovePos.getX()].getObjectOnCell().getObjectID());
-		assertEquals(-1, gameData.getGameUtil().moveLeft(playerOne));
+		assertEquals(2, gameData.getGameUtil().moveLeft(playerOne));
 		assertEquals(1, gameData.getGameUtil().moveLeft(playerOne));
 		assertEquals(null, testRoom.getBoardGrid()[preMovePos.getY()][preMovePos.getX()].getObjectOnCell());
 		assertEquals(playerOne, testRoom.getBoardGrid()[preMovePos.getY()][preMovePos.getX() + 1].getObjectOnCell().getObjectID());
 	}
-	
+
 	@Test
 	public void testPlayerMoveUpWEST() {
 		BoardData gameData = new BoardData();
@@ -355,10 +356,10 @@ public class LogicTests {
 		((PlayableCharacter) testRoom.getCharactorCell(playerOne).getObjectOnCell()).changeDirection(Direction.NORTH);
 		Position preMovePos = testRoom.getCharactorCell(playerOne).getPosition();
 		assertEquals(playerOne, testRoom.getBoardGrid()[preMovePos.getY()][preMovePos.getX()].getObjectOnCell().getObjectID());
-		assertEquals(-1, gameData.getGameUtil().moveUp(playerOne));
+		assertEquals(2, gameData.getGameUtil().moveUp(playerOne));
 		assertEquals(1, gameData.getGameUtil().moveUp(playerOne));
 		assertEquals(null, testRoom.getBoardGrid()[preMovePos.getY()][preMovePos.getX()].getObjectOnCell());
-		assertEquals(playerOne, testRoom.getBoardGrid()[preMovePos.getY()][preMovePos.getX()-1].getObjectOnCell().getObjectID());
+		assertEquals(playerOne, testRoom.getBoardGrid()[preMovePos.getY()][preMovePos.getX() - 1].getObjectOnCell().getObjectID());
 	}
 
 	@Test
@@ -371,10 +372,10 @@ public class LogicTests {
 		((PlayableCharacter) testRoom.getCharactorCell(playerOne).getObjectOnCell()).changeDirection(Direction.EAST);
 		Position preMovePos = testRoom.getCharactorCell(playerOne).getPosition();
 		assertEquals(playerOne, testRoom.getBoardGrid()[preMovePos.getY()][preMovePos.getX()].getObjectOnCell().getObjectID());
-		assertEquals(-1, gameData.getGameUtil().moveRight(playerOne));
+		assertEquals(2, gameData.getGameUtil().moveRight(playerOne));
 		assertEquals(1, gameData.getGameUtil().moveRight(playerOne));
 		assertEquals(null, testRoom.getBoardGrid()[preMovePos.getY()][preMovePos.getX()].getObjectOnCell());
-		assertEquals(playerOne, testRoom.getBoardGrid()[preMovePos.getY()-1][preMovePos.getX()].getObjectOnCell().getObjectID());
+		assertEquals(playerOne, testRoom.getBoardGrid()[preMovePos.getY() - 1][preMovePos.getX()].getObjectOnCell().getObjectID());
 	}
 
 	@Test
@@ -387,10 +388,10 @@ public class LogicTests {
 		((PlayableCharacter) testRoom.getCharactorCell(playerOne).getObjectOnCell()).changeDirection(Direction.SOUTH);
 		Position preMovePos = testRoom.getCharactorCell(playerOne).getPosition();
 		assertEquals(playerOne, testRoom.getBoardGrid()[preMovePos.getY()][preMovePos.getX()].getObjectOnCell().getObjectID());
-		assertEquals(-1, gameData.getGameUtil().moveDown(playerOne));
+		assertEquals(2, gameData.getGameUtil().moveDown(playerOne));
 		assertEquals(1, gameData.getGameUtil().moveDown(playerOne));
 		assertEquals(null, testRoom.getBoardGrid()[preMovePos.getY()][preMovePos.getX()].getObjectOnCell());
-		assertEquals(playerOne, testRoom.getBoardGrid()[preMovePos.getY()][preMovePos.getX()+1].getObjectOnCell().getObjectID());
+		assertEquals(playerOne, testRoom.getBoardGrid()[preMovePos.getY()][preMovePos.getX() + 1].getObjectOnCell().getObjectID());
 	}
 
 	@Test
@@ -403,23 +404,23 @@ public class LogicTests {
 		((PlayableCharacter) testRoom.getCharactorCell(playerOne).getObjectOnCell()).changeDirection(Direction.WEST);
 		Position preMovePos = testRoom.getCharactorCell(playerOne).getPosition();
 		assertEquals(playerOne, testRoom.getBoardGrid()[preMovePos.getY()][preMovePos.getX()].getObjectOnCell().getObjectID());
-		assertEquals(-1, gameData.getGameUtil().moveLeft(playerOne));
+		assertEquals(2, gameData.getGameUtil().moveLeft(playerOne));
 		assertEquals(1, gameData.getGameUtil().moveLeft(playerOne));
 		assertEquals(null, testRoom.getBoardGrid()[preMovePos.getY()][preMovePos.getX()].getObjectOnCell());
-		assertEquals(playerOne, testRoom.getBoardGrid()[preMovePos.getY()+1][preMovePos.getX()].getObjectOnCell().getObjectID());
+		assertEquals(playerOne, testRoom.getBoardGrid()[preMovePos.getY() + 1][preMovePos.getX()].getObjectOnCell().getObjectID());
 	}
-	
+
 	@Test
 	public void testAttackMinion() {
 		BoardData gameData = new BoardData();
 		gameData.loadTestData();
 		gameData.getGameUtil().TESTsetViewDirection(Direction.NORTH);
 		Room testRoom = gameData.getAllRooms().get(0);
-		assertEquals(-1, testRoom.movePlayer(playerOne, Direction.RIGHT, gameData.getGameUtil().getViewDirection()));
+		assertEquals(2, testRoom.movePlayer(playerOne, Direction.RIGHT, gameData.getGameUtil().getViewDirection()));
 		assertEquals(1, testRoom.movePlayer(playerOne, Direction.RIGHT, gameData.getGameUtil().getViewDirection()));
 		assertEquals(1, testRoom.movePlayer(playerOne, Direction.RIGHT, gameData.getGameUtil().getViewDirection()));
 		assertEquals(1, testRoom.movePlayer(playerOne, Direction.RIGHT, gameData.getGameUtil().getViewDirection()));
-		assertEquals(-1, testRoom.movePlayer(playerOne, Direction.UP, gameData.getGameUtil().getViewDirection()));
+		assertEquals(2, testRoom.movePlayer(playerOne, Direction.UP, gameData.getGameUtil().getViewDirection()));
 		assertEquals(1, testRoom.movePlayer(playerOne, Direction.UP, gameData.getGameUtil().getViewDirection()));
 		assertEquals(1, testRoom.movePlayer(playerOne, Direction.UP, gameData.getGameUtil().getViewDirection()));
 		// We know that the player successfully attacked because of the return 1
@@ -434,15 +435,14 @@ public class LogicTests {
 		gameData.loadTestData();
 		gameData.getGameUtil().TESTsetViewDirection(Direction.NORTH);
 		Room testRoom = gameData.getAllRooms().get(0);
-		assertEquals(-1, testRoom.movePlayer(playerOne, Direction.LEFT, gameData.getGameUtil().getViewDirection()));
+		assertEquals(2, testRoom.movePlayer(playerOne, Direction.LEFT, gameData.getGameUtil().getViewDirection()));
 		assertEquals(1, testRoom.movePlayer(playerOne, Direction.LEFT, gameData.getGameUtil().getViewDirection()));
-		assertEquals(-1, testRoom.movePlayer(playerOne, Direction.UP, gameData.getGameUtil().getViewDirection()));
+		assertEquals(2, testRoom.movePlayer(playerOne, Direction.UP, gameData.getGameUtil().getViewDirection()));
 		assertEquals(1, testRoom.movePlayer(playerOne, Direction.UP, gameData.getGameUtil().getViewDirection()));
 		assertTrue(testRoom.getObjectAheadOfCharactor(playerOne, gameData.getGameUtil().getViewDirection()) instanceof Chest);
 		assertEquals(1, testRoom.PlayerLoot(playerOne, gameData.getGameUtil().getViewDirection()));
 		assertEquals(3, testRoom.getPlayerInRoom(playerOne).getInventory().size());
 	}
-	
 
 	@Test
 	public void testLootDeadMinion() {
@@ -450,11 +450,11 @@ public class LogicTests {
 		gameData.loadTestData();
 		gameData.getGameUtil().TESTsetViewDirection(Direction.NORTH);
 		Room testRoom = gameData.getAllRooms().get(0);
-		assertEquals(-1, testRoom.movePlayer(playerOne, Direction.RIGHT, gameData.getGameUtil().getViewDirection()));
+		assertEquals(2, testRoom.movePlayer(playerOne, Direction.RIGHT, gameData.getGameUtil().getViewDirection()));
 		assertEquals(1, testRoom.movePlayer(playerOne, Direction.RIGHT, gameData.getGameUtil().getViewDirection()));
 		assertEquals(1, testRoom.movePlayer(playerOne, Direction.RIGHT, gameData.getGameUtil().getViewDirection()));
 		assertEquals(1, testRoom.movePlayer(playerOne, Direction.RIGHT, gameData.getGameUtil().getViewDirection()));
-		assertEquals(-1, testRoom.movePlayer(playerOne, Direction.UP, gameData.getGameUtil().getViewDirection()));
+		assertEquals(2, testRoom.movePlayer(playerOne, Direction.UP, gameData.getGameUtil().getViewDirection()));
 		assertEquals(1, testRoom.movePlayer(playerOne, Direction.UP, gameData.getGameUtil().getViewDirection()));
 		assertEquals(1, testRoom.movePlayer(playerOne, Direction.UP, gameData.getGameUtil().getViewDirection()));
 		// We know that the player successfully attacked because of the return 1
@@ -480,10 +480,10 @@ public class LogicTests {
 		gameData.loadTestData();
 		gameData.getGameUtil().TESTsetViewDirection(Direction.NORTH);
 		Room testRoom = gameData.getAllRooms().get(0);
-		assertEquals(-1, testRoom.movePlayer(playerOne, Direction.RIGHT, gameData.getGameUtil().getViewDirection()));
+		assertEquals(2, testRoom.movePlayer(playerOne, Direction.RIGHT, gameData.getGameUtil().getViewDirection()));
 		assertEquals(1, testRoom.movePlayer(playerOne, Direction.RIGHT, gameData.getGameUtil().getViewDirection()));
 		assertEquals(1, testRoom.movePlayer(playerOne, Direction.RIGHT, gameData.getGameUtil().getViewDirection()));
-		assertEquals(-1, testRoom.movePlayer(playerOne, Direction.UP, gameData.getGameUtil().getViewDirection()));
+		assertEquals(2, testRoom.movePlayer(playerOne, Direction.UP, gameData.getGameUtil().getViewDirection()));
 		assertEquals(1, testRoom.movePlayer(playerOne, Direction.UP, gameData.getGameUtil().getViewDirection()));
 		assertEquals(1, testRoom.movePlayer(playerOne, Direction.UP, gameData.getGameUtil().getViewDirection()));
 		// We know that the player successfully attacked because of the return 1
@@ -580,9 +580,9 @@ public class LogicTests {
 		gameData.loadTestData();
 		gameData.getGameUtil().TESTsetViewDirection(Direction.NORTH);
 		Room testRoom = gameData.getAllRooms().get(0);
-		assertEquals(-1, testRoom.movePlayer(playerOne, Direction.DOWN, gameData.getGameUtil().getViewDirection()));
+		assertEquals(2, testRoom.movePlayer(playerOne, Direction.DOWN, gameData.getGameUtil().getViewDirection()));
 		assertEquals(1, testRoom.movePlayer(playerOne, Direction.DOWN, gameData.getGameUtil().getViewDirection()));
-		assertEquals(-1, testRoom.movePlayer(playerOne, Direction.RIGHT, gameData.getGameUtil().getViewDirection()));
+		assertEquals(2, testRoom.movePlayer(playerOne, Direction.RIGHT, gameData.getGameUtil().getViewDirection()));
 		assertEquals(1, testRoom.movePlayer(playerOne, Direction.RIGHT, gameData.getGameUtil().getViewDirection()));
 		assertEquals(1, testRoom.movePlayer(playerOne, Direction.RIGHT, gameData.getGameUtil().getViewDirection()));
 		testRoom.movePlayer(playerOne, Direction.RIGHT, gameData.getGameUtil().getViewDirection());
@@ -598,11 +598,16 @@ public class LogicTests {
 		gameData.loadTestData();
 		gameData.getGameUtil().TESTsetViewDirection(Direction.NORTH);
 		Room testRoom = gameData.getAllRooms().get(0);
-		assertEquals(-1, testRoom.movePlayer(playerOne, Direction.RIGHT, gameData.getGameUtil().getViewDirection()));
+		assertEquals(2, testRoom.movePlayer(playerOne, Direction.RIGHT, gameData.getGameUtil().getViewDirection()));
 		assertEquals(1, testRoom.movePlayer(playerOne, Direction.RIGHT, gameData.getGameUtil().getViewDirection()));
-		assertEquals(-1, testRoom.movePlayer(playerOne, Direction.DOWN, gameData.getGameUtil().getViewDirection()));
+		assertEquals(2, testRoom.movePlayer(playerOne, Direction.DOWN, gameData.getGameUtil().getViewDirection()));
 		assertEquals(1, testRoom.movePlayer(playerOne, Direction.DOWN, gameData.getGameUtil().getViewDirection()));
-		assertEquals(-1, testRoom.movePlayer(playerOne, Direction.DOWN, gameData.getGameUtil().getViewDirection())); //locked door is returning the -1
+		assertEquals(-1, testRoom.movePlayer(playerOne, Direction.DOWN, gameData.getGameUtil().getViewDirection())); // locked
+																														// door
+																														// is
+																														// returning
+																														// the
+																														// -1
 		((PlayableCharacter) testRoom.getCharactorCell(playerOne).getObjectOnCell()).addToInventory(new Key(601010));
 		testRoom.movePlayer(playerOne, Direction.DOWN, gameData.getGameUtil().getViewDirection());
 		assertEquals(1, testRoom.getCharactorCell(playerOne).getPosition().getX());
