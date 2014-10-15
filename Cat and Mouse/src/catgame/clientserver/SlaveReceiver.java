@@ -101,6 +101,11 @@ public class SlaveReceiver {
 
 				while(locked){
 					recieveMassUpdate(input);
+					try {
+						Thread.sleep(50);
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
 				}
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
@@ -123,18 +128,24 @@ public class SlaveReceiver {
 			for(int i=0; i<noChars; i++){
 				receiver.readPlayer();
 			}
+			
+			System.out.println("updates players");
 
 			int noNCPs = input.readInt();
 
 			for(int i=0; i<noNCPs; i++){
 				receiver.readNonPlayChar();
 			}
+			
+			System.out.println("updated ncps");
 
 			int noChests = input.readInt();
 
 			for(int i=0; i<noChests; i++){
 				receiver.readChest();
 			}
+			
+			System.out.println("updated chests");
 
 			int noItems = input.readInt();
 
