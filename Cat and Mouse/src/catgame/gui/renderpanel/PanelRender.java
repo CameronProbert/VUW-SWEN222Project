@@ -402,6 +402,8 @@ public class PanelRender extends JPanel {
 	
 	public void drawPlayableChar(Graphics g, int sendY, int sendX, int y, int x){
 		PlayableCharacter character = (PlayableCharacter) currentRoom.getBoardGrid()[sendY][sendX].getObjectOnCell();
+		System.out.println();
+		System.out.println("CAT POSITION: " + sendX + " " + sendY);
 		Direction drawDirection = directionTranslator(gUtil.getViewDirection(), character.getFacingDirection());
 		int startX = xOffset + 27;
 		int startY = yOffset - 5;
