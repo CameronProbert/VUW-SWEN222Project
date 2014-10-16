@@ -86,6 +86,7 @@ public class ServerOldGame extends StartServer {
 					}
 					System.out.println("ALL CLIENTS ACCEPTED --- GAME BEGINS");
 					setMasterIDs(connections);
+					setMastersFile(connections);
 					allowMastersStart(connections);
 					multiUserGame(handler,connections);
 					System.out.println("ALL CLIENTS DISCONNECTED --- GAME OVER");
@@ -95,6 +96,12 @@ public class ServerOldGame extends StartServer {
 		} catch(IOException e) {
 			System.err.println("I/O error: " + e.getMessage());
 		} 
+	}
+
+	private void setMastersFile(List<Master> connections) {
+		for(Master m: connections){
+			m.setFile(new File(fileName));
+		}
 	}
 
 	/**

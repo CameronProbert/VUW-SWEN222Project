@@ -40,7 +40,7 @@ public final class Slave {
 		try {
 			output = new DataOutputStream(socket.getOutputStream());
 			if(update.getInst()==5){
-				System.err.println("sending an attack update!");
+				// System.err.println("sending an attack update!");
 			}
 			update.send(output);
 			

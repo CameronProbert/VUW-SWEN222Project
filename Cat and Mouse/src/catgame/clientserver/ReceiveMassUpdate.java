@@ -45,7 +45,7 @@ public class ReceiveMassUpdate {
 		try {
 			int objectID = in.readInt();
 			int health = in.readInt();
-
+			int aPower = in.readInt();
 
 			ObjectStorer storer = data.getObjStorer();
 			NonPlayableCharacter ch = storer.findNonPlayCharacter((int)objectID);
@@ -58,7 +58,7 @@ public class ReceiveMassUpdate {
 			if(ch==null){
 				throw new IDNotFoundError();
 			}
-			ch.reset(0, health, 0);
+			ch.reset(aPower, health, 0);
 
 			List<GameItem> items = new ArrayList<GameItem>();
 
@@ -82,7 +82,7 @@ public class ReceiveMassUpdate {
 		try {
 			int objectID = in.readInt();
 			int health = in.readInt();
-
+			int aPower = in.readInt();
 
 			ObjectStorer storer = data.getObjStorer();
 			Character ch = storer.findCharacter((int)objectID);
@@ -95,7 +95,7 @@ public class ReceiveMassUpdate {
 			if(ch==null){
 				throw new IDNotFoundError();
 			}
-			ch.reset(0, (int)health, 0);
+			ch.reset(aPower, health, 0);
 
 			List<GameItem> items = new ArrayList<GameItem>();
 

@@ -34,6 +34,7 @@ public class SendMassUpdate {
 		try {
 			out.writeInt(objectID);
 			out.writeInt(ch.getHealth());
+			out.writeInt(ch.getAttackPower());
 			int inSize = ch.getInventory().size();
 			out.writeInt(inSize);
 			for(GameItem item : ch.getInventory()){

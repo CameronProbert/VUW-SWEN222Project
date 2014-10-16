@@ -89,7 +89,7 @@ public class SlaveReceiver {
 						LoadOldGame loadXML = new LoadOldGame(file);
 						net.setBoardData(loadXML.getBoardData());
 					} catch (JDOMException | XMLException e) {
-						e.printStackTrace();
+						//e.printStackTrace();
 					}
 				}
 				else{
@@ -112,8 +112,7 @@ public class SlaveReceiver {
 					}
 				}
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				//e.printStackTrace();
 			}
 		}
 	};
@@ -154,7 +153,7 @@ public class SlaveReceiver {
 
 
 		} catch (IOException e) {
-			e.printStackTrace();
+			//e.printStackTrace();
 		}
 
 	}
