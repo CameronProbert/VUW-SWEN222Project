@@ -35,6 +35,7 @@ public final class Master extends Thread {
 	private final Socket socket;
 	private boolean canStart = false;
 	private File file;
+	private int attackedID = 0;
 
 
 	public Master(Socket socket, int broadcastClock, NetworkHandler game) {
@@ -58,6 +59,7 @@ public final class Master extends Thread {
 						if(update.getInst() != 0){
 							if(update.getInst()==5){
 								// System.err.println("was updated an attack!!!");
+								attackedID = update.getOtherID();
 							}
 							game.update(update, true);
 						}
@@ -82,23 +84,30 @@ public final class Master extends Thread {
 	 * @param output
 	 */
 	private void broadcastGameState(DataOutputStream output) {
-		
+
 		SendMassUpdate broadcast = new SendMassUpdate(output);
 		try {
 			ObjectStorer storer = game.getBoardData().getObjStorer();
 
-			int noChars = storer.getNumChars();
+			int noChars = storer.getNumChars() - 1; // we do not send its own playable character
 			output.writeInt(noChars);
 			for(int i : storer.getCharIDs()){
 				PlayableCharacter c = storer.findCharacter(i);
-				broadcast.sendCharacter(i, c, game.getBoardData());
+				if(c.getObjectID()!=uid){
+					broadcast.sendCharacter(i, c, game.getBoardData());
+				}
 			}
 
 			int noNCPs = storer.getNumNCPs();
+			if(attackedID!=0){
+				noNCPs--; // do not send update for the last ncp
+			}
 			output.writeInt(noNCPs);
 			for(int i: storer.getNCPIDs()){
 				NonPlayableCharacter nc = storer.findNCP(i);
-				broadcast.sendCharacter(i, nc, game.getBoardData());
+				if(nc.getObjectID()!=attackedID){
+					broadcast.sendCharacter(i, nc, game.getBoardData());
+				}
 			}
 
 			int noChests = storer.getNumChests();
@@ -107,7 +116,7 @@ public final class Master extends Thread {
 				Chest chest = storer.findChest(i);
 				broadcast.sendChest(i, chest);
 			}
-			
+
 			int noDoors = storer.getDoorNo();
 			output.writeInt(noDoors);
 			for(int i: storer.getDoors()){
