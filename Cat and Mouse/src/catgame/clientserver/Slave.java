@@ -45,7 +45,7 @@ public final class Slave {
 			update.send(output);
 			
 		} catch (IOException e) {
-			e.printStackTrace();
+			// e.printStackTrace();
 		}
 		
 	}

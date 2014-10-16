@@ -99,7 +99,7 @@ public class ServerNewGame extends StartServer {
 				}
 			}
 		} catch(IOException e) {
-			System.err.println("I/O error: " + e.getMessage());
+			// System.err.println("I/O error: " + e.getMessage());
 		} 
 	}
 
@@ -119,7 +119,7 @@ public class ServerNewGame extends StartServer {
 				m.setFile(saveInitial);
 			}
 		} catch (JDOMException | XMLException | IOException e) {
-			e.printStackTrace();
+			// e.printStackTrace();
 		}
 	}
 

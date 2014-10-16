@@ -71,7 +71,7 @@ public class ReceiveMassUpdate {
 
 
 		} catch (IOException e) {
-			e.printStackTrace();
+			// e.printStackTrace();
 		}
 	}
 
@@ -109,7 +109,7 @@ public class ReceiveMassUpdate {
 
 
 		} catch (IOException e) {
-			e.printStackTrace();
+			// e.printStackTrace();
 		}
 	}
 
@@ -146,7 +146,7 @@ public class ReceiveMassUpdate {
 			r.forcePlayerMove(ch.getObjectID(), p, direct);
 
 		} catch (IOException e) {
-			e.printStackTrace();
+			// e.printStackTrace();
 		}
 	}
 
@@ -168,7 +168,7 @@ public class ReceiveMassUpdate {
 			}
 			chest.updateLoot(items);
 		} catch (IOException e) {
-			e.printStackTrace();
+			// e.printStackTrace();
 		}
 	}
 
@@ -188,7 +188,7 @@ public class ReceiveMassUpdate {
 				door.setIsLocked(false);
 			}
 		} catch (IOException e) {
-			e.printStackTrace();
+			// e.printStackTrace();
 		}
 	}
 

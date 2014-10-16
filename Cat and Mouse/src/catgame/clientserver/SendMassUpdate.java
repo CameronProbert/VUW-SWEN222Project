@@ -46,7 +46,7 @@ public class SendMassUpdate {
 			}
 
 		} catch (IOException e) {
-			e.printStackTrace();
+			// e.printStackTrace();
 		}
 	}
 
@@ -69,7 +69,7 @@ public class SendMassUpdate {
 				out.writeInt(p.getY());
 				out.writeInt(ch.getFacingDirection().getValue());
 			} catch (IOException e) {
-				e.printStackTrace();
+				// e.printStackTrace();
 			}
 
 		}
@@ -92,7 +92,7 @@ public class SendMassUpdate {
 				out.writeInt(item.getObjectID());
 			}
 		} catch (IOException e) {
-			e.printStackTrace();
+			// e.printStackTrace();
 		}
 
 	}
@@ -111,7 +111,7 @@ public class SendMassUpdate {
 				out.writeInt(1);
 			}
 		} catch (IOException e) {
-			e.printStackTrace();
+			// e.printStackTrace();
 		}
 	}
 

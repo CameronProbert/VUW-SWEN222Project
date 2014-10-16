@@ -94,7 +94,7 @@ public class ServerOldGame extends StartServer {
 				}
 			}
 		} catch(IOException e) {
-			System.err.println("I/O error: " + e.getMessage());
+			//System.err.println("I/O error: " + e.getMessage());
 		} 
 	}
 
@@ -131,7 +131,7 @@ public class ServerOldGame extends StartServer {
 			playerIDs = boardData.getObjStorer().getPlayerIDs();
 			maxPlayers = playerIDs.size();
 		} catch (JDOMException | XMLException e) {
-			e.printStackTrace();
+			// e.printStackTrace();
 		}
 	}
 

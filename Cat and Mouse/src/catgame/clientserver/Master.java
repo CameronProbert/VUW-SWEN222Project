@@ -116,7 +116,7 @@ public final class Master extends Thread {
 			}
 
 		} catch (IOException e) {
-			e.printStackTrace();
+			// e.printStackTrace();
 		}
 
 
